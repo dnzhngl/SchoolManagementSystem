@@ -1,0 +1,105 @@
+﻿@model SubjectDetailViewModel
+@{
+    ViewData["Title"] = "SubjectDetails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section BeginPage{
+    <!-- Custom styles for this page -->
+    @*<link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">*@
+}
+
+
+<div class="row">
+    <div class="col col-12 col-lg-3 p-2">
+
+        <input type="hidden" asp-for="SubjectDTO.Id" />
+
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h5 class="m-0 font-weight-bold text-primary">Ders Bilgisi</h5>
+                    </div>
+                    <div class="col-3 float-right">
+                        <a class="btn btn-outline-warning btn-sm" asp-action="SubjectUpdate" asp-route-id="@Model.SubjectDTO.Id"><i class="fa fa-pen"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Ana Ders : </b> @Model.MainSubjectDTO.MainSubjectName</li>
+                    <li class="list-group-item"><b>Ders : </b> @Model.SubjectDTO.SubjectName</li>
+                    <li class="list-group-item"><b>Haftalık Ders Saati : </b> @Model.SubjectDTO.WeeklyCourseHours</li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    @if (Model.ExamDTOs != null)
+    {
+        <div class="col col-12 col-lg-8 p-2">
+
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <div class="row">
+                        <div class="col-9">
+                            <h5 class="m-0 font-weight-bold text-primary">@Model.SubjectDTO.SubjectName Dersi Sınav Listesi</h5>
+                        </div>
+                        <div class="col-3">
+                            <a class="btn btn-success" asp-controller="Exam" asp-action="ExamAdd" asp-route-id="@Model.SubjectDTO.Id">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Sınav Adı</th>
+                                    <th>Sınav Tarihi</th>
+                                    <th>Başlangıç Saati</th>
+                                    <th>Bitiş Saati</th>
+                                    <th>Sınav Türü</th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var exam in Model.ExamDTOs)
+                                {
+                                <tr>
+                                    <td>@exam.ExamName</td>
+                                    <td>@exam.ExamDate</td>
+                                    <td>@exam.ExamStartTime</td>
+                                    <td>@exam.ExamEndTime</td>
+                                    <td>@Model.ExamTypeDTOs.FirstOrDefault(z => z.Id == exam.ExamTypeId).ExamTypeName</td>
+                                    <td>
+                                        @*<a class="btn btn-outline-primary btn-sm" asp-controller="Exam" asp-action="ExamDetails" asp-route-id="@exam.Id"><i class="fa fa-search"></i></a>*@
+                                        <a class="btn btn-outline-warning btn-sm" asp-controller="Exam" asp-action="ExamUpdate" asp-route-id="@exam.Id"><i class="fa fa-pen"></i></a>
+                                        <a class="btn btn-outline-danger btn-sm" asp-controller="Exam" asp-action="ExamDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@section FooterJsPlugin{
+    <!-- Page level plugins -->
+    @*<script src="~/vendor/datatables/jquery.dataTables.min.js"></script>*@
+    @*<script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>*@
+    <!-- Page level custom scripts -->
+    @*<script src="~/js/demo/datatables-demo.js"></script>*@
+}

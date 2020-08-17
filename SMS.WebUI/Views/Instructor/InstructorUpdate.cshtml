@@ -1,0 +1,95 @@
+﻿@model InstructorBranchViewModel
+
+@{
+    ViewData["Title"] = "InstructorUpdate";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Öğretmen Bilgilerini Güncelle</h3>
+
+<div class="row">
+    <div class="col col-12 col-lg-4 p-2">
+        <form asp-action="InstructorUpdate" class="shadow-sm">
+
+            <input type="hidden" asp-for="InstructorDTO.Id" />
+
+            <div class="form-body">
+                <div class="row p-2">
+                    <div class="col p-3">
+                        <h4>Öğretmen Bilgisi</h4>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Öğretmenin Adı</label>
+                            <input type="text" class="form-control" id="" asp-for="InstructorDTO.FirstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Öğretmenin Soyadı</label>
+                            <input type="text" class="form-control" id="" asp-for="InstructorDTO.LastName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Görevi</label>
+                            <input type="text" class="form-control" id="" placeholder="Görevi" asp-for="InstructorDTO.Duty">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Branşı</label>
+                            <select class="form-control" asp-for="InstructorDTO.BranchId" asp-items="@(new SelectList(Model.BranchDTOs, "Id","BranchName", Model.InstructorDTO.BranchDTO))"></select>
+                        </div>
+
+                        <hr />
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Cinsiyeti</legend>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="InstructorDTO.Gender" id="gridRadios1" value="Erkek" checked asp-for="InstructorDTO.Gender">
+                                        <label class="form-check-label" for="gridRadios1">
+                                            Erkek
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="InstructorDTO.Gender" id="gridRadios2" value="Kadın" asp-for="InstructorDTO.Gender">
+                                        <label class="form-check-label" for="gridRadios2">
+                                            Kadın
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        @*<div class="form-group">
+            <label for="formGroupExampleInput2">Cinsiyeti</label>
+            <select class="form-control"></select>
+        </div>*@
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Doğum Tarihi</label>
+                            <input type="date" class="form-control" asp-for="InstructorDTO.DOB">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Telefon Numarası</label>
+                            <input type="text" class="form-control" placeholder="+90" asp-for="InstructorDTO.CellPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Adres Bilgisi</label>
+                            <input type="text" class="form-control" placeholder="" asp-for="InstructorDTO.Address">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12 p-4">
+                        <div class="form-actions float-right">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                            <button type="button" class="btn btn-secondary">İptal Et</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>

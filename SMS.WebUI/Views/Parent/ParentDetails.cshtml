@@ -1,0 +1,47 @@
+﻿@model StudentParentViewModel
+@{
+    ViewData["Title"] = "ParentDetails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>ParentsDetails</h1>
+<div class="row">
+    <div class="col col-12 p-2">
+        <input type="hidden" asp-for="ParentDTO.Id" />
+
+
+        @foreach (var student in Model.StudentDTOs)
+        {
+            <div class="card" style="width:18rem;">
+
+                <img class="card-img-top" src="..." alt="Öğrenci Resmi" />
+
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+
+                        <li class="list-group-item">
+                            <label><strong>Okul Numarası : </strong></label>
+                            <label>@student.Id</label>
+                        </li>
+                        <li class="list-group-item">
+                            <label><strong>Öğrenci Adı : </strong></label>
+                            <label>@student.FirstName</label>
+                        </li>
+                        <li class="list-group-item">
+                            <label><strong>Öğrenci Soyadı : </strong></label>
+                            <label>@student.LastName</label>
+                        </li>
+                        <li class="list-group-item">
+                            <label><strong>Şubesi : </strong></label>
+                            <label>@student.SectionId</label>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        }
+
+
+    </div>
+</div>

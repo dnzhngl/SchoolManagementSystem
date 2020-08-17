@@ -1,0 +1,144 @@
+﻿@model StudentParentViewModel
+@{
+    ViewData["Title"] = "StudentDetails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="row">
+    <div class="col col-12 p-2">
+
+        <form class="shadow-sm">
+            <div class="form-body">
+
+                <div class="row">
+                    <div class="col col-12 pt-4 pr-4">
+
+                        <div class="form-actions float-right">
+                            <a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@Model.StudentDTO.Id"><i class="fa fa-pen"></i></a>
+                            <button type="button" class="btn btn-secondary btn-sm">Geri</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row p-2">
+                    <div class="col col-12 col-lg-4 p-3">
+                        <h4>Öğrenci Bilgisi</h4>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Öğrenci Adı</label>
+                            <input type="text" class="form-control" readonly id="" placeholder="Adı" asp-for="StudentDTO.FirstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Öğrenci Soyadı</label>
+                            <input type="text" class="form-control" readonly id="" placeholder="Soyadı" asp-for="StudentDTO.LastName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Cinsiyeti</label>
+                            <input type="text" class="form-control" readonly placeholder="" asp-for="StudentDTO.Gender">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Doğum Tarihi</label>
+                            <input type="date" class="form-control" readonly asp-for="StudentDTO.DOB">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Telefon Numarası</label>
+                            <input type="text" class="form-control" readonly placeholder="+90" asp-for="StudentDTO.CellPhone">
+                        </div>
+                    </div>
+
+                    <div class="col col-12 col-lg-4 p-3">
+                        <h4>Eğitim Bilgisi</h4>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Mezun olduğu Okul</label>
+                            <input type="text" class="form-control" readonly placeholder="" asp-for="StudentDTO.GraduatedFrom">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Not Ortalaması</label>
+                            <input type="text" class="form-control" readonly id="" placeholder="Not Ortalaması" asp-for="StudentDTO.GPA">
+                        </div>
+                    </div>
+
+                    <div class="col col-12 col-lg-4  p-3">
+                        <h4>Kayıt Tamamlama </h4>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Öğrenci Okul Numarası :</label>
+                            <input type="text" class="form-control" readonly id="" placeholder="Atanmadı" asp-for="StudentDTO.Id">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Sınıfı:</label>
+                            <input type="text" class="form-control" readonly id="" placeholder="Atanmadı" asp-for="StudentDTO.SectionDTO.GradeDTO.GradeName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Şubesi:</label>
+                            <input type="text" class="form-control" readonly id="" placeholder="Atanmadı" asp-for="StudentDTO.SectionDTO.SectionName">
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row p-2">
+
+
+                    <div class="col-12">
+
+                        <div class="row">
+                            <div class="col col-12 col-lg-4 p-3">
+                                <h4>Veli Bilgisi</h4>
+                                <hr />
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col col-12 col-lg-4 p-3">
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput">Veli Adı</label>
+                                    <input type="text" class="form-control" readonly id="" placeholder="Adı" asp-for="ParentDTO.FirstName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput2">Veli Soyadı</label>
+                                    <input type="text" class="form-control" readonly id="" placeholder="Soyadı" asp-for="ParentDTO.LastName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput2">Cinsiyeti</label>
+                                    <input type="text" class="form-control" readonly id="" placeholder="" asp-for="ParentDTO.Gender">
+                                </div>
+                            </div>
+
+                            <div class="col col-12 col-lg-4 p-3">
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput2">Cep Telefonu</label>
+                                    <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.CellPhone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput2">Ev Telefonu</label>
+                                    <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.HomePhone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput2">İş Telefonu</label>
+                                    <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.WorkPhone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput2">Adres Bilgisi</label>
+                                    <input type="text" class="form-control" readonly placeholder="" asp-for="ParentDTO.Address">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+        </form>
+
+    </div>
+</div>
+

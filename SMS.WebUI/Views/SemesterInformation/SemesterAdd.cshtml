@@ -1,0 +1,29 @@
+﻿@model SemesterInformationDTO
+
+
+
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Yeni Dönem Ekle</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form asp-action="SemesterAdd">
+
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Dönem Başlangıç Tarihi : </label>
+            <input type="date" class="form-control" id="" placeholder="Şube Adı" asp-for="SemesterBeginning">
+        </div>
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Dönem Bitiş Tarihi : </label>
+            <input type="date" class="form-control" id="" placeholder="Şube Adı" asp-for="SemesterEnd">
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+</div>

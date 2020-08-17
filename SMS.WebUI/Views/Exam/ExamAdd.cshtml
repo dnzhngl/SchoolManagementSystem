@@ -1,0 +1,75 @@
+﻿@model SubjectDetailViewModel
+@{
+    ViewData["Title"] = "ExamAdd";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col col-12 col-lg-3 p-2">
+
+        <form asp-action="ExamAdd" class="shadow-sm">
+
+
+            <input type="hidden" asp-for="SubjectDTO.Id" />
+            <input type="hidden" asp-for="ExamDTO.SubjectId" />
+            <input type="hidden" asp-for="MainSubjectDTO.Id" />
+
+            <div class="form-body">
+                <div class="row p-2">
+                    <div class="col p-3">
+
+                        <h4>@Model.SubjectDTO.SubjectName Dersi Sınav Formu</h4>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Ders Adı</label>
+                            <input type="text" readonly class="form-control" id="" placeholder="Ders Adı" asp-for="SubjectDTO.SubjectName">
+                            @*<select class="form-control" asp-for="ExamDTO.SubjectId" asp-items="@(new SelectList(Model.SubjectDTOs, "Id","SubjectName"))"></select>*@
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Sınav Adı</label>
+                            <input type="text" class="form-control" id="" placeholder="Sınav Adı" asp-for="ExamDTO.ExamName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Sınav Türü</label>
+                            <select class="form-control" asp-for="ExamDTO.ExamTypeId" asp-items="@(new SelectList(Model.ExamTypeDTOs, "Id","ExamTypeName"))"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Sınav Tarihi</label>
+                            <input type="date" class="form-control" id="" placeholder="Sınav Tarihi" asp-for="ExamDTO.ExamDate">
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput">Başlangıç Saati</label>
+                                    <input type="time" class="form-control" id="" placeholder="Başlangıç Saati" asp-for="ExamDTO.ExamStartTime">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput">Bitiş Saati</label>
+                                    <input type="time" class="form-control" id="" placeholder="Bitiş Saati" asp-for="ExamDTO.ExamEndTime">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 p-4">
+                        <div class="form-actions float-right">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                            <button type="button" class="btn btn-secondary">İptal Et</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

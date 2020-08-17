@@ -1,0 +1,71 @@
+﻿@model InstructorBranchViewModel
+@{
+    ViewData["Title"] = "InstructorDetails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+    <div class="row">
+        <div class="col col-12 col-xl-4 p-2">
+            <form asp-action="InstructorDetails" class="shadow-sm">
+                <div class="form-body">
+
+                    <input type="hidden" asp-for="InstructorDTO.Id" />
+
+                    <div class="row p-2">
+                        <div class="col col-12 p-4">
+                            <div class="form-actions float-right">
+                                <a class="btn btn-outline-warning btn-sm" asp-action="InstructorUpdate" asp-route-id="@Model.InstructorDTO.Id"><i class="fa fa-pen"></i></a>
+                                <button type="button" class="btn btn-secondary btn-sm">Geri</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row p-2">
+                        <div class="col-12 p-3">
+                            <h4>Öğretmen Bilgisi</h4>
+                            <hr />
+
+                            <div class="form-group">
+                                <label for="formGroupExampleInput">Öğretmen Adı</label>
+                                <input type="text" class="form-control" readonly id="" placeholder="Adı" asp-for="InstructorDTO.FirstName">
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Öğretmen Soyadı</label>
+                                <input type="text" class="form-control" readonly id="" placeholder="Soyadı" asp-for="InstructorDTO.LastName">
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Görevi</label>
+                                <input type="text" class="form-control" readonly id="" placeholder="Görevi" asp-for="InstructorDTO.Duty">
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Branşı</label>
+                                <input type="text" class="form-control" readonly id="" placeholder="Branşı" asp-for="InstructorDTO.BranchDTO.BranchName">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Cinsiyeti</label>
+                                <input type="text" class="form-control" readonly id="" placeholder="Cinsiyeti" asp-for="InstructorDTO.Gender">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Doğum Tarihi</label>
+                                <input type="date" class="form-control" readonly asp-for="InstructorDTO.DOB">
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Telefon Numarası</label>
+                                <input type="text" class="form-control" readonly placeholder="+90" asp-for="InstructorDTO.CellPhone">
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Adres Bilgisi</label>
+                                <input type="text" class="form-control" readonly placeholder="" asp-for="InstructorDTO.Address">
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

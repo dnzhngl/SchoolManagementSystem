@@ -1,0 +1,51 @@
+﻿@model SubjectDetailViewModel
+@{
+    ViewData["Title"] = "SubjectUpdate";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Ders Bilgileri</h3>
+
+
+<div class="row">
+    <div class="col col-12 col-lg-4 p-2">
+
+        <form asp-action="SubjectUpdate" class="shadow-sm">
+
+            <input type="hidden" asp-for="SubjectDTO.Id" />
+
+            <div class="form-body">
+                <div class="row p-2">
+                    <div class="col p-3">
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Ders Adı</label>
+                            <input type="text" class="form-control" id="" placeholder="Ders Adı" asp-for="SubjectDTO.SubjectName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Haftalık Ders Saati</label>
+                            <input type="text" class="form-control" id="" placeholder="Ders Adı" asp-for="SubjectDTO.WeeklyCourseHours">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Ana Ders</label>
+                            <select class="form-control" asp-for="SubjectDTO.MainSubjectId" asp-items="@(new SelectList(Model.MainSubjectDTOs,  "Id", "MainSubjectName", Model.SubjectDTO.MainSubjectDTO))"></select>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 p-4">
+                        <div class="form-actions float-right">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                            <button type="button" class="btn btn-secondary">İptal Et</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

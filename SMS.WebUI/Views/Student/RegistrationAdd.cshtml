@@ -1,0 +1,197 @@
+﻿@model StudentParentViewModel
+@{
+    ViewData["Title"] = "RegistrationAdd";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Ön Kayıt Ekranı</h3>
+
+<div class="row">
+
+    <div class="col col-12 col-lg-4 p-2">
+        <form asp-action="ParentAdd" asp-controller="Parent">
+            <div class="form-body shadow-sm">
+                <div class="row p-2">
+                    <div class="col p-3">
+                        <h4>Veli Bilgisi</h4>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Veli Adı</label>
+                            <input type="text" class="form-control" id="" placeholder="Adı" asp-for="ParentDTO.FirstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Veli Soyadı</label>
+                            <input type="text" class="form-control" id="" placeholder="Soyadı" asp-for="ParentDTO.LastName">
+                        </div>
+
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Cinsiyeti</legend>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ParentDTO.Gender" id="gridRadios1" value="Erkek" asp-for="ParentDTO.Gender">
+                                        <label class="form-check-label" for="gridRadios1">
+                                            Erkek
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ParentDTO.Gender" id="gridRadios2" value="Kadın" asp-for="ParentDTO.Gender">
+                                        <label class="form-check-label" for="gridRadios2">
+                                            Kadın
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Cep Telefonu</label>
+                            <input type="tel" class="form-control" placeholder="+90" asp-for="ParentDTO.CellPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Ev Telefonu</label>
+                            <input type="tel" class="form-control" placeholder="+90" asp-for="ParentDTO.HomePhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">İş Telefonu</label>
+                            <input type="tel" class="form-control" placeholder="+90" asp-for="ParentDTO.WorkPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Adres Bilgisi</label>
+                            <input type="text" class="form-control" placeholder="" asp-for="ParentDTO.Address">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 p-4">
+                        <div class="form-actions float-right">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                            <button type="button" class="btn btn-secondary">İptal Et</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="studentAddForm" class="col col-12 col-lg-4 p-2">
+        <form asp-action="StudentAdd">
+            <div class="form-body shadow-sm">
+                <div class="row p-2">
+                    <div class="col p-3">
+                        <h4>Öğrenci Kişisel Bilgileri</h4>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Öğrenci Adı</label>
+                            <input type="text" class="form-control" id="" placeholder="Adı" asp-for="StudentDTO.FirstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Öğrenci Soyadı</label>
+                            <input type="text" class="form-control" id="" placeholder="Soyadı" asp-for="StudentDTO.LastName">
+                        </div>
+
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Cinsiyeti</legend>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="StudentDTO.Gender" id="gridRadios1" value="Erkek" asp-for="StudentDTO.Gender">
+                                        <label class="form-check-label" for="gridRadios1">
+                                            Erkek
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="StudentDTO.Gender" id="gridRadios2" value="Kadın" asp-for="StudentDTO.Gender">
+                                        <label class="form-check-label" for="gridRadios2">
+                                            Kadın
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Doğum Tarihi</label>
+                            <input type="date" class="form-control" asp-for="StudentDTO.DOB">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Telefon Numarası</label>
+                            <input type="text" class="form-control" placeholder="+90" asp-for="StudentDTO.CellPhone">
+                        </div>
+
+
+                        <h4 class="mt-md-5">Eğitim Bilgileri</h4>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Mezun olduğu Okul</label>
+                            <input type="text" class="form-control" placeholder="Mezun olduğu okul" asp-for="StudentDTO.GraduatedFrom">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Not Ortalaması</label>
+                            <input type="text" class="form-control" id="" placeholder="Not Ortalaması" asp-for="StudentDTO.GPA">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12 p-4">
+                        <div class="form-actions float-right">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                            <button type="button" class="btn btn-secondary">İptal Et</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="assignSectionForm" class="col col-12 col-lg-4 p-2">
+        <form asp-controller="Student" asp-action="AssignSection">
+            <div class="form-body shadow-sm">
+
+                <div class="row p-2">
+                    <div class="col p-3">
+                        <h4>Kayıt Tamamlama Bilgileri</h4>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Öğrenci Okul Numarası :</label>
+                            <input type="text" class="form-control" id="" placeholder="Atanmadı" asp-for="StudentDTO.Id">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Sınıfı:</label>
+                            <input type="text" class="form-control" id="" placeholder="Atanmadı" asp-for="StudentDTO.SectionDTO.GradeDTO.GradeName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Şubesi:</label>
+                            <input type="text" class="form-control" id="" placeholder="Atanmadı" asp-for="StudentDTO.SectionDTO.SectionName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 p-4">
+                        <div class="form-actions float-right">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                            <button type="button" class="btn btn-secondary">İptal Et</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>
+<div class="row float-right">
+    <div class="col-12 p-4">
+        <button type="button" class="btn btn-secondary" >İleri</button>
+    </div>
+</div>

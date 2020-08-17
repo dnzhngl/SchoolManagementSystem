@@ -1,0 +1,35 @@
+﻿@model StudentDetailsViewModel
+
+
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Öğrenci Şube Bilgileri</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form asp-action="AssignSection">
+
+        <input type="hidden" asp-for="StudentDTO.Id" />
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Sınıfı:</label>
+                    <select class="form-control" asp-for="StudentDTO.SectionDTO.GradeId" asp-items="@(new SelectList(Model.GradeDTOs, "Id","GradeName"))"></select>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Şubesi:</label>
+                    <select class="form-control" asp-for="StudentDTO.SectionId" asp-items="@(new SelectList(Model.SectionDTOs, "Id","SectionName"))"></select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+</div>
+
+

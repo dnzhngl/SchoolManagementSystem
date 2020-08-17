@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SMS.Core\SMS.Core.csproj" />
+    <ProjectReference Include="..\SMS.DTO\SMS.DTO.csproj" />
+    <ProjectReference Include="..\SMS.Mapping\SMS.Mapping.csproj" />
+    <ProjectReference Include="..\SMS.Model\SMS.Model.csproj" />
+  </ItemGroup>
+
+</Project>
