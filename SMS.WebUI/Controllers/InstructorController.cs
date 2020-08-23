@@ -42,7 +42,7 @@ namespace SMS.WebUI.Controllers
         {
             InstructorBranchViewModel model = new InstructorBranchViewModel();
             model.BranchDTOs = branchService.GetAll();
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult InstructorAdd(InstructorBranchViewModel instructor)
@@ -68,7 +68,7 @@ namespace SMS.WebUI.Controllers
             model.BranchDTO = branchService.GetBranch(selectedInstructor.BranchId);
             model.BranchDTOs = branchService.GetAll();
 
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult InstructorUpdate(InstructorBranchViewModel instructor)
@@ -86,7 +86,7 @@ namespace SMS.WebUI.Controllers
 
             model.InstructorDTO = selectedInstructor;
             model.InstructorDTO.BranchDTO = branchService.GetBranch(selectedInstructor.BranchId);
-            return View(model);
+            return PartialView(model);
         }
 
     }

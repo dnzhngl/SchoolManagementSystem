@@ -10,7 +10,7 @@ namespace SMS.Model
     {
         public Instructor()
         {
-            TimeTables = new HashSet<TimeTable>();
+            Timetables = new HashSet<Timetable>();
         }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -24,6 +24,6 @@ namespace SMS.Model
         public Nullable<int> BranchId { get; set; }
         public Branch Branch { get; set; }
 
-        public ICollection<TimeTable> TimeTables { get; set; }
+        public ICollection<Timetable> Timetables { get; set; }
     }
 }

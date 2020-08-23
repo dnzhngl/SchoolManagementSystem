@@ -12,6 +12,7 @@ namespace SMS.Model
         public Student()
         {
             Attendances = new HashSet<Attendance>();
+            ExamResults = new HashSet<ExamResult>();
         }
 
         //public string SchoolNumber { get; set; }
@@ -37,5 +38,6 @@ namespace SMS.Model
 
 
         public ICollection<Attendance> Attendances { get; set; }
+        public ICollection<ExamResult> ExamResults { get; set; }
     }
 }

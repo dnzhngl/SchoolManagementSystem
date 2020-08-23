@@ -15,15 +15,21 @@ namespace SMS.WebUI.Controllers
     {
         private readonly IParentService parentService;
         private readonly IStudentService studentService;
+        private readonly ISectionService sectionService;
 
-        public ParentController(IStudentService _studentService, IParentService _parentService)
+        public ParentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService)
         {
             studentService = _studentService;
             parentService = _parentService;
+            sectionService = _sectionService;
         }
         public IActionResult ParentList()
         {
-            return View(parentService.GetAll());
+            StudentParentViewModel model = new StudentParentViewModel();
+            model.ParentDTOs = parentService.GetAll();
+            model.StudentDTOs = studentService.GetAll();
+
+            return View(model);
         }
 
         public IActionResult ParentAdd()
@@ -53,7 +59,7 @@ namespace SMS.WebUI.Controllers
             StudentParentViewModel model = new StudentParentViewModel();
             model.ParentDTO = selectedParent;
             model.StudentDTOs = studentService.GetStudentByParent(id);
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult ParentUpdate(StudentParentViewModel parent)
@@ -67,9 +73,15 @@ namespace SMS.WebUI.Controllers
         {
             StudentParentViewModel model = new StudentParentViewModel();
             model.StudentDTOs = studentService.GetStudentByParent(id);
-  
-            return View(model);
+            model.SectionDTOs = sectionService.GetAll();
+            return PartialView(model);
         }
+        //ParentDetails Sayfasından ilgili öğrenciye gidebilmek için
+        //public IActionResult ParentDetails(StudentDTO student)
+        //{
+        //    int id = student.Id;
+        //    return RedirectToAction("StudentList", "Student", id);
+        //}
 
     }
 }

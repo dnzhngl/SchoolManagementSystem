@@ -11,6 +11,8 @@ namespace SMS.WebUI.Models
         public StudentDTO StudentDTO { get; set; }
         public List<StudentDTO> StudentDTOs { get; set; }
         public ParentDTO ParentDTO { get; set; }
+        public List<ParentDTO> ParentDTOs { get; set; }
+
         public List<SectionDTO> SectionDTOs { get; set; }
     }
 }

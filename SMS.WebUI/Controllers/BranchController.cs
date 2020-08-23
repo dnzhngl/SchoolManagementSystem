@@ -24,7 +24,7 @@ namespace SMS.WebUI.Controllers
 
         public IActionResult BranchAdd()
         {
-            return View();
+            return PartialView();
         }
         [HttpPost]
         public IActionResult BranchAdd(BranchDTO branchDTO)
@@ -41,7 +41,7 @@ namespace SMS.WebUI.Controllers
         public IActionResult BranchUpdate(int id)
         {
             BranchDTO selectedBranch = branchService.GetBranch(id);
-            return View(selectedBranch);
+            return PartialView(selectedBranch);
         }
         [HttpPost]
         public IActionResult BranchUpdate(BranchDTO branchDTO)

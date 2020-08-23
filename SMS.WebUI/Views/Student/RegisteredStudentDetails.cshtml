@@ -5,26 +5,38 @@
 }
 
 
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Ön Kayıt Detay</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
+
 <div class="row">
-    <div class="col col-12 p-2">
+    <div class="col col-12 col-lg-8 mt-3">
+        <div class="card shadow">
 
-        <form class="shadow-sm">
-            <div class="form-body">
-
+            <div class="card-header">
                 <div class="row">
-                    <div class="col col-12 pt-4 pr-4">
-
-                        <div class="form-actions float-right">
-                            <a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@Model.StudentDTO.Id"><i class="fa fa-pen"></i></a>
-                            <button type="button" class="btn btn-secondary btn-sm">Geri</button>
-                        </div>
-
+                    <div class="col">
+                        <h4 class="font-weight-bold text-primary">Öğrenci Bilgisi</h4>
                     </div>
-
+                    <div class="col">
+                        <div class="row float-right">
+                            <div class="form-actions">
+                                <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = Model.StudentDTO.Id})')"><i class="fa fa-pen"></i></a>
+                                <button type="button" class="btn btn-secondary btn-sm">Geri</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div class="row p-2">
-                    <div class="col col-12 col-lg-4 p-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col col-12 col-lg-4">
                         <h4>Öğrenci Bilgisi</h4>
                         <hr />
 
@@ -51,7 +63,7 @@
                         </div>
                     </div>
 
-                    <div class="col col-12 col-lg-4 p-3">
+                    <div class="col col-12 col-lg-4">
                         <h4>Eğitim Bilgisi</h4>
                         <hr />
 
@@ -66,79 +78,114 @@
                         </div>
                     </div>
 
-                    <div class="col col-12 col-lg-4  p-3">
-                        <h4>Kayıt Tamamlama </h4>
+                    <div class="col col-12 col-lg-4">
+                        <h4>Okul Bilgisi </h4>
                         <hr />
 
                         <div class="form-group">
                             <label for="formGroupExampleInput">Öğrenci Okul Numarası :</label>
-                            <input type="text" class="form-control" readonly id="" placeholder="Atanmadı" asp-for="StudentDTO.Id">
+                            <input type="text" class="form-control" readonly asp-for="StudentDTO.Id">
                         </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Sınıfı:</label>
-                            <input type="text" class="form-control" readonly id="" placeholder="Atanmadı" asp-for="StudentDTO.SectionDTO.GradeDTO.GradeName">
-                        </div>
+                        @*<div class="form-group">
+                                <label for="formGroupExampleInput">Sınıfı:</label>
+                                <input type="text" class="form-control" readonly id="" placeholder="Atanmadı" asp-for="StudentDTO.SectionDTO.GradeDTO.GradeName">
+                            </div>*@
                         <div class="form-group">
                             <label for="formGroupExampleInput">Şubesi:</label>
                             <input type="text" class="form-control" readonly id="" placeholder="Atanmadı" asp-for="StudentDTO.SectionDTO.SectionName">
                         </div>
                     </div>
                 </div>
-                <hr />
-                <div class="row p-2">
+            </div>
 
-
-                    <div class="col-12">
-
+            <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
                         <div class="row">
-                            <div class="col col-12 col-lg-4 p-3">
-                                <h4>Veli Bilgisi</h4>
-                                <hr />
+                            <div class="col">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <h4 class="font-weight-bold text-primary">Veli Bilgisi <i class="fa fa-arrow-circle-down"></i></h4>
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div class="col">
+                                <div class="row float-right">
+                                    <div class="form-actions">
+                                        <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>
+                                        <button type="button" class="btn btn-secondary btn-sm">Geri</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row">
+                    </div>
 
-                            <div class="col col-12 col-lg-4 p-3">
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput">Veli Adı</label>
-                                    <input type="text" class="form-control" readonly id="" placeholder="Adı" asp-for="ParentDTO.FirstName">
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput">Veli Adı</label>
+                                        <input type="text" class="form-control" readonly id="" placeholder="Adı" asp-for="ParentDTO.FirstName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput2">Veli Soyadı</label>
+                                        <input type="text" class="form-control" readonly id="" placeholder="Soyadı" asp-for="ParentDTO.LastName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput2">Cinsiyeti</label>
+                                        <input type="text" class="form-control" readonly id="" placeholder="" asp-for="ParentDTO.Gender">
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput2">Veli Soyadı</label>
-                                    <input type="text" class="form-control" readonly id="" placeholder="Soyadı" asp-for="ParentDTO.LastName">
+
+                                <div class="col col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput2">Cep Telefonu</label>
+                                        <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.CellPhone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput2">Ev Telefonu</label>
+                                        <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.HomePhone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput2">İş Telefonu</label>
+                                        <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.WorkPhone">
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput2">Cinsiyeti</label>
-                                    <input type="text" class="form-control" readonly id="" placeholder="" asp-for="ParentDTO.Gender">
+
+                                <div class="col col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput2">Adres Bilgisi</label>
+                                        <input type="text" class="form-control" readonly placeholder="" asp-for="ParentDTO.Address">
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="col col-12 col-lg-4 p-3">
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput2">Cep Telefonu</label>
-                                    <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.CellPhone">
-                                </div>
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput2">Ev Telefonu</label>
-                                    <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.HomePhone">
-                                </div>
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput2">İş Telefonu</label>
-                                    <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.WorkPhone">
-                                </div>
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput2">Adres Bilgisi</label>
-                                    <input type="text" class="form-control" readonly placeholder="" asp-for="ParentDTO.Address">
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
 
-        </form>
 
+            </div>
+
+        </div>
     </div>
 </div>
 
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-labelledby="mainModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modelContent">
+
+        </div>
+    </div>
+</div>
+
+@section BeginPageJS{
+    <script>
+        function createModal(url) {
+            $('#modelContent').load(url);
+            $('#mainModal').modal('show');
+        }
+    </script>
+}

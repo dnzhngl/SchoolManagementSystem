@@ -11,7 +11,7 @@ namespace SMS.Model
         public Subject()
         {
             Exams = new HashSet<Exam>();
-            TimeTables = new HashSet<TimeTable>();
+            Timetables = new HashSet<Timetable>();
         }
 
         public string SubjectName { get; set; }
@@ -23,6 +23,6 @@ namespace SMS.Model
 
         public ICollection<Exam> Exams { get; set; }
 
-        public ICollection<TimeTable> TimeTables { get; set; }
+        public ICollection<Timetable> Timetables { get; set; }
     }
 }

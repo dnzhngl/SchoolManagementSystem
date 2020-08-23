@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentDTO>
+﻿@model StudentDetailsViewModel
 @{
     ViewData["Title"] = "StudentList";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -10,10 +10,17 @@
 }
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800"></h1>
-
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Öğrenci İşlemleri</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
 
 <!-- DataTales Example -->
-<div class="card shadow mb-4">
+<div class="card shadow mt-3">
     <div class="card-header py-3">
         <div class="row">
             <div class="col-9">
@@ -37,31 +44,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (StudentDTO student in Model)
+                    @foreach (StudentDTO student in Model.StudentDTOs)
                     {
                         <tr>
                             <td>@student.Id</td>
-                            <td></td>
-                            <td></td>
-                            @*<td>@student.SectionDTO.GradeDTO.GradeName</td>*@
-                            @*<td>@student.SectionDTO.SectionName</td>*@
+                            <td>@*@Model.GradeDTOs.Where()*@</td>
+                            <td>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</td>
                             <td>@student.FirstName</td>
                             <td>@student.LastName</td>
                             <td>@student.Gender</td>
                             <td></td>
                             <td>
                                 <a class="btn btn-outline-primary btn-sm" asp-action="StudentDetails" asp-route-id="@student.Id"><i class="fa fa-search"></i></a>
-                                <a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>
+                                <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = student.Id})')"><i class="fa fa-pen"></i></a>
+                                @*<a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>*@
                                 <a class="btn btn-outline-danger btn-sm" asp-action="RegistrationDelete" asp-route-id="@student.Id"><i class="fa fa-trash"></i></a>
 
                             </td>
                         </tr>
                     }
-
-
-
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+
         </div>
     </div>
 </div>
@@ -71,4 +81,12 @@
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
+}
+@section BeginPageJs{
+    <script>
+        function createModal(url) {
+            $('#modalContent').load(url);
+            $('#mainModal').modal('show');
+        }
+    </script>
 }

@@ -17,5 +17,7 @@ namespace SMS.DTO
 
         public int SubjectId { get; set; }
         public SubjectDTO SubjectDTO { get; set; }
+
+        public List<ExamResultDTO> ExamResultDTOs { get; set; }
     }
 }

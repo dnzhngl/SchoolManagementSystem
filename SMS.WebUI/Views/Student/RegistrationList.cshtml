@@ -45,9 +45,10 @@
                             <td>@student.LastName</td>
                             <td>@student.GPA</td>
                             <td>
-                                <a class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="assignSectionModal" onclick="createModal('@Url.Action("AssignSection","Student", new {id = student.Id })')"><i class="fa fa-plus"></i></a>
+                                <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new {id = student.Id })')"><i class="fa fa-plus"></i></a>
                                 <a class="btn btn-outline-primary btn-sm" asp-action="RegisteredStudentDetails" asp-route-id="@student.Id"><i class="fa fa-search"></i></a>
-                                <a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>
+                                @*<a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>*@
+                                <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = student.Id})')"><i class="fa fa-pen"></i></a>
                                 <a class="btn btn-outline-danger btn-sm" asp-action="RegistrationDelete" asp-route-id="@student.Id"><i class="fa fa-trash"></i></a>
 
                             </td>
@@ -61,7 +62,7 @@
 </div>
 
 
-<div class="modal fade" id="assignSectionModal" role="dialog" tabindex="-1" aria-labelledby="assignSectionModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-labelledby="assignSectionModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content" id="modelContent">
 
@@ -83,10 +84,7 @@
     <script>
         function createModal(url) {
             $('#modelContent').load(url);
-            $('#assignSectionModal').modal('show');
+            $('#mainModal').modal('show');
         }
-
-
     </script>
-
 }

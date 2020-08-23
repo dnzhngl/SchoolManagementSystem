@@ -34,6 +34,7 @@ namespace SMS.WebUI
             services.AddControllersWithViews();
 
             var optionsBuilder = new DbContextOptionsBuilder<SMSDbContext>();
+
             optionsBuilder.UseSqlServer(Configuration.GetConnectionString("SMSDbConnection"));
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             optionsBuilder.EnableSensitiveDataLogging();
@@ -50,16 +51,28 @@ namespace SMS.WebUI
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IInstructorService, InstructorService>();
             services.AddSingleton<IBranchService, BranchService>();
+
             services.AddSingleton<IStudentService, StudentService>();
             services.AddSingleton<IParentService, ParentService>();
+
             services.AddSingleton<IGradeService, GradeService>();
             services.AddSingleton<ISectionService, SectionService>();
+
             services.AddSingleton<IMainSubjectService, MainSubjectService>();
             services.AddSingleton<ISubjectService, SubjectService>();
+
             services.AddSingleton<IExamTypeService, ExamTypeService>();
             services.AddSingleton<IExamService, ExamService>();
-            services.AddSingleton<ISemesterInformationService, SemesterInformationService>();
+            services.AddSingleton<IExamResultService, ExamResultService>();
 
+            services.AddSingleton<ISemesterService, SemesterService>();
+
+            services.AddSingleton<IAttendanceTypeService, AttendanceTypeService>();
+            services.AddSingleton<IAttendanceService, AttendanceService>();
+
+            services.AddSingleton<ILessonTimeService, LessonTimeService>();
+            services.AddSingleton<IDayService, DayService>();
+            services.AddSingleton<ITimetableService, TimetableService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

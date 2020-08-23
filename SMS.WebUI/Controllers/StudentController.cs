@@ -28,32 +28,22 @@ namespace SMS.WebUI.Controllers
 
         public IActionResult RegistrationList()
         {
-            return View(studentService.GetAll());
+            var registrationList = studentService.GetAll().Where(z => z.SectionId == null);
+            return View(registrationList);
         }
-
-        //public IActionResult RegistrationAdd()
-        //{
-        //    StudentParentViewModel model = new StudentParentViewModel();
-        //    return View(model);
-        //}
-        //[HttpPost]
-        //public IActionResult RegistrationAdd(StudentParentViewModel student)
-        //{
-
-        //    StudentDTO newStudent = student.StudentDTO;
-        //    newStudent.ParentId = student.ParentDTO.Id;
-
-        //    studentService.NewStudent(newStudent);
-
-        //    return RedirectToAction("RegistrationList");
-        //}
 
         public IActionResult RegistrationDelete(int id)
         {
             studentService.DeleteStudent(id);
             return RedirectToAction("RegistrationList");
         }
-
+        public IActionResult RegisteredStudentDetails(int id)
+        {
+            StudentParentViewModel model = new StudentParentViewModel();
+            model.StudentDTO = studentService.GetStudent(id);
+            model.ParentDTO = parentService.GetParent((int)model.StudentDTO.ParentId);
+            return View(model);
+        }
 
         public IActionResult StudentAdd(int parentId)
         {
@@ -73,28 +63,6 @@ namespace SMS.WebUI.Controllers
             return RedirectToAction("RegistrationList");
         }
 
-        public IActionResult StudentList(int? id)
-        {
-            List<StudentDTO> studentList;
-            if (id != null)
-            {
-                studentList = studentService.GetStudentBySection((int)id);
-            }
-            else
-            {
-                studentList = studentService.GetAll();
-            }
-            return View(studentList);
-        }
-
-        public IActionResult RegisteredStudentDetails(int id)
-        {
-            StudentParentViewModel model = new StudentParentViewModel();
-            model.StudentDTO = studentService.GetStudent(id);
-            model.ParentDTO = parentService.GetParent((int)model.StudentDTO.ParentId);
-            return View(model);
-        }
-
         public IActionResult StudentUpdate(int id)
         {
             StudentParentViewModel model = new StudentParentViewModel();
@@ -104,16 +72,16 @@ namespace SMS.WebUI.Controllers
             model.StudentDTO = selectedStudent;
             model.ParentDTO = selectedStudent.ParentDTO;
 
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult StudentUpdate(StudentParentViewModel student)
         {
             StudentDTO selectedStudent = student.StudentDTO;
             selectedStudent.ParentId = student.ParentDTO.Id;
-            selectedStudent.ParentDTO = student.ParentDTO;
+            selectedStudent.ParentDTO = parentService.GetParent((int)selectedStudent.ParentId);
             studentService.UpdateStudent(selectedStudent);
-            return RedirectToAction("StudentDetails");
+            return RedirectToAction("RegisteredStudentDetails", new {id = selectedStudent.Id});
         }
 
         public IActionResult AssignSection(int id)
@@ -129,11 +97,28 @@ namespace SMS.WebUI.Controllers
         [HttpPost]
         public IActionResult AssignSection(StudentDetailsViewModel studentDetail)
         {
-            StudentDTO student = studentDetail.StudentDTO;
+            StudentDTO student = studentService.GetStudent(studentDetail.StudentDTO.Id);
+            student.SectionId = studentDetail.StudentDTO.SectionId;
             studentService.UpdateStudent(student);
 
             return RedirectToAction("RegistrationList");
         }
-
+        public IActionResult StudentList(int? id)
+        {
+            // id for Section
+            StudentDetailsViewModel model = new StudentDetailsViewModel();
+            
+            if (id != null)
+            {
+                model.StudentDTOs = studentService.GetStudentBySection((int)id);
+            }
+            else
+            {
+                model.StudentDTOs = studentService.GetAll();
+            }
+            model.SectionDTOs = sectionService.GetAll();
+            model.GradeDTOs = gradeService.GetAll();
+            return View(model);
+        }
     }
 }

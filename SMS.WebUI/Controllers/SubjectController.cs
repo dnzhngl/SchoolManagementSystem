@@ -41,7 +41,7 @@ namespace SMS.WebUI.Controllers
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
             model.MainSubjectDTOs = mainSubjectService.GetAll();
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult SubjectAdd(SubjectDetailViewModel subject)
@@ -63,7 +63,7 @@ namespace SMS.WebUI.Controllers
             model.SubjectDTO = selectedSubject;
             model.MainSubjectDTO = mainSubjectService.GetMainSubject(selectedSubject.MainSubjectId);
             model.MainSubjectDTOs = mainSubjectService.GetAll();
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult SubjectUpdate(SubjectDetailViewModel subject)

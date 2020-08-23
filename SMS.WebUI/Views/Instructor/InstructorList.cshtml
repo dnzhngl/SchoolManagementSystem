@@ -10,16 +10,27 @@
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800"></h1>
 
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Öğretmen İşlemleri</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
+
 
 <!-- DataTales Example -->
-<div class="card shadow mb-4">
+<div class="card shadow mt-3">
     <div class="card-header py-3">
         <div class="row">
             <div class="col-9">
                 <h5 class="m-0 font-weight-bold text-primary">Öğretmen Listesi</h5>
             </div>
             <div class="col-3">
-                <a class="btn btn-success" asp-action="InstructorAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                @*<a class="btn btn-success" asp-action="InstructorAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
+                <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("InstructorAdd", "Instructor", "InstructorBranchViewModel")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+
             </div>
         </div>
     </div>
@@ -44,11 +55,16 @@
                             <td>@instructor.FirstName</td>
                             <td>@instructor.LastName</td>
                             <td>@instructor.Duty</td>
-                            <td>@Model.BranchDTOs.FirstOrDefault( z=> z.Id == instructor.BranchId).BranchName</td>
+                            <td>@Model.BranchDTOs.FirstOrDefault(z => z.Id == instructor.BranchId).BranchName</td>
                             <td>
                                 <a class="btn btn-outline-info btn-sm" asp-action="InstructorTimeTable" asp-route-id="@instructor.Id"><i class="fa fa-table"></i></a>
-                                <a class="btn btn-outline-primary btn-sm" asp-action="InstructorDetails" asp-route-id="@instructor.Id"><i class="fa fa-search"></i></a>
-                                <a class="btn btn-outline-warning btn-sm" asp-action="InstructorUpdate" asp-route-id="@instructor.Id"><i class="fa fa-pen"></i></a>
+
+                                <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("InstructorDetails", "Instructor", new { id = instructor.Id })')"><i class="fa fa-search"></i></a>
+                                @*<a class="btn btn-outline-primary btn-sm" asp-action="InstructorDetails" asp-route-id="@instructor.Id"><i class="fa fa-search"></i></a>*@
+
+                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("InstructorUpdate", "Instructor", new { id = instructor.Id })')"><i class="fa fa-pen"></i></a>
+
+                                @*<a class="btn btn-outline-warning btn-sm" asp-action="InstructorUpdate" asp-route-id="@instructor.Id"><i class="fa fa-pen"></i></a>*@
                                 <a class="btn btn-outline-danger btn-sm" asp-action="InstructorDelete" asp-route-id="@instructor.Id"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -58,10 +74,28 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+
+        </div>
+    </div>
+</div>
+
 @section FooterJsPlugin{
     <!-- Page level plugins -->
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
+}
+
+@section BeginPageJs{
+    <script>
+        function modalFunction(url) {
+            $('#modalContent').load(url);
+            $('#mainModal').modal('show');
+        }
+    </script>
 }

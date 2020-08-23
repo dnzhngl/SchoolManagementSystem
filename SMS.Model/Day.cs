@@ -9,9 +9,9 @@ namespace SMS.Model
     {
         public Day()
         {
-            TimeTables = new HashSet<TimeTable>();
+            Timetables = new HashSet<Timetable>();
         }
         public string DayName { get; set; }
-        public ICollection<TimeTable> TimeTables { get; set; }
+        public ICollection<Timetable> Timetables { get; set; }
     }
 }

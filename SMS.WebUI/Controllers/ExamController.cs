@@ -57,7 +57,7 @@ namespace SMS.WebUI.Controllers
             }
             model.ExamTypeDTOs = examTypeService.GetAll();
 
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult ExamAdd(SubjectDetailViewModel exam)
@@ -89,7 +89,7 @@ namespace SMS.WebUI.Controllers
             model.ExamTypeDTOs = examTypeService.GetAll();
             model.ExamDTO.SubjectDTO = subjectService.GetSubject(model.ExamDTO.SubjectId);
 
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult ExamUpdate(SubjectDetailViewModel exam)

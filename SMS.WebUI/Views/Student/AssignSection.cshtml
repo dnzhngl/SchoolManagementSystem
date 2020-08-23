@@ -3,33 +3,64 @@
 
 
 <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel">Öğrenci Şube Bilgileri</h5>
+    <h5 class="modal-title" id="exampleModalLabel">Şube Atama Formu</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<div class="modal-body">
-    <form asp-action="AssignSection">
 
-        <input type="hidden" asp-for="StudentDTO.Id" />
+<form asp-action="AssignSection">
 
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="formGroupExampleInput">Sınıfı:</label>
-                    <select class="form-control" asp-for="StudentDTO.SectionDTO.GradeId" asp-items="@(new SelectList(Model.GradeDTOs, "Id","GradeName"))"></select>
+    <input type="hidden" asp-for="StudentDTO.Id" />
+
+    <div class="modal-body m-4">
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label for="formGroupExampleInput"><b>Okul Numarası : </b></label>
                 </div>
-                <div class="form-group">
-                    <label for="formGroupExampleInput">Şubesi:</label>
-                    <select class="form-control" asp-for="StudentDTO.SectionId" asp-items="@(new SelectList(Model.SectionDTOs, "Id","SectionName"))"></select>
+                <div class="col">
+                    <label>@Model.StudentDTO.Id</label>
+                    @*<input type="text" class="form-control" readonly placeholder="Okul Numarası" asp-for="StudentDTO.Id">*@
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label for="formGroupExampleInput"><b>Adı Soyadı : </b></label>
+                </div>
+                <div class="col">
+                    <label>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName</label>
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
-            <button type="submit" class="btn btn-primary">Kaydet</button>
+
+        @*<div class="form-group">
+            <label for="formGroupExampleInput">Sınıfı:</label>
+            <select class="form-control" asp-for="StudentDTO.SectionDTO.GradeId" asp-items="@(new SelectList(Model.GradeDTOs, "Id","GradeName"))"></select>
+        </div>*@
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label for="formGroupExampleInput"><b>Şubesi : </b></label>
+                </div>
+                <div class="col">
+                    <select class="form-control" asp-for="StudentDTO.SectionId" asp-items="@(new SelectList(Model.SectionDTOs, "Id","SectionName"))"></select>
+                </div>
+            </div>
+            
         </div>
-    </form>
-</div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+</form>
+
 
 

@@ -8,6 +8,6 @@ namespace SMS.DTO
     {
         public int Id { get; set; }
         public string BranchName { get; set; }
-        public List<InstructorDTO> Instructors { get; set; }
+        public List<InstructorDTO> InstructorDTOs { get; set; }
     }
 }

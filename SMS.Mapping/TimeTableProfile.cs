@@ -11,7 +11,7 @@ namespace SMS.Mapping
     {
         public TimeTableProfile()
         {
-            CreateMap<TimeTable, TimeTableDTO>().ReverseMap();
+            CreateMap<Timetable, TimeTableDTO>().ReverseMap();
         }
     }
 }

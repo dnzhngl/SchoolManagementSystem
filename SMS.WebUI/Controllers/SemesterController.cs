@@ -8,44 +8,44 @@ using SMS.DTO;
 
 namespace SMS.WebUI.Controllers
 {
-    public class SemesterInformationController : Controller
+    public class SemesterController : Controller
     {
-        private readonly ISemesterInformationService semesterInformationService;
-        public SemesterInformationController(ISemesterInformationService _semesterInformationService)
+        private readonly ISemesterService semesterService;
+        public SemesterController(ISemesterService _semesterInformationService)
         {
-            semesterInformationService = _semesterInformationService;
+            semesterService = _semesterInformationService;
         }
         public IActionResult SemesterList()
         {
-            return View(semesterInformationService.GetAll());
+            return View(semesterService.GetAll());
         }
         public IActionResult SemesterAdd()
         {
-            var model = new SemesterInformationDTO();
+            var model = new SemesterDTO();
             model.SemesterBeginning = DateTime.Today;
             model.SemesterEnd = DateTime.Today;
             return PartialView(model);
         }
         [HttpPost]
-        public IActionResult SemesterAdd(SemesterInformationDTO semester)
+        public IActionResult SemesterAdd(SemesterDTO semester)
         {
-            semesterInformationService.NewSemester(semester);
+            semesterService.NewSemester(semester);
             return RedirectToAction("SemesterList");
         }
         public IActionResult SemesterDelete(int id)
         {
-            semesterInformationService.DeleteSemester(id);
+            semesterService.DeleteSemester(id);
             return RedirectToAction("SemesterList");
         }
         public IActionResult SemesterUpdate(int id)
         {
-            SemesterInformationDTO selectedSemester = semesterInformationService.GetSemesterInfo(id);
+            SemesterDTO selectedSemester = semesterService.GetSemesterInfo(id);
             return PartialView(selectedSemester);
         }
         [HttpPost]
-        public IActionResult SemesterUpdate(SemesterInformationDTO semester)
+        public IActionResult SemesterUpdate(SemesterDTO semester)
         {
-            semesterInformationService.UpdateSemester(semester);
+            semesterService.UpdateSemester(semester);
             return RedirectToAction("SemesterList");
         }
     }

@@ -7,11 +7,11 @@ using System.Text;
 
 namespace SMS.Mapping
 {
-    public class SemesterInformationProfile : ProfileBase
+    public class ExamResultProfile : ProfileBase
     {
-        public SemesterInformationProfile()
+        public ExamResultProfile()
         {
-            CreateMap<SemesterInformation, SemesterInformationDTO>().ReverseMap();
+            CreateMap<ExamResult, ExamResultDTO>().ReverseMap();
         }
     }
 }

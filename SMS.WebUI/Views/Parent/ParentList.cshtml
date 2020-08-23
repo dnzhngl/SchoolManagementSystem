@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ParentDTO>
+﻿@model StudentParentViewModel
 @{
     ViewData["Title"] = "ParentList";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -11,9 +11,17 @@
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800"></h1>
 
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Veli İşlemleri</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
 
 <!-- DataTales Example -->
-<div class="card shadow mb-4">
+<div class="card shadow mt-3">
     <div class="card-header py-3">
         <div class="row">
             <div class="col-9">
@@ -36,12 +44,12 @@
                         <th>İs Telefonu</th>
                         <th>Ev Telefonu</th>
                         <th>Adresi</th>
-                        <th>ÖğrenciNo</th>
+                        <th>Öğrenci</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (ParentDTO parent in Model)
+                    @foreach (ParentDTO parent in Model.ParentDTOs)
                     {
                         <tr>
                             <td>@parent.FirstName</td>
@@ -51,10 +59,15 @@
                             <td>@parent.HomePhone</td>
                             <td>@parent.WorkPhone</td>
                             <td>@parent.Address</td>
-                            <td>@parent.Students</td>
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" asp-action="ParentDetails" asp-route-id="@parent.Id"><i class="fa fa-search"></i></a>
-                                <a class="btn btn-outline-warning btn-sm" asp-action="ParentUpdate" asp-route-id="@parent.Id"><i class="fa fa-pen"></i></a>
+                                @*<a class=" btn-sm" asp-action="ParentDetails" asp-route-id="@parent.Id"><i class="fa fa-search"></i></a>*@
+                                <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("ParentDetails", "Parent", new { id = parent.Id })')"><i class="fa fa-search"></i></a>
+
+                            </td>
+                            <td>
+                                @*<a class="btn btn-outline-warning btn-sm" asp-action="ParentUpdate" asp-route-id="@parent.Id"><i class="fa fa-pen"></i></a>*@
+                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ParentUpdate", "Parent", new { id = parent.Id })')"><i class="fa fa-pen"></i></a>
+
                                 <a class="btn btn-outline-danger btn-sm" asp-action="ParentDelete" asp-route-id="@parent.Id"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -64,10 +77,28 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+
+        </div>
+    </div>
+</div>
+
 @section FooterJsPlugin{
     <!-- Page level plugins -->
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
+}
+
+@section BeginPageJs{
+    <script>
+        function modalFunction(url) {
+            $('#modalContent').load(url);
+            $('#mainModal').modal('show');
+        }
+    </script>
 }

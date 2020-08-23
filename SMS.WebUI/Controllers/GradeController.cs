@@ -27,7 +27,7 @@ namespace SMS.WebUI.Controllers
 
         public IActionResult GradeAdd()
         {
-            return View();
+            return PartialView();
         }
         [HttpPost]
         public IActionResult GradeAdd(GradeDTO grade)
@@ -43,7 +43,7 @@ namespace SMS.WebUI.Controllers
         public IActionResult GradeUpdate(int id)
         {
             GradeDTO selectedGrade = gradeService.GetGrade(id);
-            return View(selectedGrade);
+            return PartialView(selectedGrade);
         }
         [HttpPost]
         public IActionResult GradeUpdate(GradeDTO grade)

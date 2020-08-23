@@ -12,16 +12,26 @@
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800"></h1>
 
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Ders İşlemleri</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
 
 <!-- DataTables Example -->
-<div class="card shadow mb-4 col-12 col-xl-7">
+<div class="card shadow mt-3 col-12 col-xl-7">
     <div class="card-header py-3">
         <div class="row">
             <div class="col-9">
                 <h5 class="m-0 font-weight-bold text-primary">Ders Listesi</h5>
             </div>
             <div class="col-3">
-                <a class="btn btn-success" asp-action="SubjectAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                @*<a class="btn btn-success" asp-action="SubjectAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
+                <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("SubjectAdd", "Subject", "SubjectDetailViewModel")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+
             </div>
         </div>
     </div>
@@ -45,9 +55,12 @@
                             <td>@subject.WeeklyCourseHours</td>
                             <td>@Model.MainSubjectDTOs.FirstOrDefault(z => z.Id == subject.MainSubjectId).MainSubjectName</td>
                             <td>
-                                @*<a class="btn btn-outline-success btn-sm" asp-controller="Exam" asp-action="ExamAdd" asp-route-id="@subject.Id">Sınav Ekle</a>*@                                
+                                @*<a class="btn btn-outline-success btn-sm" asp-controller="Exam" asp-action="ExamAdd" asp-route-id="@subject.Id">Sınav Ekle</a>*@
                                 <a class="btn btn-outline-primary btn-sm" asp-action="SubjectDetails" asp-route-id="@subject.Id"><i class="fa fa-search"></i></a>
-                                <a class="btn btn-outline-warning btn-sm" asp-action="SubjectUpdate" asp-route-id="@subject.Id"><i class="fa fa-pen"></i></a>
+
+                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("SubjectUpdate", "Subject", new { id = subject.Id })')"><i class="fa fa-pen"></i></a>
+                                @*<a class="btn btn-outline-warning btn-sm" asp-action="SubjectUpdate" asp-route-id="@subject.Id"><i class="fa fa-pen"></i></a>*@
+
                                 <a class="btn btn-outline-danger btn-sm" asp-action="SubjectDelete" asp-route-id="@subject.Id"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -58,6 +71,13 @@
     </div>
 </div>
 
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+
+        </div>
+    </div>
+</div>
 
 @section FooterJsPlugin{
     <!-- Page level plugins -->
@@ -65,4 +85,14 @@
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
+}
+
+
+@section BeginPageJs{
+    <script>
+        function modalFunction(url) {
+            $('#modalContent').load(url);
+            $('#mainModal').modal('show');
+        }
+    </script>
 }

@@ -9,6 +9,8 @@ namespace SMS.DTO
         public int Id { get; set; }
         public string SectionName { get; set; }
         public int StudentCapacity { get; set; }
+        public int NumberOfStudentsEnrolled { get; set; }
+
 
         public int GradeId { get; set; }
         public GradeDTO GradeDTO { get; set; }

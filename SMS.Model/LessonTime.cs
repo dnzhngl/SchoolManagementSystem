@@ -9,9 +9,10 @@ namespace SMS.Model
     {
         public LessonTime()
         {
-            TimeTables = new HashSet<TimeTable>();
+            Timetables = new HashSet<Timetable>();
         }
-        public string LessonTimePeriod { get; set; }
-        public ICollection<TimeTable> TimeTables { get; set; }
+        public string LessonBeginTime { get; set; }
+        public string LessonEndTime { get; set; }
+        public ICollection<Timetable> Timetables { get; set; }
     }
 }

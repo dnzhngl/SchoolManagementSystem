@@ -11,12 +11,14 @@ namespace SMS.Model
         public Section()
         {
             Students = new HashSet<Student>();
-            TimeTables = new HashSet<TimeTable>();
+            Timetables = new HashSet<Timetable>();
         }
 
         public string SectionName { get; set; }
 
         public int StudentCapacity { get; set; }
+
+        public int NumberOfStudentsEnrolled { get; set; }
 
 
         [ForeignKey("Grade")]
@@ -24,6 +26,6 @@ namespace SMS.Model
         public Grade Grade { get; set; }
 
         public ICollection<Student> Students { get; set; }
-        public ICollection<TimeTable> TimeTables { get; set; }
+        public ICollection<Timetable> Timetables { get; set; }
     }
 }

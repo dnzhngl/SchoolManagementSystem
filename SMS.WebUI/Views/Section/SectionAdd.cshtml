@@ -1,48 +1,36 @@
 ﻿@model SectionGradeViewModel
-@{
-    ViewData["Title"] = "SectionAdd";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}
-
-<h3>Şube Ekle</h3>
 
 
-<div class="row">
-    <div class="col col-12 col-lg-4 p-2">
-
-        <form asp-action="SectionAdd" class="shadow-sm">
-
-            <div class="form-body">
-                <div class="row p-2">
-                    <div class="col p-3">
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Şube Adı</label>
-                            <input type="text" class="form-control" id="" placeholder="Şube Adı" asp-for="SectionDTO.SectionName">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Öğrenci Sayısı</label>
-                            <input type="text" class="form-control" id="" placeholder="Kayıtlı öğrenci sayısı">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Sınıf Bilgisi</label>
-                            <select class="form-control" asp-for="SectionDTO.GradeId" asp-items="@(new SelectList(Model.GradeDTOs,  "Id", "GradeName"))"></select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 p-4">
-                        <div class="form-actions float-right">
-                            <button type="submit" class="btn btn-primary">Kaydet</button>
-                            <button type="button" class="btn btn-secondary">İptal Et</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </form>
-
-    </div>
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Yeni Şube Ekle</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
+
+<form asp-action="SectionAdd" class="shadow-sm">
+
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="formGroupExampleInput">Şube Adı</label>
+            <input type="text" class="form-control" id="" placeholder="Şube Adı" asp-for="SectionDTO.SectionName">
+        </div>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Öğrenci Sayısı</label>
+            <input type="text" class="form-control" id="" placeholder="Kayıtlı öğrenci sayısı" asp-for="SectionDTO.StudentCapacity">
+        </div>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Sınıf Bilgisi</label>
+            <select class="form-control" asp-for="SectionDTO.GradeId" asp-items="@(new SelectList(Model.GradeDTOs,  "Id", "GradeName"))"></select>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+
+</form>
+

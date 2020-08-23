@@ -9,6 +9,10 @@ namespace SMS.Model
 {
     public class Exam : Entity<int>
     {
+        public Exam()
+        {
+            ExamResults = new HashSet<ExamResult>();
+        }
         public string ExamName { get; set; }
         public DateTime ExamDate { get; set; }
         public string ExamStartTime { get; set; }
@@ -23,6 +27,6 @@ namespace SMS.Model
         public Subject Subject { get; set; }
 
 
-        //public ICollection<ExamResult> ExamResults { get; set; }
+        public ICollection<ExamResult> ExamResults { get; set; }
     }
 }

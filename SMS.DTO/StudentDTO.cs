@@ -23,6 +23,6 @@ namespace SMS.DTO
         public ParentDTO ParentDTO { get; set; }
 
         public List<AttendanceDTO> AttendanceDTOs { get; set; }
-
+        public List<ExamResultDTO> ExamResultDTOs { get; set; }
     }
 }

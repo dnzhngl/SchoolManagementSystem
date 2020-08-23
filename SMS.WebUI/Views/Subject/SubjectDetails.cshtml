@@ -8,6 +8,14 @@
     @*<link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">*@
 }
 
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Ders Bilgileri</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
 
 <div class="row">
     <div class="col col-12 col-lg-3 p-2">
@@ -21,19 +29,49 @@
                         <h5 class="m-0 font-weight-bold text-primary">Ders Bilgisi</h5>
                     </div>
                     <div class="col-3 float-right">
-                        <a class="btn btn-outline-warning btn-sm" asp-action="SubjectUpdate" asp-route-id="@Model.SubjectDTO.Id"><i class="fa fa-pen"></i></a>
+                        @*<a class="btn btn-outline-warning btn-sm" asp-action="SubjectUpdate" asp-route-id="@Model.SubjectDTO.Id"><i class="fa fa-pen"></i></a>*@
+
+                        <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("SubjectUpdate", "Subject", new { id = Model.SubjectDTO.Id })')"><i class="fa fa-pen"></i></a>
                     </div>
                 </div>
             </div>
 
             <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item"><b>Ana Ders : </b> @Model.MainSubjectDTO.MainSubjectName</li>
-                    <li class="list-group-item"><b>Ders : </b> @Model.SubjectDTO.SubjectName</li>
-                    <li class="list-group-item"><b>Haftalık Ders Saati : </b> @Model.SubjectDTO.WeeklyCourseHours</li>
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <label><b>Ana Ders : </b></label>
+                            </div>
+                            <div class="col">
+                                @Model.MainSubjectDTO.MainSubjectName
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <label><b>Ders : </b></label>
+                            </div>
+                            <div class="col">
+                                @Model.SubjectDTO.SubjectName
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <label> <b>Haftalık Ders Saati : </b></label>
+                            </div>
+                            <div class="col">
+                                @Model.SubjectDTO.WeeklyCourseHours
+                            </div>
+                        </div>
+                    </li>
+
                 </ul>
             </div>
-
         </div>
 
     </div>
@@ -51,7 +89,10 @@
                             <h5 class="m-0 font-weight-bold text-primary">@Model.SubjectDTO.SubjectName Dersi Sınav Listesi</h5>
                         </div>
                         <div class="col-3">
-                            <a class="btn btn-success" asp-controller="Exam" asp-action="ExamAdd" asp-route-id="@Model.SubjectDTO.Id">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                            @*<a class="btn btn-success" asp-controller="Exam" asp-action="ExamAdd" asp-route-id="@Model.SubjectDTO.Id">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
+
+                            <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "Exam", new { id = @Model.SubjectDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+
                         </div>
                     </div>
                 </div>
@@ -73,18 +114,20 @@
 
                                 @foreach (var exam in Model.ExamDTOs)
                                 {
-                                <tr>
-                                    <td>@exam.ExamName</td>
-                                    <td>@exam.ExamDate</td>
-                                    <td>@exam.ExamStartTime</td>
-                                    <td>@exam.ExamEndTime</td>
-                                    <td>@Model.ExamTypeDTOs.FirstOrDefault(z => z.Id == exam.ExamTypeId).ExamTypeName</td>
-                                    <td>
-                                        @*<a class="btn btn-outline-primary btn-sm" asp-controller="Exam" asp-action="ExamDetails" asp-route-id="@exam.Id"><i class="fa fa-search"></i></a>*@
-                                        <a class="btn btn-outline-warning btn-sm" asp-controller="Exam" asp-action="ExamUpdate" asp-route-id="@exam.Id"><i class="fa fa-pen"></i></a>
-                                        <a class="btn btn-outline-danger btn-sm" asp-controller="Exam" asp-action="ExamDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>@exam.ExamName</td>
+                                        <td>@exam.ExamDate</td>
+                                        <td>@exam.ExamStartTime</td>
+                                        <td>@exam.ExamEndTime</td>
+                                        <td>@Model.ExamTypeDTOs.FirstOrDefault(z => z.Id == exam.ExamTypeId).ExamTypeName</td>
+                                        <td>
+                                            @*<a class="btn btn-outline-primary btn-sm" asp-controller="Exam" asp-action="ExamDetails" asp-route-id="@exam.Id"><i class="fa fa-search"></i></a>*@
+                                            @*<a class="btn btn-outline-warning btn-sm" asp-controller="Exam" asp-action="ExamUpdate" asp-route-id="@exam.Id"><i class="fa fa-pen"></i></a>*@
+                                            <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamUpdate", "Exam", new { id = exam.Id })')"><i class="fa fa-pen"></i></a>
+
+                                            <a class="btn btn-outline-danger btn-sm" asp-controller="Exam" asp-action="ExamDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -95,6 +138,13 @@
     }
 </div>
 
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+
+        </div>
+    </div>
+</div>
 
 @section FooterJsPlugin{
     <!-- Page level plugins -->
@@ -102,4 +152,14 @@
     @*<script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>*@
     <!-- Page level custom scripts -->
     @*<script src="~/js/demo/datatables-demo.js"></script>*@
+}
+
+
+@section BeginPageJs{
+    <script>
+        function modalFunction(url) {
+            $('#modalContent').load(url);
+            $('#mainModal').modal('show');
+        }
+    </script>
 }

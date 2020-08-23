@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SMS.Model
 {
-    public class TimeTable : Entity<int>
+    public class Timetable : Entity<int>
     {
         public string ClassroomName { get; set; }
 
@@ -34,6 +34,11 @@ namespace SMS.Model
         [ForeignKey("LessonTime")]
         public int LessonTimeId { get; set; }
         public LessonTime LessonTime { get; set; }
+
+
+        [ForeignKey("Semester")]
+        public int SemesterId { get; set; }
+        public Semester Semester { get; set; }
 
     }
 }

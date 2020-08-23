@@ -38,7 +38,7 @@ namespace SMS.WebUI.Controllers
         {
             SectionGradeViewModel model = new SectionGradeViewModel();
             model.GradeDTOs = gradeService.GetAll();
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult SectionAdd(SectionGradeViewModel section)
@@ -63,7 +63,7 @@ namespace SMS.WebUI.Controllers
             model.GradeDTO = gradeService.GetGrade(selectedSection.GradeId);
             model.GradeDTOs = gradeService.GetAll();
 
-            return View(model);
+            return PartialView(model);
         }
         [HttpPost]
         public IActionResult SectionUpdate(SectionGradeViewModel section)

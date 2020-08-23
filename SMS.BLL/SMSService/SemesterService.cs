@@ -11,15 +11,15 @@ using System.Text;
 
 namespace SMS.BLL.SMSService
 {
-    public class SemesterInformationService : ISemesterInformationService
+    public class SemesterService : ISemesterService
     {
         private readonly IUnitOfWork uow;
-        private IRepository<SemesterInformation> semesterRepo;
+        private IRepository<Semester> semesterRepo;
 
-        public SemesterInformationService(IUnitOfWork _uow)
+        public SemesterService(IUnitOfWork _uow)
         {
             uow = _uow;
-            semesterRepo = uow.GetRepository<SemesterInformation>();        
+            semesterRepo = uow.GetRepository<Semester>();        
         }
         public bool DeleteSemester(int id)
         {
@@ -36,26 +36,26 @@ namespace SMS.BLL.SMSService
             }
         }
 
-        public List<SemesterInformationDTO> GetAll()
+        public List<SemesterDTO> GetAll()
         {
             var semesterList = semesterRepo.GetAll().ToList();
-            return MapperFactory.CurrentMapper.Map<List<SemesterInformationDTO>>(semesterList);
+            return MapperFactory.CurrentMapper.Map<List<SemesterDTO>>(semesterList);
         }
 
-        public SemesterInformationDTO GetSemesterInfo(int id)
+        public SemesterDTO GetSemesterInfo(int id)
         {
             var selectedSemester = semesterRepo.Get(z => z.Id == id);
-            return MapperFactory.CurrentMapper.Map<SemesterInformationDTO>(selectedSemester);
+            return MapperFactory.CurrentMapper.Map<SemesterDTO>(selectedSemester);
         }
 
-        public SemesterInformationDTO NewSemester(SemesterInformationDTO semester)
+        public SemesterDTO NewSemester(SemesterDTO semester)
         {
             if (!semesterRepo.GetAll().Any(z => z.SemesterBeginning.Year == semester.SemesterBeginning.Year ))
             {
-                var newSemester = MapperFactory.CurrentMapper.Map<SemesterInformation>(semester);
+                var newSemester = MapperFactory.CurrentMapper.Map<Semester>(semester);
                 semesterRepo.Add(newSemester);
                 uow.SaveChanges();
-                return MapperFactory.CurrentMapper.Map<SemesterInformationDTO>(newSemester);
+                return MapperFactory.CurrentMapper.Map<SemesterDTO>(newSemester);
             }
             else
             {
@@ -63,13 +63,13 @@ namespace SMS.BLL.SMSService
             }
         }
 
-        public SemesterInformationDTO UpdateSemester(SemesterInformationDTO semester)
+        public SemesterDTO UpdateSemester(SemesterDTO semester)
         {
             var selectedSemester = semesterRepo.Get(z => z.Id == semester.Id);
-            selectedSemester = MapperFactory.CurrentMapper.Map<SemesterInformation>(semester);
+            selectedSemester = MapperFactory.CurrentMapper.Map<Semester>(semester);
             semesterRepo.Update(selectedSemester);
             uow.SaveChanges();
-            return MapperFactory.CurrentMapper.Map<SemesterInformationDTO>(selectedSemester);
+            return MapperFactory.CurrentMapper.Map<SemesterDTO>(selectedSemester);
 
         }
     }

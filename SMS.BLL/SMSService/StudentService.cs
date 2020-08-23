@@ -80,7 +80,7 @@ namespace SMS.BLL.SMSService
         public StudentDTO UpdateStudent(StudentDTO student)
         {
             var selectedStudent = uow.GetRepository<Student>().Get(z => z.Id == student.Id);
-            selectedStudent = MapperFactory.CurrentMapper.Map<Student>(selectedStudent);
+            selectedStudent = MapperFactory.CurrentMapper.Map<Student>(student);
             selectedStudent.Parent = MapperFactory.CurrentMapper.Map<Parent>(student.ParentDTO);
             selectedStudent.Section = MapperFactory.CurrentMapper.Map<Section>(student.SectionDTO);
 

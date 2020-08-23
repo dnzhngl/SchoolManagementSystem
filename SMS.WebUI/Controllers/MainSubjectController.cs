@@ -21,7 +21,7 @@ namespace SMS.WebUI.Controllers
         }
         public IActionResult MainSubjectAdd()
         {
-            return View(); 
+            return PartialView(); 
         }
         [HttpPost]
         public IActionResult MainSubjectAdd(MainSubjectDTO mainSubject)
@@ -37,7 +37,7 @@ namespace SMS.WebUI.Controllers
         public IActionResult MainSubjectUpdate(int id)
         {
             MainSubjectDTO selectedMainSubject = mainSubjectService.GetMainSubject(id);
-            return View(selectedMainSubject);
+            return PartialView(selectedMainSubject);
         }
         [HttpPost]
         public IActionResult MainSubjectUpdate(MainSubjectDTO mainSubject)
