@@ -1,0 +1,62 @@
+﻿@model TimetableViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Yeni Ders Ekleme Formu </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form asp-action="TimetableAdd" class="shadow-sm">
+
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Derslik</label>
+            <input type="text" class="form-control" id="" placeholder="Derslik" asp-for="TimetableViewDTO.ClassroomName">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Ders</label>
+            <select class="form-control" id="" placeholder="Ders" asp-for="TimetableViewDTO.SubjectName" asp-items="@(new SelectList(Model.SubjectDTOs, "Id", "SubjectName"))"></select>
+        </div>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Şube</label>
+            <select class="form-control" asp-for="TimetableViewDTO.SectionName" asp-items="@(new SelectList(Model.SectionDTOs, "Id","SectionName"))"></select>
+        </div>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Öğretmen</label>
+            <select class="form-control" asp-for="TimetableViewDTO.Instructor" asp-items="@(new SelectList(Model.InstructorDTOs, "Id","FirstName"))"></select>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Gün</label>
+            <select class="form-control" asp-for="TimetableViewDTO.DayName" asp-items="@(new SelectList(Model.DayDTOs, "Id","DayName"))"></select>
+        </div>
+
+        @*
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Öğretmen</label>
+            <input type="date" class="form-control" asp-for="Instructor">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Gün</label>
+            <input type="text" class="form-control" placeholder="+90" asp-for="DayName">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Ders Saati</label>
+            <input type="text" class="form-control" placeholder="" asp-for="LessonBeginTime"> -
+            <input type="text" class="form-control" placeholder="" asp-for="LessonEndTime">
+        </div>*@
+
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+
+</form>
+
+

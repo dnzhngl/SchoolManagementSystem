@@ -8,6 +8,6 @@ namespace SMS.DTO
     {
         public int Id { get; set; }
         public string DayName { get; set; }
-        public List<TimeTableDTO> TimeTableDTOs { get; set; }
+        public List<TimetableDTO> TimeTableDTOs { get; set; }
     }
 }

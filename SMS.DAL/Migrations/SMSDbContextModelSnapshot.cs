@@ -329,7 +329,7 @@ namespace SMS.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Semester");
+                    b.ToTable("Semesters");
                 });
 
             modelBuilder.Entity("SMS.Model.Student", b =>

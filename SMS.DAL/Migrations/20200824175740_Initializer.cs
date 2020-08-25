@@ -120,7 +120,7 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Semester",
+                name: "Semesters",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -130,7 +130,7 @@ namespace SMS.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Semester", x => x.Id);
+                    table.PrimaryKey("PK_Semesters", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,9 +307,9 @@ namespace SMS.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Timetables_Semester_SemesterId",
+                        name: "FK_Timetables_Semesters_SemesterId",
                         column: x => x.SemesterId,
-                        principalTable: "Semester",
+                        principalTable: "Semesters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -491,7 +491,7 @@ namespace SMS.DAL.Migrations
                 name: "LessonTimes");
 
             migrationBuilder.DropTable(
-                name: "Semester");
+                name: "Semesters");
 
             migrationBuilder.DropTable(
                 name: "ExamTypes");

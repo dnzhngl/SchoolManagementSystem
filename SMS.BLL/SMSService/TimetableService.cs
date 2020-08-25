@@ -37,20 +37,20 @@ namespace SMS.BLL.SMSService
 
         }
 
-        public List<TimeTableDTO> GetAll()
+        public List<TimetableDTO> GetAll()
         {
             var timeTableList = timeTableRepo.GetAll().ToList();
-            return MapperFactory.CurrentMapper.Map<List<TimeTableDTO>>(timeTableList);
+            return MapperFactory.CurrentMapper.Map<List<TimetableDTO>>(timeTableList);
         }
 
-        public TimeTableDTO GetTimeTable(int id)
+        public TimetableDTO GetTimeTable(int id)
         {
             var selectedTimetable = timeTableRepo.Get(z => z.Id == id);
-            return MapperFactory.CurrentMapper.Map<TimeTableDTO>(selectedTimetable);
+            return MapperFactory.CurrentMapper.Map<TimetableDTO>(selectedTimetable);
 
         }
 
-        public TimeTableDTO NewTimeTable(TimeTableDTO timeTable)
+        public TimetableDTO NewTimeTable(TimetableDTO timeTable)
         {
             if (!timeTableRepo.GetAll().Any(z => z.ClassroomName == timeTable.ClassroomName && z.DayId == timeTable.DayId && z.LessonTimeId == timeTable.LessonTimeId))
             {
@@ -58,7 +58,7 @@ namespace SMS.BLL.SMSService
                 timeTableRepo.Add(newTimetable);
                 uow.SaveChanges();
 
-                return MapperFactory.CurrentMapper.Map<TimeTableDTO>(newTimetable);
+                return MapperFactory.CurrentMapper.Map<TimetableDTO>(newTimetable);
             }
             else
             {
@@ -66,13 +66,13 @@ namespace SMS.BLL.SMSService
             }
         }
 
-        public TimeTableDTO UpdateTimeTable(TimeTableDTO timeTable)
+        public TimetableDTO UpdateTimeTable(TimetableDTO timeTable)
         {
             var selectedTimetable = timeTableRepo.Get(z => z.Id == timeTable.Id);
             selectedTimetable = MapperFactory.CurrentMapper.Map<Timetable>(timeTable);
             timeTableRepo.Update(selectedTimetable);
             uow.SaveChanges();
-            return MapperFactory.CurrentMapper.Map<TimeTableDTO>(selectedTimetable);
+            return MapperFactory.CurrentMapper.Map<TimetableDTO>(selectedTimetable);
         }
     }
 }

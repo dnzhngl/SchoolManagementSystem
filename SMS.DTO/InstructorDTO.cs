@@ -19,6 +19,6 @@ namespace SMS.DTO
         public BranchDTO BranchDTO { get; set; }
 
         public int TimeTableId { get; set; }
-        public List<TimeTableDTO> TimeTableDTOs { get; set; }
+        public List<TimetableDTO> TimeTableDTOs { get; set; }
     }
 }

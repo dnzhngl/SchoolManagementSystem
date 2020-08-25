@@ -30,9 +30,26 @@ namespace SMS.DAL
         public DbSet<AttendanceType> AttendanceTypes { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<LessonTime> LessonTimes { get; set; }
-        public DbSet<Semester> Semester { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
         public DbSet<Timetable> Timetables { get; set; }
+
+        public DbSet<TimetableView> TimetableViews { get; set; }  //DbQuery ile de yapabilirsin.
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //TimetableView'i kullanabilmek için
+            modelBuilder.Entity<TimetableView>(d =>
+            {
+                d.HasKey("Id");
+                d.ToView("View_Timetables");
+            });
+
+            //modelBuilder.Entity<TimetableView>().ToView("TimetableView");
+
+        }
     }
+
 
 
     //Normalde MVC de model klasöründe bulunan DbContext, BLL yani Class Library projesinde bulunduğu için Migration Ekleme'de "Unable to create an object of type 'SMSDbContext'. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728" böyle bir hata veriyor. Bunun önüne geçmek için aşağıdaki kod bloğunu yazmamız gerek. Burada DBContext'i nasıl başlatacığını biz belirtiyoruz.

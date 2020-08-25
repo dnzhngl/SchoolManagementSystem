@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -43,8 +44,9 @@ namespace SMS.WebUI
 
             using (var context = new SMSDbContext(optionsBuilder.Options))
             {
-                context.Database.EnsureCreated();
                 context.Database.Migrate();
+               // CreateViews(context.Database);
+                context.Database.EnsureCreated();
             }
 
 
@@ -73,7 +75,29 @@ namespace SMS.WebUI
             services.AddSingleton<ILessonTimeService, LessonTimeService>();
             services.AddSingleton<IDayService, DayService>();
             services.AddSingleton<ITimetableService, TimetableService>();
+
+            services.AddSingleton<ITimetableViewService, TimetableViewService>();
         }
+
+        #region SQL View Olusturma
+        //private static void CreateViews(DatabaseFacade db)
+        //{
+        //    InjectView(db, "TimetableVew.sql", "Timetables_View");
+        //}
+
+        //private static void InjectView(DatabaseFacade db, string sqlFileName, string viewName)
+        //{
+        //    var assembly = typeof(Program).Assembly;
+        //    var assemblyName = assembly.FullName.Substring(0, assembly.FullName.IndexOf(','));
+        //    var resource = assembly.GetManifestResourceStream($"{assemblyName}.{sqlFileName}");
+        //    var sqlQuery = new StreamReader(resource).ReadToEnd();
+        //    //we always delete the old view, in case the sql query has changed
+        //    db.ExecuteSqlRaw($"IF OBJECT_ID('{viewName}') IS NOT NULL BEGIN DROP VIEW {viewName} END");
+        //    //creating a view based on the sql query
+        //    db.ExecuteSqlRaw($"CREATE VIEW {viewName} AS {sqlQuery}");
+        //}
+
+        #endregion
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

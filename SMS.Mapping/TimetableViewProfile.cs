@@ -7,11 +7,11 @@ using System.Text;
 
 namespace SMS.Mapping
 {
-    public class TimetableProfile : ProfileBase
+    public class TimetableViewProfile : ProfileBase
     {
-        public TimetableProfile()
+        public TimetableViewProfile()
         {
-            CreateMap<Timetable, TimetableDTO>().ReverseMap();
+            CreateMap<TimetableView, TimetableViewDTO>().ReverseMap();
         }
     }
 }

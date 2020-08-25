@@ -9,10 +9,10 @@ namespace SMS.BLL.Abstract
 {
     public interface ITimetableService : IServiceBase
     {
-        List<TimeTableDTO> GetAll();
-        TimeTableDTO GetTimeTable(int id);
-        TimeTableDTO NewTimeTable(TimeTableDTO timeTable);
-        TimeTableDTO UpdateTimeTable(TimeTableDTO timeTable);
+        List<TimetableDTO> GetAll();
+        TimetableDTO GetTimeTable(int id);
+        TimetableDTO NewTimeTable(TimetableDTO timeTable);
+        TimetableDTO UpdateTimeTable(TimetableDTO timeTable);
         bool DeleteTimeTable(int id);
     }
 }

@@ -10,8 +10,8 @@ using SMS.DAL;
 namespace SMS.DAL.Migrations
 {
     [DbContext(typeof(SMSDbContext))]
-    [Migration("20200821145445_CreateTimetableView")]
-    partial class CreateTimetableView
+    [Migration("20200824175740_Initializer")]
+    partial class Initializer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -331,7 +331,7 @@ namespace SMS.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Semester");
+                    b.ToTable("Semesters");
                 });
 
             modelBuilder.Entity("SMS.Model.Student", b =>

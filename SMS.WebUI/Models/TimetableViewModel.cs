@@ -8,7 +8,8 @@ namespace SMS.WebUI.Models
 {
     public class TimetableViewModel
     {
-        public TimeTableDTO TimeTableDTO { get; set; }
+        public TimetableDTO TimeTableDTO { get; set; }
+        public TimetableViewDTO TimetableViewDTO { get; set; }
 
         public SectionDTO SectionDTO { get; set; }
         public List<SectionDTO> SectionDTOs { get; set; }

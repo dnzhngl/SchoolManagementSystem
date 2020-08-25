@@ -15,6 +15,6 @@ namespace SMS.DTO
 
         public List<ExamDTO> ExamDTOs { get; set; }
 
-        public List<TimeTableDTO> TimeTableDTOs { get; set; }
+        public List<TimetableDTO> TimeTableDTOs { get; set; }
     }
 }

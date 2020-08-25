@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SMS.DTO
 {
-    public class TimeTableDTO
+    public class TimetableDTO
     {
         public int Id { get; set; }
         public string ClassroomName { get; set; }
