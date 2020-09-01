@@ -35,6 +35,20 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Classrooms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClassroomName = table.Column<string>(nullable: true),
+                    StudentCapacity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classrooms", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Days",
                 columns: table => new
                 {
@@ -101,22 +115,17 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Parents",
+                name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    CellPhone = table.Column<string>(nullable: true),
-                    HomePhone = table.Column<string>(nullable: true),
-                    WorkPhone = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true)
+                    RoleName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Parents", x => x.Id);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -131,32 +140,6 @@ namespace SMS.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Semesters", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Instructors",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    DOB = table.Column<DateTime>(nullable: false),
-                    CellPhone = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    Duty = table.Column<string>(nullable: true),
-                    BranchId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Instructors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Instructors_Branches_BranchId",
-                        column: x => x.BranchId,
-                        principalTable: "Branches",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,7 +186,7 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
+                name: "Admins",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -213,24 +196,76 @@ namespace SMS.DAL.Migrations
                     Gender = table.Column<string>(nullable: true),
                     DOB = table.Column<DateTime>(nullable: false),
                     CellPhone = table.Column<string>(nullable: true),
-                    GraduatedFrom = table.Column<string>(nullable: true),
-                    GPA = table.Column<decimal>(nullable: false),
-                    SectionId = table.Column<int>(nullable: true),
-                    ParentId = table.Column<int>(nullable: false)
+                    Address = table.Column<string>(nullable: true),
+                    Duty = table.Column<string>(nullable: true),
+                    RoleId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Students", x => x.Id);
+                    table.PrimaryKey("PK_Admins", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Parents_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Parents",
+                        name: "FK_Admins_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Instructors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    DOB = table.Column<DateTime>(nullable: false),
+                    CellPhone = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Duty = table.Column<string>(nullable: true),
+                    BranchId = table.Column<int>(nullable: true),
+                    RoleId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Instructors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Sections_SectionId",
-                        column: x => x.SectionId,
-                        principalTable: "Sections",
+                        name: "FK_Instructors_Branches_BranchId",
+                        column: x => x.BranchId,
+                        principalTable: "Branches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Instructors_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Parents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    CellPhone = table.Column<string>(nullable: true),
+                    HomePhone = table.Column<string>(nullable: true),
+                    WorkPhone = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    RoleId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Parents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Parents_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -271,17 +306,23 @@ namespace SMS.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClassroomName = table.Column<string>(nullable: true),
                     SectionId = table.Column<int>(nullable: false),
                     SubjectId = table.Column<int>(nullable: false),
                     InstructorId = table.Column<int>(nullable: false),
                     DayId = table.Column<int>(nullable: false),
                     LessonTimeId = table.Column<int>(nullable: false),
-                    SemesterId = table.Column<int>(nullable: false)
+                    SemesterId = table.Column<int>(nullable: false),
+                    ClassroomId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Timetables", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Timetables_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
+                        principalTable: "Classrooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Timetables_Days_DayId",
                         column: x => x.DayId,
@@ -318,6 +359,46 @@ namespace SMS.DAL.Migrations
                         principalTable: "Subjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    DOB = table.Column<DateTime>(nullable: false),
+                    CellPhone = table.Column<string>(nullable: true),
+                    GraduatedFrom = table.Column<string>(nullable: true),
+                    GPA = table.Column<decimal>(nullable: false),
+                    SectionId = table.Column<int>(nullable: true),
+                    ParentId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Students_Parents_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Parents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Students_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Students_Sections_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "Sections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -376,6 +457,11 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Admins_RoleId",
+                table: "Admins",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Attendances_AttendanceTypeId",
                 table: "Attendances",
                 column: "AttendanceTypeId");
@@ -411,6 +497,16 @@ namespace SMS.DAL.Migrations
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Instructors_RoleId",
+                table: "Instructors",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Parents_RoleId",
+                table: "Parents",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sections_GradeId",
                 table: "Sections",
                 column: "GradeId");
@@ -421,6 +517,11 @@ namespace SMS.DAL.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Students_RoleId",
+                table: "Students",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_SectionId",
                 table: "Students",
                 column: "SectionId");
@@ -429,6 +530,11 @@ namespace SMS.DAL.Migrations
                 name: "IX_Subjects_MainSubjectId",
                 table: "Subjects",
                 column: "MainSubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Timetables_ClassroomId",
+                table: "Timetables",
+                column: "ClassroomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Timetables_DayId",
@@ -464,6 +570,9 @@ namespace SMS.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Admins");
+
+            migrationBuilder.DropTable(
                 name: "Attendances");
 
             migrationBuilder.DropTable(
@@ -480,6 +589,9 @@ namespace SMS.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Students");
+
+            migrationBuilder.DropTable(
+                name: "Classrooms");
 
             migrationBuilder.DropTable(
                 name: "Days");
@@ -510,6 +622,9 @@ namespace SMS.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "MainSubjects");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Grades");

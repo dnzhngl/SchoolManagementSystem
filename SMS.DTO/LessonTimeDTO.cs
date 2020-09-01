@@ -10,5 +10,8 @@ namespace SMS.DTO
         public string LessonBeginTime { get; set; }
         public string LessonEndTime { get; set; }
         public List<TimetableDTO> TimeTableDTOs { get; set; }
+
+        public string LessonPeriod { get { return String.Format("{0} - {1}", LessonBeginTime, LessonEndTime); } }
+
     }
 }

@@ -21,6 +21,10 @@
             <input type="text" class="form-control" id="" placeholder="Kayıtlı öğrenci sayısı" asp-for="SectionDTO.StudentCapacity">
         </div>
         <div class="form-group">
+            <label for="formGroupExampleInput">Kayıtlı Öğrenci Sayısı</label>
+            <input type="text" class="form-control" id="" placeholder="Kayıtlı öğrenci sayısı" asp-for="SectionDTO.NumberOfStudentsEnrolled">
+        </div>
+        <div class="form-group">
             <label for="formGroupExampleInput">Sınıf Bilgisi</label>
             <select class="form-control" asp-for="GradeDTO.Id" asp-items="@(new SelectList(Model.GradeDTOs, "Id","GradeName", Model.SectionDTO.GradeDTO))"></select>
         </div>

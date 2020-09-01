@@ -21,7 +21,7 @@
 </div>
 
 <!-- DataTables Example -->
-<div class="card shadow mt-3 col-12 col-xl-6">
+<div class="card shadow mt-3 col-12 col-xl-7">
     <div class="card-header py-3">
         <div class="row">
             <div class="col-9">
@@ -41,7 +41,8 @@
                     <tr>
                         <th>Şube Adı</th>
                         <th>Sınıfı</th>
-                        <th>Öğrenci Sayısı</th>
+                        <th>Öğrenci Kapasitesi</th>
+                        <th>Kayıtlı Öğrenci Sayısı</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -52,14 +53,19 @@
                             <td>@sectionDto.SectionName </td>
                             <td>@Model.GradeDTOs.FirstOrDefault(z => z.Id == sectionDto.GradeId).GradeName</td>
                             <td>@sectionDto.StudentCapacity</td>
+                            <td>@sectionDto.NumberOfStudentsEnrolled</td>
                             <td>
                                 <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentList" asp-route-id="@sectionDto.Id">Öğrenciler</a>
                                 <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableList" asp-route-id="@sectionDto.Id"><i class="fa fa-table"></i></a>
 
                                 <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("SectionUpdate", "Section", new { id = sectionDto.Id })')"><i class="fa fa-pen"></i></a>
 
-                                @*<a class="btn btn-outline-warning btn-sm" asp-action="SectionUpdate" asp-route-id="@sectionDto.Id"><i class="fa fa-pen"></i></a>*@
-                                <a class="btn btn-outline-danger btn-sm" asp-action="SectionDelete" asp-route-id="@sectionDto.Id" ><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-outline-danger btn-sm" asp-action="SectionDelete" asp-route-id="@sectionDto.Id"><i class="fa fa-trash"></i></a>
+
+
+                                <a class="btn btn-outline-dark btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-id="@sectionDto.Id">DersPrg.</a>
+
+
                             </td>
                         </tr>
                     }

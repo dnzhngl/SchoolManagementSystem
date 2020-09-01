@@ -19,6 +19,44 @@ namespace SMS.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("SMS.Model.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CellPhone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DOB")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Duty")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("SMS.Model.Attendance", b =>
                 {
                     b.Property<int>("Id")
@@ -75,6 +113,24 @@ namespace SMS.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Branches");
+                });
+
+            modelBuilder.Entity("SMS.Model.Classroom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClassroomName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentCapacity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Classrooms");
                 });
 
             modelBuilder.Entity("SMS.Model.Day", b =>
@@ -215,9 +271,14 @@ namespace SMS.DAL.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Instructors");
                 });
@@ -280,12 +341,35 @@ namespace SMS.DAL.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("WorkPhone")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Parents");
+                });
+
+            modelBuilder.Entity("SMS.Model.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("SMS.Model.Section", b =>
@@ -363,12 +447,17 @@ namespace SMS.DAL.Migrations
                     b.Property<int>("ParentId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SectionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("SectionId");
 
@@ -405,8 +494,8 @@ namespace SMS.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClassroomName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ClassroomId")
+                        .HasColumnType("int");
 
                     b.Property<int>("DayId")
                         .HasColumnType("int");
@@ -428,6 +517,8 @@ namespace SMS.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassroomId");
+
                     b.HasIndex("DayId");
 
                     b.HasIndex("InstructorId");
@@ -441,6 +532,13 @@ namespace SMS.DAL.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Timetables");
+                });
+
+            modelBuilder.Entity("SMS.Model.Admin", b =>
+                {
+                    b.HasOne("SMS.Model.Role", "Role")
+                        .WithMany("Admins")
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("SMS.Model.Attendance", b =>
@@ -493,6 +591,17 @@ namespace SMS.DAL.Migrations
                     b.HasOne("SMS.Model.Branch", "Branch")
                         .WithMany("Instructors")
                         .HasForeignKey("BranchId");
+
+                    b.HasOne("SMS.Model.Role", "Role")
+                        .WithMany("Instructors")
+                        .HasForeignKey("RoleId");
+                });
+
+            modelBuilder.Entity("SMS.Model.Parent", b =>
+                {
+                    b.HasOne("SMS.Model.Role", "Role")
+                        .WithMany("Parents")
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("SMS.Model.Section", b =>
@@ -510,6 +619,10 @@ namespace SMS.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SMS.Model.Role", "Role")
+                        .WithMany("Students")
+                        .HasForeignKey("RoleId");
+
                     b.HasOne("SMS.Model.Section", "Section")
                         .WithMany("Students")
                         .HasForeignKey("SectionId");
@@ -524,6 +637,12 @@ namespace SMS.DAL.Migrations
 
             modelBuilder.Entity("SMS.Model.Timetable", b =>
                 {
+                    b.HasOne("SMS.Model.Classroom", "Classroom")
+                        .WithMany("Timetables")
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SMS.Model.Day", "Day")
                         .WithMany("Timetables")
                         .HasForeignKey("DayId")

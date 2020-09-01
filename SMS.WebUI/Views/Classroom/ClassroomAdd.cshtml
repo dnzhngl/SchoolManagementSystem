@@ -1,0 +1,27 @@
+﻿@model ClassroomDTO
+
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Yeni Derslik Ekle</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form asp-action="ClassroomAdd" class="shadow-sm">
+
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="formGroupExampleInput">Derslik Adı</label>
+            <input type="text" class="form-control" id="" placeholder="Derslik Adı" asp-for="ClassroomName">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Öğrenci Kapasitesi</label>
+            <input type="text" class="form-control" id="" placeholder="Öğrenci Kapasitesi" asp-for="StudentCapacity">
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+</form>

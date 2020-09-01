@@ -48,14 +48,15 @@
                     {
                         <tr>
                             <td>@student.Id</td>
-                            <td>@*@Model.GradeDTOs.Where()*@</td>
+                            @*<td>@Model.GradeDTOs.FirstOrDefault(z => z.Id == Model.SectionDTO.*@
+                            <td></td>
                             <td>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</td>
                             <td>@student.FirstName</td>
                             <td>@student.LastName</td>
                             <td>@student.Gender</td>
                             <td></td>
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" asp-action="StudentDetails" asp-route-id="@student.Id"><i class="fa fa-search"></i></a>
+                                <a class="btn btn-outline-primary btn-sm" asp-action="RegisteredStudentDetails" asp-route-id="@student.Id"><i class="fa fa-search"></i></a>
                                 <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = student.Id})')"><i class="fa fa-pen"></i></a>
                                 @*<a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>*@
                                 <a class="btn btn-outline-danger btn-sm" asp-action="RegistrationDelete" asp-route-id="@student.Id"><i class="fa fa-trash"></i></a>

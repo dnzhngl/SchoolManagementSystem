@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TimetableViewDTO>
+﻿@model TimetableViewModel
 
 @{
     ViewData["Title"] = "ListTimetable";
@@ -19,17 +19,31 @@
     </div>
 </div>
 
+<input type="hidden" asp-for="SectionDTO.Id" />
+
 <div class="card shadow mt-3 col-12 col-xl-8">
     <div class="card-header py-3">
         <div class="row">
-            <div class="col-9">
-                <h4 class="m-0 font-weight-bold text-primary">Ders Programı Listesi</h4>
-            </div>
-            <div class="col-3">
-                <a class="btn btn-success" href="#" data-toggle="modal" data-target="mainModal" onclick="modalFunction('@Url.Action("TimetableAdd", "Timetable", "TimetableViewModel")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
-            </div>
+
+            @if (Model.SectionDTO != null)
+            {
+                <div class="col-8">
+                    <h4 class="m-0 font-weight-bold text-primary">@Model.SectionDTO.SectionName Şubesi Ders Programı Listesi </h4>
+                </div>
+                <div class="col-4">
+                    <a class="btn btn-outline-dark btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-id="@Model.SectionDTO.Id">Tablo Görünümü</a>
+                    <a class="btn btn-success" href="#" data-toggle="modal" data-target="mainModal" onclick="modalFunction('@Url.Action("TimetableAdd", "Timetable", new {sectionId = Model.SectionDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                </div>
+            }
+            else
+            {
+                <div class="col-8">
+                    <h4 class="m-0 font-weight-bold text-primary">Ders Programı Listesi</h4>
+                </div>
+            }
         </div>
     </div>
+
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
@@ -45,18 +59,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var tt in Model)
+                    @foreach (var tt in Model.TimetableViewDTOs)
                     {
                         <tr>
                             <td>@tt.ClassroomName </td>
                             <td>@tt.SubjectName</td>
                             <td>@tt.SectionName</td>
                             <td>@tt.Instructor</td>
-                            <td>@tt.LessonBeginTime - @tt.LessonEndTime</td>
+                            <td>@tt.LessonPeriod </td>
                             <td>@tt.DayName</td>
 
                             <td>
-                                <a class="btn btn-outline-warning btn-sm" data-semester-id="@tt.Id" data-toggle="modal" href="#"><i class="fa fa-pen"></i></a>
+                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("TimetableUpdate", "Timetable", new { id = tt.Id })')"><i class="fa fa-pen"></i></a>
 
                                 <a class="btn btn-outline-danger btn-sm" asp-action="TimetableDelete" asp-route-id="@tt.Id"><i class="fa fa-trash"></i></a>
                             </td>

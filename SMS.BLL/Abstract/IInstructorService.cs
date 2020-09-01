@@ -10,12 +10,13 @@ namespace SMS.BLL.Abstract
     {
         List<InstructorDTO> GetAll();
         InstructorDTO GetInstructor(int id);
-        List<InstructorDTO> GetInstructorName(string name);
+        List<InstructorDTO> GetInstructorName();
+        List<InstructorDTO> GetInstructorNameWithBranch();
         InstructorDTO NewInstructor(InstructorDTO instructor);
         InstructorDTO UpdateInstructor(InstructorDTO instructor);
         bool DeleteInstructor(int id);
 
         List<InstructorDTO> GetAllInstructorsBasedOnBranch(int branchId);
-
+        InstructorDTO GetInstructorByName(string fullName);
     }
 }

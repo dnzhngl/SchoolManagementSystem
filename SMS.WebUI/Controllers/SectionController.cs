@@ -14,10 +14,12 @@ namespace SMS.WebUI.Controllers
     {
         private readonly ISectionService sectionService;
         private readonly IGradeService gradeService;
-        public SectionController(ISectionService _sectionService, IGradeService _gradeService)
+        private readonly IStudentService studentService;
+        public SectionController(ISectionService _sectionService, IGradeService _gradeService, IStudentService _studentService)
         {
             sectionService = _sectionService;
             gradeService = _gradeService;
+            studentService = _studentService;
         }
         public IActionResult SectionList(int? id)
         {
@@ -29,6 +31,11 @@ namespace SMS.WebUI.Controllers
             else
             {
                 model.SectionDTOs = sectionService.GetAll();
+                foreach (SectionDTO section in model.SectionDTOs)
+                {
+                    section.StudentCapacity -= studentService.GetStudentBySection(section.Id).Count;
+                    section.NumberOfStudentsEnrolled += studentService.GetStudentBySection(section.Id).Count;
+                }
             }
             model.GradeDTOs = gradeService.GetAll();
             return View(model);

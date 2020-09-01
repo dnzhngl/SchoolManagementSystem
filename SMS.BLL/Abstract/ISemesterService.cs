@@ -9,9 +9,10 @@ namespace SMS.BLL.Abstract
     public interface ISemesterService : IServiceBase
     {
         List<SemesterDTO> GetAll();
-        SemesterDTO GetSemesterInfo(int id);
+        SemesterDTO GetSemester(int id);
         SemesterDTO NewSemester(SemesterDTO semester);
         SemesterDTO UpdateSemester(SemesterDTO semester);
         bool DeleteSemester(int id);
+        SemesterDTO GetCurrentSemester(DateTime time);
     }
 }

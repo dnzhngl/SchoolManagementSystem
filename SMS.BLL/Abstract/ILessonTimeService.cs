@@ -13,6 +13,7 @@ namespace SMS.BLL.Abstract
         LessonTimeDTO NewLessonTime(LessonTimeDTO lessonTime);
         LessonTimeDTO UpdateLessonTime(LessonTimeDTO lessonTime);
         bool DeleteLessonTime(int id);
+        LessonTimeDTO GetLessonTimeByPeriod(string timePeriod);
 
     }
 }

@@ -22,6 +22,9 @@ namespace SMS.DTO
         public int ParentId { get; set; }
         public ParentDTO ParentDTO { get; set; }
 
+        public Nullable<int> RoleId { get; set; }
+        public RoleDTO RoleDTO { get; set; }
+
         public List<AttendanceDTO> AttendanceDTOs { get; set; }
         public List<ExamResultDTO> ExamResultDTOs { get; set; }
     }

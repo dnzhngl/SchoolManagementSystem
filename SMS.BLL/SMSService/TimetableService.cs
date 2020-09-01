@@ -6,6 +6,7 @@ using SMS.Mapping.ConfigProfile;
 using SMS.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -15,10 +16,12 @@ namespace SMS.BLL.SMSService
     {
         private readonly IUnitOfWork uow;
         private IRepository<Timetable> timeTableRepo;
-        public TimetableService(IUnitOfWork _uow)
+        private ISemesterService semesterService;
+        public TimetableService(IUnitOfWork _uow, ISemesterService _semesterService)
         {
             uow = _uow;
             timeTableRepo = uow.GetRepository<Timetable>();
+            semesterService = _semesterService;
         }
 
         public bool DeleteTimeTable(int id)
@@ -52,9 +55,13 @@ namespace SMS.BLL.SMSService
 
         public TimetableDTO NewTimeTable(TimetableDTO timeTable)
         {
-            if (!timeTableRepo.GetAll().Any(z => z.ClassroomName == timeTable.ClassroomName && z.DayId == timeTable.DayId && z.LessonTimeId == timeTable.LessonTimeId))
+            if (!timeTableRepo.GetAll().Any(z => z.ClassroomId == timeTable.ClassroomId && z.DayId == timeTable.DayId && z.LessonTimeId == timeTable.LessonTimeId))
             {
                 Timetable newTimetable = MapperFactory.CurrentMapper.Map<Timetable>(timeTable);
+
+                newTimetable.SemesterId = 1;  //Bunu alttaki kodun yerine geçici olarak yazdın!!!
+                //newTimetable.SemesterId = semesterService.GetCurrentSemester(DateTime.Now).Id;
+
                 timeTableRepo.Add(newTimetable);
                 uow.SaveChanges();
 

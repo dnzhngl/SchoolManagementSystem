@@ -10,6 +10,10 @@ namespace SMS.WebUI.Models
     {
         public TimetableDTO TimeTableDTO { get; set; }
         public TimetableViewDTO TimetableViewDTO { get; set; }
+        public List<TimetableViewDTO> TimetableViewDTOs { get; set; }
+
+        public GradeDTO GradeDTO { get; set; }
+        public List<GradeDTO> GradeDTOs { get; set; }
 
         public SectionDTO SectionDTO { get; set; }
         public List<SectionDTO> SectionDTOs { get; set; }
@@ -26,7 +30,9 @@ namespace SMS.WebUI.Models
         public LessonTimeDTO LessonTimeDTO { get; set; }
         public List<LessonTimeDTO> LessonTimeDTOs { get; set; }
 
-        public SemesterDTO SemesterDTO { get; set; }
+        public ClassroomDTO ClassroomDTO { get; set; }
+        public List<ClassroomDTO> ClassroomDTOs { get; set; }
 
+        public SemesterDTO SemesterDTO { get; set; }
     }
 }

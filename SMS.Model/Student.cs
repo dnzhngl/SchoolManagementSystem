@@ -1,6 +1,7 @@
 ﻿using SMS.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -28,14 +29,18 @@ namespace SMS.Model
 
         [ForeignKey("Section")]
         public Nullable<int> SectionId { get; set; }
+        [DefaultValue("Not Assigned")]
         public Section Section { get; set; }
 
 
         [ForeignKey("Parent")]
-        [Required(ErrorMessage = "Veli bilgisi boş geçilemez.")]
         public int ParentId { get; set; } 
         public Parent Parent { get; set; }
 
+
+        [ForeignKey("Role")]
+        public Nullable<int> RoleId { get; set; }
+        public virtual Role Role { get; set; }
 
         public ICollection<Attendance> Attendances { get; set; }
         public ICollection<ExamResult> ExamResults { get; set; }

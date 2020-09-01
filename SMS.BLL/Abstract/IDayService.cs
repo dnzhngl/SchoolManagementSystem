@@ -11,5 +11,6 @@ namespace SMS.BLL.Abstract
     {
         List<DayDTO> GetAll();
         DayDTO GetDay(int id);
+        DayDTO GetDayByName(string dayName);
     }
 }

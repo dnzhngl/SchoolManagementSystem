@@ -65,14 +65,14 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePageSemester" aria-expanded="true" aria-controls="collapsePageSemester">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSemester" aria-expanded="true" aria-controls="collapsePageSemester">
                     <i class="fas fa-id-badge"></i>
                     <span>Dönem İşlemleri</span>
                 </a>
                 <div id="collapsePageSemester" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Dönem İşlemleri</h6>
-                        <a class="collapse-item" href="/Semester/SemesterList">Dönem Bilgileri</a>
+                        <a class="collapse-item" href="/Semester/SemesterList">Dönem Listesi</a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -84,42 +84,53 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Sınıf ve Şube İşlemleri
+                Sınıf, Şube ve Derslik İşlemleri
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageGrade" aria-expanded="true" aria-controls="collapsePageGrade">
                     <i class="fas fa-list-alt"></i>
-                    <span>Sınıf ve Şube İşlemleri</span>
+                    <span>Sınıf İşlemleri</span>
                 </a>
                 <div id="collapsePageGrade" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Sınıf İşlemleri</h6>
                         <a class="collapse-item" href="/Grade/GradeList">Sınıf Listesi</a>
-                        <a class="collapse-item" href="/Grade/GradeAdd">Sınıf Ekle</a>
-
-                        <h6 class="collapse-header">Şube İşlemleri</h6>
-                        <a class="collapse-item" href="/Section/SectionList">Şube Listesi</a>
-                        <a class="collapse-item" href="/Section/SectionAdd">Şube Ekle</a>
+                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("GradeAdd", "Grade", "GradeDTO")')">Sınıf Ekle</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            @*<li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSection" aria-expanded="true" aria-controls="collapsePageSection">
                     <i class="fas fa-list-ol"></i>
                     <span>Şube İşlemleri</span>
                 </a>
                 <div id="collapsePageSection" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Şube Bilgileri</h6>
+                        <h6 class="collapse-header">Şube İşlemleri</h6>
                         <a class="collapse-item" href="/Section/SectionList">Şube Listesi</a>
-                        <a class="collapse-item" href="/Section/SectionAdd">Şube Ekle</a>
+                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("SectionAdd", "Section", "SectionGradeViewModel")')">Şube Ekle</a>
                     </div>
                 </div>
-            </li>*@
+            </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageClassroom" aria-expanded="true" aria-controls="collapsePageClassroom">
+                    <i class="fas fa-cubes"></i>
+                    <span>Derslik İşlemleri</span>
+                </a>
+                <div id="collapsePageClassroom" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Derslik Bilgileri</h6>
+                        <a class="collapse-item" href="/Classroom/ClassroomList">Derslik Listesi</a>
+                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ClassroomAdd", "Classroom", "ClassroomDTO")')">Derslik Ekle</a>
+                    </div>
+                </div>
+            </li>
 
 
 
@@ -141,29 +152,44 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Ana Ders İşlemleri</h6>
                         <a class="collapse-item" href="/MainSubject/MainSubjectList">Ana Ders Listesi</a>
-                        <a class="collapse-item" href="/MainSubject/MainSubjectAdd">Ana Ders Ekle</a>
+                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("MainSubjectAdd", "MainSubject", "MainSubjectDTO")')">Ana Ders Ekle</a>
 
                         <h6 class="collapse-header">Alt Ders İşlemleri</h6>
                         <a class="collapse-item" href="/Subject/SubjectList">Alt Ders Listesi</a>
-                        <a class="collapse-item" href="/Subject/SubjectAdd">Alt Ders Ekle</a>
+                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("SubjectAdd", "Subject", "SubjectDetailViewModel")')">Alt Ders Ekle</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            @*<li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubject" aria-expanded="true" aria-controls="collapseSubject">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTimetable" aria-expanded="true" aria-controls="collapseTimetable">
                     <i class="fas fa-book-reader"></i>
-                    <span>Alt Ders İşlemleri</span>
+                    <span>Ders Programları</span>
                 </a>
-                <div id="collapseSubject" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTimetable" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Alt Ders Bilgileri</h6>
-                        <a class="collapse-item" href="/Subject/SubjectList">Ders Listesi</a>
-                        <a class="collapse-item" href="/Subject/SubjectAdd">Ders Ekle</a>
+                        <h6 class="collapse-header">Ders Programları</h6>
+                        <a class="collapse-item" href="/Timetable/TimetableIndex">Ders Programı Listesi</a>
+                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("TimetableAdd", "Timetable", "TimetableViewModel")')">Ders Programı Ekle</a>
                     </div>
                 </div>
-            </li>*@
+            </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseExam" aria-expanded="true" aria-controls="collapseExam">
+                    <i class="fas fa-subscript"></i>
+                    <span>Sınav İşlemleri</span>
+                </a>
+                <div id="collapseExam" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Sınav İşlemleri</h6>
+                        <a class="collapse-item" href="/Exam/ExamList">Sınav Listesi</a>
+                        <a class="collapse-item" href="/Exam/ExamAdd">Sınav Ekle</a>
+                    </div>
+                </div>
+            </li>
 
 
             <!-- Divider -->
@@ -178,36 +204,32 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageOgretmen" aria-expanded="true" aria-controls="collapsePageOgretmen">
                     <i class="fas fa-user-circle"></i>
-                    <span>Öğretmen ve Branşlar</span>
+                    <span>Öğretmen İşlemleri</span>
                 </a>
                 <div id="collapsePageOgretmen" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Öğretmen İşlemleri</h6>
                         <a class="collapse-item" href="/Instructor/InstructorList">Öğretmen Listesi</a>
-                        <a class="collapse-item" href="/Instructor/InstructorAdd">Öğretmen Ekle</a>
-
-                        <h6 class="collapse-header">Branş İşlemleri</h6>
-                        <a class="collapse-item" href="/Branch/BranchList">Branş Listesi</a>
-                        <a class="collapse-item" href="/Branch/BranchAdd">Branş Ekle</a>
+                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("InstructorAdd", "Instructor", "InstructorBranchViewModel")')">Öğretmen Ekle</a>
                     </div>
                 </div>
 
             </li>
 
             <!--Branches-->
-            @*<li class="nav-item">
-                <a class="nav-link collapsed" href="/Branch/BranchList" data-toggle="collapse" data-target="#collapsePageBranch" aria-expanded="true" aria-controls="collapsePageBranch">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageBranch" aria-expanded="true" aria-controls="collapsePageBranch">
                     <i class="fas fa-code-branch"></i>
                     <span>Branş İşlemleri</span>
                 </a>
                 <div id="collapsePageBranch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Branş Bilgileri</h6>
+                        <h6 class="collapse-header">Branş İşlemleri</h6>
                         <a class="collapse-item" href="/Branch/BranchList">Branş Listesi</a>
-                        <a class="collapse-item" href="/Branch/BranchAdd">Branş Ekle</a>
+                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("BranchAdd", "Branch", "BranchDTO")')">Branş Ekle</a>
                     </div>
                 </div>
-            </li>*@
+            </li>
 
 
 
@@ -221,7 +243,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePageRegistration" aria-expanded="true" aria-controls="collapsePageRegistration">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageRegistration" aria-expanded="true" aria-controls="collapsePageRegistration">
                     <i class="fas fa-id-badge"></i>
                     <span>Kayıt İşlemleri</span>
                 </a>
@@ -246,15 +268,14 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
 
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePageOgrenci" aria-expanded="true" aria-controls="collapsePageOgrenci">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageOgrenci" aria-expanded="true" aria-controls="collapsePageOgrenci">
                     <i class="fas fa-book-open"></i>
                     <span>Öğrenci İşlemleri</span>
                 </a>
                 <div id="collapsePageOgrenci" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-header">Öğrenci Listesi</a>
-                        <a class="collapse-item" href="#">Sınıflara Göre Liste</a>
-                        <a class="collapse-item" href="/Student/StudentList">Şubelere Göre Liste</a>
+                        <a class="collapse-item" href="/Student/StudentList">Tüm Öğrenciler</a>
 
                         <div class="collapse-divider"></div>
 
@@ -273,7 +294,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePageVeli" aria-expanded="true" aria-controls="collapsePageVeli">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageVeli" aria-expanded="true" aria-controls="collapsePageVeli">
                     <i class="fas fa-users"></i>
                     <span>Veli İşlemleri</span>
                 </a>
@@ -515,12 +536,21 @@
         </div>
         <!-- End of Content Wrapper -->
 
+
     </div>
     <!-- End of Page Wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+    <div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content" id="modalContent">
+
+            </div>
+        </div>
+    </div>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -554,6 +584,16 @@
     @RenderSection("FooterJsPlugin", false)
 
     @RenderSection("BeginPageJS", false)
+    <script>
+        function modalFunction(url) {
+            $('#modalContent').load(url);
+            $('#mainModal').modal('show');
+        }
+
+    </script>
+
+
+
 </body>
 
 </html>

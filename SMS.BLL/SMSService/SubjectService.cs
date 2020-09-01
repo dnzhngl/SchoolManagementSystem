@@ -55,6 +55,12 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<List<SubjectDTO>>(subjectList);
         }
 
+        public SubjectDTO GetSubjectByName(string subjectName)
+        {
+            var subject = subjectRepo.Get(z => z.SubjectName == subjectName);
+            return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
+        }
+
         public SubjectDTO NewSubject(SubjectDTO subject)
         {
             if (!subjectRepo.GetAll().Any(z => z.SubjectName.ToLower() == subject.SubjectName.ToLower()))

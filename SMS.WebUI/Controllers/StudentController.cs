@@ -41,6 +41,10 @@ namespace SMS.WebUI.Controllers
         {
             StudentParentViewModel model = new StudentParentViewModel();
             model.StudentDTO = studentService.GetStudent(id);
+            if (model.StudentDTO.SectionId != null)
+            {
+                model.StudentDTO.SectionDTO = sectionService.GetSection((int)model.StudentDTO.SectionId);
+            }
             model.ParentDTO = parentService.GetParent((int)model.StudentDTO.ParentId);
             return View(model);
         }
@@ -49,8 +53,8 @@ namespace SMS.WebUI.Controllers
         {
             StudentParentViewModel model = new StudentParentViewModel();
             model.ParentDTO = parentService.GetParent(parentId);
-           // model.SectionDTOs = sectionService.GetAll();
- 
+            // model.SectionDTOs = sectionService.GetAll();
+
             return View(model);
         }
         [HttpPost]
@@ -81,7 +85,7 @@ namespace SMS.WebUI.Controllers
             selectedStudent.ParentId = student.ParentDTO.Id;
             selectedStudent.ParentDTO = parentService.GetParent((int)selectedStudent.ParentId);
             studentService.UpdateStudent(selectedStudent);
-            return RedirectToAction("RegisteredStudentDetails", new {id = selectedStudent.Id});
+            return RedirectToAction("RegisteredStudentDetails", new { id = selectedStudent.Id });
         }
 
         public IActionResult AssignSection(int id)
@@ -107,17 +111,25 @@ namespace SMS.WebUI.Controllers
         {
             // id for Section
             StudentDetailsViewModel model = new StudentDetailsViewModel();
-            
+
             if (id != null)
             {
                 model.StudentDTOs = studentService.GetStudentBySection((int)id);
+
+                //foreach (StudentDTO student in model.StudentDTOs)
+                //{
+                //    student.SectionDTO = sectionService.GetSection((int)student.SectionId);
+                //}
             }
             else
             {
-                model.StudentDTOs = studentService.GetAll();
+                model.StudentDTOs = studentService.GetAllStudents();
             }
             model.SectionDTOs = sectionService.GetAll();
-            model.GradeDTOs = gradeService.GetAll();
+            //foreach (SectionDTO section in model.SectionDTOs)
+            //{
+            //    section.GradeDTO = gradeService.GetGrade(section.GradeId);
+            //}
             return View(model);
         }
     }

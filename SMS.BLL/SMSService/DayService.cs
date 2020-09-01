@@ -32,5 +32,11 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<DayDTO>(selectedDay);
 
         }
+
+        public DayDTO GetDayByName(string dayName)
+        {
+            var day = dayRepo.Get(z => z.DayName == dayName);
+            return MapperFactory.CurrentMapper.Map<DayDTO>(day);
+        }
     }
 }

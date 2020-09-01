@@ -9,6 +9,8 @@ namespace SMS.BLL.Abstract
     public interface IStudentService : IServiceBase
     {
         List<StudentDTO> GetAll();
+        List<StudentDTO> GetAllStudents();
+
         StudentDTO GetStudent(int id);
         List<StudentDTO> GetStudentByParent(int parentId);
 

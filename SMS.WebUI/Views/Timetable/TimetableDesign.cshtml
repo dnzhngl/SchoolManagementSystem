@@ -1,0 +1,74 @@
+﻿@model TimetableViewModel
+
+@{
+    ViewData["Title"] = "TimetableDesign";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Ders Programı Ekle</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
+
+<input type="hidden" asp-for="SectionDTO.Id" />
+
+<div class="card shadow mt-3">
+    <div class="card-header">
+        <h4 class="font-weight-bold text-primary">@Model.SectionDTO.SectionName Şubesi Ders Programı</h4>
+    </div>
+    <div class="card-body">
+
+        <table class="table table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    @foreach (LessonTimeDTO timeDto in Model.LessonTimeDTOs)
+                    {
+                        <th>@timeDto.LessonPeriod</th>
+                    }
+                </tr>
+            </thead>
+            @foreach (DayDTO day in Model.DayDTOs)
+            {
+                <tbody>
+                    <tr>
+                        <td>@day.DayName</td>
+
+                        @foreach (LessonTimeDTO timeDTO in Model.LessonTimeDTOs)
+                        {
+                            <th>
+                                @if (Model.TimetableViewDTOs.Any(z => z.DayName == day.DayName && z.LessonPeriod == timeDTO.LessonPeriod))
+                                {
+                                    @foreach (var ttView in Model.TimetableViewDTOs)
+                                    {
+                                        @if (ttView.DayName == day.DayName && ttView.LessonPeriod == timeDTO.LessonPeriod)
+                                        {
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p class="card-title">@ttView.ClassroomName</p>
+                                                    <p class="card-title">@ttView.SubjectName</p>
+                                                    <p class="card-title">@ttView.Instructor</p>
+
+                                                    <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("TimetableUpdate", "Timetable", new { id = ttView.Id })')"><i class="fa fa-pen"></i></a>
+                                                    <a class="btn btn-outline-danger btn-sm" asp-action="TimetableDelete" asp-route-id="@ttView.Id"><i class="fa fa-trash"></i></a>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success" href="#" data-toggle="modal" data-target="mainModal" onclick="modalFunction('@Url.Action("TimetableAdd", "Timetable", new { sectionId = Model.SectionDTO.Id, dayId = day.Id, lessonPeriodId = timeDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                                }
+                            </th>
+                        }
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>

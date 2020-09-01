@@ -74,6 +74,7 @@ namespace SMS.WebUI
 
             services.AddSingleton<ILessonTimeService, LessonTimeService>();
             services.AddSingleton<IDayService, DayService>();
+            services.AddSingleton<IClassroomService, ClassroomService>();
             services.AddSingleton<ITimetableService, TimetableService>();
 
             services.AddSingleton<ITimetableViewService, TimetableViewService>();

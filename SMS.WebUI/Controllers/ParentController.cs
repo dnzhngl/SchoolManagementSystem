@@ -73,7 +73,19 @@ namespace SMS.WebUI.Controllers
         {
             StudentParentViewModel model = new StudentParentViewModel();
             model.StudentDTOs = studentService.GetStudentByParent(id);
-            model.SectionDTOs = sectionService.GetAll();
+            foreach (var student in model.StudentDTOs)
+            {
+                if (student.SectionId != null)
+                {
+                    student.SectionDTO = sectionService.GetSection((int)student.SectionId);
+                }
+                else
+                {
+                    student.SectionDTO = null;
+                }
+            } 
+
+            //model.SectionDTOs = sectionService.GetAll();
             return PartialView(model);
         }
         //ParentDetails Sayfasından ilgili öğrenciye gidebilmek için

@@ -39,7 +39,7 @@ namespace SMS.WebUI.Controllers
         }
         public IActionResult SemesterUpdate(int id)
         {
-            SemesterDTO selectedSemester = semesterService.GetSemesterInfo(id);
+            SemesterDTO selectedSemester = semesterService.GetSemester(id);
             return PartialView(selectedSemester);
         }
         [HttpPost]

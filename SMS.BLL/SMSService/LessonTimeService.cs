@@ -47,6 +47,13 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<LessonTimeDTO>(selectedLessonTime);
         }
 
+        public LessonTimeDTO GetLessonTimeByPeriod(string timePeriod)
+        {
+            var period = lessonTimeRepo.Get(z => z.LessonBeginTime + " - " + z.LessonEndTime == timePeriod);
+            return MapperFactory.CurrentMapper.Map<LessonTimeDTO>(period);
+
+        }
+
         public LessonTimeDTO NewLessonTime(LessonTimeDTO lessonTime)
         {
             if (!lessonTimeRepo.GetAll().Any(z => z.LessonBeginTime == lessonTime.LessonBeginTime && z.LessonEndTime == lessonTime.LessonEndTime))

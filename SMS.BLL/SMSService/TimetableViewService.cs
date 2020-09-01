@@ -27,7 +27,16 @@ namespace SMS.BLL.SMSService
 
         public bool DeleteTimeTable(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var selectedTt = ttViewRepo.Get(z => z.Id == id);
+                ttViewRepo.Delete(selectedTt);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public List<TimetableViewDTO> GetAll()
@@ -38,7 +47,9 @@ namespace SMS.BLL.SMSService
 
         public TimetableViewDTO GetTimeTable(int id)
         {
-            throw new NotImplementedException();
+            var selectedTt = ttViewRepo.Get(z => z.Id == id);
+            return MapperFactory.CurrentMapper.Map<TimetableViewDTO>(selectedTt);
+
         }
 
         public List<TimetableViewDTO> GetTimetableBySection(int id)
@@ -48,14 +59,29 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<List<TimetableViewDTO>>(ttList);
         }
 
-        public TimetableViewDTO NewTimeTable(TimetableViewDTO timeTable)
+        public TimetableViewDTO NewTimeTable(TimetableViewDTO timetable)
         {
-            throw new NotImplementedException();
+            if (!ttViewRepo.GetAll().Any(z => z.Instructor == timetable.Instructor && z.LessonPeriod == timetable.LessonPeriod && z.DayName == timetable.DayName))
+            {
+                TimetableView newTt = MapperFactory.CurrentMapper.Map<TimetableView>(timetable);
+                ttViewRepo.Add(newTt);
+                uow.SaveChanges();
+
+                return MapperFactory.CurrentMapper.Map<TimetableViewDTO>(newTt);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public TimetableViewDTO UpdateTimeTable(TimetableViewDTO timeTable)
         {
-            throw new NotImplementedException();
+            var selectedTimetable = ttViewRepo.Get(z => z.Id == timeTable.Id);
+            selectedTimetable = MapperFactory.CurrentMapper.Map<TimetableView>(timeTable);
+            ttViewRepo.Update(selectedTimetable);
+            uow.SaveChanges();
+            return MapperFactory.CurrentMapper.Map<TimetableViewDTO>(selectedTimetable);
         }
     }
 }

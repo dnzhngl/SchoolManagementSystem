@@ -42,7 +42,13 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<List<SemesterDTO>>(semesterList);
         }
 
-        public SemesterDTO GetSemesterInfo(int id)
+        public SemesterDTO GetCurrentSemester(DateTime time)
+        {
+            var currentSemester = semesterRepo.Get(z => z.SemesterBeginning > time && time > z.SemesterEnd);
+            return MapperFactory.CurrentMapper.Map<SemesterDTO>(currentSemester);
+        }
+
+        public SemesterDTO GetSemester(int id)
         {
             var selectedSemester = semesterRepo.Get(z => z.Id == id);
             return MapperFactory.CurrentMapper.Map<SemesterDTO>(selectedSemester);

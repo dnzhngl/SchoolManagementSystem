@@ -56,7 +56,18 @@
                             <label><strong>Şubesi : </strong></label>
                         </div>
                         <div class="col">
-                            <label>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</label>
+                            @if (student.SectionDTO != null)
+                            {
+                            <label>
+                                @student.SectionDTO.SectionName
+                            </label>
+                                }
+                                else
+                                {
+                                <label>Atanmadı</label>
+                                }
+                            
+                            @*<label>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</label>*@
                         </div>
                     </div>
                 </li>

@@ -14,6 +14,7 @@ namespace SMS.BLL.Abstract
         SubjectDTO UpdateSubject(SubjectDTO subject);
         bool DeleteSubject(int id);
         List<SubjectDTO> GetSubjectByMainSubject(int mainSubjectId);
+        SubjectDTO GetSubjectByName(string subjectName);
 
     }
 }

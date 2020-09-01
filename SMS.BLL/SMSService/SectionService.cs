@@ -58,6 +58,12 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<List<SectionDTO>>(sectionList);
         }
 
+        public SectionDTO GetSectionByName(string sectionName)
+        {
+            var section = sectionRepo.Get(z => z.SectionName == sectionName);
+            return MapperFactory.CurrentMapper.Map<SectionDTO>(section);
+        }
+
         public SectionDTO NewSection(SectionDTO section)
         {
             if (!sectionRepo.GetAll().Any(z => z.SectionName.ToLower() == section.SectionName.ToLower()))

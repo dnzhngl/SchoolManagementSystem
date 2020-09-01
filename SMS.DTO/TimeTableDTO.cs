@@ -6,9 +6,8 @@ namespace SMS.DTO
 {
     public class TimetableDTO
     {
-        public int Id { get; set; }
-        public string ClassroomName { get; set; }
 
+        public int Id { get; set; }
 
         public int SectionId { get; set; }
         public SectionDTO SectionDTO { get; set; }
@@ -27,6 +26,11 @@ namespace SMS.DTO
 
         public int SemesterId { get; set; }
         public SemesterDTO SemesterDTO { get; set; }
+
+        public int ClassroomId { get; set; }
+        public ClassroomDTO ClassroomDTO { get; set; }
+
+
 
     }
 }

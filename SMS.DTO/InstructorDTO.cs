@@ -20,5 +20,11 @@ namespace SMS.DTO
 
         public int TimeTableId { get; set; }
         public List<TimetableDTO> TimeTableDTOs { get; set; }
+
+        public Nullable<int> RoleId { get; set; }
+        public RoleDTO RoleDTO { get; set; }
+
+        public string FullName { get { return String.Format("{0} {1}", FirstName, LastName); } }
+        public string FullNameBranch { get { return String.Format("{0} {1} - {2}", FirstName, LastName, BranchDTO); } }
     }
 }

@@ -31,9 +31,14 @@ namespace SMS.DAL
         public DbSet<Day> Days { get; set; }
         public DbSet<LessonTime> LessonTimes { get; set; }
         public DbSet<Semester> Semesters { get; set; }
+        public DbSet<Classroom> Classrooms { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
         public DbSet<Timetable> Timetables { get; set; }
 
         public DbSet<TimetableView> TimetableViews { get; set; }  //DbQuery ile de yapabilirsin.
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

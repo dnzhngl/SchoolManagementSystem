@@ -8,8 +8,6 @@ namespace SMS.Model
 {
     public class Timetable : Entity<int>
     {
-        public string ClassroomName { get; set; }
-
 
         [ForeignKey("Section")]
         public int SectionId { get; set; }
@@ -39,6 +37,11 @@ namespace SMS.Model
         [ForeignKey("Semester")]
         public int SemesterId { get; set; }
         public Semester Semester { get; set; }
+
+
+        [ForeignKey("Classroom")]
+        public int ClassroomId { get; set; }
+        public Classroom Classroom { get; set; }
 
     }
 }

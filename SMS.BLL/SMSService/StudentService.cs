@@ -40,6 +40,12 @@ namespace SMS.BLL.SMSService
             var studentList = uow.GetRepository<Student>().GetAll().ToList();
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
+        
+        public List<StudentDTO> GetAllStudents()
+        {
+            var studentList = uow.GetRepository<Student>().GetAll().Where(z => z.SectionId != null).ToList();
+            return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
+        }
 
         public StudentDTO GetStudent(int id)
         {
