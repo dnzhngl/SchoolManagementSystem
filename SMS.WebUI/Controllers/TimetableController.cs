@@ -66,9 +66,6 @@ namespace SMS.WebUI.Controllers
             TimetableViewModel model = new TimetableViewModel();
 
             model.SectionDTO = sectionService.GetSection((int)id);
-
-            //model.InstructorDTOs = instructorService.GetAll();
-            //model.SubjectDTOs = subjectService.GetAll();
             model.DayDTOs = dayService.GetAll();
             model.LessonTimeDTOs = lessonTimeService.GetAll();
             model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)id);
@@ -144,11 +141,16 @@ namespace SMS.WebUI.Controllers
             TimetableViewModel model = new TimetableViewModel();
             model.TimetableViewDTO = timetableViewService.GetTimeTable(id);
             model.TimeTableDTO = timetableService.GetTimeTable(id);
+            model.TimeTableDTO.ClassroomDTO = classroomService.GetClassroom(model.TimeTableDTO.ClassroomId);
+            model.TimeTableDTO.SubjectDTO = subjectService.GetSubjectByName(model.TimetableViewDTO.SubjectName);
+            model.TimeTableDTO.InstructorDTO = instructorService.GetInstructorByName(model.TimetableViewDTO.Instructor);
+            model.TimeTableDTO.SectionDTO = sectionService.GetSectionByName(model.TimetableViewDTO.SectionName);
+            model.TimeTableDTO.DayDTO = dayService.GetDayByName(model.TimetableViewDTO.DayName);
+            model.TimeTableDTO.LessonTimeDTO = lessonTimeService.GetLessonTimeByPeriod(model.TimetableViewDTO.LessonPeriod);
 
             model.ClassroomDTOs = classroomService.GetAll();
-            //model.SectionDTOs = sectionService.GetAll();
             model.SubjectDTOs = subjectService.GetAll();
-            model.InstructorDTOs = instructorService.GetAll();
+            model.InstructorDTOs = instructorService.GetInstructorNameWithBranch();
             model.DayDTOs = dayService.GetAll();
             model.LessonTimeDTOs = lessonTimeService.GetAll();
 

@@ -13,13 +13,13 @@ namespace SMS.DTO
         public SectionDTO SectionDTO { get; set; }
 
         public int SubjectId { get; set; }
-        public SubjectDTO Subject { get; set; }
+        public SubjectDTO SubjectDTO { get; set; }
 
         public int InstructorId { get; set; }
-        public InstructorDTO Instructor { get; set; }
+        public InstructorDTO InstructorDTO { get; set; }
 
         public int DayId { get; set; }
-        public DayDTO Day { get; set; }
+        public DayDTO DayDTO { get; set; }
 
         public int LessonTimeId { get; set; }
         public LessonTimeDTO LessonTimeDTO { get; set; }

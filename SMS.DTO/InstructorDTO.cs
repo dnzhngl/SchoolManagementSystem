@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SMS.DTO
@@ -25,6 +26,6 @@ namespace SMS.DTO
         public RoleDTO RoleDTO { get; set; }
 
         public string FullName { get { return String.Format("{0} {1}", FirstName, LastName); } }
-        public string FullNameBranch { get { return String.Format("{0} {1} - {2}", FirstName, LastName, BranchDTO); } }
+        public string FullNameBranch { get { return String.Format("{0} {1} / {2}", FirstName, LastName, BranchDTO.BranchName); } }
     }
 }
