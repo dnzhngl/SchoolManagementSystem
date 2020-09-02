@@ -22,6 +22,5 @@ namespace SMS.WebUI.Controllers
         }
 
 
-
     }
 }

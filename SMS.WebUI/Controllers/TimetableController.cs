@@ -132,21 +132,25 @@ namespace SMS.WebUI.Controllers
 
         public IActionResult TimetableDelete(int id)
         {
+            var tt = timetableService.GetTimeTable(id);
             timetableService.DeleteTimeTable(id);
-            return RedirectToAction("TimetableList");
+
+            return RedirectToAction("TimetableDesign", new { id = tt.SectionId });
         }
 
-        public IActionResult TimetableUpdate(int id)
+        public IActionResult TimetableUpdate(int ttId, int dayId, int lessonPeriodId)
         {
             TimetableViewModel model = new TimetableViewModel();
-            model.TimetableViewDTO = timetableViewService.GetTimeTable(id);
-            model.TimeTableDTO = timetableService.GetTimeTable(id);
+            model.TimetableViewDTO = timetableViewService.GetTimeTable(ttId);
+            model.TimeTableDTO = timetableService.GetTimeTable(ttId);
+
+            model.TimeTableDTO.DayDTO = dayService.GetDay(dayId);
+            model.TimeTableDTO.LessonTimeDTO = lessonTimeService.GetLessonTime(lessonPeriodId);
+
             model.TimeTableDTO.ClassroomDTO = classroomService.GetClassroom(model.TimeTableDTO.ClassroomId);
             model.TimeTableDTO.SubjectDTO = subjectService.GetSubjectByName(model.TimetableViewDTO.SubjectName);
-            model.TimeTableDTO.InstructorDTO = instructorService.GetInstructorByName(model.TimetableViewDTO.Instructor);
+            model.TimeTableDTO.InstructorDTO = instructorService.GetInstructorNameWithBranch().FirstOrDefault( z=> z.Id == model.TimeTableDTO.InstructorId);
             model.TimeTableDTO.SectionDTO = sectionService.GetSectionByName(model.TimetableViewDTO.SectionName);
-            model.TimeTableDTO.DayDTO = dayService.GetDayByName(model.TimetableViewDTO.DayName);
-            model.TimeTableDTO.LessonTimeDTO = lessonTimeService.GetLessonTimeByPeriod(model.TimetableViewDTO.LessonPeriod);
 
             model.ClassroomDTOs = classroomService.GetAll();
             model.SubjectDTOs = subjectService.GetAll();

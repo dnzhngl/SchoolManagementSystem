@@ -1,4 +1,5 @@
 ﻿using SMS.BLL.Abstract;
+using SMS.Core.Data.Repositories;
 using SMS.Core.Data.UnitOfWork;
 using SMS.DTO;
 using SMS.Mapping.ConfigProfile;
@@ -13,17 +14,22 @@ namespace SMS.BLL.SMSService
     public class ParentService : IParentService
     {
         private readonly IUnitOfWork uow;
+        private IRepository<Parent> parentRepo;
+        private IRepository<Role> roleRepo;
+
         public ParentService(IUnitOfWork _uow)
         {
             uow = _uow;
+            roleRepo = uow.GetRepository<Role>();
+            parentRepo = uow.GetRepository<Parent>();
         }
 
         public bool DeleteParent(int id)
         {
             try
             {
-                var selectedParent = uow.GetRepository<Parent>().Get(z => z.Id == id);
-                uow.GetRepository<Parent>().Delete(selectedParent);
+                var selectedParent = parentRepo.Get(z => z.Id == id);
+                parentRepo.Delete(selectedParent);
                 uow.SaveChanges();
                 return true;
 
@@ -36,13 +42,13 @@ namespace SMS.BLL.SMSService
 
         public List<ParentDTO> GetAll()
         {
-            var parentList = uow.GetRepository<Parent>().GetAll().ToList();
+            var parentList = parentRepo.GetAll().ToList();
             return MapperFactory.CurrentMapper.Map<List<ParentDTO>>(parentList);
         }
 
         public ParentDTO GetParent(int id)
         {
-            var selectedParent = uow.GetRepository<Parent>().Get(z => z.Id == id);
+            var selectedParent = parentRepo.Get(z => z.Id == id);
             return MapperFactory.CurrentMapper.Map<ParentDTO>(selectedParent);
         }
 
@@ -54,16 +60,18 @@ namespace SMS.BLL.SMSService
         public ParentDTO NewParent(ParentDTO parent)
         {
             var newParent = MapperFactory.CurrentMapper.Map<Parent>(parent);
-            uow.GetRepository<Parent>().Add(newParent);
+            newParent.RoleId = roleRepo.Get(z => z.RoleName.Contains("Veli")).Id;
+
+            parentRepo.Add(newParent);
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<ParentDTO>(newParent);
         }
 
         public ParentDTO UpdateParent(ParentDTO parent)
         {
-            var selectedParent = uow.GetRepository<Parent>().Get(z => z.Id == parent.Id);
+            var selectedParent = parentRepo.Get(z => z.Id == parent.Id);
             selectedParent = MapperFactory.CurrentMapper.Map<Parent>(parent);
-            uow.GetRepository<Parent>().Update(selectedParent);
+            parentRepo.Update(selectedParent);
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<ParentDTO>(selectedParent);
         }

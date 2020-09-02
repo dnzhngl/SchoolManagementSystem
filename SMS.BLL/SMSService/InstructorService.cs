@@ -17,12 +17,15 @@ namespace SMS.BLL.SMSService
         private readonly IUnitOfWork uow;
         private IRepository<Instructor> instructorRepo;
         private IRepository<Branch> branchRepo;
+        private IRepository<Role> roleRepo;
+
 
         public InstructorService(IUnitOfWork _uow)
         {
             uow = _uow;
             instructorRepo = uow.GetRepository<Instructor>();
             branchRepo = uow.GetRepository<Branch>();
+            roleRepo = uow.GetRepository<Role>();
         }
 
         public bool DeleteInstructor(int id)
@@ -72,6 +75,7 @@ namespace SMS.BLL.SMSService
 
             var newInstructor = MapperFactory.CurrentMapper.Map<Instructor>(instructor);
             newInstructor.BranchId = instructor.BranchId; //
+            newInstructor.RoleId = roleRepo.Get(z => z.RoleName.Contains("Öğretmen")).Id;
             newInstructor = instructorRepo.Add(newInstructor);
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<InstructorDTO>(newInstructor);
