@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,7 +11,7 @@ using SMS.BLL.SMSService;
 using SMS.Core.Data.UnitOfWork;
 using SMS.DAL;
 using SMS.Mapping.ConfigProfile;
-using SMS.Model;
+using SMS.WebUI.CustomHandler;
 
 namespace SMS.WebUI
 {
@@ -49,6 +44,27 @@ namespace SMS.WebUI
                 context.Database.EnsureCreated();
             }
 
+            #region Authorization
+            services.AddAuthentication("CookieAuthentication").AddCookie("CookieAuthentication", config =>
+            {
+                config.Cookie.Name = "UserLoginCookie";
+                config.LoginPath = "/Login";
+                config.AccessDeniedPath = "/AccessDenied";
+            });
+
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("UserPolicy", policyBuilder =>
+                {
+                    policyBuilder.UserRequireCustomClaim(ClaimTypes.Name);
+                });
+            });
+
+            services.AddScoped<IAuthorizationHandler, PoliciesAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, RolesAuthorizationHandler>();
+            #endregion
+
+
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IInstructorService, InstructorService>();
             services.AddSingleton<IBranchService, BranchService>();
@@ -79,6 +95,8 @@ namespace SMS.WebUI
             services.AddSingleton<ITimetableViewService, TimetableViewService>();
 
             services.AddSingleton<IRoleService, RoleService>();
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IAdminService, AdminService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,10 +114,21 @@ namespace SMS.WebUI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Login",
+                    pattern: "Login",
+                    defaults: new { controller = "Login", action = "UserLogin" });
+
+                endpoints.MapControllerRoute(
+                     name: "Logout",
+                     pattern: "Logout",
+                     defaults: new { controller = "Login", action = "Logout" });
+
 
 
                 endpoints.MapControllerRoute(

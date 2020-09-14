@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SMS.BLL.Abstract;
 using SMS.WebUI.Models;
 
 namespace SMS.WebUI.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IStudentService studentService;
 
-        public HomeController(ILogger<HomeController> logger,IStudentService _studentService)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            studentService = _studentService;
         }
 
         public IActionResult Index()
         {
-            return View(studentService.GetAll());
+            return View();
         }
 
         public IActionResult Privacy()

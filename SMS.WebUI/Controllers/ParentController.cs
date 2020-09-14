@@ -16,12 +16,14 @@ namespace SMS.WebUI.Controllers
         private readonly IParentService parentService;
         private readonly IStudentService studentService;
         private readonly ISectionService sectionService;
+        private readonly IUserService userService;
 
-        public ParentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService)
+        public ParentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService, IUserService _userService)
         {
             studentService = _studentService;
             parentService = _parentService;
             sectionService = _sectionService;
+            userService = _userService;
         }
         public IActionResult ParentList()
         {
@@ -40,15 +42,21 @@ namespace SMS.WebUI.Controllers
         public IActionResult ParentAdd(StudentParentViewModel parent)
         {
             ParentDTO newParent = parent.ParentDTO;
+
+            UserDTO newUser = userService.NewUser(newParent.IdentityNumber, "Veli");
+            newParent.UserId = newUser.Id;
+
             newParent = parentService.NewParent(newParent);
 
             int parentId = newParent.Id;
-
             return RedirectToAction("StudentAdd","Student", new { parentId });
         }
         
         public IActionResult ParentDelete(int id)
         {
+            int userId = (int)parentService.GetParent(id).UserId;
+            userService.DeleteUser(userId);
+
             parentService.DeleteParent(id);
             return RedirectToAction("ParentList");
         }
@@ -69,7 +77,7 @@ namespace SMS.WebUI.Controllers
             return RedirectToAction("ParentList");
         }
 
-        public IActionResult ParentDetails(int id)
+        public IActionResult ParentsStudents(int id)
         {
             StudentParentViewModel model = new StudentParentViewModel();
             model.StudentDTOs = studentService.GetStudentByParent(id);
@@ -88,12 +96,14 @@ namespace SMS.WebUI.Controllers
             //model.SectionDTOs = sectionService.GetAll();
             return PartialView(model);
         }
-        //ParentDetails Sayfasından ilgili öğrenciye gidebilmek için
-        //public IActionResult ParentDetails(StudentDTO student)
-        //{
-        //    int id = student.Id;
-        //    return RedirectToAction("StudentList", "Student", id);
-        //}
+
+        public IActionResult ParentDetails(int id)
+        {
+            StudentParentViewModel model = new StudentParentViewModel();
+            model.ParentDTO = parentService.GetParent(id);
+            model.StudentDTOs = studentService.GetStudentByParent(id);
+            return PartialView(model);
+        }
 
     }
 }

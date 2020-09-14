@@ -10,6 +10,8 @@ namespace SMS.BLL.Abstract
     {
         List<InstructorDTO> GetAll();
         InstructorDTO GetInstructor(int id);
+        InstructorDTO GetInstructoreByUserId(int id);
+        InstructorDTO GetInstructoreByUsername(string username);
         List<InstructorDTO> GetInstructorName();
         List<InstructorDTO> GetInstructorNameWithBranch();
         InstructorDTO NewInstructor(InstructorDTO instructor);

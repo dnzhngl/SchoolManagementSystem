@@ -1,7 +1,6 @@
 ﻿@model SubjectDetailViewModel
 @{
     ViewData["Title"] = "ExamList";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 @section BeginPage{
@@ -21,21 +20,30 @@
 </div>
 
 <!-- DataTables Example -->
-<div class="card shadow mt-3 col-12 col-xl-8">
+<div class="card shadow mt-3 col-12">
     <div class="card-header py-3">
         <div class="row">
-            <div class="col-9">
-                <h5 class="m-0 font-weight-bold text-primary">Sınav Listesi</h5>
-            </div>
-            <div class="col-3">
-                @*<a class="btn btn-success" asp-action="ExamAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
-                @*<a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "Exam")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
-            </div>
+            @if (Model.SubjectDTO != null)
+            {
+                <div class="col">
+                    <h5 class="m-0 font-weight-bold text-primary">@Model.SubjectDTO.SubjectName Dersi Sınav Listesi</h5>
+                </div>
+                <div class="col">
+                    <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "Exam", new { id = Model.SubjectDTO.Id })')">Sınav Ekle <i class="fa fa-plus-circle"></i></a>
+                </div>
+
+            }
+            else
+            {
+                <div class="col">
+                    <h5 class="m-0 font-weight-bold text-primary">Sınav Listesi</h5>
+                </div>
+            }
         </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-hover " id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Sınav Adı</th>

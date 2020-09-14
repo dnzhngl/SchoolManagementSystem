@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "TimetableDesign";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="card shadow">
@@ -18,7 +17,15 @@
 
 <div class="card shadow mt-3">
     <div class="card-header">
-        <h4 class="font-weight-bold text-primary">@Model.SectionDTO.SectionName Şubesi Ders Programı</h4>
+        @if (Model.SectionDTO != null)
+        {
+            <h4 class="font-weight-bold text-primary">@Model.SectionDTO.SectionName Şubesi Ders Programı</h4>
+        }
+        else if (Model.InstructorDTO != null)
+        {
+            <h4 class="font-weight-bold text-primary">@Model.InstructorDTO.FullName Ders Programı</h4>
+
+        }
     </div>
     <div class="card-body">
 
@@ -49,12 +56,17 @@
                                         {
                                             <div class="card">
                                                 <div class="card-body">
+                                                    <p class="card-title">@ttView.SectionName</p>
                                                     <p class="card-title">@ttView.ClassroomName</p>
                                                     <p class="card-title">@ttView.SubjectName</p>
                                                     <p class="card-title">@ttView.Instructor</p>
 
-                                                    <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("TimetableUpdate", "Timetable", new { ttId = ttView.Id, dayId = day.Id, lessonPeriodId = timeDTO.Id })')"><i class="fa fa-pen"></i></a>
-                                                    <a class="btn btn-outline-danger btn-sm" asp-action="TimetableDelete" asp-route-id="@ttView.Id"><i class="fa fa-trash"></i></a>
+                                                    @if (this.User.IsInRole("Admin"))
+                                                    {
+                                                        <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("TimetableUpdate", "Timetable", new { ttId = ttView.Id, dayId = day.Id, lessonPeriodId = timeDTO.Id })')"><i class="fa fa-pen"></i></a>
+                                                        <a class="btn btn-outline-danger btn-sm" asp-action="TimetableDelete" asp-route-id="@ttView.Id"><i class="fa fa-trash"></i></a>
+                                                    }
+
                                                 </div>
                                             </div>
                                         }
@@ -62,7 +74,17 @@
                                 }
                                 else
                                 {
-                                    <a class="btn btn-success" href="#" data-toggle="modal" data-target="mainModal" onclick="modalFunction('@Url.Action("TimetableAdd", "Timetable", new { sectionId = Model.SectionDTO.Id, dayId = day.Id, lessonPeriodId = timeDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                                    @if (this.User.IsInRole("Admin"))
+                                    {
+                                        if (Model.SectionDTO != null)
+                                        {
+                                            <a class="btn btn-success" href="#" data-toggle="modal" data-target="mainModal" onclick="modalFunction('@Url.Action("TimetableAdd", "Timetable", new { sectionId = Model.SectionDTO.Id, dayId = day.Id, lessonPeriodId = timeDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                                        }
+                                        @*else if (Model.InstructorDTO != null)
+                                            {
+                                                <a class="btn btn-success" href="#" data-toggle="modal" data-target="mainModal" onclick="modalFunction('@Url.Action("TimetableAdd", "Timetable", new { instructorId = Model.InstructorDTO.Id, dayId = day.Id, lessonPeriodId = timeDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                                            }*@
+                                    }
                                 }
                             </th>
                         }

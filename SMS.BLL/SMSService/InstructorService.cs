@@ -18,6 +18,7 @@ namespace SMS.BLL.SMSService
         private IRepository<Instructor> instructorRepo;
         private IRepository<Branch> branchRepo;
         private IRepository<Role> roleRepo;
+        private IRepository<User> userRepo;
 
 
         public InstructorService(IUnitOfWork _uow)
@@ -26,6 +27,7 @@ namespace SMS.BLL.SMSService
             instructorRepo = uow.GetRepository<Instructor>();
             branchRepo = uow.GetRepository<Branch>();
             roleRepo = uow.GetRepository<Role>();
+            userRepo = uow.GetRepository<User>();
         }
 
         public bool DeleteInstructor(int id)
@@ -73,14 +75,22 @@ namespace SMS.BLL.SMSService
         public InstructorDTO NewInstructor(InstructorDTO instructor)
         {
 
-            var newInstructor = MapperFactory.CurrentMapper.Map<Instructor>(instructor);
-            newInstructor.BranchId = instructor.BranchId; //
-            newInstructor.RoleId = roleRepo.Get(z => z.RoleName.Contains("Öğretmen")).Id;
-            newInstructor = instructorRepo.Add(newInstructor);
-            uow.SaveChanges();
-            return MapperFactory.CurrentMapper.Map<InstructorDTO>(newInstructor);
+            if (!instructorRepo.GetAll().Any(z => z.FirstName.ToLower() == instructor.FirstName.ToLower() && z.LastName.ToLower() == instructor.LastName.ToLower() && z.DOB == instructor.DOB))
+            {
+                var newInstructor = MapperFactory.CurrentMapper.Map<Instructor>(instructor);
+                newInstructor.BranchId = instructor.BranchId; //
+                                                              // newInstructor.RoleId = roleRepo.Get(z => z.RoleName.Contains("Öğretmen")).Id;
+                newInstructor = instructorRepo.Add(newInstructor);
 
+                uow.SaveChanges();
+                return MapperFactory.CurrentMapper.Map<InstructorDTO>(newInstructor);
+            }
+            else
+            {
+                return null;
+            }
         }
+
 
         public InstructorDTO UpdateInstructor(InstructorDTO instructor)
         {
@@ -93,7 +103,9 @@ namespace SMS.BLL.SMSService
 
         public InstructorDTO GetInstructorByName(string fullName)
         {
-            var instructor = instructorRepo.Get(z => z.FirstName + ' ' + z.LastName == fullName);
+            Instructor instructor = new Instructor();
+            instructor = instructorRepo.Get(z => z.FirstName + ' ' + z.LastName == fullName);
+  
             return MapperFactory.CurrentMapper.Map<InstructorDTO>(instructor);
         }
 
@@ -107,6 +119,19 @@ namespace SMS.BLL.SMSService
                 instructor.BranchDTO = MapperFactory.CurrentMapper.Map<BranchDTO>(branch);
             }
             return iList;
+        }
+
+        public InstructorDTO GetInstructoreByUserId(int id)
+        {
+            var instructor = instructorRepo.Get(z => z.UserId == id);
+            return MapperFactory.CurrentMapper.Map<InstructorDTO>(instructor);
+        }
+
+        public InstructorDTO GetInstructoreByUsername(string username)
+        {
+            var user = userRepo.Get(z => z.UserName == username);
+            var instructor = instructorRepo.Get(z => z.UserId == user.Id);
+            return MapperFactory.CurrentMapper.Map<InstructorDTO>(instructor);
         }
     }
 }

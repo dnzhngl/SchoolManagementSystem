@@ -7,6 +7,7 @@ namespace SMS.DTO
     public class StudentDTO
     {
         public int Id { get; set; }
+        public string IdentityNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
@@ -22,8 +23,13 @@ namespace SMS.DTO
         public int ParentId { get; set; }
         public ParentDTO ParentDTO { get; set; }
 
-        public Nullable<int> RoleId { get; set; }
-        public RoleDTO RoleDTO { get; set; }
+
+        //public Nullable<int> RoleId { get; set; }
+
+        //public RoleDTO RoleDTO { get; set; }
+
+        public Nullable<int> UserId { get; set; }
+        public UserDTO UserDTO { get; set; }
 
         public List<AttendanceDTO> AttendanceDTOs { get; set; }
         public List<ExamResultDTO> ExamResultDTOs { get; set; }

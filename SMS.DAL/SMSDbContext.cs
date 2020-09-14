@@ -34,6 +34,7 @@ namespace SMS.DAL
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public DbSet<Timetable> Timetables { get; set; }
 

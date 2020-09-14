@@ -1,7 +1,7 @@
 ﻿@model StudentParentViewModel
 @{
     ViewData["Title"] = "ParentList";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 @section BeginPage{
@@ -61,10 +61,11 @@
                             <td>@parent.Address</td>
                             <td>
                                 @*<a class=" btn-sm" asp-action="ParentDetails" asp-route-id="@parent.Id"><i class="fa fa-search"></i></a>*@
-                                <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("ParentDetails", "Parent", new { id = parent.Id })')"><i class="fa fa-search"></i></a>
+                                <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("ParentsStudents", "Parent", new { id = parent.Id })')"><i class="fa fa-graduation-cap"></i></a>
 
                             </td>
                             <td>
+                                <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("ParentDetails", "Parent", new { id = parent.Id })')"><i class="fa fa-search"></i></a>
                                 @*<a class="btn btn-outline-warning btn-sm" asp-action="ParentUpdate" asp-route-id="@parent.Id"><i class="fa fa-pen"></i></a>*@
                                 <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ParentUpdate", "Parent", new { id = parent.Id })')"><i class="fa fa-pen"></i></a>
 

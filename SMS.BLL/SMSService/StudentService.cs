@@ -17,12 +17,17 @@ namespace SMS.BLL.SMSService
     {
         private readonly IUnitOfWork uow;
         private IRepository<Student> studentRepo;
-        private IRepository<Role> roleRepo;
+
+        private IRepository<Instructor> instructorRepo;
+        private IRepository<TimetableView> timetableViewRepo;
+        private IRepository<Timetable> timetableRepo;
         public StudentService(IUnitOfWork _uow)
         {
             uow = _uow;
             studentRepo = uow.GetRepository<Student>();
-            roleRepo = uow.GetRepository<Role>();
+            instructorRepo = uow.GetRepository<Instructor>();
+            timetableViewRepo = uow.GetRepository<TimetableView>();
+            timetableRepo = uow.GetRepository<Timetable>();
         }
 
         public bool DeleteStudent(int id)
@@ -73,11 +78,10 @@ namespace SMS.BLL.SMSService
 
         public StudentDTO NewStudent(StudentDTO student)
         {
-            if (!studentRepo.GetAll().Any(z => z.FirstName.ToLower() == student.FirstName.ToLower() && z.LastName.ToLower() == student.LastName.ToLower()))  //Buraya denetleme olarak TC kimlik numarasını ekleyebilirsin. Onun için kayıt esnasında TC iste.
+            if (!studentRepo.GetAll().Any(z => z.FirstName.ToLower() == student.FirstName.ToLower() && z.LastName.ToLower() == student.LastName.ToLower() && z.DOB == student.DOB))  //Buraya denetleme olarak TC kimlik numarasını ekleyebilirsin. Onun için kayıt esnasında TC iste.
             {
-
                 var newStudent = MapperFactory.CurrentMapper.Map<Student>(student);
-                newStudent.RoleId = roleRepo.Get(z => z.RoleName.Contains("Öğrenci")).Id;
+                // newStudent.RoleId = roleRepo.Get(z => z.RoleName.Contains("Öğrenci")).Id;
                 newStudent = studentRepo.Add(newStudent);
                 uow.SaveChanges();
                 return MapperFactory.CurrentMapper.Map<StudentDTO>(newStudent);
@@ -99,6 +103,19 @@ namespace SMS.BLL.SMSService
             studentRepo.Update(selectedStudent);
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<StudentDTO>(selectedStudent);
+        }
+
+        public List<StudentDTO> GetStudentsByInstructor(int instructorId)
+        {
+            var sectionList = timetableRepo.GetAll().Where(z => z.InstructorId == instructorId).Select(z => z.SectionId);
+            List<Student> studentList = new List<Student>();
+
+            foreach (int sectionId in sectionList)
+            {
+                var sectionsStudentList = studentRepo.GetAll().Where(z => z.SectionId == sectionId).ToList();
+                studentList.AddRange(sectionsStudentList);
+            }
+            return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
     }
 }

@@ -15,33 +15,36 @@
     <div class="modal-body">
 
         @*<div class="form-group">
-                <label for="formGroupExampleInput2">Şube</label>
-                <select class="form-control" asp-for="TimetableViewDTO.SectionName" asp-items="@(new SelectList(Model.SectionDTOs, "Id","SectionName", Model.SectionDTO.SectionName))"></select>
-            </div>*@
+            <label for="formGroupExampleInput2">Şube</label>
+            <select class="form-control" asp-for="TimetableViewDTO.SectionName" asp-items="@(new SelectList(Model.SectionDTOs, "Id","SectionName", Model.SectionDTO.SectionName))"></select>
+        </div>*@
         <div class="form-group">
             <label for="formGroupExampleInput2">Şube</label>
             <input class="form-control" readonly asp-for="TimetableViewDTO.SectionName">
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">Derslik</label>
-            <select class="form-control" asp-for="TimetableViewDTO.ClassroomName" asp-items="@(new SelectList(Model.ClassroomDTOs, "Id", "ClassroomName", Model.TimeTableDTO.ClassroomDTO))"></select>
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Ders</label>
-            <select class="form-control" asp-for="TimetableViewDTO.SubjectName" asp-items="@(new SelectList(Model.SubjectDTOs, "Id", "SubjectName", Model.TimeTableDTO.SubjectDTO))"></select>
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Öğretmen</label>
-            <select class="form-control" asp-for="TimetableViewDTO.Instructor" asp-items="@(new SelectList(Model.InstructorDTOs, "Id","FullNameBranch", Model.TimeTableDTO.InstructorDTO))"></select>
-        </div>
-        <div class="form-group">
             <label for="formGroupExampleInput2">Gün</label>
-            <select class="form-control" asp-for="TimetableViewDTO.DayName" asp-items="@(new SelectList(Model.DayDTOs, "Id","DayName", Model.TimeTableDTO.DayDTO))"></select>
+            <input class="form-control" readonly asp-for="TimetableViewDTO.DayName">
+            @*<select class="form-control"  asp-for="TimetableViewDTO.DayName" asp-items="@(new SelectList(Model.DayDTOs, "Id","DayName", Model.TimeTableDTO.DayDTO))"></select>*@
         </div>
         <div class="form-group">
             <label for="formGroupExampleInput2">Ders Saati</label>
-            <select class="form-control" asp-for="TimetableViewDTO.LessonPeriod" asp-items="@(new SelectList(Model.LessonTimeDTOs, "Id", "LessonPeriod", Model.TimeTableDTO.LessonTimeDTO))"></select>
+            <input class="form-control" readonly asp-for="TimetableViewDTO.LessonPeriod">
+            @*<select class="form-control" asp-for="TimetableViewDTO.LessonPeriod" asp-items="@(new SelectList(Model.LessonTimeDTOs, "Id", "LessonPeriod", Model.TimeTableDTO.LessonTimeDTO))"></select>*@
         </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Derslik</label>
+            <select class="form-control" asp-for="TimeTableDTO.ClassroomId" asp-items="@(new SelectList(Model.ClassroomDTOs, "Id", "ClassroomName", Model.TimeTableDTO.ClassroomId))"></select>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Ders</label>
+            <select class="form-control" asp-for="TimeTableDTO.SubjectId" asp-items="@(new SelectList(Model.SubjectDTOs, "Id", "SubjectName", Model.TimeTableDTO.SubjectId))"></select>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Öğretmen</label>
+            <select class="form-control" asp-for="TimeTableDTO.InstructorId" asp-items="@(new SelectList(Model.InstructorDTOs, "Id","FullNameBranch", Model.TimeTableDTO.InstructorId))"></select>
+        </div>
+
 
     </div>
 

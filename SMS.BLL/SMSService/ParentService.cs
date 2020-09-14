@@ -59,12 +59,19 @@ namespace SMS.BLL.SMSService
 
         public ParentDTO NewParent(ParentDTO parent)
         {
-            var newParent = MapperFactory.CurrentMapper.Map<Parent>(parent);
-            newParent.RoleId = roleRepo.Get(z => z.RoleName.Contains("Veli")).Id;
+            if (!parentRepo.GetAll().Any(z => z.FirstName.ToLower() == parent.FirstName.ToLower() && z.LastName.ToLower() == parent.LastName.ToLower()))
+            {
+                var newParent = MapperFactory.CurrentMapper.Map<Parent>(parent);
+              //  newParent.RoleId = roleRepo.Get(z => z.RoleName.Contains("Veli")).Id;
 
-            parentRepo.Add(newParent);
-            uow.SaveChanges();
-            return MapperFactory.CurrentMapper.Map<ParentDTO>(newParent);
+                parentRepo.Add(newParent);
+                uow.SaveChanges();
+                return MapperFactory.CurrentMapper.Map<ParentDTO>(newParent); 
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public ParentDTO UpdateParent(ParentDTO parent)

@@ -17,13 +17,17 @@ namespace SMS.WebUI.Controllers
         private readonly IParentService parentService;
         private readonly ISectionService sectionService;
         private readonly IGradeService gradeService;
+        private readonly IUserService userService;
 
-        public StudentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService, IGradeService _gradeService)
+
+        public StudentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService, IGradeService _gradeService, IUserService _userService)
         {
             studentService = _studentService;
             parentService = _parentService;
             sectionService = _sectionService;
             gradeService = _gradeService;
+            userService = _userService;
+
         }
 
         public IActionResult RegistrationList()
@@ -34,7 +38,16 @@ namespace SMS.WebUI.Controllers
 
         public IActionResult RegistrationDelete(int id)
         {
+            var student = studentService.GetStudent(id);
+            int userId = (int)student.UserId;
+            userService.DeleteUser(userId);
+
+            var parent = parentService.GetParent(student.ParentId);
+            userService.DeleteUser((int)parent.UserId);
+            parentService.DeleteParent(student.ParentId);
+
             studentService.DeleteStudent(id);
+
             return RedirectToAction("RegistrationList");
         }
         public IActionResult RegisteredStudentDetails(int id)
@@ -62,6 +75,10 @@ namespace SMS.WebUI.Controllers
         {
             StudentDTO newStudent = student.StudentDTO;
             newStudent.ParentId = student.ParentDTO.Id;
+            userService.NewUser(newStudent.IdentityNumber, "Öğrenci");
+
+            UserDTO newUser = userService.GetUserByUsername(newStudent.IdentityNumber);
+            newStudent.UserId = newUser.Id;
 
             studentService.NewStudent(newStudent);
             return RedirectToAction("RegistrationList");
@@ -107,19 +124,19 @@ namespace SMS.WebUI.Controllers
 
             return RedirectToAction("RegistrationList");
         }
-        public IActionResult StudentList(int? id)
+        public IActionResult StudentList(int? id, string? sectionName)
         {
             // id for Section
             StudentDetailsViewModel model = new StudentDetailsViewModel();
 
             if (id != null)
             {
-                model.StudentDTOs = studentService.GetStudentBySection((int)id);
-
-                //foreach (StudentDTO student in model.StudentDTOs)
-                //{
-                //    student.SectionDTO = sectionService.GetSection((int)student.SectionId);
-                //}
+                model.StudentDTOs = studentService.GetStudentBySection((int)id);                
+            }
+            else if (sectionName != null)
+            {
+                var section = sectionService.GetSectionByName(sectionName);
+                model.StudentDTOs = studentService.GetStudentBySection(section.Id);
             }
             else
             {

@@ -1,0 +1,63 @@
+﻿@model AdminDTO
+
+
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Yönetici Bilgileri</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form asp-action="AdminUpdate" class="shadow-sm">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Yönetici Adı</label>
+            <input type="text" class="form-control" readonly placeholder="Adı" asp-for="FirstName">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Yönetici Soyadı</label>
+            <input type="text" class="form-control" readonly placeholder="Soyadı" asp-for="LastName">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Kimlik No</label>
+            <input type="text" class="form-control" readonly placeholder="Kimlik Numarası" asp-for="IdentityNumber">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Görevi</label>
+            <input type="text" class="form-control" readonly placeholder="Görevi" asp-for="Duty">
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Cinsiyeti</label>
+            <input type="text" class="form-control" readonly id="" placeholder="Cinsiyeti" asp-for="Gender">
+        </div>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Doğum Tarihi</label>
+            <input type="date" class="form-control" readonly asp-for="DOB">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Telefon Numarası</label>
+            <input type="text" class="form-control" readonly placeholder="+90" asp-for="CellPhone">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Adres Bilgisi</label>
+            <input type="text" class="form-control" readonly placeholder="" asp-for="Address">
+        </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+        <a class="btn btn-outline-warning " href="#" onclick="modalFunction('@Url.Action("AdminUpdate", "Admin", new { id = Model.Id })')"><i class="fa fa-pen"></i></a>
+    </div>
+
+</form>
+

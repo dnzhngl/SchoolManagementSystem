@@ -12,6 +12,7 @@ namespace SMS.Model
         {
             Timetables = new HashSet<Timetable>();
         }
+        public string IdentityNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
@@ -24,9 +25,12 @@ namespace SMS.Model
         public Nullable<int> BranchId { get; set; }
         public Branch Branch { get; set; }
 
-        [ForeignKey("Role")]
-        public Nullable<int> RoleId { get; set; }
-        public virtual Role Role { get; set; }
+        //[ForeignKey("Role")]
+        //public Nullable<int> RoleId { get; set; }
+        //public virtual Role Role { get; set; }
+        [ForeignKey("User")]
+        public Nullable<int> UserId { get; set; }
+        public virtual User User { get; set; }
 
         public ICollection<Timetable> Timetables { get; set; }
     }

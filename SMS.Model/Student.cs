@@ -15,6 +15,7 @@ namespace SMS.Model
             Attendances = new HashSet<Attendance>();
             ExamResults = new HashSet<ExamResult>();
         }
+        public string IdentityNumber { get; set; }
 
         //public string SchoolNumber { get; set; }
         public string FirstName { get; set; }
@@ -38,9 +39,13 @@ namespace SMS.Model
         public Parent Parent { get; set; }
 
 
-        [ForeignKey("Role")]
-        public Nullable<int> RoleId { get; set; }
-        public virtual Role Role { get; set; }
+        //[ForeignKey("Role")]
+        //public Nullable<int> RoleId { get; set; }
+        //public virtual Role Role { get; set; }
+
+        [ForeignKey("User")]
+        public Nullable<int> UserId { get; set; }
+        public virtual User User { get; set; }
 
         public ICollection<Attendance> Attendances { get; set; }
         public ICollection<ExamResult> ExamResults { get; set; }

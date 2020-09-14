@@ -1,0 +1,78 @@
+﻿@model AdminDTO
+
+
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Yönetici Bilgilerini Güncelle</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form asp-action="AdminUpdate" class="shadow-sm">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Yönetici Adı</label>
+            <input type="text" class="form-control" id="" placeholder="Adı" asp-for="FirstName">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Yönetici Soyadı</label>
+            <input type="text" class="form-control" id="" placeholder="Soyadı" asp-for="LastName">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Kimlik No</label>
+            <input type="text" class="form-control" id="" placeholder="Kimlik Numarası" asp-for="IdentityNumber">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Görevi</label>
+            <input type="text" class="form-control" id="" placeholder="Görevi" asp-for="Duty">
+        </div>
+
+        <hr />
+
+        <fieldset class="form-group">
+            <div class="row">
+                <label>Cinsiyeti </label>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Gender" id="gridRadios1" value="Erkek" checked asp-for="Gender">
+                        <label class="form-check-label" for="gridRadios1">
+                            Erkek
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Gender" id="gridRadios2" value="Kadın" asp-for="Gender">
+                        <label class="form-check-label" for="gridRadios2">
+                            Kadın
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Doğum Tarihi</label>
+            <input type="date" class="form-control" asp-for="DOB">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Telefon Numarası</label>
+            <input type="text" class="form-control" placeholder="+90" asp-for="CellPhone">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Adres Bilgisi</label>
+            <input type="text" class="form-control" placeholder="" asp-for="Address">
+        </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+
+</form>
+

@@ -1,0 +1,42 @@
+﻿@model StudentDetailsViewModel
+
+
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Devamsızlık Ekle</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form asp-action="AttendanceAdd" class="shadow-sm" method="post">
+
+    <input type="hidden" asp-for="StudentDTO.Id" />
+    <div class="modal-body">
+        @*<div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label for="formGroupExampleInput">Okul Numarası</label>
+                    <label for="formGroupExampleInput">Öğrenci Adı Soyadı</label>
+                </div>
+                <div class="col">
+                    <p>@Model.StudentDTO.Id</p>
+                    <p>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName</p>
+                </div>
+            </div>
+        </div>*@
+        <div class="form-group">
+            <label for="formGroupExampleInput">Tarih</label>
+            <input type="date" class="form-control" placeholder="0" asp-for="AttendanceDTO.DateTime" />
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Devamsızlık Durumu</label>
+            <select class="form-control" asp-for="AttendanceDTO.AttendanceTypeId" asp-items="@(new SelectList(Model.AttendanceTypeDTOs, "Id","AttendanceTypeName"))"></select>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+
+</form>

@@ -10,7 +10,7 @@ using SMS.DAL;
 namespace SMS.DAL.Migrations
 {
     [DbContext(typeof(SMSDbContext))]
-    [Migration("20200901030228_Initializer")]
+    [Migration("20200904154813_Initializer")]
     partial class Initializer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,15 +46,18 @@ namespace SMS.DAL.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdentityNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Admins");
                 });
@@ -270,17 +273,20 @@ namespace SMS.DAL.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdentityNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Instructors");
                 });
@@ -340,10 +346,13 @@ namespace SMS.DAL.Migrations
                     b.Property<string>("HomePhone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdentityNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.Property<string>("WorkPhone")
@@ -351,7 +360,7 @@ namespace SMS.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Parents");
                 });
@@ -443,25 +452,28 @@ namespace SMS.DAL.Migrations
                     b.Property<string>("GraduatedFrom")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdentityNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ParentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int?>("SectionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SectionId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
 
-                    b.HasIndex("RoleId");
-
                     b.HasIndex("SectionId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Students");
                 });
@@ -536,11 +548,40 @@ namespace SMS.DAL.Migrations
                     b.ToTable("Timetables");
                 });
 
+            modelBuilder.Entity("SMS.Model.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("FailedLogin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LoginTimeStamps")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("SMS.Model.Admin", b =>
                 {
-                    b.HasOne("SMS.Model.Role", "Role")
-                        .WithMany("Admins")
-                        .HasForeignKey("RoleId");
+                    b.HasOne("SMS.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SMS.Model.Attendance", b =>
@@ -594,16 +635,16 @@ namespace SMS.DAL.Migrations
                         .WithMany("Instructors")
                         .HasForeignKey("BranchId");
 
-                    b.HasOne("SMS.Model.Role", "Role")
-                        .WithMany("Instructors")
-                        .HasForeignKey("RoleId");
+                    b.HasOne("SMS.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SMS.Model.Parent", b =>
                 {
-                    b.HasOne("SMS.Model.Role", "Role")
-                        .WithMany("Parents")
-                        .HasForeignKey("RoleId");
+                    b.HasOne("SMS.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SMS.Model.Section", b =>
@@ -621,13 +662,13 @@ namespace SMS.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SMS.Model.Role", "Role")
-                        .WithMany("Students")
-                        .HasForeignKey("RoleId");
-
                     b.HasOne("SMS.Model.Section", "Section")
                         .WithMany("Students")
                         .HasForeignKey("SectionId");
+
+                    b.HasOne("SMS.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SMS.Model.Subject", b =>
@@ -680,6 +721,13 @@ namespace SMS.DAL.Migrations
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SMS.Model.User", b =>
+                {
+                    b.HasOne("SMS.Model.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
                 });
 #pragma warning restore 612, 618
         }

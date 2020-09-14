@@ -16,5 +16,14 @@ namespace SMS.WebUI.Models
 
         public GradeDTO GradeDTO { get; set; }
         public List<GradeDTO> GradeDTOs { get; set; }
+
+        public AttendanceDTO AttendanceDTO { get; set; }
+        public List<AttendanceDTO> AttendanceDTOs { get; set; }
+
+        public AttendanceTypeDTO AttendanceTypeDTO { get; set; }
+        public List<AttendanceTypeDTO> AttendanceTypeDTOs { get; set; }
+
+        public ExamResultDTO ExamResultDTO { get; set; }
+        public List<ExamResultDTO> ExamResultDTOs { get; set; }
     }
 }

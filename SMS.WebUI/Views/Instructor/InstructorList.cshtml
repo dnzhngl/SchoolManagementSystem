@@ -1,7 +1,7 @@
 ﻿@model InstructorBranchViewModel
 @{
     ViewData["Title"] = "InstructorList";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section BeginPage{
     <!-- Custom styles for this page -->
@@ -57,7 +57,7 @@
                             <td>@instructor.Duty</td>
                             <td>@Model.BranchDTOs.FirstOrDefault(z => z.Id == instructor.BranchId).BranchName</td>
                             <td>
-                                <a class="btn btn-outline-info btn-sm" asp-action="InstructorTimeTable" asp-route-id="@instructor.Id"><i class="fa fa-table"></i></a>
+                                <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorId="@instructor.Id"><i class="fa fa-table"></i></a>
 
                                 <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("InstructorDetails", "Instructor", new { id = instructor.Id })')"><i class="fa fa-search"></i></a>
                                 @*<a class="btn btn-outline-primary btn-sm" asp-action="InstructorDetails" asp-route-id="@instructor.Id"><i class="fa fa-search"></i></a>*@

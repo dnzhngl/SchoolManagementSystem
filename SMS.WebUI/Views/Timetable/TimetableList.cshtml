@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "ListTimetable";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 @section BeginPage{
@@ -19,13 +19,14 @@
     </div>
 </div>
 
+
 <input type="hidden" asp-for="SectionDTO.Id" />
 
 <div class="card shadow mt-3 col-12 col-xl-8">
     <div class="card-header py-3">
         <div class="row">
 
-            @if (Model.SectionDTO != null)
+            @if (this.User.IsInRole("Admin") && Model.SectionDTO != null)
             {
                 <div class="col-8">
                     <h4 class="m-0 font-weight-bold text-primary">@Model.SectionDTO.SectionName Şubesi Ders Programı Listesi </h4>
@@ -33,6 +34,15 @@
                 <div class="col-4">
                     <a class="btn btn-outline-dark btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-id="@Model.SectionDTO.Id">Tablo Görünümü</a>
                     <a class="btn btn-success" href="#" data-toggle="modal" data-target="mainModal" onclick="modalFunction('@Url.Action("TimetableAdd", "Timetable", new {sectionId = Model.SectionDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                </div>
+            }
+            else if (this.User.IsInRole("Öğretmen") && Model.InstructorDTO != null)
+            {
+                <div class="col-8">
+                    <h4 class="m-0 font-weight-bold text-primary">@Model.InstructorDTO.FullName Ders Programı </h4>
+                </div>
+                <div class="col-4">
+                    <a class="btn btn-outline-dark btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorId="@Model.InstructorDTO.Id">Tablo Görünümü</a>
                 </div>
             }
             else
@@ -70,9 +80,18 @@
                             <td>@tt.DayName</td>
 
                             <td>
-                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("TimetableUpdate", "Timetable", new { id = tt.Id })')"><i class="fa fa-pen"></i></a>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("TimetableUpdate", "Timetable", new { ttId = tt.Id })')"><i class="fa fa-pen"></i></a>
+                                    <a class="btn btn-outline-danger btn-sm" asp-action="TimetableDelete" asp-route-id="@tt.Id"><i class="fa fa-trash"></i></a>
+                                }
+                                else if (this.User.IsInRole("Öğretmen"))
+                                {
+                                    @*<a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "Exam", new { subjectName = tt.SubjectName })')"><i class="fa fa-plus-circle"></i> Sınav Ekle</a>*@
+                                    @*<a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamList", "Exam", new { subjectName = tt.SubjectName })')"><i class="fa fa-search"></i> Sınav Listesi</a>*@
+                                    <a class="btn btn-outline-primary btn-sm" asp-controller="Exam" asp-action="ExamList" asp-route-subjectName="@tt.SubjectName"><i class="fa fa-search"></i> Sınav Listesi</a>
 
-                                <a class="btn btn-outline-danger btn-sm" asp-action="TimetableDelete" asp-route-id="@tt.Id"><i class="fa fa-trash"></i></a>
+                                }
                             </td>
                         </tr>
                     }

@@ -20,7 +20,6 @@ namespace SMS.BLL.SMSService
         {
             uow = _uow;
             attendanceRepo = uow.GetRepository<Attendance>();
-
         }
 
         public bool DeleteAttendance(int id)

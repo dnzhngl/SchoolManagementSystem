@@ -1,7 +1,7 @@
 ﻿@model StudentParentViewModel
 @{
     ViewData["Title"] = "StudentDetails";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+   // Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 
@@ -47,6 +47,10 @@
                         <div class="form-group">
                             <label for="formGroupExampleInput2">Öğrenci Soyadı</label>
                             <input type="text" class="form-control" readonly id="" placeholder="Soyadı" asp-for="StudentDTO.LastName">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Kimlik No</label>
+                            <input type="text" class="form-control" readonly id="" placeholder="Kimlik Numarası" asp-for="StudentDTO.IdentityNumber">
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput2">Cinsiyeti</label>

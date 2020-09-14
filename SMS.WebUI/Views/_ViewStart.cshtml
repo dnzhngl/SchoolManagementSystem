@@ -1,3 +1,26 @@
-﻿@{
+﻿@*@{
+        Layout = "_Layout";
+}*@ 
+
+@if (this.User.IsInRole("Admin"))
+{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+else if (this.User.IsInRole("Öğretmen"))
+{
+    Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+
+}
+else if (this.User.IsInRole("Öğrenci"))
+{
     Layout = "_Layout";
 }
+else if (this.User.IsInRole("Veli"))
+{
+    Layout = "_Layout";
+}
+else
+{
+    Layout = "_Layout";
+}
+

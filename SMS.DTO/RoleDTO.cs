@@ -9,9 +9,8 @@ namespace SMS.DTO
         public int Id { get; set; }
         public string RoleName { get; set; }
         public string Description { get; set; }
-        public List<AdminDTO> Admins { get; set; }
-        public List<InstructorDTO> InstructorDTOs { get; set; }
-        public List<StudentDTO> StudentDTOs { get; set; }
-        public List<ParentDTO> ParentDTOs { get; set; }
+
+        public List<UserDTO> UserDTOs { get; set; }
+
     }
 }

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<TimetableViewDTO>
+@{
+    ViewData["Title"] = "InstructorTimetableList";
+}
+@section BeginPage{
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Ders Programı Listesi</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
+
+
+<div class="card shadow mt-3 col-12 col-xl-8">
+    <div class="card-header py-3">
+        <h4 class="m-0 font-weight-bold text-primary"> Ders Programı Listesi</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Derslik</th>
+                        <th>Ders</th>
+                        <th>Şube</th>
+                        <th>Öğretmen</th>
+                        <th>Ders Saati</th>
+                        <th>Gün</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tt in Model)
+                    {
+                        <tr>
+                            <td>@tt.ClassroomName </td>
+                            <td>@tt.SubjectName</td>
+                            <td>@tt.SectionName</td>
+                            <td>@tt.Instructor</td>
+                            <td>@tt.LessonPeriod </td>
+                            <td>@tt.DayName</td>
+
+                            <td>
+                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "Exam", new { id = tt.Id })')"><i class="fa fa-pen"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section FooterJsPlugin{
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="~/js/demo/datatables-demo.js"></script>
+}

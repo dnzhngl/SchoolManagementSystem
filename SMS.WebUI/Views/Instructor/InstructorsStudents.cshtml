@@ -1,0 +1,138 @@
+﻿@model StudentDetailsViewModel
+
+@{
+    ViewData["Title"] = "InstructorsStudents";
+    // Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+}
+
+@section BeginPage{
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800"></h1>
+<div class="card shadow">
+    <div class="card-header">
+        @if (Model.SectionDTO != null)
+        {
+            <h4>@Model.SectionDTO.SectionName Şubesi Öğrenci Listesi</h4>
+        }
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
+
+<!-- DataTales Example -->
+<div class="card shadow mt-3">
+    <div class="card-header py-3">
+        <div class="row">
+            <div class="col-9">
+                <h5 class="m-0 font-weight-bold text-primary">Öğrenci Listesi</h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Okul Numarası</th>
+                        <th>Adı</th>
+                        <th>Soyadı</th>
+                        <th>Şubesi</th>
+                        <th>Devam Durumu</th>
+                        <th>Sınav Notları</th>
+                        <th>Öğrenci Bilgisi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (StudentDTO student in Model.StudentDTOs)
+                    {
+                        <tr>
+                            <td>@student.Id</td>
+                            <td>@student.FirstName</td>
+                            <td>@student.LastName</td>
+                            <td>
+                                @if (Model.SectionDTOs != null)
+                                {
+                                    @Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName
+                                }
+                                else if (Model.SectionDTO != null)
+                                {
+                                    @Model.SectionDTO.SectionName
+                                }
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col">
+                                        @if (student.AttendanceDTOs != null)
+                                        {
+                                            @student.AttendanceDTOs.Count()
+                                        }
+                                        else
+                                        {
+                                            <p>Devamsızlık Bilgisi Girilmedi</p>
+                                        }
+                                    </div>
+                                    <div class="col">
+                                        <a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceAdd", "Attendance", new { studentId = student.Id })')"><i class="fa fa-plus-circle"></i></a>
+                                        <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceList", "Attendance", new { studentId = student.Id })')"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col">
+                                        @if (student.ExamResultDTOs != null)
+                                        {
+                                            @foreach (var mark in student.ExamResultDTOs)
+                                            {
+                                                <p>@mark.ExamMarks</p>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <p>Sınav Notu Girilmedi</p>
+                                        }
+                                    </div>
+                                    <div class="col">
+                                        <a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "ExamResult", new { studentId = student.Id })')"><i class="fa fa-plus-circle"></i></a>
+                                        <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultDetails", "ExamResult", new { studentId = student.Id })')"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="RegisteredStudentDetails" asp-route-id="@student.Id"><i class="fa fa-search"></i></a>
+                                @*<a class="btn btn-outline-primary btn-sm" asp-controller="Attendance" asp-action="AttendanceList" asp-route-id="@student.Id">Devamsızlık Bilgisi</a>*@
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+
+        </div>
+    </div>
+</div>
+@section FooterJsPlugin{
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="~/js/demo/datatables-demo.js"></script>
+}
+@section BeginPageJs{
+    <script>
+        function modalFunction(url) {
+            $('#modalContent').load(url);
+            $('#mainModal').modal('show');
+        }
+    </script>
+}

@@ -17,12 +17,14 @@ namespace SMS.BLL.SMSService
         private readonly IRepository<TimetableView> ttViewRepo;
         private IRepository<Timetable> timetableRepo;
         private IRepository<Section> sectionRepo;
+        private IRepository<Instructor> instructorRepo;
         public TimetableViewService(IUnitOfWork _uow)
         {
             uow = _uow;
             ttViewRepo = uow.GetRepository<TimetableView>();
             timetableRepo = uow.GetRepository<Timetable>();
             sectionRepo = uow.GetRepository<Section>();
+            instructorRepo = uow.GetRepository<Instructor>();
         }
 
         public bool DeleteTimeTable(int id)
@@ -52,10 +54,22 @@ namespace SMS.BLL.SMSService
 
         }
 
+        public List<TimetableViewDTO> GetTimetableGroupedByInstructor(int id)
+        {
+            var instructor = instructorRepo.Get(z => z.Id == id);
+            string instructorFullname = String.Format("{0} {1}", instructor.FirstName, instructor.LastName);
+            var ttList = ttViewRepo.GetAll().Where(z => z.Instructor == instructorFullname).ToList();
+
+            var list = ttList.GroupBy(z => new { z.SectionName, z.SubjectName, z.Instructor }).Where(z => z.Key.Instructor == instructorFullname).Select(x => new TimetableView() { SectionName = x.Key.SectionName, SubjectName = x.Key.SubjectName, Instructor = x.Key.Instructor }).ToList();
+
+            return MapperFactory.CurrentMapper.Map<List<TimetableViewDTO>>(list);
+        }
+
         public List<TimetableViewDTO> GetTimetableBySection(int id)
         {
             var sectionName = sectionRepo.Get(z => z.Id == id).SectionName;
-            var ttList = ttViewRepo.GetAll().Where(z => z.SectionName == sectionName);
+            //List<TimetableView> ttList = (List<TimetableView>)ttViewRepo.GetAll().Where(z => z.SectionName == sectionName).GroupBy(z => z.SectionName);
+            List<TimetableView> ttList = (List<TimetableView>)ttViewRepo.GetAll().Where(z => z.SectionName == sectionName).ToList();
             return MapperFactory.CurrentMapper.Map<List<TimetableViewDTO>>(ttList);
         }
 
@@ -82,6 +96,16 @@ namespace SMS.BLL.SMSService
             ttViewRepo.Update(selectedTimetable);
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<TimetableViewDTO>(selectedTimetable);
+        }
+
+        public List<TimetableViewDTO> GetTimetableByInstructor(int id)
+        {
+            var instructor = instructorRepo.Get(z => z.Id == id);
+
+            string instructorFullname = String.Format("{0} {1}", instructor.FirstName, instructor.LastName);
+            var ttList = ttViewRepo.GetAll().Where(z => z.Instructor == instructorFullname).ToList();
+
+            return MapperFactory.CurrentMapper.Map<List<TimetableViewDTO>>(ttList);
         }
     }
 }
