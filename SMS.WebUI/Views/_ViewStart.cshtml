@@ -13,11 +13,11 @@ else if (this.User.IsInRole("Öğretmen"))
 }
 else if (this.User.IsInRole("Öğrenci"))
 {
-    Layout = "_Layout";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
 else if (this.User.IsInRole("Veli"))
 {
-    Layout = "_Layout";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
 }
 else
 {

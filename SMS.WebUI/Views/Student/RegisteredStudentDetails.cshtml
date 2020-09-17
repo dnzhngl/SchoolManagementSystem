@@ -1,7 +1,7 @@
 ﻿@model StudentParentViewModel
 @{
     ViewData["Title"] = "StudentDetails";
-   // Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    // Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 
@@ -26,8 +26,12 @@
                     <div class="col">
                         <div class="row float-right">
                             <div class="form-actions">
+                                @if (this.User.IsInRole("Admin"))
+                                {
                                 <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = Model.StudentDTO.Id})')"><i class="fa fa-pen"></i></a>
                                 <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new {id = Model.StudentDTO.Id })')">Şube Ata</a>
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -114,7 +118,10 @@
                             <div class="col">
                                 <div class="row float-right">
                                     <div class="form-actions">
+                                        @if (this.User.IsInRole("Admin"))
+                                        {
                                         <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>
+                                        }
                                     </div>
                                 </div>
                             </div>

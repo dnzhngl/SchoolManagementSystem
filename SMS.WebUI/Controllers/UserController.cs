@@ -31,7 +31,7 @@ namespace SMS.WebUI.Controllers
             }
             else if (userRole.Contains("Veli"))
             {
-                return RedirectToAction("Index", "Parent", new { id = userDTO.Id });
+                return RedirectToAction("Index", "Parent", new { userId = userDTO.Id });
             }
             else if (userRole.Contains("Öğrenci"))
             {

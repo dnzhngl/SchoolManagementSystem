@@ -13,6 +13,6 @@ namespace SMS.Model
         }
         public string LessonBeginTime { get; set; }
         public string LessonEndTime { get; set; }
-        public ICollection<Timetable> Timetables { get; set; }
+        public virtual ICollection<Timetable> Timetables { get; set; }
     }
 }

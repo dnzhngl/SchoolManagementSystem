@@ -14,6 +14,7 @@ namespace SMS.Model
         {
             Attendances = new HashSet<Attendance>();
             ExamResults = new HashSet<ExamResult>();
+            Certificates = new HashSet<Certificate>();
         }
         public string IdentityNumber { get; set; }
 
@@ -26,17 +27,18 @@ namespace SMS.Model
 
         public string GraduatedFrom { get; set; } //Mezun olduğu okul
         public decimal GPA { get; set; }    //Not ortalaması
+        public bool StudentStatus { get; set; }    //İlişkisi Devam Ediyor, İlişkisi Kesildi (Öğrencilik Durumu)
 
 
         [ForeignKey("Section")]
         public Nullable<int> SectionId { get; set; }
         [DefaultValue("Not Assigned")]
-        public Section Section { get; set; }
+        public virtual Section Section { get; set; }
 
 
         [ForeignKey("Parent")]
-        public int ParentId { get; set; } 
-        public Parent Parent { get; set; }
+        public int ParentId { get; set; }
+        public virtual Parent Parent { get; set; }
 
 
         //[ForeignKey("Role")]
@@ -47,7 +49,8 @@ namespace SMS.Model
         public Nullable<int> UserId { get; set; }
         public virtual User User { get; set; }
 
-        public ICollection<Attendance> Attendances { get; set; }
-        public ICollection<ExamResult> ExamResults { get; set; }
+        public virtual ICollection<Attendance> Attendances { get; set; }
+        public virtual ICollection<ExamResult> ExamResults { get; set; }
+        public virtual ICollection<Certificate> Certificates { get; set; }
     }
 }

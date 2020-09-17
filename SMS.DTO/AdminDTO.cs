@@ -18,7 +18,5 @@ namespace SMS.DTO
 
         public Nullable<int> UserId { get; set; }
         public UserDTO UserDTO { get; set; }
-        //public int RoleId { get; set; }
-        //public RoleDTO RoleDTO { get; set; }
     }
 }

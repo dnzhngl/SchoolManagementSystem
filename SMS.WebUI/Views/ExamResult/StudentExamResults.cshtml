@@ -1,7 +1,6 @@
-﻿@model IEnumerable<ClassroomDTO>
+﻿@model StudentDetailsViewModel
 @{
-    ViewData["Title"] = "ClassroomList";
-    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "StudentExamResults";
 }
 
 @section BeginPage{
@@ -13,22 +12,25 @@
 
 <div class="card shadow">
     <div class="card-header">
-        <h4>Derslik İşlemleri</h4>
+        <h4> Sınav Sonuçları</h4>
     </div>
     <div class="card-body">
         <p></p>
     </div>
 </div>
 
-<!-- DataTables Example -->
-<div class="card shadow mt-3 col-12 col-xl-7">
+
+<!-- DataTales Example -->
+<div class="card shadow mt-3">
     <div class="card-header py-3">
         <div class="row">
             <div class="col-9">
-                <h5 class="m-0 font-weight-bold text-primary">Derslik Listesi</h5>
+                <h5 class="m-0 font-weight-bold text-primary"> @Model.StudentDTO.FirstName @Model.StudentDTO.LastName Sınav Sonuçları Listesi</h5>
             </div>
             <div class="col-3">
-                <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ClassroomAdd", "Classroom", "ClassroomDTO")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                @*<a class="btn btn-success" asp-action="InstructorAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+        <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("InstructorAdd", "Instructor", "InstructorBranchViewModel")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
+
             </div>
         </div>
     </div>
@@ -37,23 +39,26 @@
             <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Derslik Adı</th>
-                        <th>Öğrenci Kapasitesi</th>
+                        <th>Sınav</th>
+                        <th>Tarih</th>
+                        <th>Sınav Notu</th>
+                        <th>Durumu</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (ClassroomDTO classroom in Model)
+                    @foreach (ExamResultDTO examResult in Model.ExamResultDTOs)
                     {
                         <tr>
-                            <td>@classroom.ClassroomName </td>
-                            <td>@classroom.StudentCapacity </td>
+                            <td>@Model.ExamDTO.ExamName</td>
+                            <td>@Model.ExamDTO.ExamDate</td>
+                            <td>@examResult.ExamMarks</td>
+                            <td>@examResult.StudentStatus</td>
                             <td>
-                                <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableList" asp-route-classroomId="@classroom.Id"><i class="fa fa-table"></i></a>
-
-                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ClassroomUpdate", "Classroom", new { id = classroom.Id })')"><i class="fa fa-pen"></i></a>
-
-                                <a class="btn btn-outline-danger btn-sm" asp-action="ClassroomDelete" asp-route-id="@classroom.Id"><i class="fa fa-trash"></i></a>
+                                
+                                <a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultUpdate", "ExamResult", new { id = examResult.StudentId})')"><i class="fa fa-pen"></i></a>
+                                @*<a class="btn btn-outline-primary btn-sm" asp-action="InstructorDetails" asp-route-id="@instructor.Id"><i class="fa fa-search"></i></a>*@
+                                <a class="btn btn-outline-danger btn-sm" asp-action="IExamResultDelete" asp-route-id="@examResult.Id"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     }
@@ -63,7 +68,6 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content" id="modalContent">
@@ -71,7 +75,6 @@
         </div>
     </div>
 </div>
-
 
 @section FooterJsPlugin{
     <!-- Page level plugins -->

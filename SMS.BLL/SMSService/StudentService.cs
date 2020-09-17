@@ -117,5 +117,11 @@ namespace SMS.BLL.SMSService
             }
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
+
+        public StudentDTO GetStudentByUsername(string username)
+        {
+            var selectedStudent = studentRepo.Get(z => z.IdentityNumber == username);
+            return MapperFactory.CurrentMapper.Map<StudentDTO>(selectedStudent);
+        }
     }
 }

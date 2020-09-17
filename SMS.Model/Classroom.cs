@@ -13,7 +13,7 @@ namespace SMS.Model
         }
         public string ClassroomName { get; set; }
         public int StudentCapacity { get; set; }
-        public ICollection<Timetable> Timetables { get; set; }
+        public virtual ICollection<Timetable> Timetables { get; set; }
 
     }
 }

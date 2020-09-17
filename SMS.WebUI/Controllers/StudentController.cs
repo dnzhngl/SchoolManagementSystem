@@ -29,7 +29,10 @@ namespace SMS.WebUI.Controllers
             userService = _userService;
 
         }
-
+        public IActionResult Index()
+        {
+            return View();
+        }
         public IActionResult RegistrationList()
         {
             var registrationList = studentService.GetAll().Where(z => z.SectionId == null);
@@ -124,7 +127,7 @@ namespace SMS.WebUI.Controllers
 
             return RedirectToAction("RegistrationList");
         }
-        public IActionResult StudentList(int? id, string? sectionName)
+        public IActionResult StudentList(int? id, string? sectionName, string? parentUsername)
         {
             // id for Section
             StudentDetailsViewModel model = new StudentDetailsViewModel();
@@ -138,10 +141,17 @@ namespace SMS.WebUI.Controllers
                 var section = sectionService.GetSectionByName(sectionName);
                 model.StudentDTOs = studentService.GetStudentBySection(section.Id);
             }
+            else if (parentUsername != null)
+            {
+                var userId = userService.GetUserByUsername(parentUsername).Id;
+                var parent = parentService.GetParentByUserId(userId);
+                model.StudentDTOs = studentService.GetStudentByParent(parent.Id);
+            }
             else
             {
                 model.StudentDTOs = studentService.GetAllStudents();
             }
+            model.GradeDTOs = gradeService.GetAll();
             model.SectionDTOs = sectionService.GetAll();
             //foreach (SectionDTO section in model.SectionDTOs)
             //{

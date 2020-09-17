@@ -13,6 +13,6 @@ namespace SMS.Model
         }
 
         public string MainSubjectName { get; set; }
-        public ICollection<Subject> Subjects { get; set; }
+        public virtual ICollection<Subject> Subjects { get; set; }
     }
 }

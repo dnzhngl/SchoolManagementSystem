@@ -10,14 +10,18 @@
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800"></h1>
 
-<div class="card shadow">
-    <div class="card-header">
-        <h4>Sınav İşlemleri</h4>
+@if (this.User.IsInRole("Admin") & this.User.IsInRole("Öğretmen"))
+{
+    <div class="card shadow">
+        <div class="card-header">
+            <h4>Sınav İşlemleri</h4>
+        </div>
+        <div class="card-body">
+            <p></p>
+        </div>
     </div>
-    <div class="card-body">
-        <p></p>
-    </div>
-</div>
+}
+
 
 <!-- DataTables Example -->
 <div class="card shadow mt-3 col-12">
@@ -53,7 +57,6 @@
                         <th>Bitiş Saati</th>
                         <th>Sınav Türü</th>
                         <th></th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -67,9 +70,12 @@
                             <td>@exam.ExamEndTime</td>
                             <td>@Model.ExamTypeDTOs.FirstOrDefault(z => z.Id == exam.ExamTypeId).ExamTypeName</td>
                             <td>
-                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamUpdate", "Exam", new { id = exam.Id })')"><i class="fa fa-pen"></i></a>
-                                @*<a class="btn btn-outline-warning btn-sm" asp-action="ExamUpdate" asp-route-id="@exam.Id"><i class="fa fa-pen"></i></a>*@
-                                <a class="btn btn-outline-danger btn-sm" asp-action="ExamDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
+                                @if (this.User.IsInRole("Admin") & this.User.IsInRole("Öğretmen"))
+                                {
+                                    <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamUpdate", "Exam", new { id = exam.Id })')"><i class="fa fa-pen"></i></a>
+                                    @*<a class="btn btn-outline-warning btn-sm" asp-action="ExamUpdate" asp-route-id="@exam.Id"><i class="fa fa-pen"></i></a>*@
+                                    <a class="btn btn-outline-danger btn-sm" asp-action="ExamDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
+                                }
                             </td>
                         </tr>
                     }

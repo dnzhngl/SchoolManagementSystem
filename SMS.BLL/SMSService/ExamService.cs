@@ -1,6 +1,7 @@
 ﻿using SMS.BLL.Abstract;
 using SMS.Core.Data.Repositories;
 using SMS.Core.Data.UnitOfWork;
+using SMS.DAL;
 using SMS.DTO;
 using SMS.Mapping.ConfigProfile;
 using SMS.Model;
@@ -15,10 +16,12 @@ namespace SMS.BLL.SMSService
     {
         private readonly IUnitOfWork uow;
         private IRepository<Exam> examRepo;
+        private IRepository<ExamResult> examResultRepo;
         public ExamService(IUnitOfWork _uow)
         {
             uow = _uow;
             examRepo = uow.GetRepository<Exam>();
+            examResultRepo = uow.GetRepository<ExamResult>();
         }
 
         public bool DeleteExam(int id)
@@ -47,6 +50,8 @@ namespace SMS.BLL.SMSService
             var selectedExam = examRepo.Get(z => z.Id == id);
             return MapperFactory.CurrentMapper.Map<ExamDTO>(selectedExam);
         }
+
+
 
         public List<ExamDTO> GetExamBySubject(int id)
         {
@@ -78,5 +83,6 @@ namespace SMS.BLL.SMSService
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<ExamDTO>(selectedExam);
         }
+
     }
 }

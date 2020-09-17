@@ -14,6 +14,6 @@ namespace SMS.Model
         }
 
         public string BranchName { get; set; }
-        public ICollection<Instructor> Instructors { get; set; }
+        public virtual ICollection<Instructor> Instructors { get; set; }
     }
 }

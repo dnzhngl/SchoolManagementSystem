@@ -97,8 +97,10 @@
                                         }
                                     </div>
                                     <div class="col">
-                                        <a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "ExamResult", new { studentId = student.Id })')"><i class="fa fa-plus-circle"></i></a>
-                                        <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultDetails", "ExamResult", new { studentId = student.Id })')"><i class="fa fa-search"></i></a>
+                                        <a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultAdd", "ExamResult", new { studentId = student.Id })')"><i class="fa fa-plus-circle"></i></a>
+
+                                        @*<a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("StudentExamResults", "ExamResult", new { studentId = student.Id })')"><i class="fa fa-plus-circle"></i></a>*@
+                                        <a class="btn btn-outline-primary btn-sm" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
                             </td>

@@ -12,6 +12,6 @@ namespace SMS.Model
             Timetables = new HashSet<Timetable>();
         }
         public string DayName { get; set; }
-        public ICollection<Timetable> Timetables { get; set; }
+        public virtual ICollection<Timetable> Timetables { get; set; }
     }
 }

@@ -25,5 +25,8 @@ namespace SMS.WebUI.Models
 
         public ExamResultDTO ExamResultDTO { get; set; }
         public List<ExamResultDTO> ExamResultDTOs { get; set; }
+        
+        public ExamDTO ExamDTO { get; set; }
+        public List<ExamDTO> ExamDTOs { get; set; }
     }
 }

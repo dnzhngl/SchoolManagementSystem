@@ -13,6 +13,6 @@ namespace SMS.Model
             Sections = new HashSet<Section>();
         }
         public string GradeName { get; set; }
-        public ICollection<Section> Sections { get; set; }
+        public virtual ICollection<Section> Sections { get; set; }
     }
 }

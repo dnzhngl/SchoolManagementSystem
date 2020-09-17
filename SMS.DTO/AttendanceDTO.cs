@@ -14,6 +14,5 @@ namespace SMS.DTO
 
         public int AttendanceTypeId { get; set; }
         public AttendanceTypeDTO AttendanceTypeDTO { get; set; }
-
     }
 }

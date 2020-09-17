@@ -13,6 +13,7 @@ namespace SMS.BLL.Abstract
         List<TimetableViewDTO> GetTimetableBySection(int id);
         List<TimetableViewDTO> GetTimetableGroupedByInstructor(int id);
         List<TimetableViewDTO> GetTimetableByInstructor(int id);
+        List<TimetableViewDTO> GetTimetableByClassroom(int id);
         TimetableViewDTO NewTimeTable(TimetableViewDTO timeTable);
         TimetableViewDTO UpdateTimeTable(TimetableViewDTO timeTable);
         bool DeleteTimeTable(int id);

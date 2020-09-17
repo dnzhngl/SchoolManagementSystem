@@ -18,6 +18,7 @@ namespace SMS.BLL.SMSService
         private IRepository<Timetable> timetableRepo;
         private IRepository<Section> sectionRepo;
         private IRepository<Instructor> instructorRepo;
+        private IRepository<Classroom> classroomRepo;
         public TimetableViewService(IUnitOfWork _uow)
         {
             uow = _uow;
@@ -25,6 +26,7 @@ namespace SMS.BLL.SMSService
             timetableRepo = uow.GetRepository<Timetable>();
             sectionRepo = uow.GetRepository<Section>();
             instructorRepo = uow.GetRepository<Instructor>();
+            classroomRepo = uow.GetRepository<Classroom>();
         }
 
         public bool DeleteTimeTable(int id)
@@ -107,5 +109,13 @@ namespace SMS.BLL.SMSService
 
             return MapperFactory.CurrentMapper.Map<List<TimetableViewDTO>>(ttList);
         }
+
+        public List<TimetableViewDTO> GetTimetableByClassroom(int id)
+        {
+            var classroom = classroomRepo.Get(z => z.Id == id);
+            var classroomTimetable = ttViewRepo.GetAll().Where(z => z.ClassroomName == classroom.ClassroomName).ToList();
+            return MapperFactory.CurrentMapper.Map<List<TimetableViewDTO>>(classroomTimetable);
+        }
+
     }
 }

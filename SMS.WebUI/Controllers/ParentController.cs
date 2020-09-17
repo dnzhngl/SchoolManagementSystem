@@ -25,6 +25,23 @@ namespace SMS.WebUI.Controllers
             sectionService = _sectionService;
             userService = _userService;
         }
+        public IActionResult Index(int? userId, string? userName)
+        {
+            StudentParentViewModel model = new StudentParentViewModel();
+            if (userId != null)
+            {
+                model.ParentDTO = parentService.GetParentByUserId((int)userId);
+                model.StudentDTOs = studentService.GetStudentByParent((int)model.ParentDTO.Id);
+            }
+            else if (userName != null)
+            {
+                var parentUserId = userService.GetUserByUsername(userName).Id;
+                model.ParentDTO = parentService.GetParentByUserId(parentUserId);
+                model.StudentDTOs = studentService.GetStudentByParent((int)model.ParentDTO.Id);
+            }
+
+            return View(model);
+        }
         public IActionResult ParentList()
         {
             StudentParentViewModel model = new StudentParentViewModel();
@@ -49,9 +66,9 @@ namespace SMS.WebUI.Controllers
             newParent = parentService.NewParent(newParent);
 
             int parentId = newParent.Id;
-            return RedirectToAction("StudentAdd","Student", new { parentId });
+            return RedirectToAction("StudentAdd", "Student", new { parentId });
         }
-        
+
         public IActionResult ParentDelete(int id)
         {
             int userId = (int)parentService.GetParent(id).UserId;
@@ -77,10 +94,19 @@ namespace SMS.WebUI.Controllers
             return RedirectToAction("ParentList");
         }
 
-        public IActionResult ParentsStudents(int id)
+        public IActionResult ParentsStudents(int? id, string? username)
         {
             StudentParentViewModel model = new StudentParentViewModel();
-            model.StudentDTOs = studentService.GetStudentByParent(id);
+            if (id != null)
+            {
+                model.StudentDTOs = studentService.GetStudentByParent((int)id);
+            }
+            else if (username != null)
+            {
+                var userparent = userService.GetUserByUsername(username);
+                model.ParentDTO = parentService.GetParentByUserId(userparent.Id);
+                model.StudentDTOs = studentService.GetStudentByParent((int)model.ParentDTO.Id);
+            }
             foreach (var student in model.StudentDTOs)
             {
                 if (student.SectionId != null)
@@ -91,8 +117,7 @@ namespace SMS.WebUI.Controllers
                 {
                     student.SectionDTO = null;
                 }
-            } 
-
+            }
             //model.SectionDTOs = sectionService.GetAll();
             return PartialView(model);
         }

@@ -30,6 +30,6 @@ namespace SMS.Model
         public Nullable<int> UserId { get; set; }
         public virtual User User { get; set; }
 
-        public ICollection<Student> Students  { get; set; }
+        public virtual ICollection<Student> Students  { get; set; }
     }
 }

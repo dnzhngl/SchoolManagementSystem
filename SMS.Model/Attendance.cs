@@ -12,11 +12,11 @@ namespace SMS.Model
 
         [ForeignKey("Student")]
         public int StudentId { get; set; }
-        public Student Student { get; set; }
+        public virtual Student Student { get; set; }
 
         [ForeignKey("AttendanceType")]
         public int AttendanceTypeId { get; set; }
-        public AttendanceType AttendanceType { get; set; }
+        public virtual AttendanceType AttendanceType { get; set; }
 
     }
 }

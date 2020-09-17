@@ -23,7 +23,7 @@ namespace SMS.Model
 
         [ForeignKey("Branch")]
         public Nullable<int> BranchId { get; set; }
-        public Branch Branch { get; set; }
+        public virtual Branch Branch { get; set; }
 
         //[ForeignKey("Role")]
         //public Nullable<int> RoleId { get; set; }
@@ -32,6 +32,6 @@ namespace SMS.Model
         public Nullable<int> UserId { get; set; }
         public virtual User User { get; set; }
 
-        public ICollection<Timetable> Timetables { get; set; }
+        public virtual ICollection<Timetable> Timetables { get; set; }
     }
 }

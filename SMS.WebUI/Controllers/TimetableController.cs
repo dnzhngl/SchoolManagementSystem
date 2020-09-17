@@ -20,10 +20,11 @@ namespace SMS.WebUI.Controllers
         private readonly ISectionService sectionService;
         private readonly IClassroomService classroomService;
         private readonly IGradeService gradeService;
+        private readonly IStudentService studentService;
 
         private readonly ITimetableViewService timetableViewService;
 
-        public TimetableController(ITimetableService _timetableService, ISubjectService _subjectService, IDayService _dayService, ILessonTimeService _lessonTimeService, IInstructorService _instructorService, ISectionService _sectionService, ITimetableViewService _timetableViewService, IClassroomService _classroomService, IGradeService _gradeService)
+        public TimetableController(ITimetableService _timetableService, ISubjectService _subjectService, IDayService _dayService, ILessonTimeService _lessonTimeService, IInstructorService _instructorService, ISectionService _sectionService, ITimetableViewService _timetableViewService, IClassroomService _classroomService, IGradeService _gradeService, IStudentService _studentService)
         {
             timetableService = _timetableService;
             subjectService = _subjectService;
@@ -35,6 +36,8 @@ namespace SMS.WebUI.Controllers
             gradeService = _gradeService;
 
             timetableViewService = _timetableViewService;
+            studentService = _studentService;
+
         }
 
         public IActionResult TimetableIndex()
@@ -45,20 +48,25 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
 
-        public IActionResult TimetableList(int? id, string? username) //sectionId
+        public IActionResult TimetableList(int? sectionId, string? username, int? classroomId) //sectionId
         {
             TimetableViewModel model = new TimetableViewModel();
 
-            if (id != null)
+            if (sectionId != null)
             {
-                model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)id);
-                model.SectionDTO = sectionService.GetSection((int)id);
+                model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)sectionId);
+                model.SectionDTO = sectionService.GetSection((int)sectionId);
             }
             else if (username != null)
             {
                 model.InstructorDTO = instructorService.GetInstructoreByUsername(username);
                 model.TimetableViewDTOs = timetableViewService.GetTimetableByInstructor((int)model.InstructorDTO.Id);
                 // model.TimetableViewDTOs = timetableViewService.GetTimetableGroupedByInstructor(model.InstructorDTO.Id);
+            }
+            else if (classroomId != null)
+            {
+                model.ClassroomDTO = classroomService.GetClassroom((int)classroomId);
+                model.TimetableViewDTOs = timetableViewService.GetTimetableByClassroom((int)classroomId);
             }
             else
             {
@@ -67,7 +75,7 @@ namespace SMS.WebUI.Controllers
             }
             return View(model);
         }
-        public IActionResult TimetableDesign(int? id, int? instructorId) //SectionId
+        public IActionResult TimetableDesign(int? id, int? instructorId, string? studentUserName) //SectionId
         {
             TimetableViewModel model = new TimetableViewModel();
 
@@ -82,6 +90,11 @@ namespace SMS.WebUI.Controllers
             {
                 model.TimetableViewDTOs = timetableViewService.GetTimetableByInstructor((int)instructorId);
                 model.InstructorDTO = instructorService.GetInstructor((int)instructorId);
+            }
+            else if (studentUserName != null)
+            {
+                var student = studentService.GetStudentByUsername(studentUserName);
+                model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)student.SectionId);
             }
             return View(model);
         }

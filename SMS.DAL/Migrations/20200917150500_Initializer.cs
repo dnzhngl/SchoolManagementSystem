@@ -35,6 +35,19 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CertificateTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CertificateTypeName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CertificateTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Classrooms",
                 columns: table => new
                 {
@@ -112,6 +125,19 @@ namespace SMS.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MainSubjects", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PostCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -327,6 +353,34 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostName = table.Column<string>(nullable: true),
+                    PublishedDate = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<int>(nullable: true),
+                    PostCategoryId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_PostCategories_PostCategoryId",
+                        column: x => x.PostCategoryId,
+                        principalTable: "PostCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Posts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Timetables",
                 columns: table => new
                 {
@@ -401,6 +455,7 @@ namespace SMS.DAL.Migrations
                     CellPhone = table.Column<string>(nullable: true),
                     GraduatedFrom = table.Column<string>(nullable: true),
                     GPA = table.Column<decimal>(nullable: false),
+                    StudentStatus = table.Column<bool>(nullable: false),
                     SectionId = table.Column<int>(nullable: true),
                     ParentId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: true)
@@ -456,6 +511,34 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Certificates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SerialNumber = table.Column<Guid>(nullable: false),
+                    IssueDate = table.Column<DateTime>(nullable: false),
+                    StudentId = table.Column<int>(nullable: true),
+                    CertificateTypeId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Certificates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Certificates_CertificateTypes_CertificateTypeId",
+                        column: x => x.CertificateTypeId,
+                        principalTable: "CertificateTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Certificates_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ExamResults",
                 columns: table => new
                 {
@@ -499,6 +582,16 @@ namespace SMS.DAL.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Certificates_CertificateTypeId",
+                table: "Certificates",
+                column: "CertificateTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Certificates_StudentId",
+                table: "Certificates",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ExamResults_ExamId",
                 table: "ExamResults",
                 column: "ExamId");
@@ -531,6 +624,16 @@ namespace SMS.DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Parents_UserId",
                 table: "Parents",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_PostCategoryId",
+                table: "Posts",
+                column: "PostCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_UserId",
+                table: "Posts",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -608,7 +711,13 @@ namespace SMS.DAL.Migrations
                 name: "Attendances");
 
             migrationBuilder.DropTable(
+                name: "Certificates");
+
+            migrationBuilder.DropTable(
                 name: "ExamResults");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "Timetables");
@@ -617,10 +726,16 @@ namespace SMS.DAL.Migrations
                 name: "AttendanceTypes");
 
             migrationBuilder.DropTable(
+                name: "CertificateTypes");
+
+            migrationBuilder.DropTable(
                 name: "Exams");
 
             migrationBuilder.DropTable(
                 name: "Students");
+
+            migrationBuilder.DropTable(
+                name: "PostCategories");
 
             migrationBuilder.DropTable(
                 name: "Classrooms");

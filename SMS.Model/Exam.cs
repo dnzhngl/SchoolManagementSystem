@@ -20,13 +20,12 @@ namespace SMS.Model
 
         [ForeignKey("ExamType")]
         public int ExamTypeId { get; set; }
-        public ExamType ExamType { get; set; }
+        public virtual ExamType ExamType { get; set; }
 
         [ForeignKey("Subject")]
         public int SubjectId { get; set; }
-        public Subject Subject { get; set; }
+        public virtual Subject Subject { get; set; }
 
-
-        public ICollection<ExamResult> ExamResults { get; set; }
+        public virtual ICollection<ExamResult> ExamResults { get; set; }
     }
 }

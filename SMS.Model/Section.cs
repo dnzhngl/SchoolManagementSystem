@@ -23,9 +23,9 @@ namespace SMS.Model
 
         [ForeignKey("Grade")]
         public Nullable<int> GradeId { get; set; }
-        public Grade Grade { get; set; }
+        public virtual Grade Grade { get; set; }
 
-        public ICollection<Student> Students { get; set; }
-        public ICollection<Timetable> Timetables { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Timetable> Timetables { get; set; }
     }
 }

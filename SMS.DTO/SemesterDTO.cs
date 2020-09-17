@@ -10,7 +10,6 @@ namespace SMS.DTO
         public DateTime SemesterBeginning { get; set; }
         public DateTime SemesterEnd { get; set; }
 
-        public int TimeTableId { get; set; }
         public List<TimetableDTO> TimeTableDTOs { get; set; }
     }
 }

@@ -15,10 +15,6 @@ namespace SMS.DTO
         public Nullable<int> RoleId { get; set; }
         public RoleDTO RoleDTO { get; set; }
 
-
-        //public List<AdminDTO> Admins { get; set; }
-        //public List<InstructorDTO> InstructorDTOs { get; set; }
-        //public List<StudentDTO> StudentDTOs { get; set; }
-        //public List<ParentDTO> ParentDTOs { get; set; }
+        public List<PostDTO> PostDTOs { get; set; }
     }
 }

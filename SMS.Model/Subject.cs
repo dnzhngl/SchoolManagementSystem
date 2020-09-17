@@ -19,10 +19,9 @@ namespace SMS.Model
 
         [ForeignKey("Branch")]
         public Nullable<int> MainSubjectId { get; set; }
-        public MainSubject MainSubject { get; set; }
+        public virtual MainSubject MainSubject { get; set; }
 
-        public ICollection<Exam> Exams { get; set; }
-
-        public ICollection<Timetable> Timetables { get; set; }
+        public virtual ICollection<Exam> Exams { get; set; }
+        public virtual ICollection<Timetable> Timetables { get; set; }
     }
 }

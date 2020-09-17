@@ -31,10 +31,16 @@ namespace SMS.WebUI.Controllers
             sectionService = _sectionService;
             attendanceService = _attendanceService;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+        /// <summary>
+        /// asdasdasdasdsa
+        /// </summary>
+        /// <param name="id">asdasd</param>
+        /// <returns>asdasdaq</returns>
         public IActionResult InstructorList(int? id)
         {
             InstructorBranchViewModel model = new InstructorBranchViewModel();

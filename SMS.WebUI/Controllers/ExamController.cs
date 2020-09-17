@@ -24,7 +24,7 @@ namespace SMS.WebUI.Controllers
             mainSubjectService = _mainSubjectService;
         }
 
-        public IActionResult ExamList(int? id, string? subjectName)
+        public IActionResult ExamList(int? id, string? subjectName, string? studentUsername)
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
             if (id != null)
@@ -37,6 +37,10 @@ namespace SMS.WebUI.Controllers
             {
                 model.SubjectDTO = subjectService.GetSubjectByName(subjectName);
                 model.ExamDTOs = examService.GetExamBySubject((int)model.SubjectDTO.Id);
+            }
+            else if (studentUsername != null)
+            {
+                //var studentsExams = examService
             }
             else
             {

@@ -52,6 +52,13 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<ParentDTO>(selectedParent);
         }
 
+        public ParentDTO GetParentByUserId(int userId)
+        {
+            var parent = parentRepo.Get(z => z.UserId == userId);
+            return MapperFactory.CurrentMapper.Map<ParentDTO>(parent);
+
+        }
+
         public List<ParentDTO> GetParentName(string name)
         {
             throw new NotImplementedException();

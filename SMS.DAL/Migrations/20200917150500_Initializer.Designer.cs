@@ -10,7 +10,7 @@ using SMS.DAL;
 namespace SMS.DAL.Migrations
 {
     [DbContext(typeof(SMSDbContext))]
-    [Migration("20200904154813_Initializer")]
+    [Migration("20200917150500_Initializer")]
     partial class Initializer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,6 +118,49 @@ namespace SMS.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Branches");
+                });
+
+            modelBuilder.Entity("SMS.Model.Certificate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CertificateTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("SerialNumber")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CertificateTypeId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Certificates");
+                });
+
+            modelBuilder.Entity("SMS.Model.CertificateType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CertificateTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CertificateTypes");
                 });
 
             modelBuilder.Entity("SMS.Model.Classroom", b =>
@@ -365,6 +408,49 @@ namespace SMS.DAL.Migrations
                     b.ToTable("Parents");
                 });
 
+            modelBuilder.Entity("SMS.Model.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("PostCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PublishedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostCategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("SMS.Model.PostCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PostCategories");
+                });
+
             modelBuilder.Entity("SMS.Model.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -463,6 +549,9 @@ namespace SMS.DAL.Migrations
 
                     b.Property<int?>("SectionId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("StudentStatus")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -599,6 +688,17 @@ namespace SMS.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SMS.Model.Certificate", b =>
+                {
+                    b.HasOne("SMS.Model.CertificateType", "CertificateType")
+                        .WithMany("Certificates")
+                        .HasForeignKey("CertificateTypeId");
+
+                    b.HasOne("SMS.Model.Student", "Student")
+                        .WithMany("Certificates")
+                        .HasForeignKey("StudentId");
+                });
+
             modelBuilder.Entity("SMS.Model.Exam", b =>
                 {
                     b.HasOne("SMS.Model.ExamType", "ExamType")
@@ -644,6 +744,17 @@ namespace SMS.DAL.Migrations
                 {
                     b.HasOne("SMS.Model.User", "User")
                         .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("SMS.Model.Post", b =>
+                {
+                    b.HasOne("SMS.Model.PostCategory", "PostCategory")
+                        .WithMany("Posts")
+                        .HasForeignKey("PostCategoryId");
+
+                    b.HasOne("SMS.Model.User", "User")
+                        .WithMany("Posts")
                         .HasForeignKey("UserId");
                 });
 

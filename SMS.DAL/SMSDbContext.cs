@@ -35,6 +35,10 @@ namespace SMS.DAL
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Certificate> Certificates { get; set; }
+        public DbSet<CertificateType> CertificateTypes { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostCategory> PostCategories { get; set; }
 
         public DbSet<Timetable> Timetables { get; set; }
 

@@ -13,71 +13,71 @@
 <div class="modal-body">
     @foreach (var student in Model.StudentDTOs)
     {
-    <div class="card">
+        <div class="card">
 
-        <img class="card-img-top" src="..." alt="Öğrenci Resmi" />
+            <img class="card-img-top" src="..." alt="Öğrenci Resmi" />
 
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
 
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col">
-                            <label><strong>Okul Numarası : </strong></label>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <label><strong>Okul Numarası : </strong></label>
+                            </div>
+                            <div class="col">
+                                <label>@student.Id</label>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label>@student.Id</label>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <label><strong>Öğrenci Adı : </strong></label>
+                            </div>
+                            <div class="col">
+                                <label>@student.FirstName</label>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col">
-                            <label><strong>Öğrenci Adı : </strong></label>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <label><strong>Öğrenci Soyadı : </strong></label>
+                            </div>
+                            <div class="col">
+                                <label>@student.LastName</label>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label>@student.FirstName</label>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col">
-                            <label><strong>Öğrenci Soyadı : </strong></label>
-                        </div>
-                        <div class="col">
-                            <label>@student.LastName</label>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col">
-                            <label><strong>Şubesi : </strong></label>
-                        </div>
-                        <div class="col">
-                            @if (student.SectionDTO != null)
-                            {
-                            <label>
-                                @student.SectionDTO.SectionName
-                            </label>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <label><strong>Şubesi : </strong></label>
+                            </div>
+                            <div class="col">
+                                @if (student.SectionDTO != null)
+                                {
+                                    <label>
+                                        @student.SectionDTO.SectionName
+                                    </label>
                                 }
                                 else
                                 {
-                                <label>Atanmadı</label>
+                                    <label>Atanmadı</label>
                                 }
-                            
-                            @*<label>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</label>*@
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
 
-        @*<div class="card-footer float-right">
-            <button type="submit" class="btn btn-primary" asp-controller="Student" asp-action="StudentList" asp-route-student="@Model.StudentDTO">Git</button>
-        </div>*@
-    </div>
+                                @*<label>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</label>*@
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            @*<div class="card-footer float-right">
+                    <button type="submit" class="btn btn-primary" asp-controller="Student" asp-action="StudentList" asp-route-student="@Model.StudentDTO">Git</button>
+                </div>*@
+        </div>
     }
 </div>
 <div class="modal-footer">

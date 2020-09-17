@@ -4,14 +4,18 @@
     ViewData["Title"] = "TimetableDesign";
 }
 
-<div class="card shadow">
-    <div class="card-header">
-        <h4>Ders Programı Ekle</h4>
+@if(this.User.IsInRole("Admin") & this.User.IsInRole("Öğretmen"))
+{
+    <div class="card shadow">
+        <div class="card-header">
+            <h4>Ders Programı İşlemleri</h4>
+        </div>
+        <div class="card-body">
+            <p></p>
+        </div>
     </div>
-    <div class="card-body">
-        <p></p>
-    </div>
-</div>
+}
+
 
 <input type="hidden" asp-for="SectionDTO.Id" />
 
@@ -25,6 +29,10 @@
         {
             <h4 class="font-weight-bold text-primary">@Model.InstructorDTO.FullName Ders Programı</h4>
 
+        }
+        else
+        {
+            <h4>Ders Programı</h4>
         }
     </div>
     <div class="card-body">

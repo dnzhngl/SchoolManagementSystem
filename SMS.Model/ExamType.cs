@@ -12,6 +12,6 @@ namespace SMS.Model
             Exams = new HashSet<Exam>();
         }
         public string ExamTypeName { get; set; }
-        public ICollection<Exam> Exams { get; set; }
+        public virtual ICollection<Exam> Exams { get; set; }
     }
 }
