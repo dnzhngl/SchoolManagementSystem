@@ -101,7 +101,6 @@ namespace SMS.BLL.SMSService
             {
                 return null;
             }
-
         }
 
         public UserDTO UpdateUser(UserDTO user)

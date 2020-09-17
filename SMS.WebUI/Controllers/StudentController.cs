@@ -152,11 +152,10 @@ namespace SMS.WebUI.Controllers
                 model.StudentDTOs = studentService.GetAllStudents();
             }
             model.GradeDTOs = gradeService.GetAll();
-            model.SectionDTOs = sectionService.GetAll();
-            //foreach (SectionDTO section in model.SectionDTOs)
-            //{
-            //    section.GradeDTO = gradeService.GetGrade(section.GradeId);
-            //}
+            // model.SectionDTOs = sectionService.GetAll(); Orjinalde olan.
+
+            model.SectionDTOs = sectionService.GetSectionsWithGrade();
+
             return View(model);
         }
     }

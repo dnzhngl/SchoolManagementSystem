@@ -51,6 +51,10 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
 
+        /// <summary>
+        /// Returns all of the students whose section assigned
+        /// </summary>
+        /// <returns></returns>
         public List<StudentDTO> GetAllStudents()
         {
             var studentList = studentRepo.GetAll().Where(z => z.SectionId != null).ToList();
@@ -78,10 +82,13 @@ namespace SMS.BLL.SMSService
 
         public StudentDTO NewStudent(StudentDTO student)
         {
-            if (!studentRepo.GetAll().Any(z => z.FirstName.ToLower() == student.FirstName.ToLower() && z.LastName.ToLower() == student.LastName.ToLower() && z.DOB == student.DOB))  //Buraya denetleme olarak TC kimlik numarasını ekleyebilirsin. Onun için kayıt esnasında TC iste.
+            int studentCount = studentRepo.GetAll().Count();
+            //Any(z => z.FirstName.ToLower() == student.FirstName.ToLower() && z.LastName.ToLower() == student.LastName.ToLower() && z.DOB == student.DOB)
+            if (!studentRepo.GetAll().Any(z => z.IdentityNumber == student.IdentityNumber))
             {
                 var newStudent = MapperFactory.CurrentMapper.Map<Student>(student);
-                // newStudent.RoleId = roleRepo.Get(z => z.RoleName.Contains("Öğrenci")).Id;
+                newStudent.SchoolNumber = GenerateStudentNumber(studentCount);
+                newStudent.StudentStatus = true;
                 newStudent = studentRepo.Add(newStudent);
                 uow.SaveChanges();
                 return MapperFactory.CurrentMapper.Map<StudentDTO>(newStudent);
@@ -122,6 +129,23 @@ namespace SMS.BLL.SMSService
         {
             var selectedStudent = studentRepo.Get(z => z.IdentityNumber == username);
             return MapperFactory.CurrentMapper.Map<StudentDTO>(selectedStudent);
+        }
+
+        string GenerateStudentNumber(int StudentCount)
+        {
+            int registrationOrder = 100 + StudentCount;
+            var year = DateTime.Today.Year.ToString();
+            year = year.Substring(2,2);
+            var studentNumber = string.Format("{0}-{1}", registrationOrder, year);
+
+            return studentNumber;
+        }
+
+        public List<StudentDTO> GetStudentsIncludeSectionAttendanceExamResults()
+        {
+           
+            var studentList = studentRepo.GetIncludes(null, x => x.Section, x => x.Attendances, x => x.ExamR );
+            return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
     }
 }

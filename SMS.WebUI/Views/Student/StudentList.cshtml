@@ -1,7 +1,7 @@
 ﻿@model StudentDetailsViewModel
 @{
     ViewData["Title"] = "StudentList";
-   // Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    // Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 @section BeginPage{
@@ -47,13 +47,25 @@
                     @foreach (StudentDTO student in Model.StudentDTOs)
                     {
                         <tr>
-                            <td>@student.Id</td>
-                            <td></td>
+                            <td>@student.SchoolNumber</td>
+                            @*<td>@Model.GradeDTOs.Find(z => z.Sections.Any(z => z.Id == student.SectionId)).GradeName</td>*@
+                            <td>
+                                @Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).Grade.GradeName
+                            </td>
                             <td>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</td>
                             <td>@student.FirstName</td>
                             <td>@student.LastName</td>
                             <td>@student.Gender</td>
-                            <td></td>
+                            <td>
+                                @if (student.StudentStatus == true)
+                                {
+                                    <p>Öğrenciliği devam ediyor.</p>
+                                }
+                                else
+                                {
+                                    <p>Öğrenciliği sonlanmıştır.</p>
+                                }
+                            </td>
                             <td>
                                 <a class="btn btn-outline-primary btn-sm" asp-action="RegisteredStudentDetails" asp-route-id="@student.Id"><i class="fa fa-search"></i></a>
                                 <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = student.Id})')"><i class="fa fa-pen"></i></a>

@@ -14,9 +14,10 @@ namespace SMS.BLL.Abstract
         StudentDTO GetStudent(int id);
         StudentDTO GetStudentByUsername(string username);
         List<StudentDTO> GetStudentByParent(int parentId);
-
         List<StudentDTO> GetStudentBySection(int sectionId);
         List<StudentDTO> GetStudentsByInstructor(int instructorId);
+
+        List<StudentDTO> GetStudentsIncludeSectionAttendanceExamResults();
         
         StudentDTO NewStudent(StudentDTO student);
         StudentDTO UpdateStudent(StudentDTO student);

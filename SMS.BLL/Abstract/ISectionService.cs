@@ -14,6 +14,7 @@ namespace SMS.BLL.Abstract
         SectionDTO UpdateSection(SectionDTO section);
         bool DeleteSection(int id);
         List<SectionDTO> GetSectionByGrade(int id);
+        List<SectionDTO> GetSectionsWithGrade(); // Section listesini grade'i ekleyerek çeker.
         SectionDTO GetSectionByName(string sectionName);
     }
 }

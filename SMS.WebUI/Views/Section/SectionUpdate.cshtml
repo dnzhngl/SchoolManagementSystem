@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             <label for="formGroupExampleInput">Sınıf Bilgisi</label>
-            <select class="form-control" asp-for="GradeDTO.Id" asp-items="@(new SelectList(Model.GradeDTOs, "Id","GradeName", Model.SectionDTO.GradeDTO))"></select>
+            <select class="form-control" asp-for="GradeDTO.Id" asp-items="@(new SelectList(Model.GradeDTOs, "Id","GradeName", Model.SectionDTO.Grade))"></select>
         </div>
     </div>
     <div class="modal-footer">

@@ -63,6 +63,15 @@ namespace SMS.BLL.SMSService
             var section = sectionRepo.Get(z => z.SectionName == sectionName);
             return MapperFactory.CurrentMapper.Map<SectionDTO>(section);
         }
+        /// <summary>
+        /// Returns section list included with Grade 
+        /// </summary>
+        /// <returns></returns>
+        public List<SectionDTO> GetSectionsWithGrade()
+        {
+            var sectionList = sectionRepo.Get(null, include: x => x.Grade).ToList();
+            return MapperFactory.CurrentMapper.Map<List<SectionDTO>>(sectionList);
+        }
 
         public SectionDTO NewSection(SectionDTO section)
         {

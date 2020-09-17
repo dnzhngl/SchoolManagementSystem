@@ -39,7 +39,6 @@
             <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Adı</th>
                         <th>Soyadı</th>
                         <th>Görevi</th>
@@ -51,7 +50,6 @@
                     @foreach (InstructorDTO instructor in Model.InstructorDTOs)
                     {
                         <tr>
-                            <td>@instructor.Id</td>
                             <td>@instructor.FirstName</td>
                             <td>@instructor.LastName</td>
                             <td>@instructor.Duty</td>

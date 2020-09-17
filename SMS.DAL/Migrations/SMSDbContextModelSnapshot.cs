@@ -545,6 +545,9 @@ namespace SMS.DAL.Migrations
                     b.Property<int>("ParentId")
                         .HasColumnType("int");
 
+                    b.Property<string>("SchoolNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("SectionId")
                         .HasColumnType("int");
 
@@ -642,10 +645,10 @@ namespace SMS.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("FailedLogin")
+                    b.Property<DateTime?>("FailedLogin")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("LoginTimeStamps")
+                    b.Property<DateTime?>("LoginTimeStamps")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")

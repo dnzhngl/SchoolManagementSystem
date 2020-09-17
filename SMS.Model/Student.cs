@@ -17,8 +17,7 @@ namespace SMS.Model
             Certificates = new HashSet<Certificate>();
         }
         public string IdentityNumber { get; set; }
-
-        //public string SchoolNumber { get; set; }
+        public string SchoolNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }

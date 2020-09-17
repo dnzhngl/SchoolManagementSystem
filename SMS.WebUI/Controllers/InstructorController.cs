@@ -140,7 +140,8 @@ namespace SMS.WebUI.Controllers
             if (sectionName != null)
             {
                 model.SectionDTO = sectionService.GetSectionByName(sectionName);
-                model.StudentDTOs = studentService.GetStudentBySection(model.SectionDTO.Id);
+                // model.StudentDTOs = studentService.GetStudentBySection(model.SectionDTO.Id);
+                model.StudentDTOs = studentService.GetStudentsIncludeSectionAttendanceExamResults();
             }
             else if (username != null)
             {

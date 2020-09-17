@@ -100,7 +100,8 @@ namespace SMS.Core.Data.Repositories
             IQueryable<T> query = GetQueryable(filter, null, null);
             foreach (var include in includes)
             {
-                query = query.Include(include.Name);
+                query = query.Include(include);
+               // query = query.Include(include.Name);
             }
             return query.FirstOrDefault();
         }

@@ -9,8 +9,8 @@ namespace SMS.DTO
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public DateTime LoginTimeStamps { get; set; }
-        public DateTime FailedLogin { get; set; }
+        public DateTime? LoginTimeStamps { get; set; }
+        public DateTime? FailedLogin { get; set; }
 
         public Nullable<int> RoleId { get; set; }
         public RoleDTO RoleDTO { get; set; }

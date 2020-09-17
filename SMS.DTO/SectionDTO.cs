@@ -13,7 +13,7 @@ namespace SMS.DTO
 
 
         public int GradeId { get; set; }
-        public GradeDTO GradeDTO { get; set; }
+        public GradeDTO Grade { get; set; }
 
         public List<StudentDTO> StudentDTOs { get; set; }
         public List<TimetableDTO> TimeTableDTOs { get; set; }
