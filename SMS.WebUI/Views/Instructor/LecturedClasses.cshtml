@@ -23,8 +23,8 @@
                     <h5>@timetable.SubjectName</h5>
                     <a class="btn btn-outline-primary btn-sm" asp-controller="Instructor" asp-action="InstructorsStudents" asp-route-sectionName="@timetable.SectionName"><i class="fa fa-graduation-cap"></i> Öğrenci Listesi</a>
                     <a class="btn btn-outline-success btn-sm" asp-controller="Exam" asp-action="ExamList" asp-route-subjectName="@timetable.SubjectName"> Sınav İşlemleri</a>
-                    @*<a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamList", "Exam", new { subjectName = timetable.SubjectName })')"><i class="fa fa-pen"></i> Sınav Listesi</a>*@
 
+                    <a class="btn btn-outline-success btn-sm" asp-controller="Subject" asp-action="SubjectDetails" asp-route-subjectName="@timetable.SubjectName"> Ders İşlemleri</a> 
                 </div>
             </div>
         </div>

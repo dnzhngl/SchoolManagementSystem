@@ -30,6 +30,11 @@
             <h4 class="font-weight-bold text-primary">@Model.InstructorDTO.FullName Ders Programı</h4>
 
         }
+        else if (Model.ClassroomDTO != null)
+        {
+            <h4 class="font-weight-bold text-primary">@Model.ClassroomDTO.ClassroomName - Derslik Ders Programı</h4>
+
+        }
         else
         {
             <h4>Ders Programı</h4>

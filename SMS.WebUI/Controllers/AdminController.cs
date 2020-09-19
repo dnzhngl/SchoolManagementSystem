@@ -68,7 +68,7 @@ namespace SMS.WebUI.Controllers
         public IActionResult AdminDetails(int id)
         {
             AdminDTO selectedAdmin = adminService.GetAdmin(id);
-            return PartialView(selectedAdmin);
+            return View(selectedAdmin);
         }
     }
 }

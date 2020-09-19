@@ -32,7 +32,7 @@ namespace SMS.WebUI.Controllers
             }
             else
             {
-                model.SubjectDTOs = subjectService.GetAll(); 
+                model.SubjectDTOs = subjectService.GetAll();
             }
             model.MainSubjectDTOs = mainSubjectService.GetAll();
             return View(model);
@@ -73,14 +73,20 @@ namespace SMS.WebUI.Controllers
             return RedirectToAction("SubjectList");
         }
 
-        public IActionResult SubjectDetails(int id)
+        public IActionResult SubjectDetails(int? subjectId, string? subjectName)
         {
-            SubjectDTO selectedSubject = subjectService.GetSubject(id);
             SubjectDetailViewModel model = new SubjectDetailViewModel();
 
-            model.SubjectDTO = selectedSubject;
-            model.MainSubjectDTO = mainSubjectService.GetMainSubject(selectedSubject.MainSubjectId);
-            model.ExamDTOs = examService.GetExamBySubject(id);
+            if (subjectId != null)
+            {
+                subjectName = subjectService.GetSubject((int)subjectId).SubjectName;
+                model.SubjectDTO = subjectService.GetSubjectIncludes(subjectName);
+            }
+            else if (subjectName != null)
+            {
+                model.SubjectDTO = subjectService.GetSubjectIncludes(subjectName);
+               // model.ExamDTOs = examService.GetExamBySubject(model.SubjectDTO.Id);
+            }
             model.ExamTypeDTOs = examTypeService.GetAll();
 
             return View(model);

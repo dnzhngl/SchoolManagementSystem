@@ -21,7 +21,8 @@ namespace SMS.DTO
 
 
         public Nullable<int> SectionId { get; set; }
-        public SectionDTO SectionDTO { get; set; }
+        //  public SectionDTO SectionDTO { get; set; }
+        public SectionDTO Section { get; set; }
 
         public int ParentId { get; set; }
         public ParentDTO ParentDTO { get; set; }
@@ -29,8 +30,10 @@ namespace SMS.DTO
         public Nullable<int> UserId { get; set; }
         public UserDTO UserDTO { get; set; }
 
-        public List<AttendanceDTO> AttendanceDTOs { get; set; }
-        public List<ExamResultDTO> ExamResultDTOs { get; set; }
+        //public List<AttendanceDTO> AttendanceDTOs { get; set; }
+        public List<AttendanceDTO> Attendances { get; set; }
+        //  public List<ExamResultDTO> ExamResultDTOs { get; set; }
+        public List<ExamResultDTO> ExamResults { get; set; }
         public List<CertificateDTO> CertificateDTOs { get; set; }
     }
 }

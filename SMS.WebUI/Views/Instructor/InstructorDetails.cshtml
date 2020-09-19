@@ -1,6 +1,115 @@
 ﻿@model InstructorBranchViewModel
+@{
+    ViewData["Title"] = "InstructorDetails";
+}
 
-<div class="modal-header">
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Öğretmen Bilgisi</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
+
+<div class="card shadow mt-2">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h4 class="font-weight-bold text-primary">Öğretmen Bilgisi</h4>
+            </div>
+            <div class="col">
+                <a class="btn btn-outline-warning float-right " href="#" onclick="modalFunction('@Url.Action("InstructorUpdate", "Instructor", new { id = Model.InstructorDTO.Id })')"><i class="fa fa-pen"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <form>
+            <input type="hidden" asp-for="InstructorDTO.Id" />
+
+            <div class="row">
+                <div class="col col-12 col-lg-4">
+                    <h5 class="card-subtitle mb-2 text-muted"><b>Kimlik Bilgisi</b></h5>
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>TC Kimlik No</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="InstructorDTO.IdentityNumber">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Adı</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="InstructorDTO.FirstName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Soyadı</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="InstructorDTO.LastName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Cinsiyeti</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="InstructorDTO.Gender">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Doğum Tarihi</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="InstructorDTO.DOB">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-12 col-lg-4">
+                    <h5 class="card-subtitle mb-2 text-muted"><b>İletişim Bilgisi</b></h5>
+                    <hr />
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Telefon Numarası</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="InstructorDTO.CellPhone">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Adres Bilgisi</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="InstructorDTO.Address">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-12 col-lg-4">
+                    <h5 class="card-subtitle mb-2 text-muted"><b>İş Tanımı</b></h5>
+                    <hr />
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Branşı</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="InstructorDTO.BranchDTO.BranchName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Görevi</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="InstructorDTO.Duty">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+@*<div class="modal-header">
     <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Öğretmen Bilgileri</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -56,5 +165,5 @@
         <a class="btn btn-outline-warning " href="#" onclick="modalFunction('@Url.Action("InstructorUpdate", "Instructor", new { id = Model.InstructorDTO.Id })')"><i class="fa fa-pen"></i></a>
     </div>
 
-</form>
+</form>*@
 

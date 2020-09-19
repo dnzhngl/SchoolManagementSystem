@@ -22,20 +22,20 @@
                 <div class="col">
                     <p>@Model.StudentDTO.Id</p>
                     <p>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName</p>
-                    @if (Model.StudentDTO.AttendanceDTOs == null)
+                    @if (Model.StudentDTO.Attendances == null)
                     {
                         <p>Devamsızlık Bilgisi Girilmedi</p>
                     }
                     else
                     {
-                        <p>@Model.StudentDTO.AttendanceDTOs.Count()</p>
+                        <p>@Model.StudentDTO.Attendances.Count()</p>
                     }
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            @if (Model.StudentDTO.AttendanceDTOs != null)
+            @if (Model.StudentDTO.Attendances != null)
             {
                 <table class="table">
                     <thead>

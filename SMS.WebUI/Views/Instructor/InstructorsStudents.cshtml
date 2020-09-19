@@ -50,7 +50,7 @@
                     @foreach (StudentDTO student in Model.StudentDTOs)
                     {
                         <tr>
-                            <td>@student.Id</td>
+                            <td>@student.SchoolNumber</td>
                             <td>@student.FirstName</td>
                             <td>@student.LastName</td>
                             <td>
@@ -66,9 +66,9 @@
                             <td>
                                 <div class="row">
                                     <div class="col">
-                                        @if (student.AttendanceDTOs != null)
+                                        @if (student.Attendances != null)
                                         {
-                                            @student.AttendanceDTOs.Count()
+                                            @student.Attendances.Count()
                                         }
                                         else
                                         {
@@ -84,9 +84,9 @@
                             <td>
                                 <div class="row">
                                     <div class="col">
-                                        @if (student.ExamResultDTOs != null)
+                                        @if (student.ExamResults != null)
                                         {
-                                            @foreach (var mark in student.ExamResultDTOs)
+                                            @foreach (var mark in student.ExamResults)
                                             {
                                                 <p>@mark.ExamMarks</p>
                                             }

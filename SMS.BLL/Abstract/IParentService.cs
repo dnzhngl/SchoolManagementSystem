@@ -15,5 +15,7 @@ namespace SMS.BLL.Abstract
         ParentDTO NewParent(ParentDTO parent);
         ParentDTO UpdateParent(ParentDTO parent);
         bool DeleteParent(int id);
+        List<ParentDTO> GetInstructorsParents(string instructorUsername);
+
     }
 }

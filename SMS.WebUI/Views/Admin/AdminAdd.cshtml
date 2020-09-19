@@ -11,7 +11,10 @@
 <form asp-action="AdminAdd" class="shadow-sm">
 
     <div class="modal-body">
-
+        <div class="form-group">
+            <label for="formGroupExampleInput">Kimlik No</label>
+            <input type="text" class="form-control" id="" placeholder="Kimlik Numarası" asp-for="IdentityNumber">
+        </div>
         <div class="form-group">
             <label for="formGroupExampleInput">Yönetici Adı</label>
             <input type="text" class="form-control" id="" placeholder="Adı" asp-for="FirstName">
@@ -19,10 +22,6 @@
         <div class="form-group">
             <label for="formGroupExampleInput2">Yönetici Soyadı</label>
             <input type="text" class="form-control" id="" placeholder="Soyadı" asp-for="LastName">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput">Kimlik No</label>
-            <input type="text" class="form-control" id="" placeholder="Kimlik Numarası" asp-for="IdentityNumber">
         </div>
         <div class="form-group">
             <label for="formGroupExampleInput2">Görevi</label>

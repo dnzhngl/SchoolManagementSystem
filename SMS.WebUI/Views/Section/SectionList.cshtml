@@ -55,15 +55,15 @@
                             <td>@sectionDto.StudentCapacity</td>
                             <td>@sectionDto.NumberOfStudentsEnrolled</td>
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentList" asp-route-id="@sectionDto.Id">Öğrenciler</a>
-                                <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableList" asp-route-sectionId="@sectionDto.Id"><i class="fa fa-table"></i></a>
+                                <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentList" asp-route-sectionId="@sectionDto.Id">Öğrenciler</a>
+                                @*<a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableList" asp-route-sectionId="@sectionDto.Id"><i class="fa fa-table"></i></a>*@
 
                                 <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("SectionUpdate", "Section", new { id = sectionDto.Id })')"><i class="fa fa-pen"></i></a>
 
                                 <a class="btn btn-outline-danger btn-sm" asp-action="SectionDelete" asp-route-id="@sectionDto.Id"><i class="fa fa-trash"></i></a>
 
 
-                                <a class="btn btn-outline-dark btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-id="@sectionDto.Id">DersPrg.</a>
+                                <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-id="@sectionDto.Id"><i class="fa fa-table"></i></a>
 
 
                             </td>

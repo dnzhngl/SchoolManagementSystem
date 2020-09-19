@@ -91,6 +91,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Ders İşlemleri</h6>
                         <a class="collapse-item" asp-controller="Timetable" asp-action="TimetableList" asp-route-username="@User.Identity.Name">Ders Listesi</a>
+                        <a class="collapse-item" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorUserName="@User.Identity.Name">Ders Programı</a>
                     </div>
                 </div>
             </li>
@@ -134,7 +135,7 @@
                 <div id="collapsePageParents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Veli İşlemleri</h6>
-                        <a class="collapse-item" href="#">Veli Listesi</a>
+                        <a class="collapse-item" asp-controller="Parent" asp-action="ParentList" asp-route-instructorUsername="@User.Identity.Name" >Veli Listesi</a>
                     </div>
                 </div>
             </li>

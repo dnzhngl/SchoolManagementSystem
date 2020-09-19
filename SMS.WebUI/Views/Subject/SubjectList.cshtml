@@ -56,7 +56,7 @@
                             <td>@Model.MainSubjectDTOs.FirstOrDefault(z => z.Id == subject.MainSubjectId).MainSubjectName</td>
                             <td>
                                 @*<a class="btn btn-outline-success btn-sm" asp-controller="Exam" asp-action="ExamAdd" asp-route-id="@subject.Id">Sınav Ekle</a>*@
-                                <a class="btn btn-outline-primary btn-sm" asp-action="SubjectDetails" asp-route-id="@subject.Id"><i class="fa fa-search"></i></a>
+                                <a class="btn btn-outline-primary btn-sm" asp-action="SubjectDetails" asp-route-subjectId="@subject.Id"><i class="fa fa-search"></i></a>
 
                                 <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("SubjectUpdate", "Subject", new { id = subject.Id })')"><i class="fa fa-pen"></i></a>
                                 @*<a class="btn btn-outline-warning btn-sm" asp-action="SubjectUpdate" asp-route-id="@subject.Id"><i class="fa fa-pen"></i></a>*@

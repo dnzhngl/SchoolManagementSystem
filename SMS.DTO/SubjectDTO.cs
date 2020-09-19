@@ -11,10 +11,8 @@ namespace SMS.DTO
         public int WeeklyCourseHours { get; set; }
 
         public int MainSubjectId { get; set; }
-        public MainSubjectDTO MainSubjectDTO { get; set; }
-
-        public List<ExamDTO> ExamDTOs { get; set; }
-
-        public List<TimetableDTO> TimeTableDTOs { get; set; }
+        public MainSubjectDTO MainSubject { get; set; }
+        public List<ExamDTO> Exams { get; set; }
+        public List<TimetableDTO> TimeTables { get; set; }
     }
 }

@@ -31,11 +31,11 @@ namespace SMS.WebUI.Controllers
             {
                 model.ExamDTOs = examService.GetExamBySubject((int)id);
                 model.SubjectDTO = subjectService.GetSubject((int)id);
-                model.SubjectDTO.ExamDTOs = model.ExamDTOs; //
+                model.SubjectDTO.Exams = model.ExamDTOs; //
             }
             else if (subjectName != null)
             {
-                model.SubjectDTO = subjectService.GetSubjectByName(subjectName);
+                model.SubjectDTO = subjectService.GetSubject(subjectName);
                 model.ExamDTOs = examService.GetExamBySubject((int)model.SubjectDTO.Id);
             }
             else if (studentUsername != null)
@@ -52,18 +52,18 @@ namespace SMS.WebUI.Controllers
         }
 
 
-        public IActionResult ExamAdd(int? id, string? subjectName)
+        public IActionResult ExamAdd(int? subjectId, string? subjectName)
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
-            if (id != null)
+            if (subjectId != null)
             {
-                model.SubjectDTO = subjectService.GetSubject((int)id);
+                model.SubjectDTO = subjectService.GetSubject((int)subjectId);
                 //var mainSubjectId = model.SubjectDTO.MainSubjectId;
                 //model.MainSubjectDTO = mainSubjectService.GetMainSubject(mainSubjectId);
             }
             else if (subjectName != null)
             {
-                model.SubjectDTO = subjectService.GetSubjectByName(subjectName);
+                model.SubjectDTO = subjectService.GetSubject(subjectName);
             }
             else
             {
@@ -82,7 +82,7 @@ namespace SMS.WebUI.Controllers
 
             int subjectId = newExam.SubjectId;
 
-            return RedirectToAction("SubjectDetails","Subject", new { id = subjectId });
+            return RedirectToAction("SubjectDetails","Subject", new { subjectId = subjectId });
             //return RedirectToAction("SubjectDetails", "Subject", new { id = exam.SubjectDTO.Id }); //ExamListBySubject
         }
         public IActionResult ExamDelete(int id)
@@ -113,7 +113,7 @@ namespace SMS.WebUI.Controllers
             selectedExam.SubjectDTO = subjectService.GetSubject(exam.ExamDTO.SubjectId);
             examService.UpdateExam(selectedExam);
 
-            return RedirectToAction("SubjectDetails", "Subject", new { id = exam.ExamDTO.SubjectId });
+            return RedirectToAction("SubjectDetails", "Subject", new { subjectId = exam.ExamDTO.SubjectId });
         }
     }
 }

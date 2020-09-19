@@ -114,7 +114,7 @@ namespace SMS.WebUI.Controllers
 
             model.InstructorDTO = selectedInstructor;
             model.InstructorDTO.BranchDTO = branchService.GetBranch(selectedInstructor.BranchId);
-            return PartialView(model);
+            return View(model);
         }
 
         public IActionResult LecturedClasses(int? id, string? username)//Ahmet.Solmaz olarak geliyor isim.
@@ -140,8 +140,8 @@ namespace SMS.WebUI.Controllers
             if (sectionName != null)
             {
                 model.SectionDTO = sectionService.GetSectionByName(sectionName);
-                // model.StudentDTOs = studentService.GetStudentBySection(model.SectionDTO.Id);
-                model.StudentDTOs = studentService.GetStudentsIncludeSectionAttendanceExamResults();
+               // model.StudentDTOs = studentService.GetStudentBySection(model.SectionDTO.Id);
+                model.StudentDTOs = studentService.GetStudentsIncludeSectionAttendanceExamResults(model.SectionDTO.Id);
             }
             else if (username != null)
             {
@@ -149,10 +149,10 @@ namespace SMS.WebUI.Controllers
                 model.StudentDTOs = studentService.GetStudentsByInstructor(instructor.Id);
                 model.SectionDTOs = sectionService.GetAll();
             }
-            foreach (StudentDTO student in model.StudentDTOs)
-            {
-                student.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(student.Id);
-            }
+            //foreach (StudentDTO student in model.StudentDTOs)
+            //{
+            //    student.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(student.Id);
+            //}
             return View(model);
         }
     }

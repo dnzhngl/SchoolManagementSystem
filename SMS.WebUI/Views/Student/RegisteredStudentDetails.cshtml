@@ -14,171 +14,211 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col col-12 col-lg-8 mt-3">
-        <div class="card shadow">
 
-            <div class="card-header">
-                <div class="row">
-                    <div class="col">
-                        <h4 class="font-weight-bold text-primary">Öğrenci Bilgisi</h4>
-                    </div>
-                    <div class="col">
-                        <div class="row float-right">
-                            <div class="form-actions">
-                                @if (this.User.IsInRole("Admin"))
-                                {
-                                <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = Model.StudentDTO.Id})')"><i class="fa fa-pen"></i></a>
+<div class="card shadow mt-2">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h4 class="font-weight-bold text-primary">Öğrenci Bilgisi</h4>
+            </div>
+            <div class="col">
+                <div class="row float-right">
+                    <div class="form-actions">
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = Model.StudentDTO.Id})')"><i class="fa fa-pen"></i></a>
+                            if (Model.StudentDTO.Section != null)
+                            {
                                 <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new {id = Model.StudentDTO.Id })')">Şube Ata</a>
-                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="card-body">
+
+        <form>
+            <div class="row">
+                <div class="col col-12 col-lg-4">
+                    <h5 class="card-subtitle mb-2 text-muted"><b>Kimlik Bilgisi</b></h5>
+                    <hr />
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>TC Kimlik No</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" placeholder="Kimlik Numarası" asp-for="StudentDTO.IdentityNumber">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Adı</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" placeholder="Adı" asp-for="StudentDTO.FirstName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Soyadı</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" placeholder="Soyadı" asp-for="StudentDTO.LastName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Cinsiyeti</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="StudentDTO.Gender">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Doğum Tarihi</b></label>
+                        <div class="col-sm-8">
+                            <input type="date" readonly class="form-control-plaintext" asp-for="StudentDTO.DOB">
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <h5 class="card-subtitle mb-2 text-muted"><b>İletişim Bilgisi</b></h5>
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Telefon Numarası</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" placeholder="+90" asp-for="StudentDTO.CellPhone">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-12 col-lg-4">
+                    <h5 class="card-subtitle mb-2 text-muted"><b>Eğitim Bilgisi</b></h5>
+                    <hr />
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Mezun Olduğu Okul</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" placeholder="" asp-for="StudentDTO.GraduatedFrom">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Not Ortalaması</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" placeholder="Not Ortalaması" asp-for="StudentDTO.GPA">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-12 col-lg-4">
+                    <h5 class="card-subtitle mb-2 text-muted"><b>Okul Bilgisi</b></h5>
+                    <hr />
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Öğrenci Okul Numarası</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" placeholder="Okul numarası atanmamış." asp-for="StudentDTO.SchoolNumber">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Şubesi</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" placeholder="Şubesi atanmamış" asp-for="StudentDTO.Section.SectionName"> @*SectionDTO*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <div class="row">
+                <div class="col">
+                    <h4 class="card-title font-weight-bold text-primary">Veli Bilgisi</h4>
+                </div>
+                <div class="col">
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-outline-warning btn-sm float-right" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <form>
+                <div class="row">
+
+                    <div class="col col-12 col-lg-4">
+                        <h5 class="card-subtitle mb-2 text-muted"><b>Kimlik Bilgisi</b></h5>
+                        <hr />
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-black-50"><b>TC Kimlik No</b></label>
+                            <div class="col-sm-8">
+                                <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.IdentityNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-black-50"><b>Adı</b></label>
+                            <div class="col-sm-8">
+                                <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.FirstName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-black-50"><b>Soyadı</b></label>
+                            <div class="col-sm-8">
+                                <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.LastName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-black-50"><b>Cinsiyeti</b></label>
+                            <div class="col-sm-8">
+                                <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.Gender">
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="card-body">
-                <div class="row">
-                    <div class="col col-12 col-lg-4">
-                        <h4>Öğrenci Bilgisi</h4>
+                    <div class="col col-12 col-lg-8">
+                        <h5 class="card-subtitle mb-2 text-muted"><b>İletişim Bilgisi</b></h5>
                         <hr />
-
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Öğrenci Adı</label>
-                            <input type="text" class="form-control" readonly id="" placeholder="Adı" asp-for="StudentDTO.FirstName">
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput2">Öğrenci Soyadı</label>
-                            <input type="text" class="form-control" readonly id="" placeholder="Soyadı" asp-for="StudentDTO.LastName">
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Kimlik No</label>
-                            <input type="text" class="form-control" readonly id="" placeholder="Kimlik Numarası" asp-for="StudentDTO.IdentityNumber">
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput2">Cinsiyeti</label>
-                            <input type="text" class="form-control" readonly placeholder="" asp-for="StudentDTO.Gender">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formGroupExampleInput2">Doğum Tarihi</label>
-                            <input type="date" class="form-control" readonly asp-for="StudentDTO.DOB">
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput2">Telefon Numarası</label>
-                            <input type="text" class="form-control" readonly placeholder="+90" asp-for="StudentDTO.CellPhone">
-                        </div>
-                    </div>
-
-                    <div class="col col-12 col-lg-4">
-                        <h4>Eğitim Bilgisi</h4>
-                        <hr />
-
-                        <div class="form-group">
-                            <label for="formGroupExampleInput2">Mezun olduğu Okul</label>
-                            <input type="text" class="form-control" readonly placeholder="" asp-for="StudentDTO.GraduatedFrom">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formGroupExampleInput2">Not Ortalaması</label>
-                            <input type="text" class="form-control" readonly id="" placeholder="Not Ortalaması" asp-for="StudentDTO.GPA">
-                        </div>
-                    </div>
-
-                    <div class="col col-12 col-lg-4">
-                        <h4>Okul Bilgisi </h4>
-                        <hr />
-
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Öğrenci Okul Numarası :</label>
-                            <input type="text" class="form-control" readonly asp-for="StudentDTO.SchoolNumber">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Şubesi:</label>
-                            <input type="text" class="form-control" readonly id="" placeholder="Atanmadı" asp-for="StudentDTO.SectionDTO.SectionName">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion" id="accordionExample">
-                <div class="card">
-                    <div class="card-header" id="headingOne">
                         <div class="row">
                             <div class="col">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <h4 class="font-weight-bold text-primary">Veli Bilgisi <i class="fa fa-arrow-circle-down"></i></h4>
-                                    </button>
-                                </h2>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label text-black-50"><b>Cep Telefonu</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.CellPhone">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label text-black-50"><b>Ev Telefonu</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.HomePhone">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label text-black-50"><b>İş Telefonu</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.WorkPhone">
+                                    </div>
+                                </div>
                             </div>
-
                             <div class="col">
-                                <div class="row float-right">
-                                    <div class="form-actions">
-                                        @if (this.User.IsInRole("Admin"))
-                                        {
-                                        <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>
-                                        }
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label text-black-50"><b>Adres Bilgisi</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.Address">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                    </div>
-
-                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput">Veli Adı</label>
-                                        <input type="text" class="form-control" readonly id="" placeholder="Adı" asp-for="ParentDTO.FirstName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput2">Veli Soyadı</label>
-                                        <input type="text" class="form-control" readonly id="" placeholder="Soyadı" asp-for="ParentDTO.LastName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput2">Cinsiyeti</label>
-                                        <input type="text" class="form-control" readonly id="" placeholder="" asp-for="ParentDTO.Gender">
-                                    </div>
-                                </div>
-
-                                <div class="col col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput2">Cep Telefonu</label>
-                                        <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.CellPhone">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput2">Ev Telefonu</label>
-                                        <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.HomePhone">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput2">İş Telefonu</label>
-                                        <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.WorkPhone">
-                                    </div>
-                                </div>
-
-                                <div class="col col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="formGroupExampleInput2">Adres Bilgisi</label>
-                                        <input type="text" class="form-control" readonly placeholder="" asp-for="ParentDTO.Address">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-
-
-            </div>
-
+            </form>
         </div>
     </div>
 </div>
+
+
 
 <div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-labelledby="mainModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">

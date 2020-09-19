@@ -52,7 +52,10 @@
                             <td>@admin.LastName</td>
                             <td>@admin.Duty</td>
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("AdminDetails", "Admin", new { id = admin.Id })')"><i class="fa fa-search"></i></a>
+                                @*<a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("AdminDetails", "Admin", new { id = admin.Id })')"><i class="fa fa-search"></i></a>*@
+
+                                <a class="btn btn-outline-primary btn-sm" asp-action="AdminDetails" asp-route-id="@admin.Id"><i class="fa fa-search"></i></a>
+
                                 <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("AdminUpdate", "Admin", new { id = admin.Id })')"><i class="fa fa-pen"></i></a>
 
                                 <a class="btn btn-outline-danger btn-sm" asp-action="AdminDelete" asp-route-id="@admin.Id"><i class="fa fa-trash"></i></a>

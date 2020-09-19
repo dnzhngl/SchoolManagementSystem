@@ -10,11 +10,14 @@ namespace SMS.BLL.Abstract
     {
         List<SubjectDTO> GetAll();
         SubjectDTO GetSubject(int id);
+        SubjectDTO GetSubject(string subjectName);
+
+        SubjectDTO GetSubjectIncludes(string subjectName);
         SubjectDTO NewSubject(SubjectDTO subject);
         SubjectDTO UpdateSubject(SubjectDTO subject);
         bool DeleteSubject(int id);
         List<SubjectDTO> GetSubjectByMainSubject(int mainSubjectId);
-        SubjectDTO GetSubjectByName(string subjectName);
-
+        //SubjectDTO GetSubjectByName(string subjectName);
+        //SubjectDTO GetSubjectIncludeMainSubject(string subjectName);
     }
 }

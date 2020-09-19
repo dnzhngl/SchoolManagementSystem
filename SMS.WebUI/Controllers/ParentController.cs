@@ -17,13 +17,15 @@ namespace SMS.WebUI.Controllers
         private readonly IStudentService studentService;
         private readonly ISectionService sectionService;
         private readonly IUserService userService;
+        private readonly IInstructorService instructorService;
 
-        public ParentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService, IUserService _userService)
+        public ParentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService, IUserService _userService, IInstructorService _instructorService)
         {
             studentService = _studentService;
             parentService = _parentService;
             sectionService = _sectionService;
             userService = _userService;
+            instructorService = _instructorService;
         }
         public IActionResult Index(int? userId, string? userName)
         {
@@ -42,12 +44,22 @@ namespace SMS.WebUI.Controllers
 
             return View(model);
         }
-        public IActionResult ParentList()
+        public IActionResult ParentList(string? instructorUserName)
         {
             StudentParentViewModel model = new StudentParentViewModel();
-            model.ParentDTOs = parentService.GetAll();
-            model.StudentDTOs = studentService.GetAll();
 
+            if (instructorUserName != null)
+            {
+                var instructor = instructorService.GetInstructoreByUsername(instructorUserName);
+
+                model.ParentDTOs = parentService.GetInstructorsParents(instructorUserName);
+                model.StudentDTOs = studentService.GetStudentsByInstructor(instructor.Id);
+            }
+            else
+            {
+                model.ParentDTOs = parentService.GetAll();
+                model.StudentDTOs = studentService.GetAll();
+            }
             return View(model);
         }
 
@@ -111,11 +123,11 @@ namespace SMS.WebUI.Controllers
             {
                 if (student.SectionId != null)
                 {
-                    student.SectionDTO = sectionService.GetSection((int)student.SectionId);
+                    student.Section = sectionService.GetSection((int)student.SectionId); //SectionDTO
                 }
                 else
                 {
-                    student.SectionDTO = null;
+                    student.Section = null; //SectionDTO
                 }
             }
             //model.SectionDTOs = sectionService.GetAll();
@@ -127,7 +139,7 @@ namespace SMS.WebUI.Controllers
             StudentParentViewModel model = new StudentParentViewModel();
             model.ParentDTO = parentService.GetParent(id);
             model.StudentDTOs = studentService.GetStudentByParent(id);
-            return PartialView(model);
+            return View(model);
         }
 
     }

@@ -56,10 +56,10 @@
                                 <label><strong>Şubesi : </strong></label>
                             </div>
                             <div class="col">
-                                @if (student.SectionDTO != null)
+                                @if (student.Section != null) //SectionDTO
                                 {
                                     <label>
-                                        @student.SectionDTO.SectionName
+                                        @student.Section.SectionName @*SectionDTO*@
                                     </label>
                                 }
                                 else

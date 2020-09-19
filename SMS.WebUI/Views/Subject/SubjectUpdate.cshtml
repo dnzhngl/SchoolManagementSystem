@@ -25,7 +25,7 @@
 
         <div class="form-group">
             <label for="formGroupExampleInput">Ana Ders</label>
-            <select class="form-control" asp-for="SubjectDTO.MainSubjectId" asp-items="@(new SelectList(Model.MainSubjectDTOs,  "Id", "MainSubjectName", Model.SubjectDTO.MainSubjectDTO))"></select>
+            <select class="form-control" asp-for="SubjectDTO.MainSubjectId" asp-items="@(new SelectList(Model.MainSubjectDTOs,  "Id", "MainSubjectName", Model.SubjectDTO.MainSubject))"></select>
         </div>
     </div>
 

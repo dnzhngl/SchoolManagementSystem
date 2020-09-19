@@ -41,11 +41,26 @@ namespace SMS.BLL.SMSService
             var subjectList = subjectRepo.GetAll().ToList();
             return MapperFactory.CurrentMapper.Map<List<SubjectDTO>>(subjectList);
         }
-
+        /// <summary>
+        /// It gives the related subject object according to the id number.
+        /// </summary>
+        /// <param name="id">Subject Id</param>
+        /// <returns>Subject object</returns>
         public SubjectDTO GetSubject(int id)
         {
             var selectedSubject = subjectRepo.Get(z => z.Id == id);
             return MapperFactory.CurrentMapper.Map<SubjectDTO>(selectedSubject);
+        }
+
+        /// <summary>
+        /// It gives the related object according to the subject Name.
+        /// </summary>
+        /// <param name="subjectName">Subject name</param>
+        /// <returns>Subject object</returns>
+        public SubjectDTO GetSubject(string subjectName)
+        {
+            var subject = subjectRepo.Get(z => z.SubjectName == subjectName);
+            return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
         }
 
         public List<SubjectDTO> GetSubjectByMainSubject(int mainSubjectId)
@@ -55,11 +70,17 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<List<SubjectDTO>>(subjectList);
         }
 
-        public SubjectDTO GetSubjectByName(string subjectName)
+        /// <summary>
+        /// It gives the related object according to the subject name, and includes related table names.
+        /// </summary>
+        /// <param name="subjectName"></param>
+        /// <returns>Subject object included related Main subject and Exams</returns>
+        public SubjectDTO GetSubjectIncludes(string subjectName)
         {
-            var subject = subjectRepo.Get(z => z.SubjectName == subjectName);
+            var subject = subjectRepo.GetIncludes(z => z.SubjectName == subjectName, z => z.MainSubject, z => z.Exams); //Examı ekledin
             return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
         }
+
 
         public SubjectDTO NewSubject(SubjectDTO subject)
         {
@@ -85,5 +106,20 @@ namespace SMS.BLL.SMSService
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<SubjectDTO>(selectedSubject);
         }
+
+
+        //public SubjectDTO GetSubjectByName(string subjectName)
+        //{
+        //    var subject = subjectRepo.Get(z => z.SubjectName == subjectName);
+        //    return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
+        //}
+
+
+        //public SubjectDTO GetSubjectIncludeMainSubject(string subjectName)
+        //{
+        //    var subject = subjectRepo.GetIncludes(z => z.SubjectName == subjectName, z => z.MainSubject, z => z.Exams); //Examı ekledin
+
+        //    return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
+        //}
     }
 }

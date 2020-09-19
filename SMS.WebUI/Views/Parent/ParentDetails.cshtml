@@ -1,62 +1,193 @@
 ﻿@model StudentParentViewModel
+@{
+    ViewData["Title"] = "ParentDetails";
+}
 
-
-<div class="modal-header">
-    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Veli Bilgileri </h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Veli Bilgisi</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
 </div>
 
-<form asp-action="ParentDetails" class="shadow-sm">
-
-    <input type="hidden" asp-for="ParentDTO.Id" />
-
-    <div class="modal-body">
-
-        <div class="form-group">
-            <label for="formGroupExampleInput">Veli Adı</label>
-            <input type="text" class="form-control" id="" readonly placeholder="Adı" asp-for="ParentDTO.FirstName">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Veli Soyadı</label>
-            <input type="text" class="form-control" id="" readonly placeholder="Soyadı" asp-for="ParentDTO.LastName">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput">Kimlik No</label>
-            <input type="text" class="form-control" id="" readonly placeholder="Kimlik Numarası" asp-for="ParentDTO.IdentityNumber">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Cinsiyeti</label>
-            <input type="text" class="form-control" readonly id="" placeholder="Cinsiyeti" asp-for="ParentDTO.Gender">
-        </div>
-        <br />
-
-        <h5>İletişim Bilgisi</h5>
-        <hr />
-
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Cep Telefonu</label>
-            <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.CellPhone">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Ev Telefonu</label>
-            <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.HomePhone">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">İş Telefonu</label>
-            <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.WorkPhone">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Adres Bilgisi</label>
-            <input type="text" class="form-control" readonly placeholder="" asp-for="ParentDTO.Address">
+<div class="card shadow mt-2">
+    <div class="card-header" id="headingOne">
+        <div class="row">
+            <div class="col">
+                <h4 class="card-title font-weight-bold text-primary">Veli Bilgisi</h4>
+            </div>
+            <div class="col">
+                @if (this.User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-outline-warning btn-sm float-right" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>
+                }
+            </div>
         </div>
     </div>
 
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-        <a class="btn btn-outline-warning " href="#" onclick="modalFunction('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>
+    <div class="card-body">
+        <form>
+            <div class="row">
+
+                <div class="col col-12 col-lg-4">
+                    <h5 class="card-subtitle mb-2 text-muted"><b>Kimlik Bilgisi</b></h5>
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>TC Kimlik No</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.IdentityNumber">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Adı</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.FirstName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Soyadı</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.LastName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Cinsiyeti</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.Gender">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-12 col-lg-8">
+                    <h5 class="card-subtitle mb-2 text-muted">İletişim Bilgisi</h5>
+                    <hr />
+                    <div class="row">
+                        <div class="col col-12 col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label text-black-50"><b>Cep Telefonu</b></label>
+                                <div class="col-sm-8">
+                                    <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.CellPhone">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label text-black-50"><b>Ev Telefonu</b></label>
+                                <div class="col-sm-8">
+                                    <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.HomePhone">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label text-black-50"><b>İş Telefonu</b></label>
+                                <div class="col-sm-8">
+                                    <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.WorkPhone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12 col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label text-black-50"><b>Adres Bilgisi</b></label>
+                                <div class="col-sm-8">
+                                    <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.Address">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-labelledby="mainModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modelContent">
+
+        </div>
+    </div>
+</div>
+
+@section BeginPageJS{
+    <script>
+        function createModal(url) {
+            $('#modelContent').load(url);
+            $('#mainModal').modal('show');
+        }
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="modal-header">
+        <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Veli Bilgileri </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
-</form>
+    <form asp-action="ParentDetails" class="shadow-sm">
+
+        <input type="hidden" asp-for="ParentDTO.Id" />
+
+        <div class="modal-body">
+
+            <div class="form-group">
+                <label for="formGroupExampleInput">Veli Adı</label>
+                <input type="text" class="form-control" id="" readonly placeholder="Adı" asp-for="ParentDTO.FirstName">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Veli Soyadı</label>
+                <input type="text" class="form-control" id="" readonly placeholder="Soyadı" asp-for="ParentDTO.LastName">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Kimlik No</label>
+                <input type="text" class="form-control" id="" readonly placeholder="Kimlik Numarası" asp-for="ParentDTO.IdentityNumber">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Cinsiyeti</label>
+                <input type="text" class="form-control" readonly id="" placeholder="Cinsiyeti" asp-for="ParentDTO.Gender">
+            </div>
+            <br />
+
+            <h5>İletişim Bilgisi</h5>
+            <hr />
+
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Cep Telefonu</label>
+                <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.CellPhone">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Ev Telefonu</label>
+                <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.HomePhone">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">İş Telefonu</label>
+                <input type="tel" class="form-control" readonly placeholder="+90" asp-for="ParentDTO.WorkPhone">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Adres Bilgisi</label>
+                <input type="text" class="form-control" readonly placeholder="" asp-for="ParentDTO.Address">
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            <a class="btn btn-outline-warning " href="#" onclick="modalFunction('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>
+        </div>
+
+    </form>*@
 

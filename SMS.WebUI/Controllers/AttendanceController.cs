@@ -28,7 +28,7 @@ namespace SMS.WebUI.Controllers
             model.StudentDTO = studentService.GetStudent(studentId);
             model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(model.StudentDTO.Id);
             model.AttendanceTypeDTOs = attendanceTypeService.GetAll();
-            model.StudentDTO.AttendanceDTOs = model.AttendanceDTOs;
+            model.StudentDTO.Attendances = model.AttendanceDTOs; //AttendanceDTOs
             return PartialView(model);
         }
         [HttpGet]

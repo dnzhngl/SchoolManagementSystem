@@ -16,12 +16,14 @@ namespace SMS.BLL.SMSService
         private readonly IUnitOfWork uow;
         private IRepository<Parent> parentRepo;
         private IRepository<Role> roleRepo;
+        private IRepository<User> userRepo;
 
         public ParentService(IUnitOfWork _uow)
         {
             uow = _uow;
             roleRepo = uow.GetRepository<Role>();
             parentRepo = uow.GetRepository<Parent>();
+            userRepo = uow.GetRepository<User>();
         }
 
         public bool DeleteParent(int id)
@@ -69,11 +71,11 @@ namespace SMS.BLL.SMSService
             if (!parentRepo.GetAll().Any(z => z.FirstName.ToLower() == parent.FirstName.ToLower() && z.LastName.ToLower() == parent.LastName.ToLower()))
             {
                 var newParent = MapperFactory.CurrentMapper.Map<Parent>(parent);
-              //  newParent.RoleId = roleRepo.Get(z => z.RoleName.Contains("Veli")).Id;
+                //  newParent.RoleId = roleRepo.Get(z => z.RoleName.Contains("Veli")).Id;
 
                 parentRepo.Add(newParent);
                 uow.SaveChanges();
-                return MapperFactory.CurrentMapper.Map<ParentDTO>(newParent); 
+                return MapperFactory.CurrentMapper.Map<ParentDTO>(newParent);
             }
             else
             {
@@ -88,6 +90,18 @@ namespace SMS.BLL.SMSService
             parentRepo.Update(selectedParent);
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<ParentDTO>(selectedParent);
+        }
+
+        public List<ParentDTO> GetInstructorsParents(string instructorUsername)
+        {
+            var instructor = uow.GetRepository<Instructor>().Get(z => z.User.UserName == instructorUsername);
+
+            return null;
+
+            
+                //"Select Parents.FirstName + ' ' + Parents.LastName as [Ad-Soyad], Parents.Gender, Parents.CellPhone, Parents.HomePhone,  Parents.WorkPhone, Parents.Address, Instructors.FirstName, Instructors.LastName from Parents inner join Students on Parents.Id = Students.ParentId inner join Sections on Students.SectionId = Sections.Id inner join Timetables on Sections.Id = Timetables.SectionId inner join Instructors on Instructors.Id = Timetables.InstructorId Group by Parents.FirstName, Parents.LastName, Parents.Gender, Parents.CellPhone, Parents.HomePhone, Parents.WorkPhone, Parents.Address, Instructors.FirstName, Instructors.LastName"
+            
+            
         }
     }
 }
