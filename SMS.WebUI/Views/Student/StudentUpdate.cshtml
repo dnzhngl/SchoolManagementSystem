@@ -11,7 +11,12 @@
 <form asp-action="StudentUpdate" class="shadow-sm">
 
     <input type="hidden" asp-for="StudentDTO.Id" />
-    <input type="hidden" asp-for="ParentDTO.Id" />
+    <input type="hidden" asp-for="StudentDTO.SchoolNumber" />
+    <input type="hidden" asp-for="StudentDTO.ParentId" />
+    <input type="hidden" asp-for="StudentDTO.SectionId" />
+    <input type="hidden" asp-for="StudentDTO.StudentStatusBool" />
+    <input type="hidden" asp-for="StudentDTO.StudentStatus" />
+    <input type="hidden" asp-for="StudentDTO.UserId" />
 
     <div class="modal-body">
 

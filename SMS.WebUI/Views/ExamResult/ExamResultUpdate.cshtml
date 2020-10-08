@@ -1,0 +1,58 @@
+﻿@model ExamResultDTO
+
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Sınav Sonucu Ekle</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form asp-action="ExamResultUpdate" class="shadow-sm">
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ExamId" />
+    <input type="hidden" asp-for="StudentId" />
+
+    <div class="modal-body">
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Ders</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" readonly placeholder="Ders" asp-for="Exam.Subject.SubjectName">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Sınav Adı </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" readonly placeholder="Sınav" asp-for="Exam.ExamName">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Sınav Notu </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="Sınav Sonucu" asp-for="ExamMark">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+
+</form>
+
+
+@*<div class="form-group">
+        <label><b>Ders</b></label>
+        <input type="text" class="form-control" readonly placeholder="Ders" asp-for="Exam.Subject.SubjectName">
+    </div>
+    <div class="form-group">
+        <label><b>Sınav Adı</b></label>
+        <input type="text" class="form-control" readonly placeholder="Sınav" asp-for="Exam.ExamName">
+    </div>
+    <div class="form-group">
+        <label><b>Sınav Notu</b></label>
+        <input type="text" class="form-control" id="" placeholder="Sınav Sonucu" asp-for="ExamMarks">
+    </div>*@

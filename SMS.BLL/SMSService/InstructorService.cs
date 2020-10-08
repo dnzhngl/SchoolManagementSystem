@@ -127,7 +127,7 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<InstructorDTO>(instructor);
         }
 
-        public InstructorDTO GetInstructoreByUsername(string username)
+        public InstructorDTO GetInstructorByUsername(string username)
         {
             var user = userRepo.Get(z => z.UserName == username);
             var instructor = instructorRepo.Get(z => z.UserId == user.Id);

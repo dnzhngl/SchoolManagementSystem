@@ -8,6 +8,6 @@ namespace SMS.DTO
     {
         public int Id { get; set; }
         public string CertificateTypeName { get; set; }
-        public List<CertificateDTO> CertificateDTOs { get; set; }
+        public List<CertificateDTO> Certificates { get; set; }
     }
 }

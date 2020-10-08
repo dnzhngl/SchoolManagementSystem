@@ -11,7 +11,7 @@ namespace SMS.BLL.Abstract
         List<SubjectDTO> GetAll();
         SubjectDTO GetSubject(int id);
         SubjectDTO GetSubject(string subjectName);
-
+        SubjectDTO GetSubjectIncludes(string subjectName, string sectionName); //
         SubjectDTO GetSubjectIncludes(string subjectName);
         SubjectDTO NewSubject(SubjectDTO subject);
         SubjectDTO UpdateSubject(SubjectDTO subject);

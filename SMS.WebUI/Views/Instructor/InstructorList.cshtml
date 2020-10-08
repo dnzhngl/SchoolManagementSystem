@@ -1,8 +1,8 @@
 ﻿@model InstructorBranchViewModel
 @{
     ViewData["Title"] = "InstructorList";
-    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 @section BeginPage{
     <!-- Custom styles for this page -->
     <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -28,9 +28,11 @@
                 <h5 class="m-0 font-weight-bold text-primary">Öğretmen Listesi</h5>
             </div>
             <div class="col-3">
-                @*<a class="btn btn-success" asp-action="InstructorAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
-                <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("InstructorAdd", "Instructor", "InstructorBranchViewModel")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
-
+                @if (this.User.IsInRole("Admin"))
+                {
+                    @*<a class="btn btn-success" asp-action="InstructorAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
+                    <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("InstructorAdd", "Instructor", "InstructorBranchViewModel")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                }
             </div>
         </div>
     </div>
@@ -43,6 +45,7 @@
                         <th>Soyadı</th>
                         <th>Görevi</th>
                         <th>Branşı</th>
+                        <th>Ders Programı</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -55,15 +58,20 @@
                             <td>@instructor.Duty</td>
                             <td>@Model.BranchDTOs.FirstOrDefault(z => z.Id == instructor.BranchId).BranchName</td>
                             <td>
-                                <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorId="@instructor.Id"><i class="fa fa-table"></i></a>
-
+                                <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorId="@instructor.Id"><i class="fa fa-table"></i> Ders Programı</a>
+                            </td>
+                            <td>
                                 @*<a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("InstructorDetails", "Instructor", new { id = instructor.Id })')"><i class="fa fa-search"></i></a>*@
-                                <a class="btn btn-outline-primary btn-sm" asp-action="InstructorDetails" asp-route-id="@instructor.Id"><i class="fa fa-search"></i></a>
 
-                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("InstructorUpdate", "Instructor", new { id = instructor.Id })')"><i class="fa fa-pen"></i></a>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-outline-primary btn-sm" asp-action="InstructorDetails" asp-route-id="@instructor.Id"><i class="fa fa-search"></i></a>
 
-                                @*<a class="btn btn-outline-warning btn-sm" asp-action="InstructorUpdate" asp-route-id="@instructor.Id"><i class="fa fa-pen"></i></a>*@
-                                <a class="btn btn-outline-danger btn-sm" asp-action="InstructorDelete" asp-route-id="@instructor.Id"><i class="fa fa-trash"></i></a>
+                                    <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("InstructorUpdate", "Instructor", new { id = instructor.Id })')"><i class="fa fa-pen"></i></a>
+
+                                    @*<a class="btn btn-outline-warning btn-sm" asp-action="InstructorUpdate" asp-route-id="@instructor.Id"><i class="fa fa-pen"></i></a>*@
+                                    <a class="btn btn-outline-danger btn-sm" asp-action="InstructorDelete" asp-route-id="@instructor.Id"><i class="fa fa-trash"></i></a>
+                                }
                             </td>
                         </tr>
                     }

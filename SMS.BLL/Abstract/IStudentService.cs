@@ -12,12 +12,15 @@ namespace SMS.BLL.Abstract
         List<StudentDTO> GetAllStudents();
 
         StudentDTO GetStudent(int id);
+        StudentDTO GetStudentDetails(int id);
         StudentDTO GetStudentByUsername(string username);
         List<StudentDTO> GetStudentByParent(int parentId);
         List<StudentDTO> GetStudentBySection(int sectionId);
-        List<StudentDTO> GetStudentsByInstructor(int instructorId);
-
-        List<StudentDTO> GetStudentsIncludeSectionAttendanceExamResults(int? sectionId);
+        List<StudentDTO> GetStudentsByGrade(int gradeId);
+        List<StudentDTO> GetStudentBasedOnCertificates(int certificateTypeId);
+        List<StudentDTO> GetStudentsOfInstructor(int instructorId);
+        List<StudentDTO> GetStudentList(string studentStatus = null);
+        List<StudentDTO> GetStudentsIncludes(int sectionId);
         
         StudentDTO NewStudent(StudentDTO student);
         StudentDTO UpdateStudent(StudentDTO student);

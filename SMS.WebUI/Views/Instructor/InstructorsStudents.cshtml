@@ -1,8 +1,7 @@
 ﻿@model StudentDetailsViewModel
 
 @{
-    ViewData["Title"] = "InstructorsStudents";
-    // Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+    ViewData["Title"] = "";
 }
 
 @section BeginPage{
@@ -41,8 +40,9 @@
                         <th>Adı</th>
                         <th>Soyadı</th>
                         <th>Şubesi</th>
-                        <th>Devam Durumu</th>
-                        <th>Sınav Notları</th>
+                        @*<th>Devam Durumu</th>
+                            <th>Sınav Notları</th>*@
+                        <th>Akademik Bilgi</th>
                         <th>Öğrenci Bilgisi</th>
                     </tr>
                 </thead>
@@ -53,59 +53,17 @@
                             <td>@student.SchoolNumber</td>
                             <td>@student.FirstName</td>
                             <td>@student.LastName</td>
-                            <td>
-                                @if (Model.SectionDTOs != null)
-                                {
-                                    @Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName
-                                }
-                                else if (Model.SectionDTO != null)
-                                {
-                                    @Model.SectionDTO.SectionName
-                                }
-                            </td>
-                            <td>
-                                <div class="row">
-                                    <div class="col">
-                                        @if (student.Attendances != null)
-                                        {
-                                            @student.Attendances.Count()
-                                        }
-                                        else
-                                        {
-                                            <p>Devamsızlık Bilgisi Girilmedi</p>
-                                        }
-                                    </div>
-                                    <div class="col">
-                                        <a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceAdd", "Attendance", new { studentId = student.Id })')"><i class="fa fa-plus-circle"></i></a>
-                                        <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceList", "Attendance", new { studentId = student.Id })')"><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="row">
-                                    <div class="col">
-                                        @if (student.ExamResults != null)
-                                        {
-                                            @foreach (var mark in student.ExamResults)
-                                            {
-                                                <p>@mark.ExamMarks</p>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <p>Sınav Notu Girilmedi</p>
-                                        }
-                                    </div>
-                                    <div class="col">
-                                        <a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultAdd", "ExamResult", new { studentId = student.Id })')"><i class="fa fa-plus-circle"></i></a>
+                            <td>@student.Section.SectionName</td>
+                            @*<td>
+                                    <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceList", "Attendance", new { studentId = student.Id })')"><i class="fa fa-search"></i></a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-primary btn-sm" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
+                                </td>*@
+                            <td><a class="btn btn-outline-info btn-sm" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@student.Id"> Akademik Bilgi</a></td><!---->
 
-                                        @*<a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("StudentExamResults", "ExamResult", new { studentId = student.Id })')"><i class="fa fa-plus-circle"></i></a>*@
-                                        <a class="btn btn-outline-primary btn-sm" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-                            </td>
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="RegisteredStudentDetails" asp-route-id="@student.Id"><i class="fa fa-search"></i></a>
+                                <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentDetails" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
                                 @*<a class="btn btn-outline-primary btn-sm" asp-controller="Attendance" asp-action="AttendanceList" asp-route-id="@student.Id">Devamsızlık Bilgisi</a>*@
 
                             </td>

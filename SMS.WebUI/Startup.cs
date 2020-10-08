@@ -97,6 +97,12 @@ namespace SMS.WebUI
             services.AddSingleton<IRoleService, RoleService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IAdminService, AdminService>();
+
+            services.AddSingleton<ICertificateService, CertificateService>();
+            services.AddSingleton<ICertificateTypeService, CertificateTypeService>();
+
+            services.AddSingleton<IPostService, PostService>();
+            services.AddSingleton<IPostCategoryService, PostCategoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

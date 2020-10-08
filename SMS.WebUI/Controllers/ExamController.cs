@@ -15,13 +15,15 @@ namespace SMS.WebUI.Controllers
         private readonly IExamTypeService examTypeService;
         private readonly ISubjectService subjectService;
         private readonly IMainSubjectService mainSubjectService;
+        private readonly IStudentService studentService;
 
-        public ExamController(IExamService _examService, IExamTypeService _examTypeService, ISubjectService _subjectService, IMainSubjectService _mainSubjectService)
+        public ExamController(IExamService _examService, IExamTypeService _examTypeService, ISubjectService _subjectService, IMainSubjectService _mainSubjectService, IStudentService _studentService)
         {
             examService = _examService;
             examTypeService = _examTypeService;
             subjectService = _subjectService;
             mainSubjectService = _mainSubjectService;
+            studentService = _studentService;
         }
 
         public IActionResult ExamList(int? id, string? subjectName, string? studentUsername)
@@ -40,7 +42,9 @@ namespace SMS.WebUI.Controllers
             }
             else if (studentUsername != null)
             {
-                //var studentsExams = examService
+                var student = studentService.GetStudentByUsername(studentUsername);
+               // model.ExamDTOs = examService.StudentsExamList(student.Id);
+                model.ExamDTOs = examService.GetExamsByStudent((int)student.Id);
             }
             else
             {
@@ -58,8 +62,6 @@ namespace SMS.WebUI.Controllers
             if (subjectId != null)
             {
                 model.SubjectDTO = subjectService.GetSubject((int)subjectId);
-                //var mainSubjectId = model.SubjectDTO.MainSubjectId;
-                //model.MainSubjectDTO = mainSubjectService.GetMainSubject(mainSubjectId);
             }
             else if (subjectName != null)
             {
@@ -77,12 +79,13 @@ namespace SMS.WebUI.Controllers
         public IActionResult ExamAdd(SubjectDetailViewModel exam)
         {
             ExamDTO newExam = exam.ExamDTO;
-            newExam.SubjectId = exam.SubjectDTO.Id;
+           // newExam.SubjectId = exam.SubjectDTO.Id; //
             examService.NewExam(newExam);
 
-            int subjectId = newExam.SubjectId;
+            return Redirect(Request.Headers["Referer"].ToString());
 
-            return RedirectToAction("SubjectDetails","Subject", new { subjectId = subjectId });
+            //int subjectId = newExam.SubjectId;
+           // return RedirectToAction("SubjectDetails","Subject", new { subjectId = subjectId });
             //return RedirectToAction("SubjectDetails", "Subject", new { id = exam.SubjectDTO.Id }); //ExamListBySubject
         }
         public IActionResult ExamDelete(int id)
@@ -91,7 +94,8 @@ namespace SMS.WebUI.Controllers
 
             examService.DeleteExam(id);
 
-            return RedirectToAction("SubjectDetails", "Subject", new { id = subjectId });
+            //return RedirectToAction("SubjectDetails", "Subject", new { id = subjectId });
+            return Redirect(Request.Headers["Referer"].ToString());
         }
         public IActionResult ExamUpdate(int id)
         {
@@ -101,7 +105,7 @@ namespace SMS.WebUI.Controllers
             model.ExamDTO = selectedExam;
             model.ExamTypeDTO = examTypeService.GetExamType(selectedExam.ExamTypeId);
             model.ExamTypeDTOs = examTypeService.GetAll();
-            model.ExamDTO.SubjectDTO = subjectService.GetSubject(model.ExamDTO.SubjectId);
+            model.ExamDTO.Subject = subjectService.GetSubject(model.ExamDTO.SubjectId);
 
             return PartialView(model);
         }
@@ -109,8 +113,8 @@ namespace SMS.WebUI.Controllers
         public IActionResult ExamUpdate(SubjectDetailViewModel exam)
         {
             ExamDTO selectedExam = exam.ExamDTO;
-            selectedExam.ExamTypeDTO = examTypeService.GetExamType(exam.ExamDTO.ExamTypeId);
-            selectedExam.SubjectDTO = subjectService.GetSubject(exam.ExamDTO.SubjectId);
+            selectedExam.ExamType = examTypeService.GetExamType(exam.ExamDTO.ExamTypeId);
+            selectedExam.Subject = subjectService.GetSubject(exam.ExamDTO.SubjectId);
             examService.UpdateExam(selectedExam);
 
             return RedirectToAction("SubjectDetails", "Subject", new { subjectId = exam.ExamDTO.SubjectId });

@@ -13,11 +13,11 @@ namespace SMS.DTO
         public string ExamEndTime { get; set; }
 
         public int ExamTypeId { get; set; }
-        public ExamTypeDTO ExamTypeDTO { get; set; }
+        public ExamTypeDTO ExamType{ get; set; }
 
         public int SubjectId { get; set; }
-        public SubjectDTO SubjectDTO { get; set; }
+        public SubjectDTO Subject { get; set; }
 
-        public List<ExamResultDTO> ExamResultDTOs { get; set; }
+        public List<ExamResultDTO> ExamResults { get; set; }
     }
 }

@@ -47,20 +47,15 @@ namespace SMS.BLL.SMSService
 
         public ExamResultDTO GetExamResult(int id)
         {
-            var selectedResult = examResultRepo.Get(z => z.Id == id);
+            var selectedResult = examResultRepo.GetIncludes(z => z.Id == id, z => z.Exam, z=>z.Exam.Subject);
             return MapperFactory.CurrentMapper.Map<ExamResultDTO>(selectedResult);
         }
 
-        public List<ExamResultDTO> GetExamResultByStudent(int id)
+        public List<ExamResultDTO> GetExamResultsOfStudent(int studentId)
         {
-            var studentExamResults = examResultRepo.GetAll().Where(z => z.StudentId == id);
-            foreach (var result in studentExamResults)
-            {
-                result.Exam = examRepo.Get(z => z.Id == result.ExamId);
-                result.Exam.Subject = subjectRepo.Get(z => z.Exams.Contains(result.Exam));
-            }
-            return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(studentExamResults);
-
+           // var student = uow.GetRepository<Student>().Get(z => z.Id == studentId);
+            var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam).OrderBy(z => z.Exam.ExamDate).ToList();
+            return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(examResults);
         }
 
         public List<ExamResultDTO> GetExamResultBySubject(int id)
@@ -90,7 +85,33 @@ namespace SMS.BLL.SMSService
 
         public ExamResultDTO UpdateExamResult(ExamResultDTO examResult)
         {
-            throw new NotImplementedException();
+            var selectedResult = examResultRepo.Get(z => z.Id == examResult.Id);
+            selectedResult = MapperFactory.CurrentMapper.Map<ExamResult>(examResult);
+
+            if (selectedResult.ExamMark >= 85 && selectedResult.ExamMark <= 100)
+            {
+                selectedResult.StudentStatus = "Pekiyi";
+            }
+            else if (selectedResult.ExamMark >= 70 && selectedResult.ExamMark < 85)
+            {
+                selectedResult.StudentStatus = "İyi";
+            }
+            else if (selectedResult.ExamMark >= 60 && selectedResult.ExamMark < 70)
+            {
+                selectedResult.StudentStatus = "Orta";
+            }
+            else if (selectedResult.ExamMark >= 50 && selectedResult.ExamMark < 60)
+            {
+                selectedResult.StudentStatus = "Geçer";
+            }
+            else if (selectedResult.ExamMark >= 0 && selectedResult.ExamMark < 50)
+            {
+                selectedResult.StudentStatus = "Geçmez";
+            }
+
+            examResultRepo.Update(selectedResult);
+            uow.SaveChanges();
+            return MapperFactory.CurrentMapper.Map<ExamResultDTO>(selectedResult);
         }
     }
 }

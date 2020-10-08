@@ -29,7 +29,9 @@ namespace SMS.WebUI.Controllers
         public IActionResult ClassroomAdd(ClassroomDTO classroom)
         {
             classroomService.NewClassroom(classroom);
-            return RedirectToAction("ClassroomList");
+          //  return RedirectToAction("ClassroomList");
+            return Redirect(Request.Headers["Referer"].ToString());
+
         }
         public IActionResult ClassroomDelete(int id)
         {

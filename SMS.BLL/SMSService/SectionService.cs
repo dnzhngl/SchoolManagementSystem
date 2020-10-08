@@ -40,7 +40,8 @@ namespace SMS.BLL.SMSService
 
         public List<SectionDTO> GetAll()
         {
-            var sectionList = sectionRepo.GetAll().ToList();
+           // var sectionList = sectionRepo.GetAll().ToList();
+            var sectionList = sectionRepo.GetIncludesList(null, z => z.Grade, z=>z.Students).ToList();
             return MapperFactory.CurrentMapper.Map<List<SectionDTO>>(sectionList);
         }
 
@@ -53,8 +54,9 @@ namespace SMS.BLL.SMSService
         {
             //var test = sectionRepo.Get(null, x => x.Grade).ToList();// --Selimden
 
-            var sectionList = sectionRepo.GetAll().Where(z => z.GradeId == gradeId);
-            //var sectionList = sectionRepo.Get(null, x => x.Grade).ToList();
+            //var sectionList = sectionRepo.GetAll().Where(z => z.GradeId == gradeId);
+            var sectionList = sectionRepo.GetIncludesList(z => z.GradeId==gradeId, z => z.Grade, z=>z.Students).ToList();
+
             return MapperFactory.CurrentMapper.Map<List<SectionDTO>>(sectionList);
         }
 

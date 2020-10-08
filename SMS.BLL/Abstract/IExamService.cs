@@ -12,6 +12,8 @@ namespace SMS.BLL.Abstract
         List<ExamDTO> GetAll();
         ExamDTO GetExam(int id);
         List<ExamDTO> GetExamBySubject(int id);
+        //List<ExamDTO> StudentsExamList(int studentId);
+        List<ExamDTO> GetExamsByStudent(int studentId);
         ExamDTO NewExam(ExamDTO exam);
         ExamDTO UpdateExam(ExamDTO exam);
         bool DeleteExam(int id);

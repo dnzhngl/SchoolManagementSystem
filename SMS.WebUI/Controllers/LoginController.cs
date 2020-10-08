@@ -22,7 +22,7 @@ namespace SMS.WebUI.Controllers
         }
         [HttpGet]
         public IActionResult UserLogin()
-        
+
         {
             return View();
         }
@@ -32,35 +32,36 @@ namespace SMS.WebUI.Controllers
             var user = userService.FindWithUsernameAndMail(userModel.UserName, userModel.Password);
             if (user != null)
             {
-                user.RoleDTO = roleService.GetRole((int)user.RoleId);
+                user.Role = roleService.GetRole((int)user.RoleId);
                 var userClaims = new List<Claim>()
                 {
                        new Claim("UserDTO",SMSConvert.SMSJsonSerialize(user)),
                        new Claim(ClaimTypes.Name, user.UserName),
-                       new Claim(ClaimTypes.Role, user.RoleDTO.RoleName)
-                };
-                var userIdentity = new ClaimsIdentity(userClaims, "User Identity");
-                var userPrincipal = new ClaimsPrincipal(new[] { userIdentity, new ClaimsIdentity() });
-                HttpContext.SignInAsync(userPrincipal);
+                       new Claim(ClaimTypes.Role, user.Role.RoleName),
+                       new Claim(ClaimTypes.Email, user.Email)
+            };
+            var userIdentity = new ClaimsIdentity(userClaims, "User Identity");
+            var userPrincipal = new ClaimsPrincipal(new[] { userIdentity, new ClaimsIdentity() });
+            HttpContext.SignInAsync(userPrincipal);
 
-                return RedirectToAction("Index", "User", user);
-            }
+            return RedirectToAction("Index", "User", user);
+        }
             return View(user);
-        }
-        public ActionResult Logout()
-        {
-            HttpContext.SignOutAsync();
-            return RedirectToAction("UserLogin");
-        }
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        public ActionResult AccessDenied()
-        {
-            return View();
-        }
-
     }
+    public ActionResult Logout()
+    {
+        HttpContext.SignOutAsync();
+        return RedirectToAction("UserLogin");
+    }
+    public ActionResult Register()
+    {
+        return View();
+    }
+
+    public ActionResult AccessDenied()
+    {
+        return View();
+    }
+
+}
 }

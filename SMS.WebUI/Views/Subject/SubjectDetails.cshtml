@@ -17,160 +17,135 @@
 </div>
 
 <div class="row">
-    <div class="col col-12 col-lg-3 p-2">
+    @if (this.User.IsInRole("Admin"))
+    {
+        <div class="col col-12 col-lg-3 p-2">
 
-        <input type="hidden" asp-for="SubjectDTO.Id" />
+            <input type="hidden" asp-for="SubjectDTO.Id" />
+
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <div class="row">
+                        <div class="col-9">
+                            <h5 class="m-0 font-weight-bold text-primary">Ders Bilgisi</h5>
+                        </div>
+                        <div class="col-3 ">
+
+                            <a class="btn btn-outline-warning btn-sm float-right" href="#" onclick="modalFunction('@Url.Action("SubjectUpdate", "Subject", new { id = Model.SubjectDTO.Id })')"><i class="fa fa-pen"></i></a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col">
+                                    <label><b>Ana Ders:</b></label>
+                                </div>
+                                <div class="col">
+                                    @if (Model.SubjectDTO.MainSubject != null)
+                                    {
+                                        @Model.SubjectDTO.MainSubject.MainSubjectName
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col">
+                                    <label><b>Ders:</b></label>
+                                </div>
+                                <div class="col">
+                                    @Model.SubjectDTO.SubjectName
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col">
+                                    <label> <b>Haftalık Ders Saati:</b></label>
+                                </div>
+                                <div class="col">
+                                    @Model.SubjectDTO.WeeklyCourseHours
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    }
+
+    <div class="col col-12 col-lg-9 p-2">
+
+        <input type="hidden" asp-for="SubjectDTO.Id" /> 
 
         <div class="card shadow">
             <div class="card-header py-3">
                 <div class="row">
                     <div class="col-9">
-                        <h5 class="m-0 font-weight-bold text-primary">Ders Bilgisi</h5>
+                        <h5 class="m-0 font-weight-bold text-primary">@Model.SubjectDTO.SubjectName Dersi Sınav Listesi</h5>
                     </div>
-                    <div class="col-3 float-right">
+                    <div class="col-3">
                         @if (this.User.IsInRole("Admin"))
                         {
-                            @*<a class="btn btn-outline-warning btn-sm" asp-action="SubjectUpdate" asp-route-id="@Model.SubjectDTO.Id"><i class="fa fa-pen"></i></a>*@
+                            @*<a class="btn btn-success" asp-controller="Exam" asp-action="ExamAdd" asp-route-id="@Model.SubjectDTO.Id">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
 
-                            <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("SubjectUpdate", "Subject", new { id = Model.SubjectDTO.Id })')"><i class="fa fa-pen"></i></a>
+                            <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "Exam", new { subjectId = @Model.SubjectDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
                         }
-
                     </div>
                 </div>
             </div>
-
             <div class="card-body">
-                <ul class="list-group list-group-flush">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Sınav Adı</th>
+                                <th>Sınav Tarihi</th>
+                                <th>Başlangıç Saati</th>
+                                <th>Bitiş Saati</th>
+                                <th>Sınav Türü</th>
+                                <th></th>
 
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col">
-                                <label><b>Ana Ders:</b></label>
-                            </div>
-                            <div class="col">
-                                @if (Model.MainSubjectDTO != null)
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.SubjectDTO.Exams != null)
+                            {
+                                @foreach (var exam in Model.SubjectDTO.Exams)
                                 {
-                                    @Model.MainSubjectDTO.MainSubjectName
+                                    <tr>
+                                        <td>@exam.ExamName</td>
+                                        <td>@exam.ExamDate.ToShortDateString()</td>
+                                        <td>@exam.ExamStartTime</td>
+                                        <td>@exam.ExamEndTime</td>
+                                        <td>@Model.ExamTypeDTOs.FirstOrDefault(z => z.Id == exam.ExamTypeId).ExamTypeName</td>
+                                        <td>
+                                            @if (this.User.IsInRole("Admin"))
+                                            {
+                                                @*<a class="btn btn-outline-primary btn-sm" asp-controller="Exam" asp-action="ExamDetails" asp-route-id="@exam.Id"><i class="fa fa-search"></i></a>*@
+                                                @*<a class="btn btn-outline-warning btn-sm" asp-controller="Exam" asp-action="ExamUpdate" asp-route-id="@exam.Id"><i class="fa fa-pen"></i></a>*@
+                                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamUpdate", "Exam", new { id = exam.Id })')"><i class="fa fa-pen"></i></a>
+                                                <a class="btn btn-outline-danger btn-sm" asp-controller="Exam" asp-action="ExamDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
+                                            }
+                                        </td>
+                                    </tr>
                                 }
-                                else if (Model.SubjectDTO.MainSubject != null)
-                                {
-                                    @Model.SubjectDTO.MainSubject.MainSubjectName
-                                }
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col">
-                                <label><b>Ders:</b></label>
-                            </div>
-                            <div class="col">
-                                @Model.SubjectDTO.SubjectName
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col">
-                                <label> <b>Haftalık Ders Saati:</b></label>
-                            </div>
-                            <div class="col">
-                                @Model.SubjectDTO.WeeklyCourseHours
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
     </div>
-
-
-    @*@if (Model.ExamDTOs != null)*@
-
-        @if (Model.SubjectDTO.Exams != null)
-        {
-            <div class="col col-12 col-lg-8 p-2">
-
-                <div class="card shadow">
-                    <div class="card-header py-3">
-                        <div class="row">
-                            <div class="col-9">
-                                <h5 class="m-0 font-weight-bold text-primary">@Model.SubjectDTO.SubjectName Dersi Sınav Listesi</h5>
-                            </div>
-                            <div class="col-3">
-                                @*<a class="btn btn-success" asp-controller="Exam" asp-action="ExamAdd" asp-route-id="@Model.SubjectDTO.Id">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
-
-                                <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "Exam", new { subjectId = @Model.SubjectDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Sınav Adı</th>
-                                        <th>Sınav Tarihi</th>
-                                        <th>Başlangıç Saati</th>
-                                        <th>Bitiş Saati</th>
-                                        <th>Sınav Türü</th>
-                                        <th></th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @if (Model.ExamDTOs != null)
-                                    {
-                                        @foreach (var exam in Model.ExamDTOs)
-                                        {
-                                            <tr>
-                                                <td>@exam.ExamName</td>
-                                                <td>@exam.ExamDate</td>
-                                                <td>@exam.ExamStartTime</td>
-                                                <td>@exam.ExamEndTime</td>
-                                                <td>@Model.ExamTypeDTOs.FirstOrDefault(z => z.Id == exam.ExamTypeId).ExamTypeName</td>
-                                                <td>
-                                                    @*<a class="btn btn-outline-primary btn-sm" asp-controller="Exam" asp-action="ExamDetails" asp-route-id="@exam.Id"><i class="fa fa-search"></i></a>*@
-                                                    @*<a class="btn btn-outline-warning btn-sm" asp-controller="Exam" asp-action="ExamUpdate" asp-route-id="@exam.Id"><i class="fa fa-pen"></i></a>*@
-                                                    <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamUpdate", "Exam", new { id = exam.Id })')"><i class="fa fa-pen"></i></a>
-
-                                                    <a class="btn btn-outline-danger btn-sm" asp-controller="Exam" asp-action="ExamDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                    else if (Model.SubjectDTO.Exams != null)
-                                    {
-                                        @foreach (var exam in Model.SubjectDTO.Exams)
-                                        {
-                                            <tr>
-                                                <td>@exam.ExamName</td>
-                                                <td>@exam.ExamDate</td>
-                                                <td>@exam.ExamStartTime</td>
-                                                <td>@exam.ExamEndTime</td>
-                                                <td>@Model.ExamTypeDTOs.FirstOrDefault(z => z.Id == exam.ExamTypeId).ExamTypeName</td>
-                                                <td>
-                                                    @*<a class="btn btn-outline-primary btn-sm" asp-controller="Exam" asp-action="ExamDetails" asp-route-id="@exam.Id"><i class="fa fa-search"></i></a>*@
-                                                    @*<a class="btn btn-outline-warning btn-sm" asp-controller="Exam" asp-action="ExamUpdate" asp-route-id="@exam.Id"><i class="fa fa-pen"></i></a>*@
-                                                    <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamUpdate", "Exam", new { id = exam.Id })')"><i class="fa fa-pen"></i></a>
-
-                                                    <a class="btn btn-outline-danger btn-sm" asp-controller="Exam" asp-action="ExamDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+</div>
 
 <div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">

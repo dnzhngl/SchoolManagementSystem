@@ -9,6 +9,7 @@ namespace SMS.Model
     public class User : Entity<int>
     {
         public string UserName { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public DateTime? LoginTimeStamps { get; set; }
         public DateTime? FailedLogin { get; set; }

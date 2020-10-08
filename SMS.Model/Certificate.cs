@@ -8,8 +8,12 @@ namespace SMS.Model
 {
     public class Certificate : Entity<int>
     {
-        public Guid SerialNumber { get; set; }
+        //public Guid SerialNumber { get; set; }
         public DateTime IssueDate { get; set; }
+
+        [ForeignKey("Semester")]
+        public Nullable<int> SemesterId { get; set; }
+        public virtual Semester Semester { get; set; }
 
         [ForeignKey("Student")]
         public Nullable<int> StudentId { get; set; }

@@ -10,10 +10,13 @@ namespace SMS.Model
         public Semester()
         {
             Timetables = new HashSet<Timetable>();
+            Certificates = new HashSet<Certificate>();
         }
+        public string SemesterName { get; set; }
         public DateTime SemesterBeginning { get; set; }
         public DateTime SemesterEnd { get; set; }
 
         public virtual ICollection<Timetable> Timetables { get; set; }
+        public virtual ICollection<Certificate> Certificates { get; set; }
     }
 }

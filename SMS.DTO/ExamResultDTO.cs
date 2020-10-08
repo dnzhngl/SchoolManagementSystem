@@ -7,13 +7,13 @@ namespace SMS.DTO
     public class ExamResultDTO
     {
         public int Id { get; set; }
-        public decimal ExamMarks { get; set; }
+        public decimal ExamMark { get; set; }
         public string StudentStatus { get; set; }
 
         public int ExamId { get; set; }
-        public ExamDTO ExamDTO { get; set; }
+        public ExamDTO Exam { get; set; }
 
         public int StudentId { get; set; }
-        public StudentDTO StudentDTO { get; set; }
+        public StudentDTO Student { get; set; }
     }
 }

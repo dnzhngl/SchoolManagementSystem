@@ -12,15 +12,15 @@
     <div class="modal-body">
         <div class="form-group">
             <label><b>Ders</b></label>
-            <input type="text" class="form-control" readonly placeholder="Ders" asp-for="ExamResultDTO.ExamDTO.SubjectDTO.SubjectName">
+            <input type="text" class="form-control" readonly placeholder="Ders" asp-for="ExamResultDTO.Exam.Subject.SubjectName">
         </div>
         <div class="form-group">
             <label><b>Sınav Adı</b></label>
-            <input type="text" class="form-control" readonly placeholder="Sınav" asp-for="ExamResultDTO.ExamDTO.ExamName">
+            <input type="text" class="form-control" readonly placeholder="Sınav" asp-for="ExamResultDTO.Exam.ExamName">
         </div>
         <div class="form-group">
             <label><b>Sınav Notu</b></label>
-            <input type="text" class="form-control" id="" placeholder="Sınav Sonucu" asp-for="ExamResultDTO.ExamMarks">
+            <input type="text" class="form-control" id="" placeholder="Sınav Sonucu" asp-for="ExamResultDTO.ExamMark">
         </div>
     </div>
 

@@ -10,7 +10,8 @@ namespace SMS.Model
     {
         public string PostName { get; set; }
         public DateTime PublishedDate { get; set; }
-
+        public string PostContent { get; set; }
+        public string File { get; set; }
 
         [ForeignKey("User")]
         public Nullable<int> UserId { get; set; }

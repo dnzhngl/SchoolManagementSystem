@@ -15,7 +15,7 @@ namespace SMS.DTO
         public int GradeId { get; set; }
         public GradeDTO Grade { get; set; }
 
-        public List<StudentDTO> StudentDTOs { get; set; }
-        public List<TimetableDTO> TimeTableDTOs { get; set; }
+        public List<StudentDTO> Students { get; set; }
+        public List<TimetableDTO> Timetables { get; set; }
     }
 }

@@ -28,7 +28,7 @@
                 <h5 class="m-0 font-weight-bold text-primary">Yönetici Listesi</h5>
             </div>
             <div class="col-3">
-                <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AdminAdd", "Admin", "AdminDTO")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AdminAdd", "Admin", "AdminDTO")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
 
             </div>
         </div>
@@ -40,7 +40,9 @@
                     <tr>
                         <th>Adı</th>
                         <th>Soyadı</th>
+                        <th>Cinsiyeti</th>
                         <th>Görevi</th>
+                        <th>Telefon Numarası</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -50,7 +52,9 @@
                         <tr>
                             <td>@admin.FirstName</td>
                             <td>@admin.LastName</td>
+                            <td>@admin.Gender</td>
                             <td>@admin.Duty</td>
+                            <td>@admin.CellPhone</td>
                             <td>
                                 @*<a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("AdminDetails", "Admin", new { id = admin.Id })')"><i class="fa fa-search"></i></a>*@
 

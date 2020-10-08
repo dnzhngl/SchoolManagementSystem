@@ -51,7 +51,6 @@
             </li>
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-studentUserName="@User.Identity.Name">
                     <i class="fas fa-book"></i>
@@ -61,15 +60,25 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ExamList" asp-controller="Exam">
+                <a class="nav-link" asp-action="ExamList" asp-controller="Exam" asp-route-studentUserName="@User.Identity.Name">
                     <i class="fas fa-pen"></i>
                     Sınav Listesi
                 </a>
             </li>
+
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ExamList" asp-controller="Exam">
+                <a class="nav-link" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentUserName="@User.Identity.Name">
+                    <i class="fas fa-book"></i>
+                    Akademik Bilgisi
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="PostList" asp-controller="Post" asp-route-postCategoryName="Ödev">
                     <i class="fas fa-superscript"></i>
                     Ödev İşlemleri
                 </a>
@@ -77,7 +86,7 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ExamList" asp-controller="Exam">
+                <a class="nav-link" asp-action="PostList" asp-controller="Post">
                     <i class="fas fa-bullhorn"></i>
                     Duyuru ve Etkinlikler
                 </a>
@@ -262,7 +271,7 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" asp-controller="User" asp-action="UserSettings" asp-route-username="@this.User.Identity.Name">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Ayarlar
                                 </a>

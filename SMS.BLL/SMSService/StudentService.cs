@@ -60,7 +60,11 @@ namespace SMS.BLL.SMSService
             var studentList = studentRepo.GetAll().Where(z => z.SectionId != null).ToList();
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
-
+        public StudentDTO GetStudentDetails(int id)
+        {
+            var selectedStudent = studentRepo.GetIncludes(z => z.Id == id, z=> z.Section);
+            return MapperFactory.CurrentMapper.Map<StudentDTO>(selectedStudent);
+        }
         public StudentDTO GetStudent(int id)
         {
             var selectedStudent = studentRepo.Get(z => z.Id == id);
@@ -69,8 +73,12 @@ namespace SMS.BLL.SMSService
 
         public List<StudentDTO> GetStudentBySection(int sectionId)
         {
-            //var studentList = uow.GetRepository<Student>().GetIncludes(z => z.SectionId == sectionId);
-            var studentList = studentRepo.GetAll().Where(z => z.SectionId == sectionId);
+            var studentList = studentRepo.GetIncludesList(z => z.SectionId == sectionId, z => z.Section, z => z.Section.Grade).ToList();
+            return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
+        }
+        public List<StudentDTO> GetStudentsByGrade(int gradeId)
+        {
+            var studentList = studentRepo.GetIncludesList(z => z.Section.GradeId == gradeId, z => z.Section, z => z.Section.Grade).ToList();
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
 
@@ -88,7 +96,8 @@ namespace SMS.BLL.SMSService
             {
                 var newStudent = MapperFactory.CurrentMapper.Map<Student>(student);
                 newStudent.SchoolNumber = GenerateStudentNumber(studentCount);
-                newStudent.StudentStatus = true;
+                newStudent.StudentStatusBool = true; //Gereksiz.
+                newStudent.StudentStatus = "Öğrenci";
                 newStudent = studentRepo.Add(newStudent);
                 uow.SaveChanges();
                 return MapperFactory.CurrentMapper.Map<StudentDTO>(newStudent);
@@ -102,33 +111,32 @@ namespace SMS.BLL.SMSService
 
         public StudentDTO UpdateStudent(StudentDTO student)
         {
-            var selectedStudent = studentRepo.Get(z => z.Id == student.Id);
-            selectedStudent = MapperFactory.CurrentMapper.Map<Student>(student);
-            selectedStudent.Parent = MapperFactory.CurrentMapper.Map<Parent>(student.ParentDTO);
-            selectedStudent.Section = MapperFactory.CurrentMapper.Map<Section>(student.Section); // SectionDTO
-
+            var selectedStudent= MapperFactory.CurrentMapper.Map<Student>(student);
+          
             studentRepo.Update(selectedStudent);
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<StudentDTO>(selectedStudent);
         }
 
-        public List<StudentDTO> GetStudentsByInstructor(int instructorId)
-        {
-            var sectionList = timetableRepo.GetAll().Where(z => z.InstructorId == instructorId).Select(z => z.SectionId);
+        public List<StudentDTO> GetStudentsOfInstructor(int instructorId)
+        {  
+            var sectionIdList = timetableRepo.GetAll().Where(z => z.InstructorId == instructorId).GroupBy(z => z.SectionId).Select(z => z.Key);
+
             List<Student> studentList = new List<Student>();
 
-            foreach (int sectionId in sectionList)
+            foreach (int sectionId in sectionIdList)
             {
-                var sectionsStudentList = studentRepo.GetAll().Where(z => z.SectionId == sectionId).ToList();
-                studentList.AddRange(sectionsStudentList);
+                //var sectionsStudentList = studentRepo.GetAll().Where(z => z.SectionId == sectionId).ToList();
+                //studentList.AddRange(sectionsStudentList);
+
+                var students = studentRepo.GetIncludesList(z => z.SectionId == sectionId, z => z.Section); //
+                studentList.AddRange(students);
             }
 
 
-            //var sectionL = timetableRepo.GetIncludes(z => z.InstructorId == instructorId, z => z.Section.Students);
-            //var sectionL2 = timetableRepo.Get(z => z.InstructorId == instructorId, z => z.Section.Students);
-            //var studentList2 = sectionL2.Select(z => z.Section.Students);
+           // studentList = studentList.GroupBy(z => new { z.SchoolNumber, z.FirstName, z.LastName, z.SectionId }).Select(z => new Student() {SchoolNumber = z.Key.SchoolNumber, FirstName = z.Key.FirstName, LastName = z.Key.LastName, SectionId = z.Key.SectionId }).ToList(); //
 
-            return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList); //studentList
+            return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
 
         public StudentDTO GetStudentByUsername(string username)
@@ -147,16 +155,45 @@ namespace SMS.BLL.SMSService
             return studentNumber;
         }
 
-        public List<StudentDTO> GetStudentsIncludeSectionAttendanceExamResults(int? sectionId)
+        /// <summary>
+        /// It gives List of Students included Section, ExamResults and Attendances.
+        /// If sectionId parameter sent it return the List of students in given section.
+        /// </summary>
+        /// <param name="sectionId"></param>
+        /// <returns></returns>
+        public List<StudentDTO> GetStudentsIncludes(int sectionId)
         {
-            var studentList = studentRepo.Get( x => x.Section,  x => x.ExamResults, x => x.Attendances );
-
-            if (sectionId != null)
-            {
-                studentList = studentList.Where(z => z.SectionId == sectionId);
-            }
-          //  var studentList = studentRepo.GetIncludes(null, x => x.Section,  x => x.ExamResults );
+            var studentList = studentRepo.GetIncludesList(x => x.SectionId == sectionId, x => x.Section,  x => x.ExamResults, x => x.Attendances);
+            
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
+
+        public List<StudentDTO> GetStudentBasedOnCertificates(int certificateTypeId)
+        {
+            var certificateList = uow.GetRepository<Certificate>().GetIncludesList(z => z.CertificateTypeId == certificateTypeId, z => z.Student, z=>z.Student.Section.Grade);
+            var studentList = certificateList.Select(z => z.Student);
+            return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="studentStatus"></param>
+        /// <returns></returns>
+        public List<StudentDTO> GetStudentList(string studentStatus = null)
+         {
+            //var studentList = studentRepo.GetAll().Where(z => z.StudentStatus == studentStatus).ToList();
+            var studentList = new List<Student>();
+            if (studentStatus != null)
+            {
+                studentList = studentRepo.GetIncludesList(z => z.StudentStatus == studentStatus, z => z.Section, z=>z.Section.Grade).ToList();
+            }
+            else
+            {
+                studentList = studentRepo.GetIncludesList(null, z => z.Section, z=>z.Section.Grade).ToList();
+            }
+            return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
+        }
+        
     }
 }

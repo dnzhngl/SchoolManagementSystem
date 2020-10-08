@@ -12,9 +12,11 @@
     <input type="hidden" asp-for="Id" />
 
     <div class="modal-body">
-        <div class="form-group">
-            <label for="formGroupExampleInput">Ana Ders Adı</label>
-            <input type="text" class="form-control" id="" placeholder="Ana Ders Adı" asp-for="MainSubjectName">
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Ana Ders Adı </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="Ana Ders Adı" asp-for="MainSubjectName">
+            </div>
         </div>
     </div>
 

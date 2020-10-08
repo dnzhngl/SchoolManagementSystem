@@ -11,13 +11,14 @@
     <form asp-action="ExamAdd" class="shadow-sm">
 
 
-        <input type="hidden" asp-for="SubjectDTO.Id" />
-        <input type="hidden" asp-for="ExamDTO.SubjectId" />
-        <input type="hidden" asp-for="MainSubjectDTO.Id" />
+        @*<input type="hidden" asp-for="ExamDTO.SubjectId" />*@
 
         <div class="modal-body">
+            <input type="hidden" asp-for="SubjectDTO.Id" />
+
             @if (Model.SubjectDTO != null)
             {
+
                 <h5>@Model.SubjectDTO.SubjectName Dersi Sınav Formu</h5>
                 <hr />
                 <div class="form-group">

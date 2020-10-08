@@ -46,7 +46,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Bilge Koleji Öğretmen</div>
+                <div class="sidebar-brand-text mx-3">Bilge Koleji Öğretmen Paneli</div>
             </a>
 
             <!-- Divider -->
@@ -55,45 +55,9 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Instructor" asp-action="Index" asp-route-username="@User.Identity.Name">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-home"></i>
                     <span>Ana Sayfa</span>
                 </a>
-            </li>
-
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Sınıf ve Ders İşlemleri
-            </div>
-
-            <!-- Sections -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSections" aria-expanded="true" aria-controls="collapsePageSections">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Sınıf İşlemleri</span>
-                </a>
-                <div id="collapsePageSections" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Sınıf İşlemleri</h6>
-                        <a class="collapse-item" asp-controller="Instructor" asp-action="LecturedClasses" asp-route-username="@User.Identity.Name">Sınıf Listesi</a>
-                        @*<a class="collapse-item" href="/Instructor/InstructorSectionList">Sınıf Listesi</a>*@
-                    </div>
-                </div>
-            </li>
-            <!-- Subjects -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSubjects" aria-expanded="true" aria-controls="collapsePageSubjects">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Ders İşlemleri</span>
-                </a>
-                <div id="collapsePageSubjects" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Ders İşlemleri</h6>
-                        <a class="collapse-item" asp-controller="Timetable" asp-action="TimetableList" asp-route-username="@User.Identity.Name">Ders Listesi</a>
-                        <a class="collapse-item" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorUserName="@User.Identity.Name">Ders Programı</a>
-                    </div>
-                </div>
             </li>
 
             <hr class="sidebar-divider">
@@ -106,14 +70,19 @@
             <!--Announcements-->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageAnnouncement" aria-expanded="true" aria-controls="collapsePageAnnouncement">
-                    <i class="fas fa-code-branch"></i>
-                    <span>Duyuru İşlemleri</span>
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Duyurular &amp; Etkinlikler</span>
                 </a>
                 <div id="collapsePageAnnouncement" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Etkinlik İşlemleri</h6>
+                        <a class="collapse-item" asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Etkinlik">Etkinlik Listesi</a>
+                        <a class="collapse-item" href="/#">Etkinlik Ekle</a>
+
                         <h6 class="collapse-header">Duyuru İşlemleri</h6>
-                        <a class="collapse-item" href="#">Duyuru Listesi</a>
-                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("BranchAdd", "Branch", "BranchDTO")')">Duyuru Ekle</a>
+                        <a class="collapse-item" asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Duyuru">Duyuru Listesi</a>
+                        <a class="collapse-item" href="#">Duyuru Ekle</a>
+
                     </div>
                 </div>
             </li>
@@ -123,36 +92,75 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Öğrenci Ve Veli İşlemleri
+                Sınıf ve Ders İşlemleri
             </div>
 
-            <!--Parents-->
+            <!-- Sections -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageParents" aria-expanded="true" aria-controls="collapsePageParents">
-                    <i class="fas fa-code-branch"></i>
-                    <span>Veli İşlemleri</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSections" aria-expanded="true" aria-controls="collapsePageSections">
+                    <i class="fas fa-list-alt"></i>
+                    <span>Sınıf İşlemleri</span>
                 </a>
-                <div id="collapsePageParents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapsePageSections" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Veli İşlemleri</h6>
-                        <a class="collapse-item" asp-controller="Parent" asp-action="ParentList" asp-route-instructorUsername="@User.Identity.Name" >Veli Listesi</a>
+                        <h6 class="collapse-header">Sınıf İşlemleri</h6>
+                        <a class="collapse-item" asp-controller="Instructor" asp-action="LecturedClasses" asp-route-instructorUsername="@User.Identity.Name">Sınıf Listesi</a>
+                        @*<a class="collapse-item" href="/Instructor/InstructorSectionList">Sınıf Listesi</a>*@
+                    </div>
+                </div>
+            </li>
+            <!-- Subjects -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSubjects" aria-expanded="true" aria-controls="collapsePageSubjects">
+                    <i class="fas fa-book-dead"></i>
+                    <span>Ders İşlemleri</span>
+                </a>
+                <div id="collapsePageSubjects" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Ders İşlemleri</h6>
+                        @*<a class="collapse-item" asp-controller="Timetable" asp-action="TimetableList" asp-route-username="@User.Identity.Name">Ders Listesi</a>*@
+                        <a class="collapse-item" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorUserName="@User.Identity.Name">Ders Programı</a>
                     </div>
                 </div>
             </li>
 
+
+
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Öğrenci &amp; Veli İşlemleri
+            </div>
+            <!--Students-->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageStudents" aria-expanded="true" aria-controls="collapsePageStudents">
-                    <i class="fas fa-code-branch"></i>
+                    <i class="fas fa-book-open"></i>
                     <span>Öğrenci İşlemleri</span>
                 </a>
                 <div id="collapsePageStudents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Öğrenci İşlemleri</h6>
-                        <a class="collapse-item" asp-controller="Instructor" asp-action="InstructorsStudents" asp-route-username="@User.Identity.Name">Öğrenci Listesi</a>
-
+                        <a class="collapse-item" asp-controller="Instructor" asp-action="InstructorsStudents" asp-route-instructorUsername="@User.Identity.Name">Öğrenci Listesi</a>
                     </div>
                 </div>
             </li>
+
+            <!--Parents-->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageParents" aria-expanded="true" aria-controls="collapsePageParents">
+                    <i class="fas fa-users"></i>
+                    <span>Veli İşlemleri</span>
+                </a>
+                <div id="collapsePageParents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Veli İşlemleri</h6>
+                        <a class="collapse-item" asp-controller="Parent" asp-action="ParentList" asp-route-instructorUsername="@User.Identity.Name">Veli Listesi</a>
+                    </div>
+                </div>
+            </li>
+
+
 
 
 
@@ -335,7 +343,7 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" asp-controller="User" asp-action="UserSettings" asp-route-username="@this.User.Identity.Name">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Ayarlar
                                 </a>

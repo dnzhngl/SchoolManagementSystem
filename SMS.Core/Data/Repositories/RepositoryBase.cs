@@ -121,5 +121,23 @@ namespace SMS.Core.Data.Repositories
                 context.Entry(local).State = EntityState.Detached;
             }
         }
+
+
+        /// <summary>
+        /// First applies given given filter, then includes given objects.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="includes"></param>
+        /// <returns>Returns list of given object with filtered and included objects </returns>
+        public IQueryable<T> GetIncludesList(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = GetQueryable(filter, null, null);
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+                // query = query.Include(include.Name);
+            }
+            return query;
+        }
     }
 }

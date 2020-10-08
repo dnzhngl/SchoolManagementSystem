@@ -94,14 +94,21 @@ namespace SMS.BLL.SMSService
 
         public List<ParentDTO> GetInstructorsParents(string instructorUsername)
         {
-            var instructor = uow.GetRepository<Instructor>().Get(z => z.User.UserName == instructorUsername);
+            var instructorUserId = userRepo.Get(z => z.UserName == instructorUsername).Id;
+            var instructor = uow.GetRepository<Instructor>().Get(z => z.UserId == instructorUserId);
+            var sectionIdList = uow.GetRepository<Timetable>().GetAll().Where(z => z.InstructorId == instructor.Id).GroupBy(z => z.SectionId).Select(z => z.Key);
 
-            return null;
+            List<Parent> parentList = new List<Parent>();
 
-            
+            foreach (int sectionId in sectionIdList)
+            {
+                var parents = uow.GetRepository<Student>().GetIncludesList(z => z.SectionId == sectionId, z => z.Parent).Select(z=> z.Parent);
+                parentList.AddRange(parents);
+            }
+
+            return MapperFactory.CurrentMapper.Map<List<ParentDTO>>(parentList);
+
                 //"Select Parents.FirstName + ' ' + Parents.LastName as [Ad-Soyad], Parents.Gender, Parents.CellPhone, Parents.HomePhone,  Parents.WorkPhone, Parents.Address, Instructors.FirstName, Instructors.LastName from Parents inner join Students on Parents.Id = Students.ParentId inner join Sections on Students.SectionId = Sections.Id inner join Timetables on Sections.Id = Timetables.SectionId inner join Instructors on Instructors.Id = Timetables.InstructorId Group by Parents.FirstName, Parents.LastName, Parents.Gender, Parents.CellPhone, Parents.HomePhone, Parents.WorkPhone, Parents.Address, Instructors.FirstName, Instructors.LastName"
-            
-            
         }
     }
 }

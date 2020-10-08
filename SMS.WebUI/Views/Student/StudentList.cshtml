@@ -24,7 +24,20 @@
     <div class="card-header py-3">
         <div class="row">
             <div class="col-9">
-                <h5 class="m-0 font-weight-bold text-primary">@ViewBag.sectionName Öğrenci Listesi</h5>
+                <h5 class="m-0 font-weight-bold text-primary">@ViewBag.sectionName @ViewBag.certificateTypeName Öğrenci Listesi</h5>
+            </div>
+            <div class="col">
+                <div class="dropdown float-right">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Öğrenci Listeleri
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Takdir">Takdir Belgesi Alanlar</a>
+                        <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Teşekkür">Teşekkür Belgesi Alanlar</a>
+                        <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Onur">Onur Belgesi Alanlar</a>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -40,6 +53,9 @@
                         <th>Soyadı</th>
                         <th>Cinsiyet</th>
                         <th>Devam Durumu</th>
+                        @*<th>Belge Bilgisi</th>
+                        <th>Not Bilgisi</th>*@
+                        <th>Akademik Bilgi</th> <!---->
                         <th></th>
                     </tr>
                 </thead>
@@ -48,30 +64,40 @@
                     {
                         <tr>
                             <td>@student.SchoolNumber</td>
-                            @*<td>@Model.GradeDTOs.Find(z => z.Sections.Any(z => z.Id == student.SectionId)).GradeName</td>*@
-                            <td>
-                                @Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).Grade.GradeName
-                            </td>
-                            <td>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</td>
+                            @*<td>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).Grade.GradeName</td>
+                                <td>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</td>*@
+                            <td>@student.Section.SectionName</td>
+                            <td>@student.Section.Grade.GradeName</td>
                             <td>@student.FirstName</td>
                             <td>@student.LastName</td>
                             <td>@student.Gender</td>
                             <td>
-                                @if (student.StudentStatus == true)
+                                @if (student.StudentStatus == "Öğrenci")
                                 {
                                     <p>Öğrenciliği devam ediyor.</p>
                                 }
-                                else
+                                else if (student.StudentStatus == "Sevk")
                                 {
-                                    <p>Öğrenciliği sonlanmıştır.</p>
+                                    <p>Sevk edilmiş.</p>
+                                }
+                                else if (student.StudentStatus == "Mezun")
+                                {
+                                    <p>Mezun</p>
                                 }
                             </td>
+                            @*<td><a class="btn btn-outline-info btn-sm" asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@student.Id"><i class="fa fa-certificate"></i> Belge Listesi</a></td>
+                            <td><a class="btn btn-outline-primary btn-sm" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@student.Id">Not Bilgisi</a></td>*@
+                            <td><a class="btn btn-outline-info btn-sm" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@student.Id"> Akademik Bilgi</a></td><!---->
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" asp-action="RegisteredStudentDetails" asp-route-id="@student.Id"><i class="fa fa-search"></i></a>
-                                <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = student.Id})')"><i class="fa fa-pen"></i></a>
-                                @*<a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>*@
-                                <a class="btn btn-outline-danger btn-sm" asp-action="RegistrationDelete" asp-route-id="@student.Id"><i class="fa fa-trash"></i></a>
 
+                                <a class="btn btn-outline-primary btn-sm" asp-action="StudentDetails" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
+
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = student.Id})')"><i class="fa fa-pen"></i></a>
+                                    @*<a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>*@
+                                    <a class="btn btn-outline-danger btn-sm" asp-action="StudentDelete" asp-route-id="@student.Id"><i class="fa fa-trash"></i></a>
+                                }
                             </td>
                         </tr>
                     }

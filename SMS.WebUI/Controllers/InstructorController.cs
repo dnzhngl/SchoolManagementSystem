@@ -18,10 +18,11 @@ namespace SMS.WebUI.Controllers
         private readonly ITimetableViewService timetableViewService;
         private readonly IStudentService studentService;
         private readonly ISectionService sectionService;
+        private readonly IPostService postService;
         private readonly IAttendanceService attendanceService;
 
 
-        public InstructorController(IBranchService _branchService, IInstructorService _instructorService, IUserService _userService, ITimetableViewService _timetableViewService, IStudentService _studentService, ISectionService _sectionService, IAttendanceService _attendanceService)
+        public InstructorController(IBranchService _branchService, IInstructorService _instructorService, IUserService _userService, ITimetableViewService _timetableViewService, IStudentService _studentService, ISectionService _sectionService, IAttendanceService _attendanceService, IPostService _postService)
         {
             instructorService = _instructorService;
             branchService = _branchService;
@@ -30,17 +31,17 @@ namespace SMS.WebUI.Controllers
             studentService = _studentService;
             sectionService = _sectionService;
             attendanceService = _attendanceService;
+            postService = _postService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            MainPageViewModel model = new MainPageViewModel();
+            model.PostDTOs = postService.GetAll();
+            model.UserDTO = userService.GetUserByUsername(this.User.Identity.Name);
+            return View(model);
         }
-        /// <summary>
-        /// asdasdasdasdsa
-        /// </summary>
-        /// <param name="id">asdasd</param>
-        /// <returns>asdasdaq</returns>
+       
         public IActionResult InstructorList(int? id)
         {
             InstructorBranchViewModel model = new InstructorBranchViewModel();
@@ -59,7 +60,6 @@ namespace SMS.WebUI.Controllers
             return View(model);
 
         }
-
         public IActionResult InstructorAdd()
         {
             InstructorBranchViewModel model = new InstructorBranchViewModel();
@@ -117,7 +117,7 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
 
-        public IActionResult LecturedClasses(int? id, string? username)//Ahmet.Solmaz olarak geliyor isim.
+        public IActionResult LecturedClasses(int? id, string? instructorUsername)//Ahmet.Solmaz olarak geliyor isim.
         {
             List<TimetableViewDTO> ttmodel = new List<TimetableViewDTO>();
             InstructorDTO instructor = new InstructorDTO();
@@ -125,34 +125,30 @@ namespace SMS.WebUI.Controllers
             {
                 instructor = instructorService.GetInstructoreByUserId((int)id);
             }
-            else if (username != null)
+            else if (instructorUsername != null)
             {
-                instructor = instructorService.GetInstructoreByUsername(username);
+                instructor = instructorService.GetInstructorByUsername(instructorUsername);
             }
             ttmodel = timetableViewService.GetTimetableGroupedByInstructor(instructor.Id);
             
             return View(ttmodel);
         }
 
-        public IActionResult InstructorsStudents(string? sectionName, string? username)
+        public IActionResult InstructorsStudents(string? sectionName, string? instructorUsername)
         {
             StudentDetailsViewModel model = new StudentDetailsViewModel();
             if (sectionName != null)
             {
                 model.SectionDTO = sectionService.GetSectionByName(sectionName);
-               // model.StudentDTOs = studentService.GetStudentBySection(model.SectionDTO.Id);
-                model.StudentDTOs = studentService.GetStudentsIncludeSectionAttendanceExamResults(model.SectionDTO.Id);
+                model.StudentDTOs = studentService.GetStudentsIncludes(model.SectionDTO.Id);
             }
-            else if (username != null)
+            else if (instructorUsername != null)
             {
-                var instructor = instructorService.GetInstructoreByUsername(username);
-                model.StudentDTOs = studentService.GetStudentsByInstructor(instructor.Id);
-                model.SectionDTOs = sectionService.GetAll();
+                var instructor = instructorService.GetInstructorByUsername(instructorUsername);
+                model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);
+              //  model.SectionDTOs = sectionService.GetAll();
             }
-            //foreach (StudentDTO student in model.StudentDTOs)
-            //{
-            //    student.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(student.Id);
-            //}
+
             return View(model);
         }
     }

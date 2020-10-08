@@ -1,7 +1,6 @@
 ﻿@model TimetableViewModel
 @{
     ViewData["Title"] = "TimetableIndex";
-    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="card shadow">
@@ -31,9 +30,9 @@
                                     <h5 class="card-title">@sectionDto.SectionName</h5>
                                     <p class="card-text"></p>
 
-                                    <a class="btn btn-outline-dark btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-id="@sectionDto.Id">Ders Programı</a>
-                                    <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableList" asp-route-id="@sectionDto.Id"><i class="fa fa-table"></i></a>
-                                    <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentList" asp-route-id="@sectionDto.Id">Öğrenciler</a>
+                                    <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-sectionId="@sectionDto.Id"><i class="fa fa-table"></i> Ders Programı</a>
+                                    <a class="btn btn-outline-secondary btn-sm" asp-controller="Timetable" asp-action="TimetableList" asp-route-sectionId="@sectionDto.Id">Ders Listesi</a>
+                                    <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentList" asp-route-sectionId="@sectionDto.Id"><i class="fa fa-graduation-cap"></i> Öğrenciler</a>
                                 </div>
                             </div>
                         </div>

@@ -48,7 +48,7 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
 
-        public IActionResult TimetableList(int? sectionId, string? username, int? classroomId) //sectionId
+        public IActionResult TimetableList(int? sectionId, string? username, int? instructorId, int? classroomId) //sectionId
         {
             TimetableViewModel model = new TimetableViewModel();
 
@@ -57,11 +57,14 @@ namespace SMS.WebUI.Controllers
                 model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)sectionId);
                 model.SectionDTO = sectionService.GetSection((int)sectionId);
             }
-            else if (username != null)
+            else if (username != null | instructorId != null)
             {
-                model.InstructorDTO = instructorService.GetInstructoreByUsername(username);
+                if (username != null)
+                {
+                    instructorId = instructorService.GetInstructorByUsername(username).Id;
+                }
+                model.InstructorDTO = instructorService.GetInstructor((int)instructorId);
                 // model.TimetableViewDTOs = timetableViewService.GetTimetableByInstructor((int)model.InstructorDTO.Id);
-
                 model.TimetableViewDTOs = timetableViewService.GetTimetableGroupedByInstructor(model.InstructorDTO.Id);
             }
             else if (classroomId != null)
@@ -76,22 +79,22 @@ namespace SMS.WebUI.Controllers
             }
             return View(model);
         }
-        public IActionResult TimetableDesign(int? id, int? instructorId, string? studentUserName, string? instructorUserName, int? classroomId) //SectionId
+        public IActionResult TimetableDesign(int? sectionId, int? instructorId, string? studentUserName, string? instructorUserName, int? classroomId) //SectionId
         {
             TimetableViewModel model = new TimetableViewModel();
 
             model.DayDTOs = dayService.GetAll();
             model.LessonTimeDTOs = lessonTimeService.GetAll();
-            if (id != null)
+            if (sectionId != null)
             {
-                model.SectionDTO = sectionService.GetSection((int)id);
-                model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)id);
+                model.SectionDTO = sectionService.GetSection((int)sectionId);
+                model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)sectionId);
             }
-            else if(instructorId != null | instructorUserName != null)
+            else if (instructorId != null | instructorUserName != null)
             {
                 if (instructorUserName != null)
                 {
-                    instructorId = instructorService.GetInstructoreByUsername(instructorUserName).Id;
+                    instructorId = instructorService.GetInstructorByUsername(instructorUserName).Id;
                 }
                 model.TimetableViewDTOs = timetableViewService.GetTimetableByInstructor((int)instructorId);
                 model.InstructorDTO = instructorService.GetInstructor((int)instructorId);
@@ -164,7 +167,8 @@ namespace SMS.WebUI.Controllers
             }
             timetableService.NewTimeTable(newTimetable);
 
-            return RedirectToAction("TimetableDesign", new { id = newTimetable.SectionId });
+            return Redirect(Request.Headers["Referer"].ToString());
+            //return RedirectToAction("TimetableDesign", new { sectionId = newTimetable.SectionId });
         }
 
         public IActionResult TimetableDelete(int id)
@@ -172,7 +176,7 @@ namespace SMS.WebUI.Controllers
             var tt = timetableService.GetTimeTable(id);
             timetableService.DeleteTimeTable(id);
 
-            return RedirectToAction("TimetableDesign", new { id = tt.SectionId });
+            return RedirectToAction("TimetableDesign", new { sectionId = tt.SectionId });
         }
 
         public IActionResult TimetableUpdate(int ttId, int dayId, int lessonPeriodId)
@@ -195,8 +199,8 @@ namespace SMS.WebUI.Controllers
             tt.InstructorId = model.TimeTableDTO.InstructorId;
 
             timetableService.UpdateTimeTable(tt);
-            
-            return RedirectToAction("TimetableDesign", new { id = tt.SectionId });
+            return Redirect(Request.Headers["Referer"].ToString());
+           // return RedirectToAction("TimetableDesign", new { sectionId = tt.SectionId });
         }
 
     }

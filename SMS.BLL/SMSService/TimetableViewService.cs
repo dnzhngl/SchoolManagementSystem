@@ -62,7 +62,7 @@ namespace SMS.BLL.SMSService
             string instructorFullname = String.Format("{0} {1}", instructor.FirstName, instructor.LastName);
             var ttList = ttViewRepo.GetAll().Where(z => z.Instructor == instructorFullname).ToList();
 
-            var list = ttList.GroupBy(z => new { z.SectionName, z.SubjectName, z.Instructor }).Where(z => z.Key.Instructor == instructorFullname).Select(x => new TimetableView() { SectionName = x.Key.SectionName, SubjectName = x.Key.SubjectName, Instructor = x.Key.Instructor }).ToList();
+            var list = ttList.GroupBy(z => new { z.SectionName, z.SubjectName, z.Instructor }).Where(z => z.Key.Instructor == instructorFullname).Select(x => new TimetableView() { SectionName = x.Key.SectionName, SubjectName = x.Key.SubjectName, Instructor = x.Key.Instructor }).OrderBy(z => z.SectionName).ToList();
 
             //var list2 = ttViewRepo.GetAll().Where(z => z.Instructor == instructorFullname).GroupBy(z => new { z.SectionName, z.SubjectName, z.Instructor }).Select(z => new TimetableView() { SectionName = z.Key.SectionName, SubjectName = z.Key.SubjectName, Instructor = z.Key.Instructor }).ToList();
 

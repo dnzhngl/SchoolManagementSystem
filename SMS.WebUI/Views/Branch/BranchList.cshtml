@@ -21,44 +21,61 @@
 </div>
 
 <!-- DataTables Example -->
-<div class="card shadow mt-3 col-12 col-xl-6">
-    <div class="card-header py-3">
-        <div class="row">
-            <div class="col-9">
-                <h5 class="m-0 font-weight-bold text-primary">Branş Listesi</h5>
+<div class="row">
+    <div class="col col-12 col-xl-6">
+
+        <div class="card shadow mt-3">
+            <div class="card-header py-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h5 class="m-0 font-weight-bold text-primary">Branş Listesi</h5>
+                    </div>
+                    <div class="col-3">
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            @*<a class="btn btn-success" asp-action="BranchAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
+                            <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("BranchAdd", "Branch", "BranchDTO")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                        }
+                    </div>
+                </div>
             </div>
-            <div class="col-3">
-                @*<a class="btn btn-success" asp-action="BranchAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
-                <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("BranchAdd", "Branch", "BranchDTO")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Branş Adı</th>
+                                <th>Öğretmenler</th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (BranchDTO branch in Model)
+                            {
+                                <tr>
+                                    <td>@branch.BranchName</td>
+                                    <td>
+                                        <a class="btn btn-outline-primary btn-sm" asp-controller="Instructor" asp-action="InstructorList" asp-route-id="@branch.Id">Öğretmenler</a>
+                                    </td>
+                                    <td>
+                                        @if (this.User.IsInRole("Admin"))
+                                        {
+                                            <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("BranchUpdate", "Branch", new { id = branch.Id })')"><i class="fa fa-pen"></i></a>
+                                            <a class="btn btn-outline-danger btn-sm" asp-action="BranchDelete" asp-route-id="@branch.Id" onclick="deleteFunction('Branş')"><i class="fa fa-trash"></i></a>
+
+                                            @*<a class="btn btn-outline-danger btn-sm" href="#" onclick="deleteFunction('@Url.Action("BranchDelete", "Branch", new { id = branch.Id })')"><i class="fa fa-trash"></i></a>*@
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Branş Adı</th>
-                        <th></th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (BranchDTO branch in Model)
-                    {
-                        <tr>
-                            <td>@branch.BranchName</td>
-                            <td>
-                                <a class="btn btn-outline-primary btn-sm" asp-controller="Instructor" asp-action="InstructorList" asp-route-id="@branch.Id">Öğretmenler</a>
-                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("BranchUpdate", "Branch", new { id = branch.Id })')"><i class="fa fa-pen"></i></a>
-                                <a class="btn btn-outline-danger btn-sm" asp-action="BranchDelete" asp-route-id="@branch.Id"><i class="fa fa-trash"></i></a>
 
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
 
@@ -81,9 +98,13 @@
 
 @section BeginPageJs{
     <script>
-        function modalFunction(url){
+        function modalFunction(url) {
             $('#modalContent').load(url);
             $('#mainModal').modal('show');
+        }
+
+        function deleteFunction(selectedItemsName) {
+            alert(selectedItemsName.concat(' sistemden silindi.'));
         }
     </script>
 }

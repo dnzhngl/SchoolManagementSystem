@@ -20,7 +20,10 @@
                 <h5 class="m-0 font-weight-bold text-primary">Ön Kayıtlı Öğrenciler Listesi</h5>
             </div>
             <div class="col-3">
-                <a class="btn btn-success" asp-action="ParentAdd" asp-controller="Parent">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                @if (this.User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-success float-right" asp-action="ParentAdd" asp-controller="Parent">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                }
             </div>
         </div>
     </div>
@@ -45,12 +48,15 @@
                             <td>@student.LastName</td>
                             <td>@student.GPA</td>
                             <td>
-                                <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new {id = student.Id })')"><i class="fa fa-plus"></i></a>
-                                <a class="btn btn-outline-primary btn-sm" asp-action="RegisteredStudentDetails" asp-route-id="@student.Id"><i class="fa fa-search"></i></a>
-                                @*<a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>*@
-                                <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = student.Id})')"><i class="fa fa-pen"></i></a>
-                                <a class="btn btn-outline-danger btn-sm" asp-action="RegistrationDelete" asp-route-id="@student.Id"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-outline-primary btn-sm" asp-action="StudentDetails" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
 
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new {id = student.Id })')"><i class="fa fa-plus"></i></a>
+                                    @*<a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>*@
+                                    <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = student.Id})')"><i class="fa fa-pen"></i></a>
+                                    <a class="btn btn-outline-danger btn-sm" asp-action="StudentDelete" asp-route-id="@student.Id"><i class="fa fa-trash"></i></a>
+                                }
                             </td>
                         </tr>
                     }

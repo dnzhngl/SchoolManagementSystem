@@ -50,10 +50,10 @@ namespace SMS.WebUI.Controllers
 
             if (instructorUserName != null)
             {
-                var instructor = instructorService.GetInstructoreByUsername(instructorUserName);
+                var instructor = instructorService.GetInstructorByUsername(instructorUserName);
 
                 model.ParentDTOs = parentService.GetInstructorsParents(instructorUserName);
-                model.StudentDTOs = studentService.GetStudentsByInstructor(instructor.Id);
+                model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);
             }
             else
             {
@@ -87,7 +87,8 @@ namespace SMS.WebUI.Controllers
             userService.DeleteUser(userId);
 
             parentService.DeleteParent(id);
-            return RedirectToAction("ParentList");
+            //return RedirectToAction("ParentList");
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         public IActionResult ParentUpdate(int id)

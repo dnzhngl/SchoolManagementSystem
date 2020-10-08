@@ -61,17 +61,40 @@ namespace SMS.BLL.SMSService
 
         public ExamDTO NewExam(ExamDTO exam)
         {
-            if (!examRepo.GetAll().Any(z => z.ExamName == exam.ExamName))
+            if (!examRepo.GetAll().Any(z => z.ExamName == exam.ExamName && z.SubjectId == exam.SubjectId))
             {
                 Exam newExam = MapperFactory.CurrentMapper.Map<Exam>(exam);
                 examRepo.Add(newExam);
                 uow.SaveChanges();
+
+                var addedExam = examRepo.Get(z => z.Id == newExam.Id);
+                GenerateExamResults(exam.SubjectId, addedExam.Id);
 
                 return MapperFactory.CurrentMapper.Map<ExamDTO>(newExam);
             }
             else
             {
                 return null;
+            }
+        }
+        public void GenerateExamResults(int subjectId, int examId)
+        {
+            var sections = uow.GetRepository<Timetable>().GetAll().Where(z => z.SubjectId == subjectId).GroupBy(z => z.SectionId).Select(z => z.Key);
+            List<Student> students = new List<Student>();
+            foreach (var sectionId in sections)
+            {
+                var studentList = uow.GetRepository<Student>().GetAll().Where(z => z.SectionId == sectionId);
+                students.AddRange(studentList);
+            }
+
+            foreach (var student in students)
+            {
+                ExamResult newExamResult = new ExamResult();
+                newExamResult.StudentId = student.Id;
+                newExamResult.ExamId = examId;
+
+                examResultRepo.Add(newExamResult);
+                uow.SaveChanges();
             }
         }
 
@@ -84,5 +107,20 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<ExamDTO>(selectedExam);
         }
 
+        //public List<ExamDTO> StudentsExamList(int studentId)
+        //{
+        //    var studentsSection = uow.GetRepository<Student>().Get(Z => Z.Id == studentId).SectionId;
+        //    var examList = uow.GetRepository<Timetable>().GetIncludesList(z => z.SectionId == studentsSection, z => z.Subject.Exams).Select(z => z.Subject.Exams);
+            
+        //    return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);
+        //}
+
+        public List<ExamDTO> GetExamsByStudent(int studentId)
+        {
+
+            var examList = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam).Select(z=> z.Exam).ToList();
+            
+            return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);
+        }
     }
 }

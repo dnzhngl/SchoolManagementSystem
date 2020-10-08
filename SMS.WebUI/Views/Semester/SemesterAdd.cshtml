@@ -6,18 +6,27 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+
 <form asp-action="SemesterAdd">
     <div class="modal-body">
-
-        <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Dönem Başlangıç Tarihi : </label>
-            <input type="date" class="form-control" id="" placeholder="Şube Adı" asp-for="SemesterBeginning">
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Dönem Adı </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="Dönem Adı" asp-for="SemesterName">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Dönem Bitiş Tarihi : </label>
-            <input type="date" class="form-control" id="" placeholder="Şube Adı" asp-for="SemesterEnd">
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Başlangıç Tarihi </label>
+            <div class="col-sm-8">
+                <input type="date" class="form-control" placeholder="Dönem Başlangıç Tarihi" asp-for="SemesterBeginning">
+            </div>
         </div>
-
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Bitiş Tarihi </label>
+            <div class="col-sm-8">
+                <input type="date" class="form-control" placeholder="Dönem Bitiş Tarihi" asp-for="SemesterEnd">
+            </div>
+        </div>
     </div>
 
     <div class="modal-footer">
@@ -25,3 +34,26 @@
         <button type="submit" class="btn btn-primary">Kaydet</button>
     </div>
 </form>
+
+@*<form asp-action="SemesterAdd">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Dönem Adı : </label>
+                <input type="text" class="form-control" id="" placeholder="Dönem" asp-for="SemesterName">
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Başlangıç Tarihi : </label>
+                <input type="date" class="form-control" id="" placeholder="Dönem Başlangıç Tarihi" asp-for="SemesterBeginning">
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Bitiş Tarihi : </label>
+                <input type="date" class="form-control" id="" placeholder="Dönem Bitiş Tarihi" asp-for="SemesterEnd">
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>*@

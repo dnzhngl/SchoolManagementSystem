@@ -30,7 +30,8 @@ namespace SMS.WebUI.Controllers
         public IActionResult BranchAdd(BranchDTO branchDTO)
         {
             branchService.NewBranch(branchDTO);
-            return RedirectToAction("BranchList");
+            // return RedirectToAction("BranchList");
+            return Redirect(Request.Headers["Referer"].ToString());
         }
         public IActionResult BranchDelete(int id)
         {

@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<SemesterDTO>
 @{
     ViewData["Title"] = "SemesterList";
-    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 @section BeginPage{
@@ -22,51 +21,60 @@
 
 
 <!-- DataTables Example -->
-<div class="card shadow mt-3 col-12 col-xl-6">
-    <div class="card-header py-3">
-        <div class="row">
-            <div class="col-9">
-                <h5 class="m-0 font-weight-bold text-primary">Dönem Listesi</h5>
+<div class="row">
+    <div class="col col-12 col-xl-6">
+
+        <div class="card shadow mt-3">
+            <div class="card-header py-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h5 class="m-0 font-weight-bold text-primary">Dönem Listesi</h5>
+                    </div>
+                    <div class="col-3">
+                        @*<a class="btn btn-success float-right" href="#" data-toggle="modal" data-target="semesterAddModal" id="addSemesterModalToggle">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
+                        <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("SemesterAdd", "Semester", "SemesterDTO")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                    </div>
+                </div>
             </div>
-            <div class="col-3">
-                <a class="btn btn-success" href="#" data-toggle="modal" data-target="semesterAddModal" id="addSemesterModalToggle">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Dönem</th>
+                                <th>Başlangıç Tarihi</th>
+                                <th>Bitiş Tarihi</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (SemesterDTO semester in Model)
+                            {
+                                <tr>
+                                    <td>@semester.SemesterName</td>
+                                    <td>@semester.SemesterBeginning.ToString("dd/MM/yyy")</td>
+                                    <td>@semester.SemesterEnd.ToString("dd/MM/yyy")</td>
+
+                                    <td>
+                                        @*<a class="btn btn-outline-warning btn-sm" data-semester-id="@semester.Id" id="updateSemesterModalToggle" data-toggle="modal" href="#"><i class="fa fa-pen"></i></a>*@
+                                        <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("SemesterUpdate", "Semester", new { id = semester.Id })')"><i class="fa fa-pen"></i></a>
+                                        <a class="btn btn-outline-danger btn-sm" asp-action="SemesterDelete" asp-route-id="@semester.Id"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Dönem Başlangıç Tarihi</th>
-                        <th>Dönem Bitiş Tarihi</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (SemesterDTO semester in Model)
-                    {
-                        <tr>
-                            <td>@semester.SemesterBeginning </td>
-                            <td>@semester.SemesterEnd</td>
 
-                            <td>
-                                <a class="btn btn-outline-warning btn-sm" data-semester-id="@semester.Id" id="updateSemesterModalToggle" data-toggle="modal" href="#"><i class="fa fa-pen"></i></a>
-
-                                <a class="btn btn-outline-danger btn-sm" asp-action="SemesterDelete" asp-route-id="@semester.Id"><i class="fa fa-trash"></i></a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
 
 
 <div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
-        <div class="modal-content" id="mainModalContent">
+        <div class="modal-content" id="modalContent">
 
         </div>
     </div>
@@ -81,12 +89,19 @@
     <script src="~/js/demo/datatables-demo.js"></script>
 }
 
-
-@section BeginPageJS{
+@section BeginPageJs{
     <script>
-        document.SemesterShared = document.SemesterShared || [];
-        document.SemesterShared.SemesterUpdatePartialViewUrl = '@Url.Action("SemesterUpdate", "Semester", new { id = -1 })';
-        document.SemesterShared.SemesterAddPartialViewUrl = '@Url.Action("SemesterAdd", "Semester","SemesterDTO")';
+        function modalFunction(url) {
+            $('#modalContent').load(url);
+            $('#mainModal').modal('show');
+        }
     </script>
-    <script src="~/ViewScripts/Semester/SemesterList.js"></script>
 }
+@*@section BeginPageJS{
+        <script>
+            document.SemesterShared = document.SemesterShared || [];
+            document.SemesterShared.SemesterUpdatePartialViewUrl = '@Url.Action("SemesterUpdate", "Semester", new { id = -1 })';
+            document.SemesterShared.SemesterAddPartialViewUrl = '@Url.Action("SemesterAdd", "Semester","SemesterDTO")';
+        </script>
+        <script src="~/ViewScripts/Semester/SemesterList.js"></script>
+    }*@

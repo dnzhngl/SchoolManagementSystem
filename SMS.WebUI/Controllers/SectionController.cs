@@ -21,23 +21,18 @@ namespace SMS.WebUI.Controllers
             gradeService = _gradeService;
             studentService = _studentService;
         }
-        public IActionResult SectionList(int? id)
+        public IActionResult SectionList(int? gradeId)
         {
             SectionGradeViewModel model = new SectionGradeViewModel();
-            if (id != null)
+            if (gradeId != null)
             {
-                model.SectionDTOs = sectionService.GetSectionByGrade((int)id);
+                model.SectionDTOs = sectionService.GetSectionByGrade((int)gradeId);
             }
             else
             {
                 model.SectionDTOs = sectionService.GetAll();
-                foreach (SectionDTO section in model.SectionDTOs)
-                {
-                    section.StudentCapacity -= studentService.GetStudentBySection(section.Id).Count;
-                    section.NumberOfStudentsEnrolled += studentService.GetStudentBySection(section.Id).Count;
-                }
             }
-            model.GradeDTOs = gradeService.GetAll();
+           // model.GradeDTOs = gradeService.GetAll();
             return View(model);
         }
 

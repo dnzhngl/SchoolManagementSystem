@@ -52,10 +52,9 @@ namespace SMS.BLL.SMSService
 
         public AdminDTO NewAdmin(AdminDTO admin)
         {
-            if (!adminRepo.GetAll().Any(z => z.FirstName.ToLower() == admin.FirstName.ToLower() && z.LastName.ToLower() == admin.LastName.ToLower() && z.DOB == admin.DOB))  
+            if (!adminRepo.GetAll().Any(z => z.IdentityNumber == admin.IdentityNumber))  
             {
                 var newAdmin = MapperFactory.CurrentMapper.Map<Admin>(admin);
-               // newAdmin.RoleId = roleRepo.Get(z => z.RoleName.Contains("Admin")).Id;
                 adminRepo.Add(newAdmin);
                 uow.SaveChanges();
                 return MapperFactory.CurrentMapper.Map<AdminDTO>(newAdmin);

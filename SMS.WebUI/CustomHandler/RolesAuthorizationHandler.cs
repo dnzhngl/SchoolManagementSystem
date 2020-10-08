@@ -27,7 +27,7 @@ namespace SMS.WebUI.CustomHandler
                 var userDTO = SMSConvert.SMSJsonDesirializeUserDTO(claims.FirstOrDefault(z => z.Type == "UserDTO").Value);
                 var roles = requirement.AllowedRoles;
 
-                if (roles.Contains(userDTO.RoleDTO.RoleName))
+                if (roles.Contains(userDTO.Role.RoleName))
                 {
                     validRole = true;
                 }

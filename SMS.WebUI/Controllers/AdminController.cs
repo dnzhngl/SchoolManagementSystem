@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.Operations;
 using SMS.BLL.Abstract;
 using SMS.DTO;
 using SMS.Model;
+using SMS.WebUI.Models;
 
 namespace SMS.WebUI.Controllers
 {
@@ -17,17 +18,21 @@ namespace SMS.WebUI.Controllers
         private readonly IAdminService adminService;
         private readonly IUserService userService;
         private readonly IRoleService roleService;
-        public AdminController(IAdminService _adminService, IUserService _userService, IRoleService _roleService)
+        private readonly IPostService postService;
+        public AdminController(IAdminService _adminService, IUserService _userService, IRoleService _roleService, IPostService _postService)
         {
             adminService = _adminService;
             userService = _userService;
             roleService = _roleService;
+            postService = _postService;
         }
 
-        public IActionResult Index(int id)
+        public IActionResult Index()
         {
-            AdminDTO admin = adminService.GetAdmin(id);
-            return View(admin);
+            MainPageViewModel model = new MainPageViewModel();
+            model.PostDTOs = postService.GetAll();
+            model.UserDTO = userService.GetUserByUsername(this.User.Identity.Name);
+            return View(model);
         }
         public IActionResult AdminList()
         {
@@ -44,7 +49,9 @@ namespace SMS.WebUI.Controllers
             admin.UserId = newUser.Id;
 
             adminService.NewAdmin(admin);
-            return RedirectToAction("AdminList");
+           // return RedirectToAction("AdminList");
+            return Redirect(Request.Headers["Referer"].ToString());
+
         }
         public IActionResult AdminDelete(int id)
         {

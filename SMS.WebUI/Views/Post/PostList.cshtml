@@ -1,0 +1,141 @@
+﻿@model IEnumerable<PostDTO>
+@{
+    ViewData["Title"] = "PostList";
+}
+
+@section BeginPage{
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800"></h1>
+
+<div class="card shadow">
+    <div class="card-header">
+        @if (ViewBag.postCategoryName != null)
+        {
+            <h4>@ViewBag.postCategoryName İşlemleri</h4>
+        }
+        else
+        {
+            <h4>Duyur ve Etkinlikler</h4>
+        }
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
+
+
+<!-- DataTables Example -->
+<div class="row">
+    <div class="col col-12">
+
+        <div class="card shadow mt-3">
+            <div class="card-header py-3">
+                <div class="row">
+
+                    <div class="col">
+                        <h5 class="m-0 font-weight-bold text-primary">@ViewBag.postCategoryName Listesi</h5>
+                    </div>
+                    <div class="col">
+                        @*<a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("PostAdd", "Post", new { postCategoryName = ViewBag.postCategoryName })')">@ViewBag.postCategoryName Ekle <i class="fa fa-plus-circle"></i></a>*@
+                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
+                        {
+                            <a class="btn btn-success float-right btn-sm" asp-action="PostAdd" asp-route-postCategoryName="@ViewBag.postCategoryName">@ViewBag.postCategoryName Ekle <i class="fa fa-plus-circle"></i></a>
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover " id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>@ViewBag.postCategoryName Adı</th>
+                                <th>Dosya</th>
+                                <th>İçeriği</th>
+                                <th>Yayınlanma Tarihi</th>
+                                <th>Yayımlayan</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (PostDTO post in Model)
+                            {
+                                <tr>
+                                    <td>@post.PostCategory.CategoryName</td>
+                                    <td>@post.PostName</td>
+                                    @if (post.File != null)
+                                    {
+                                        @if (post.File.Contains(".jpeg") || post.File.Contains(".jpg") || post.File.Contains(".gif") || post.File.Contains(".png"))
+                                        {
+                                            <td><img class="img-thumbnail" src="@post.File" /></td>
+                                        }
+                                        else if(post.File.Contains(".pdf") || post.File.Contains("txt") || post.File.Contains(".doc") || post.File.Contains(".docx"))
+                                        {
+                                            <td><a href=""><i class="fa fa-file"></i> @post.File</a> </td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
+                                   
+                                    @if (post.PostContent != null && post.PostContent.Length > 50)
+                                    {
+                                        <td>@post.PostContent.Substring(0, 50) </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@post.PostContent</td>
+                                    }
+
+                                    <td>@post.PublishedDate.ToString("dd/MM/yyy")</td>
+                                    <td>@post.User.UserName</td>
+                                    <td>
+                                        <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("PostDetails", "Post", new { id = post.Id })')"><i class="fa fa-search"></i></a>
+                                        @if (this.User.IsInRole("Admin") || this.User.Identity.Name == post.User.UserName)
+                                        {
+                                            @*<a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("PostUpdate", "Post", new { postId = post.Id })')"><i class="fa fa-pen"></i></a>*@
+                                            <a class="btn btn-outline-warning btn-sm" asp-action="PostUpdate" asp-route-postId="@post.Id"><i class="fa fa-pen"></i></a>
+                                            <a class="btn btn-outline-danger btn-sm" asp-action="PostDelete" asp-route-postId="@post.Id"><i class="fa fa-trash"></i></a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+
+        </div>
+    </div>
+</div>
+
+@section FooterJsPlugin{
+    <!-- Page level plugins -->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="~/js/demo/datatables-demo.js"></script>
+}
+
+@section BeginPageJs{
+    <script>
+        function modalFunction(url) {
+            $('#modalContent').load(url);
+            $('#mainModal').modal('show');
+        }
+    </script>
+}

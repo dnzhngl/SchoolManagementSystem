@@ -10,11 +10,12 @@
     <form asp-action="GradeUpdate" class=" shadow-sm">
 
         <input type="hidden" asp-for="Id" />
-
         <div class="modal-body">
-            <div class="form-group">
-                <label for="formGroupExampleInput">Sınıf Adı</label>
-                <input type="text" class="form-control" id="" placeholder="@Model.GradeName" asp-for="GradeName">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Sınıf Adı </label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="@Model.GradeName" asp-for="GradeName">
+                </div>
             </div>
         </div>
 
@@ -25,3 +26,7 @@
 
     </form>
 
+    @*<div class="form-group">
+        <label for="formGroupExampleInput">Sınıf Adı</label>
+        <input type="text" class="form-control" id="" placeholder="@Model.GradeName" asp-for="GradeName">
+    </div>*@

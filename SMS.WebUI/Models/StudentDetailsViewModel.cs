@@ -14,9 +14,6 @@ namespace SMS.WebUI.Models
         public SectionDTO SectionDTO { get; set; }
         public List<SectionDTO> SectionDTOs { get; set; }
 
-        public GradeDTO GradeDTO { get; set; }
-        public List<GradeDTO> GradeDTOs { get; set; }
-
         public AttendanceDTO AttendanceDTO { get; set; }
         public List<AttendanceDTO> AttendanceDTOs { get; set; }
 
@@ -25,8 +22,9 @@ namespace SMS.WebUI.Models
 
         public ExamResultDTO ExamResultDTO { get; set; }
         public List<ExamResultDTO> ExamResultDTOs { get; set; }
-        
-        public ExamDTO ExamDTO { get; set; }
-        public List<ExamDTO> ExamDTOs { get; set; }
+
+        public CertificateDTO CertificateDTO { get; set; }
+        public List<CertificateDTO> CertificateDTOs { get; set; }
+
     }
 }

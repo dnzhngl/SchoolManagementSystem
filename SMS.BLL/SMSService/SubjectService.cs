@@ -81,6 +81,15 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
         }
 
+        public SubjectDTO GetSubjectIncludes(string subjectName, string sectionName)
+        {
+            //.SelectMany(z => z.Subject.Exams);
+            //var examList = uow.GetRepository<Timetable>().GetIncludesList(z => z.Section.SectionName == sectionName && z.Subject.SubjectName == subjectName, z => z.Subject.Exams).Select(z => z.Subject.Exams);
+            //examList = (IQueryable<Exam>)examList.GroupBy(z => z.ExamName).SelectMany(z => z.Key);
+
+            var subject = subjectRepo.GetIncludes(z => z.SubjectName == subjectName && z.Timetables.Any(x => x.Section.SectionName == sectionName), z => z.Exams); //Examı ekledin
+            return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
+        }
 
         public SubjectDTO NewSubject(SubjectDTO subject)
         {

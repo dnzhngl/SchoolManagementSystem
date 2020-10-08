@@ -48,7 +48,9 @@ namespace SMS.WebUI.Controllers
         {
             SubjectDTO newSubject = subject.SubjectDTO;
             subjectService.NewSubject(newSubject);
-            return RedirectToAction("SubjectList");
+            return Redirect(Request.Headers["Referer"].ToString());
+
+            //return RedirectToAction("SubjectList");
         }
         public IActionResult SubjectDelete(int id)
         {
@@ -70,10 +72,10 @@ namespace SMS.WebUI.Controllers
         {
             SubjectDTO selectedSubject = subject.SubjectDTO;
             subjectService.UpdateSubject(selectedSubject);
-            return RedirectToAction("SubjectList");
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        public IActionResult SubjectDetails(int? subjectId, string? subjectName)
+        public IActionResult SubjectDetails(int? subjectId, string? subjectName, string? sectionName)
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
 
@@ -82,11 +84,11 @@ namespace SMS.WebUI.Controllers
                 subjectName = subjectService.GetSubject((int)subjectId).SubjectName;
                 model.SubjectDTO = subjectService.GetSubjectIncludes(subjectName);
             }
-            else if (subjectName != null)
+            if (sectionName != null)
             {
-                model.SubjectDTO = subjectService.GetSubjectIncludes(subjectName);
-               // model.ExamDTOs = examService.GetExamBySubject(model.SubjectDTO.Id);
+                model.SubjectDTO = subjectService.GetSubjectIncludes(subjectName, sectionName);
             }
+            //model.SubjectDTO = subjectService.GetSubjectIncludes(subjectName);
             model.ExamTypeDTOs = examTypeService.GetAll();
 
             return View(model);

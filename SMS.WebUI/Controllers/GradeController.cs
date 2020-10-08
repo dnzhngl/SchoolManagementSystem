@@ -33,7 +33,9 @@ namespace SMS.WebUI.Controllers
         public IActionResult GradeAdd(GradeDTO grade)
         {
             gradeService.NewGrade(grade);
-            return RedirectToAction("GradeList");
+           // return RedirectToAction("GradeList");
+            return Redirect(Request.Headers["Referer"].ToString());
+
         }
         public IActionResult GradeDelete(int id)
         {

@@ -23,8 +23,6 @@ namespace SMS.DTO
         public int TimeTableId { get; set; }
         public List<TimetableDTO> TimeTableDTOs { get; set; }
 
-        //public Nullable<int> RoleId { get; set; }
-        //public RoleDTO RoleDTO { get; set; }
         public Nullable<int> UserId { get; set; }
         public UserDTO UserDTO { get; set; }
 

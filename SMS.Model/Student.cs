@@ -26,7 +26,8 @@ namespace SMS.Model
 
         public string GraduatedFrom { get; set; } //Mezun olduğu okul
         public decimal GPA { get; set; }    //Not ortalaması
-        public bool StudentStatus { get; set; }    //İlişkisi Devam Ediyor, İlişkisi Kesildi (Öğrencilik Durumu)
+        public bool StudentStatusBool { get; set; }    //İlişkisi Devam Ediyor, İlişkisi Kesildi (Öğrencilik Durumu)
+        public string StudentStatus { get; set; }   
 
 
         [ForeignKey("Section")]
@@ -39,10 +40,6 @@ namespace SMS.Model
         public int ParentId { get; set; }
         public virtual Parent Parent { get; set; }
 
-
-        //[ForeignKey("Role")]
-        //public Nullable<int> RoleId { get; set; }
-        //public virtual Role Role { get; set; }
 
         [ForeignKey("User")]
         public Nullable<int> UserId { get; set; }

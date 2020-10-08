@@ -17,7 +17,8 @@ namespace SMS.DTO
 
         public string GraduatedFrom { get; set; } //Mezun olduğu okul
         public decimal GPA { get; set; }    //Not ortalaması
-        public bool StudentStatus { get; set; }    //İlişkisi Devam Ediyor, İlişkisi Kesildi (Öğrencilik Durumu)
+        public bool StudentStatusBool { get; set; }    //İlişkisi Devam Ediyor, İlişkisi Kesildi (Öğrencilik Durumu)
+        public string StudentStatus { get; set; }  
 
 
         public Nullable<int> SectionId { get; set; }
@@ -25,15 +26,16 @@ namespace SMS.DTO
         public SectionDTO Section { get; set; }
 
         public int ParentId { get; set; }
-        public ParentDTO ParentDTO { get; set; }
+        //public ParentDTO ParentDTO { get; set; }
+        public ParentDTO Parent { get; set; }
 
         public Nullable<int> UserId { get; set; }
-        public UserDTO UserDTO { get; set; }
+        public UserDTO User { get; set; }
 
         //public List<AttendanceDTO> AttendanceDTOs { get; set; }
         public List<AttendanceDTO> Attendances { get; set; }
         //  public List<ExamResultDTO> ExamResultDTOs { get; set; }
         public List<ExamResultDTO> ExamResults { get; set; }
-        public List<CertificateDTO> CertificateDTOs { get; set; }
+        public List<CertificateDTO> Certificates { get; set; }
     }
 }

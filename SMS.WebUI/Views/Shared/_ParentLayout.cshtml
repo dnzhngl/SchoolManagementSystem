@@ -50,26 +50,26 @@
                 </a>
             </li>
 
-            <hr class="sidebar-divider">
+            @*<hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Öğrenciler
-            </div>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageStudents" aria-expanded="true" aria-controls="collapsePageStudents">
-                    <i class="fas fa-code-branch"></i>
-                    <span>Öğrenci Takip</span>
-                </a>
-                <div id="collapsePageStudents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Öğrenci Takip</h6>
-                        <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-parentUsername="@User.Identity.Name">Öğrenci Bilgileri</a>
-
-                    </div>
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Öğrenciler
                 </div>
-            </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageStudents" aria-expanded="true" aria-controls="collapsePageStudents">
+                        <i class="fas fa-code-branch"></i>
+                        <span>Öğrenci Takip</span>
+                    </a>
+                    <div id="collapsePageStudents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Öğrenci Takip</h6>
+                            <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-parentUsername="@User.Identity.Name">Öğrenci Bilgileri</a>
+
+                        </div>
+                    </div>
+                </li>*@
 
 
             <hr class="sidebar-divider">
@@ -109,8 +109,8 @@
                 </a>
                 <div id="collapsePageAnnouncement" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">Duyuru Listesi</a>
-                        <a class="collapse-item" href="#">Etkinlik Listesi</a>
+                        <a class="collapse-item" asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Duyuru">Duyuru Listesi</a>
+                        <a class="collapse-item" asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Etkinlik">Etkinlik Listesi</a>
                     </div>
                 </div>
             </li>
@@ -295,7 +295,7 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" asp-controller="User" asp-action="UserSettings" asp-route-username="@this.User.Identity.Name">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Ayarlar
                                 </a>

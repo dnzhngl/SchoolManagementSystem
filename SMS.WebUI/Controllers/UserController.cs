@@ -39,10 +39,29 @@ namespace SMS.WebUI.Controllers
             }
             return View();
         }
-        public IActionResult UserProfile()
+        public IActionResult UserDelete(int userId)
         {
-            return View();
+            userService.DeleteUser(userId);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+        public IActionResult UserSettings(string username)
+        {
+            UserDTO user = userService.GetUserByUsername(username);
+            return View(user);
+        }
+        [HttpGet]
+        public IActionResult ChangePassword(string username)
+        {
+            UserDTO user = userService.GetUserByUsername(username);
+            return PartialView(user);
+        }
+        [HttpPost]
+        public IActionResult ChangePassword(UserDTO user, string newPassword)
+        {
+            user.Password = newPassword;
+            userService.UpdateUser(user);
 
+            return RedirectToAction("UserSettings", new { username = user.UserName });
         }
 
     }

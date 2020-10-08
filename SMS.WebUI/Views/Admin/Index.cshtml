@@ -1,4 +1,4 @@
-﻿@model AdminDTO
+﻿@model MainPageViewModel 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -6,45 +6,114 @@
 
 <div class="card shadow">
     <div class="card-header">
-        <h4>Admin Ana Sayfası</h4>
+        <h4>Ana Sayfa</h4>
     </div>
     <div class="card-body">
         <p></p>
     </div>
 </div>
 
-<div class="row">
-    <div class="col">
-        <div class="card shadow mt-2">
+<div class="row mt-3">
+    <div class="col col-12 col-xl-6 ">
+        <div class="card shadow">
             <div class="card-header">
                 <div class="row">
                     <div class="col-9">
-                        <h4 class="m-0 font-weight-bold text-primary">Etkinlikler</h4>
+                        <h5 class="m-0 font-weight-bold text-primary">Etkinlikler</h5>
                     </div>
                     <div class="col-3">
-                        <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("EventAdd", "Event")')">Etkinlik Ekle <i class="fa fa-plus-circle"></i></a>
+                        @*<a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("EventAdd", "Event")')">Etkinlik Ekle <i class="fa fa-plus-circle"></i></a>*@
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <p></p>
+                <ul class="list-group list-group-flush">
+                    @foreach (var post in Model.PostDTOs)
+                    {
+                        @if (post.PostCategory.CategoryName == "Etkinlik")
+                        {
+                            <li class="list-group-item  list-group-item-action" onclick="modalFunction('@Url.Action("PostDetails", "Post", new { id = post.Id })')">
+                                <div class="row">
+                                    <div class="col">
+                                        <label><strong>@post.PostName</strong></label>
+                                    </div>
+
+                                    <div class="col">
+                                        @if (post.PostContent != null && post.PostContent.Length > 50)
+                                        {
+                                            <p>@post.PostContent.Substring(0, 50) ...</p>
+                                        }
+                                        else
+                                        {
+                                            <p>@post.PostContent</p>
+                                        }
+                                    </div>
+
+                                    <div class="col float-right">
+                                        <label>@post.User.UserName</label>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p style="text-align:center"><a asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Etkinlik">Tüm Etkinlikleri Göster</a></p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col">
-        <div class="card shadow mt-2">
+
+    <div class="col col-12 col-xl-6">
+        <div class="card shadow">
             <div class="card-header">
                 <div class="row">
                     <div class="col-9">
-                        <h4 class="m-0 font-weight-bold text-primary">Duyurular</h4>
+                        <h5 class="m-0 font-weight-bold text-primary">Duyurular</h5>
                     </div>
                     <div class="col-3">
-                        <a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AnnouncementAdd", "Announcement")')">Duyuru Ekle <i class="fa fa-plus-circle"></i></a>
+                        @*<a class="btn btn-success" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AnnouncementAdd", "Announcement")')">Duyuru Ekle <i class="fa fa-plus-circle"></i></a>*@
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <p></p>
+                <ul class="list-group list-group-flush">
+                    @foreach (var post in Model.PostDTOs)
+                    {
+                        @if (post.PostCategory.CategoryName == "Duyuru")
+                        {
+                            <li class="list-group-item  list-group-item-action" onclick="modalFunction('@Url.Action("PostDetails", "Post", new { id = post.Id })')">
+                                <div class="row">
+                                    <div class="col">
+                                        <label><strong>@post.PostName</strong></label>
+                                    </div>
+
+                                    <div class="col">
+                                        @if (post.PostContent != null && post.PostContent.Length > 50)
+                                        {
+                                            <p>@post.PostContent.Substring(0, 50) ...</p>
+                                        }
+                                        else
+                                        {
+                                            <p>@post.PostContent</p>
+                                        }
+                                    </div>
+
+                                    <div class="col float-right">
+                                        <label>@post.User.UserName</label>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p style="text-align:center"><a asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Duyuru">Tüm Duyuruları Göster</a></p>
+                </div>
             </div>
         </div>
     </div>

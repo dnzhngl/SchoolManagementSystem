@@ -29,7 +29,7 @@ namespace SMS.WebUI.Controllers
             model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(model.StudentDTO.Id);
             model.AttendanceTypeDTOs = attendanceTypeService.GetAll();
             model.StudentDTO.Attendances = model.AttendanceDTOs; //AttendanceDTOs
-            return PartialView(model);
+            return View(model);
         }
         [HttpGet]
         public IActionResult AttendanceAdd(int studentId)
@@ -46,7 +46,23 @@ namespace SMS.WebUI.Controllers
             model.AttendanceDTO.StudentId = student.Id;
             attendanceService.NewAttendance(model.AttendanceDTO);
             string sectionN = sectionService.GetSection((int)student.SectionId).SectionName;
-            return RedirectToAction("InstructorsStudents", "Instructor", new { sectionName = sectionN });
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+        public IActionResult AttendanceDelete(int id)
+        {
+            attendanceService.DeleteAttendance(id);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        [HttpGet]
+        public IActionResult AttendanceUpdate(int id)
+        {
+            var attendance = attendanceService.GetAttendance(id);
+            StudentDetailsViewModel model = new StudentDetailsViewModel();
+            model.AttendanceDTO = attendance;
+            model.StudentDTO = studentService.GetStudent(attendance.StudentId);
+
+            return PartialView(model);
         }
     }
 }

@@ -50,9 +50,25 @@ namespace SMS.BLL.SMSService
         public UserDTO GenerateUserAccount(string firstname, string lastname, string identityNo, string roleName)
         {
             User newUser = new User();
-            newUser.UserName = CreateUserName(firstname, lastname);
-            newUser.Password = identityNo;
             newUser.RoleId = roleRepo.Get(z => z.RoleName == roleName).Id;
+            if (roleName == "Öğretmen" || roleName == "Admin")
+            {
+                newUser.UserName = CreateUserName(firstname, lastname);
+                newUser.Email = newUser.UserName.ToLower() + "@bilgekoleji.com";
+            }
+            else if (roleName == "Öğrenci")
+            {
+                newUser.UserName = string.Format("{0}@std.bilgekoleji.com", identityNo);
+                newUser.Email = identityNo + "@bilgekoleji.com";
+
+            }
+            else if (roleName =="Veli")
+            {
+                newUser.UserName = identityNo;
+                newUser.Email = identityNo + "@bilgekoleji.com";
+            }
+
+            newUser.Password = identityNo;
 
             userRepo.Add(newUser);
             uow.SaveChanges();

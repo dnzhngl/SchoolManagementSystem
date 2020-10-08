@@ -12,13 +12,23 @@
     <input type="hidden" asp-for="Id" />
 
     <div class="modal-body">
-        <div class="form-group">
-            <label for="SemesterBeginning" class="col-form-label">Dönem Başlangıç Tarihi : </label>
-            <input type="date" class="form-control" asp-for="SemesterBeginning">
+        <div class="form-group row">
+            <label for="SemesterName" class="col-sm-4 col-form-label">Dönem Adı </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" asp-for="SemesterName">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="SemesterEnd" class="col-form-label">Dönem Bitiş Tarihi : </label>
-            <input type="date" class="form-control" asp-for="SemesterEnd">
+        <div class="form-group row">
+            <label for="SemesterBeginning" class="col-sm-4 col-form-label">Dönem Başlangıç Tarihi </label>
+            <div class="col-sm-8">
+                <input type="date" class="form-control" asp-for="SemesterBeginning">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="SemesterEnd" class="col-sm-4 col-form-label">Dönem Bitiş Tarihi </label>
+            <div class="col-sm-8">
+                <input type="date" class="form-control" asp-for="SemesterEnd">
+            </div>
         </div>
     </div>
 
@@ -29,3 +39,15 @@
 
 </form>
 
+@*<div class="form-group">
+        <label for="SemesterName" class="col-form-label">Dönem Adı</label>
+        <input type="text" class="form-control" asp-for="SemesterName">
+    </div>
+    <div class="form-group">
+        <label for="SemesterBeginning" class="col-form-label">Başlangıç Tarihi</label>
+        <input type="date" class="form-control" asp-for="SemesterBeginning">
+    </div>
+    <div class="form-group">
+        <label for="SemesterEnd" class="col-form-label">Bitiş Tarihi </label>
+        <input type="date" class="form-control" asp-for="SemesterEnd">
+    </div>*@
