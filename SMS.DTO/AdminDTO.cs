@@ -17,6 +17,6 @@ namespace SMS.DTO
         public string Duty { get; set; }
 
         public Nullable<int> UserId { get; set; }
-        public UserDTO UserDTO { get; set; }
+        public UserDTO User { get; set; }
     }
 }

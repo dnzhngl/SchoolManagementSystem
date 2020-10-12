@@ -72,11 +72,12 @@
                                     {
                                         @if (post.File.Contains(".jpeg") || post.File.Contains(".jpg") || post.File.Contains(".gif") || post.File.Contains(".png"))
                                         {
-                                            <td><img class="img-thumbnail" src="@post.File" /></td>
+                                            <td><img class="img-thumbnail" src="@post.File" style="max-width:80px;"/></td>
                                         }
                                         else if(post.File.Contains(".pdf") || post.File.Contains("txt") || post.File.Contains(".doc") || post.File.Contains(".docx"))
                                         {
                                             <td><a href=""><i class="fa fa-file"></i> @post.File</a> </td>
+                                            //<td><input type="file" asp-for="@post.File"/></td>
                                         }
                                     }
                                     else

@@ -47,7 +47,7 @@ namespace SMS.BLL.SMSService
 
         public ExamDTO GetExam(int id)
         {
-            var selectedExam = examRepo.Get(z => z.Id == id);
+            var selectedExam = examRepo.GetIncludes(z => z.Id == id, z => z.Subject, z=>z.ExamType);
             return MapperFactory.CurrentMapper.Map<ExamDTO>(selectedExam);
         }
 

@@ -45,12 +45,6 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<BranchDTO>(selectedBranch);
         }
 
-        // Burayı henüz yazmadın
-        public List<BranchDTO> GetBranchNameList(string branchName)
-        {
-            throw new NotImplementedException();
-        }
-
         public BranchDTO NewBranch(BranchDTO branch)
         {
             if (!uow.GetRepository<Branch>().GetAll().Any(z => z.BranchName.ToLower() == branch.BranchName.ToLower()))

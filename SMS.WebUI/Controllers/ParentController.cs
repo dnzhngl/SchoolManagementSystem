@@ -72,7 +72,8 @@ namespace SMS.WebUI.Controllers
         {
             ParentDTO newParent = parent.ParentDTO;
 
-            UserDTO newUser = userService.NewUser(newParent.IdentityNumber, "Veli");
+            // userService.NewUser(newParent.IdentityNumber, "Veli");
+            UserDTO newUser = userService.GenerateUserAccount(newParent.FirstName, newParent.LastName, newParent.IdentityNumber, "Veli");
             newParent.UserId = newUser.Id;
 
             newParent = parentService.NewParent(newParent);

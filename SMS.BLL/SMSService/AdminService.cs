@@ -46,7 +46,8 @@ namespace SMS.BLL.SMSService
 
         public List<AdminDTO> GetAll()
         {
-            var adminList = adminRepo.GetAll().ToList();
+           // var adminList = adminRepo.GetAll().ToList();
+            var adminList = adminRepo.GetIncludesList(null, z => z.User).ToList();
             return MapperFactory.CurrentMapper.Map<List<AdminDTO>>(adminList);
         }
 

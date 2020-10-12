@@ -99,13 +99,10 @@ namespace SMS.WebUI.Controllers
         }
         public IActionResult ExamUpdate(int id)
         {
-            ExamDTO selectedExam = examService.GetExam(id);
             SubjectDetailViewModel model = new SubjectDetailViewModel();
 
-            model.ExamDTO = selectedExam;
-            model.ExamTypeDTO = examTypeService.GetExamType(selectedExam.ExamTypeId);
+            model.ExamDTO = examService.GetExam(id);
             model.ExamTypeDTOs = examTypeService.GetAll();
-            model.ExamDTO.Subject = subjectService.GetSubject(model.ExamDTO.SubjectId);
 
             return PartialView(model);
         }
@@ -113,11 +110,12 @@ namespace SMS.WebUI.Controllers
         public IActionResult ExamUpdate(SubjectDetailViewModel exam)
         {
             ExamDTO selectedExam = exam.ExamDTO;
-            selectedExam.ExamType = examTypeService.GetExamType(exam.ExamDTO.ExamTypeId);
-            selectedExam.Subject = subjectService.GetSubject(exam.ExamDTO.SubjectId);
+            //selectedExam.ExamType = examTypeService.GetExamType(exam.ExamDTO.ExamTypeId);
+            //selectedExam.Subject = subjectService.GetSubject(exam.ExamDTO.SubjectId);
             examService.UpdateExam(selectedExam);
 
-            return RedirectToAction("SubjectDetails", "Subject", new { subjectId = exam.ExamDTO.SubjectId });
+            return Redirect(Request.Headers["Referer"].ToString());
+            //return RedirectToAction("SubjectDetails", "Subject", new { subjectId = exam.ExamDTO.SubjectId });
         }
     }
 }

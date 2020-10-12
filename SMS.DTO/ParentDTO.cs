@@ -17,8 +17,8 @@ namespace SMS.DTO
         public string Address { get; set; }
 
         public Nullable<int> UserId { get; set; }
-        public UserDTO UserDTO { get; set; }
+        public UserDTO User { get; set; }
 
-        public List<StudentDTO> StudentDTOs { get; set; }
+        public List<StudentDTO> Students { get; set; }
     }
 }

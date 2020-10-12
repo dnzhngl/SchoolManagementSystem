@@ -190,7 +190,7 @@ namespace SMS.BLL.SMSService
             }
             else
             {
-                studentList = studentRepo.GetIncludesList(null, z => z.Section, z=>z.Section.Grade).ToList();
+                studentList = studentRepo.GetIncludesList(z => z.SectionId != null, z => z.Section, z=>z.Section.Grade).ToList();
             }
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }

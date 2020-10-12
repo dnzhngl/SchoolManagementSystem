@@ -10,7 +10,6 @@ namespace SMS.BLL.Abstract
     {
         List<BranchDTO> GetAll();
         BranchDTO GetBranch(int id);
-        List<BranchDTO> GetBranchNameList(string branchName);
         BranchDTO NewBranch(BranchDTO branch);
         BranchDTO UpdateBranch(BranchDTO branch);
         bool DeleteBranch(int id);

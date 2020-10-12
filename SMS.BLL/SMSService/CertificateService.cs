@@ -37,7 +37,7 @@ namespace SMS.BLL.SMSService
 
         public List<CertificateDTO> GetAll()
         {
-            var certificateList = certificateRepo.GetIncludesList(null, z => z.Semester).ToList();
+            var certificateList = certificateRepo.GetIncludesList(null, z=> z.CertificateType, z => z.Semester).ToList();
             return MapperFactory.CurrentMapper.Map<List<CertificateDTO>>(certificateList);
         }
 

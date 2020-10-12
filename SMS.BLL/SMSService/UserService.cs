@@ -58,14 +58,15 @@ namespace SMS.BLL.SMSService
             }
             else if (roleName == "Öğrenci")
             {
-                newUser.UserName = string.Format("{0}@std.bilgekoleji.com", identityNo);
-                newUser.Email = identityNo + "@bilgekoleji.com";
+                newUser.UserName = identityNo ;
+                newUser.Email = string.Format("{0}@std.bilgekoleji.com", identityNo);
 
             }
             else if (roleName =="Veli")
             {
                 newUser.UserName = identityNo;
-                newUser.Email = identityNo + "@bilgekoleji.com";
+                newUser.Email = string.Format("{0}@pt.bilgekoleji.com", identityNo);
+               // newUser.Email = identityNo;
             }
 
             newUser.Password = identityNo;

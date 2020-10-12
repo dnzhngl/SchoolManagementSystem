@@ -136,7 +136,8 @@ namespace SMS.WebUI.Controllers
         {
             StudentDTO newStudent = student.StudentDTO;
             newStudent.ParentId = student.ParentDTO.Id;
-            userService.NewUser(newStudent.IdentityNumber, "Öğrenci");
+            userService.GenerateUserAccount(newStudent.FirstName, newStudent.LastName, newStudent.IdentityNumber, "Öğrenci");
+           // userService.NewUser(newStudent.IdentityNumber, "Öğrenci");
 
             UserDTO newUser = userService.GetUserByUsername(newStudent.IdentityNumber);
             newStudent.UserId = newUser.Id;

@@ -102,7 +102,8 @@ namespace SMS.BLL.SMSService
 
             foreach (int sectionId in sectionIdList)
             {
-                var parents = uow.GetRepository<Student>().GetIncludesList(z => z.SectionId == sectionId, z => z.Parent).Select(z=> z.Parent);
+                //var parents = uow.GetRepository<Student>().GetIncludesList(z => z.SectionId == sectionId, z => z.Parent).Select(z=> z.Parent);
+                var parents = uow.GetRepository<Student>().GetIncludesList(z => z.SectionId == sectionId, z => z.Parent, z=>z.Parent.User).Select(z=> z.Parent);
                 parentList.AddRange(parents);
             }
 
