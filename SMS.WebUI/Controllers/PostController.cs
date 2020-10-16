@@ -117,5 +117,12 @@ namespace SMS.WebUI.Controllers
             postService.UpdatePost(model.PostDTO);
             return RedirectToAction("PostList", new { postCategoryName = postCategoryName });
         }
+
+
+        public IActionResult SendPostMessage(string mailReceiver)
+        {
+            PostViewModel model = new PostViewModel();
+            return PartialView(model);
+        }
     }
 }

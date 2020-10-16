@@ -41,7 +41,7 @@ namespace SMS.WebUI.Controllers
             model.UserDTO = userService.GetUserByUsername(this.User.Identity.Name);
             return View(model);
         }
-       
+
         public IActionResult InstructorList(int? id)
         {
             InstructorBranchViewModel model = new InstructorBranchViewModel();
@@ -64,18 +64,24 @@ namespace SMS.WebUI.Controllers
         {
             InstructorBranchViewModel model = new InstructorBranchViewModel();
             model.BranchDTOs = branchService.GetAll();
-            return PartialView(model);
+            return View(model);
         }
         [HttpPost]
         public IActionResult InstructorAdd(InstructorBranchViewModel instructor)
         {
-            InstructorDTO newInstructor = instructor.InstructorDTO;
-            UserDTO newUser = userService.GenerateUserAccount(newInstructor.FirstName, newInstructor.LastName, newInstructor.IdentityNumber, "Öğretmen");
-            newInstructor.UserId = newUser.Id;
+            if (ModelState.IsValid)
+            {
+                InstructorDTO newInstructor = instructor.InstructorDTO;
+                UserDTO newUser = userService.GenerateUserAccount(newInstructor.FirstName, newInstructor.LastName, newInstructor.IdentityNumber, "Öğretmen");
+                newInstructor.UserId = newUser.Id;
 
-            instructorService.NewInstructor(newInstructor);
+                instructorService.NewInstructor(newInstructor);
+                return Redirect(Request.Headers["Referer"].ToString());
 
-            return RedirectToAction("InstructorList");
+            }
+            instructor.BranchDTOs = branchService.GetAll();
+            return View(instructor);
+            //return RedirectToAction("InstructorList");
         }
 
         public IActionResult InstructorDelete(int id)
@@ -102,7 +108,7 @@ namespace SMS.WebUI.Controllers
         public IActionResult InstructorUpdate(InstructorBranchViewModel instructor)
         {
             InstructorDTO selectedInstructor = instructor.InstructorDTO;
-            selectedInstructor.BranchDTO = instructor.BranchDTO;
+            selectedInstructor.Branch = instructor.BranchDTO;
             instructorService.UpdateInstructor(selectedInstructor);
             return RedirectToAction("InstructorList");
         }
@@ -113,7 +119,7 @@ namespace SMS.WebUI.Controllers
             InstructorBranchViewModel model = new InstructorBranchViewModel();
 
             model.InstructorDTO = selectedInstructor;
-            model.InstructorDTO.BranchDTO = branchService.GetBranch(selectedInstructor.BranchId);
+            model.InstructorDTO.Branch = branchService.GetBranch(selectedInstructor.BranchId);
             return View(model);
         }
 
@@ -130,7 +136,7 @@ namespace SMS.WebUI.Controllers
                 instructor = instructorService.GetInstructorByUsername(instructorUsername);
             }
             ttmodel = timetableViewService.GetTimetableGroupedByInstructor(instructor.Id);
-            
+
             return View(ttmodel);
         }
 
@@ -146,7 +152,7 @@ namespace SMS.WebUI.Controllers
             {
                 var instructor = instructorService.GetInstructorByUsername(instructorUsername);
                 model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);
-              //  model.SectionDTOs = sectionService.GetAll();
+                //  model.SectionDTOs = sectionService.GetAll();
             }
 
             return View(model);

@@ -50,15 +50,15 @@ namespace SMS.WebUI.Controllers
 
             if (instructorUserName != null)
             {
-                var instructor = instructorService.GetInstructorByUsername(instructorUserName);
+               // var instructor = instructorService.GetInstructorByUsername(instructorUserName);
 
                 model.ParentDTOs = parentService.GetInstructorsParents(instructorUserName);
-                model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);
+               // model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);
             }
             else
             {
                 model.ParentDTOs = parentService.GetAll();
-                model.StudentDTOs = studentService.GetAll();
+                //model.StudentDTOs = studentService.GetAll();
             }
             return View(model);
         }
@@ -70,16 +70,20 @@ namespace SMS.WebUI.Controllers
         [HttpPost]
         public IActionResult ParentAdd(StudentParentViewModel parent)
         {
-            ParentDTO newParent = parent.ParentDTO;
+            if (ModelState.IsValid)
+            {
+                ParentDTO newParent = parent.ParentDTO;
 
-            // userService.NewUser(newParent.IdentityNumber, "Veli");
-            UserDTO newUser = userService.GenerateUserAccount(newParent.FirstName, newParent.LastName, newParent.IdentityNumber, "Veli");
-            newParent.UserId = newUser.Id;
+                // userService.NewUser(newParent.IdentityNumber, "Veli");
+                UserDTO newUser = userService.GenerateUserAccount(newParent.FirstName, newParent.LastName, newParent.IdentityNumber, "Veli");
+                newParent.UserId = newUser.Id;
 
-            newParent = parentService.NewParent(newParent);
+                newParent = parentService.NewParent(newParent);
 
-            int parentId = newParent.Id;
-            return RedirectToAction("StudentAdd", "Student", new { parentId });
+                int parentId = newParent.Id;
+                return RedirectToAction("StudentAdd", "Student", new { parentId });
+            }
+            return View(parent);
         }
 
         public IActionResult ParentDelete(int id)
@@ -97,15 +101,21 @@ namespace SMS.WebUI.Controllers
             ParentDTO selectedParent = parentService.GetParent(id);
             StudentParentViewModel model = new StudentParentViewModel();
             model.ParentDTO = selectedParent;
-            model.StudentDTOs = studentService.GetStudentByParent(id);
-            return PartialView(model);
+           // model.StudentDTOs = studentService.GetStudentByParent(id);
+            return View(model);
+            //return PartialView(model);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ParentUpdate(StudentParentViewModel parent)
         {
-            ParentDTO selectedParent = parent.ParentDTO;
-            parentService.UpdateParent(selectedParent);
-            return RedirectToAction("ParentList");
+            if (ModelState.IsValid)
+            {
+                ParentDTO selectedParent = parent.ParentDTO;
+                parentService.UpdateParent(selectedParent);
+                return RedirectToAction("ParentList");
+            }
+            return View(parent);
         }
 
         public IActionResult ParentsStudents(int? id, string? username)

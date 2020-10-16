@@ -134,16 +134,21 @@ namespace SMS.WebUI.Controllers
         [HttpPost]
         public IActionResult StudentAdd(StudentParentViewModel student)
         {
-            StudentDTO newStudent = student.StudentDTO;
-            newStudent.ParentId = student.ParentDTO.Id;
-            userService.GenerateUserAccount(newStudent.FirstName, newStudent.LastName, newStudent.IdentityNumber, "Öğrenci");
-           // userService.NewUser(newStudent.IdentityNumber, "Öğrenci");
+            if (ModelState.IsValid)
+            {
+                StudentDTO newStudent = student.StudentDTO;
+                newStudent.ParentId = student.ParentDTO.Id;
+                userService.GenerateUserAccount(newStudent.FirstName, newStudent.LastName, newStudent.IdentityNumber, "Öğrenci");
+                // userService.NewUser(newStudent.IdentityNumber, "Öğrenci");
 
-            UserDTO newUser = userService.GetUserByUsername(newStudent.IdentityNumber);
-            newStudent.UserId = newUser.Id;
+                UserDTO newUser = userService.GetUserByUsername(newStudent.IdentityNumber);
+                newStudent.UserId = newUser.Id;
 
-            studentService.NewStudent(newStudent);
-            return RedirectToAction("RegistrationList");
+                studentService.NewStudent(newStudent);
+                return RedirectToAction("RegistrationList");
+            }
+            return View(student);
+
         }
 
         public IActionResult StudentUpdate(int id)

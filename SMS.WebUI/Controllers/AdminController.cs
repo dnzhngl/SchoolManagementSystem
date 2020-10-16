@@ -43,15 +43,18 @@ namespace SMS.WebUI.Controllers
             return PartialView();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult AdminAdd(AdminDTO admin)
         {
-            UserDTO newUser = userService.GenerateUserAccount(admin.FirstName, admin.LastName, admin.IdentityNumber,  "Admin");            
-            admin.UserId = newUser.Id;
+            if (ModelState.IsValid)
+            {
+                UserDTO newUser = userService.GenerateUserAccount(admin.FirstName, admin.LastName, admin.IdentityNumber, "Admin");
+                admin.UserId = newUser.Id;
 
-            adminService.NewAdmin(admin);
-           // return RedirectToAction("AdminList");
-            return Redirect(Request.Headers["Referer"].ToString());
-
+                adminService.NewAdmin(admin);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+            return View(admin);
         }
         public IActionResult AdminDelete(int id)
         {
@@ -67,10 +70,15 @@ namespace SMS.WebUI.Controllers
             return PartialView(selectedAdmin);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult AdminUpdate(AdminDTO admin)
         {
-            adminService.UpdateAdmin(admin);
-            return RedirectToAction("AdminList");
+            if (ModelState.IsValid)
+            {
+                adminService.UpdateAdmin(admin);
+                return RedirectToAction("AdminList");
+            }
+            return View(admin);
         }
         public IActionResult AdminDetails(int id)
         {

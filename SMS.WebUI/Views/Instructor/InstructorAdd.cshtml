@@ -1,79 +1,116 @@
 ﻿@*@model InstructorDTO*@
 @model InstructorBranchViewModel
 
-    <div class="modal-header">
-        <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Yeni Öğretmen Ekle </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+@{
+    ViewData["Title"] = "InstructorAdd";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Öğretmen Ekleme Sayfası</h4>
     </div>
+    <div class="card-body">
+        <p></p>
+    </div>
+</div>
 
-    <form asp-action="InstructorAdd" class="shadow-sm">
+<div class="col col-12 col-lg-6 mt-3">
 
-        <div class="modal-body">
-            <div class="form-group">
-                <label for="formGroupExampleInput">Kimlik No</label>
-                <input type="text" class="form-control" id="" placeholder="Kimlik Numarası" asp-for="InstructorDTO.IdentityNumber">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput">Öğretmen Adı</label>
-                <input type="text" class="form-control" id="" placeholder="Adı" asp-for="InstructorDTO.FirstName">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Öğretmen Soyadı</label>
-                <input type="text" class="form-control" id="" placeholder="Soyadı" asp-for="InstructorDTO.LastName">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Görevi</label>
-                <input type="text" class="form-control" id="" placeholder="Görevi" asp-for="InstructorDTO.Duty">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Branşı</label>
-                <select class="form-control" asp-for="InstructorDTO.BranchId" asp-items="@(new SelectList(Model.BranchDTOs, "Id","BranchName"))"></select>
-            </div>
+    <div class="card shadow">
+        <div class="card-header">
+            <h5 class="font-weight-bold text-primary">Öğretmen Ekleme Formu </h5>
+        </div>
 
-            <hr />
+        <div class="card-body">
+            @Html.AntiForgeryToken()
+            <form asp-action="InstructorAdd">
 
-            <fieldset class="form-group">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Kimlik No</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="" placeholder="Kimlik Numarası" asp-for="InstructorDTO.IdentityNumber">
+                        @Html.ValidationMessageFor(model => model.InstructorDTO.IdentityNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Adı</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="" placeholder="Adı" asp-for="InstructorDTO.FirstName">
+                        @Html.ValidationMessageFor(model => model.InstructorDTO.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Soyadı</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="" placeholder="Soyadı" asp-for="InstructorDTO.LastName">
+                        @Html.ValidationMessageFor(model => model.InstructorDTO.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Görevi</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="" placeholder="Görevi" asp-for="InstructorDTO.Duty">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Branşı</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" asp-for="InstructorDTO.BranchId" asp-items="@(new SelectList(Model.BranchDTOs, "Id","BranchName"))"></select>
+                    </div>
+                </div>
+
+                <hr />
+
+                <fieldset class="form-group">
+                    <div class="row">
+                        <label class="form-label col-sm-5 pt-0">Cinsiyeti</label>
+                            <div class="col col-sm-3 form-check">
+                                <input class="form-check-input" type="radio" name="Gender" id="gridRadios1" value="Erkek" checked asp-for="InstructorDTO.Gender">
+                                <label class="form-check-label" for="gridRadios1">
+                                    Erkek
+                                </label>
+                            </div>
+                            <div class="col col-sm-3 form-check">
+                                <input class="form-check-input" type="radio" name="Gender" id="gridRadios2" value="Kadın" asp-for="InstructorDTO.Gender">
+                                <label class="form-check-label" for="gridRadios2">
+                                    Kadın
+                                </label>
+                            </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Doğum Tarihi</label>
+                    <div class="col-sm-8">
+                        <input type="date" class="form-control" asp-for="InstructorDTO.DOB">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Telefon Numarası</label>
+                    <div class="col-sm-8">
+
+                        <input type="text" class="form-control" placeholder="+90" asp-for="InstructorDTO.CellPhone">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Adres Bilgisi</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="" asp-for="InstructorDTO.Address">
+                    </div>
+                </div>
+
                 <div class="row">
-                    <label>Cinsiyeti </label>
-                    <div class="col-sm-10">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="InstructorDTO.Gender" id="gridRadios1" value="Erkek" checked asp-for="InstructorDTO.Gender">
-                            <label class="form-check-label" for="gridRadios1">
-                                Erkek
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="InstructorDTO.Gender" id="gridRadios2" value="Kadın" asp-for="InstructorDTO.Gender">
-                            <label class="form-check-label" for="gridRadios2">
-                                Kadın
-                            </label>
+                    <div class="col-12 p-3">
+                        <div class="form-actions float-right">
+                            <button type="button" class="btn btn-secondary">İptal</button>
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
                         </div>
                     </div>
                 </div>
-            </fieldset>
 
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Doğum Tarihi</label>
-                <input type="date" class="form-control" asp-for="InstructorDTO.DOB">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Telefon Numarası</label>
-                <input type="text" class="form-control" placeholder="+90" asp-for="InstructorDTO.CellPhone">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Adres Bilgisi</label>
-                <input type="text" class="form-control" placeholder="" asp-for="InstructorDTO.Address">
-            </div>
-
+            </form>
         </div>
-
-
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
-            <button type="submit" class="btn btn-primary">Kaydet</button>
-        </div>
-
-    </form>
-
+    </div>
+</div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace SMS.DTO
@@ -7,8 +8,12 @@ namespace SMS.DTO
     public class ParentDTO
     {
         public int Id { get; set; }
+        [Required(ErrorMessage = "Bu alan boş bırakılamaz.")]
+        [StringLength(11, ErrorMessage = "Yanlış veya eksik giriş yaptınız.")]
         public string IdentityNumber { get; set; }
+        [Required(ErrorMessage = "Bu alan boş bırakılamaz.")]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "Bu alan boş bırakılamaz.")]
         public string LastName { get; set; }
         public string Gender { get; set; }
         public string CellPhone { get; set; }

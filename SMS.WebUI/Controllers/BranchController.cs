@@ -29,9 +29,14 @@ namespace SMS.WebUI.Controllers
         [HttpPost]
         public IActionResult BranchAdd(BranchDTO branchDTO)
         {
-            branchService.NewBranch(branchDTO);
+            if (ModelState.IsValid)
+            {
+                branchService.NewBranch(branchDTO);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            return RedirectToAction("BranchAdd");
             // return RedirectToAction("BranchList");
-            return Redirect(Request.Headers["Referer"].ToString());
         }
         public IActionResult BranchDelete(int id)
         {

@@ -224,7 +224,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Yönetici İşlemleri</h6>
                         <a class="collapse-item" href="/Admin/AdminList">Yönetici Listesi</a>
-                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AdminAdd", "Admin", "AdminDTO")')">Yönetici Ekle</a>
+                        <a class="collapse-item" asp-action="AdminAdd" asp-controller="Admin">Yönetici Ekle</a>
+                        @*<a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AdminAdd", "Admin", "AdminDTO")')">Yönetici Ekle</a>*@
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -240,7 +241,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Öğretmen İşlemleri</h6>
                         <a class="collapse-item" href="/Instructor/InstructorList">Öğretmen Listesi</a>
-                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("InstructorAdd", "Instructor", "InstructorBranchViewModel")')">Öğretmen Ekle</a>
+                        <a class="collapse-item" asp-action="InstructorAdd" asp-controller="Instructor">Öğretmen Ekle</a>
+                        @*<a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("InstructorAdd", "Instructor", "InstructorBranchViewModel")')">Öğretmen Ekle</a>*@
                     </div>
                 </div>
 
@@ -340,11 +342,6 @@
                     </div>
                 </div>
             </li>
-
-
-
-
-
 
 
             @*

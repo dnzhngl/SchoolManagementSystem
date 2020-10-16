@@ -41,7 +41,8 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-block bg-login-image">
-                                @*<img src="~/Images/school2.jpg" style="width:100%;"/>*@
+                                @*bg-login-image
+        <img class="align-self-center" src="~/Images/okul.jpg" style="width:100%;" />*@
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
@@ -51,10 +52,10 @@
 
                                     <form class="user" asp-action="UserLogin" asp-controller="Login" method="post">
                                         <div class="form-group">
-                                            <input required asp-for="UserName"  class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Kullanıcı Adı">
+                                            <input required asp-for="UserName" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Kullanıcı Adı">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" required asp-for="Password" class="form-control form-control-user"  placeholder="Şifre">
+                                            <input type="password" required asp-for="Password" class="form-control form-control-user" placeholder="Şifre">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">

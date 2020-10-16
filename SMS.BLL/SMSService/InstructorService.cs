@@ -111,14 +111,17 @@ namespace SMS.BLL.SMSService
 
         public List<InstructorDTO> GetInstructorNameWithBranch()
         {
-            var instructorList = instructorRepo.GetAll().ToList();
-            var iList = MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(instructorList);
-            foreach (var instructor in iList)
-            {
-                var branch = branchRepo.Get(z => z.Id == instructor.BranchId);
-                instructor.BranchDTO = MapperFactory.CurrentMapper.Map<BranchDTO>(branch);
-            }
-            return iList;
+            var lili = instructorRepo.GetIncludesList(null, z => z.Branch);
+            return MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(lili);
+
+            //var instructorList = instructorRepo.GetAll().ToList();
+            //var iList = MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(instructorList);
+            //foreach (var instructor in iList)
+            //{
+            //    var branch = branchRepo.Get(z => z.Id == instructor.BranchId);
+            //    instructor.Branch = MapperFactory.CurrentMapper.Map<BranchDTO>(branch);
+            //}
+            //return iList;
         }
 
         public InstructorDTO GetInstructoreByUserId(int id)

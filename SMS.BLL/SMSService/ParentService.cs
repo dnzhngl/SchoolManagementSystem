@@ -44,7 +44,8 @@ namespace SMS.BLL.SMSService
 
         public List<ParentDTO> GetAll()
         {
-            var parentList = parentRepo.GetAll().ToList();
+            //var parentList = parentRepo.GetAll().ToList();
+            var parentList = parentRepo.GetIncludesList(null, z => z.User);
             return MapperFactory.CurrentMapper.Map<List<ParentDTO>>(parentList);
         }
 
