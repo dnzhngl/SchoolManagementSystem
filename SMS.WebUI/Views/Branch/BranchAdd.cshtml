@@ -7,34 +7,9 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-@Html.AntiForgeryToken()
-<form asp-action="BranchAdd" class="shadow-sm">
 
-    <div class="modal-body">
-
-        <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Branş Adı </label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control" placeholder="Branş Adı" asp-for="BranchName">
-                @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
-        <button type="submit" class="btn btn-primary">Kaydet</button>@*onclick="alertFunction()"*@
-    </div>
-
-</form>
-
-@*<script>
-    function alertFunction() {
-        alert("İşleminiz başarıyla gerçekleştirildi.")
-    }
-</script>*@
-
-@*<form id="myForm" class="shadow-sm">
+    @Html.AntiForgeryToken()
+    <form asp-action="BranchAdd">
 
         <div class="modal-body">
 
@@ -42,20 +17,25 @@
                 <label class="col-sm-4 col-form-label">Branş Adı </label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" placeholder="Branş Adı" asp-for="BranchName">
+                    @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
                 </div>
             </div>
 
         </div>
-
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
-            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <button type="submit" class="btn btn-primary">Kaydet</button>@*onclick="alertFunction()"*@
         </div>
 
     </form>
 
+@*<script>
+    function alertFunction() {
+        alert("İşleminiz başarıyla gerçekleştirildi.")
+    }
+</script>
 
-    @section FooterJsPlugin{
+@section FooterJsPlugin{
         <script>
                 const myForm = document.getElementById("myForm");
                 myForm.addEventListener("submit", (e) => {

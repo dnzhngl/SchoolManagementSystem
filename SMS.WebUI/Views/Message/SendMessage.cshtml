@@ -1,0 +1,66 @@
+﻿@model MessageDTO
+@{
+    ViewData["Title"] = "SendMessage";
+}
+
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="MessageList" asp-controller="Message" asp-route-username="@this.User.Identity.Name">Tüm Mesajlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Inbox" asp-controller="Message" asp-route-username="@this.User.Identity.Name">Gelen Mesajlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Outbox" asp-controller="Message" asp-route-username="@this.User.Identity.Name">Gönderilen Mesajlar</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body text-left">
+
+        <a class="card-link p-2" style="cursor:pointer;" onclick="history.back()"><i class="fa fa-angle-double-left"></i> Geri</a>
+
+        <form class="mt-3" asp-controller="Message" asp-action="SendMessage" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="SenderId">
+            <input type="hidden" asp-for="ReceiverId">
+
+
+            <div class="form-group row">
+                <label class="col col-4 col-xl-2 col-lg-3 col-sm-3 col-form-label">Gönderen</label>
+                <div class="col col-8 col-xl-10 col-lg-9 col-sm-9">
+                    <input type="text" class="form-control" readonly placeholder="Gönderen" asp-for="Sender.Email">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col col-4 col-xl-2 col-lg-3 col-sm-3 col-form-label">Alıcı</label>
+                <div class="col col-8 col-xl-10 col-lg-9 col-sm-9">
+                    <input type="text" class="form-control" readonly placeholder="Alıcı" asp-for="Receiver.Email">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col col-4 col-xl-2 col-lg-3 col-sm-3 col-form-label">Konu</label>
+                <div class="col col-8 col-xl-10 col-lg-9 col-sm-9">
+                    <input type="text" class="form-control" placeholder="Konu" asp-for="Subject">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col col-4 col-xl-2 col-lg-3 col-sm-3 col-form-label">Mesaj</label>
+                <div class="col col-8 col-xl-10 col-lg-9 col-sm-9">
+                    <textarea rows="10" class="form-control" asp-for="MessageContent"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 p-3">
+                    <div class="form-actions float-right">
+                        <button type="submit" class="btn btn-primary">Gönder</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

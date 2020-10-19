@@ -4,90 +4,111 @@
     ViewData["Title"] = "AttendanceList";
 }
 
+<div class="card shadow-sm">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item ">
+                <a class="nav-link " asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@Model.StudentDTO.Id"> Akademik Bilgi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@Model.StudentDTO.Id">Belge Listesi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" asp-controller="Attendance" asp-action="AttendanceList" asp-route-studentId="@Model.StudentDTO.Id"> Devamsızlık Bilgisi</a>
+            </li>
+        </ul>
+    </div>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        @*<li class="breadcrumb-item"><a asp-controller="Student" asp-action="StudentDetails" asp-route-studentId="@Model.StudentDTO.Id"> Kişisel Bilgileri</a></li>*@
-        <li class="breadcrumb-item"> <a asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@Model.StudentDTO.Id">Belge Listesi</a></li>
-        <li class="breadcrumb-item"><a asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a></li>
-        <li class="breadcrumb-item active"><a asp-controller="Attendance" asp-action="AttendanceList" asp-route-studentId="@Model.StudentDTO.Id"> Devamsızlık Bilgisi</a></li>
-    </ol>
-</nav>
 
-<div class="row">
-    <div class="col col-12 col-lg-6">
-        <div class="card shadow">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-9">
-                        <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">@Model.StudentDTO.FirstName @Model.StudentDTO.LastName Devamsızlık Bilgisi</h5>
-                    </div>
-                    <div class="col-3">
-                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
-                        {
-                            <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AttendanceAdd", "Attendance", new { studentId = Model.StudentDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
-                        }
-                    </div>
+    <div class="card-body">
+        <div class="card-title">
+            <div class="row">
+                <div class="col-9">
+                    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">@Model.StudentDTO.FirstName @Model.StudentDTO.LastName Devamsızlık Bilgisi</h5>
                 </div>
-            </div>
-
-            <div class="card-body">
-
-                <div class="row">
-                    <div class="col">
-                        <p><b>Okul Numarası : </b></p>
-                        <p><b>Öğrenci Adı Soyadı : </b></p>
-                        <p><b>Toplam Devamsızlık Günü : </b></p>
-                    </div>
-                    <div class="col">
-                        <p>@Model.StudentDTO.Id</p>
-                        <p>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName</p>
-                        @if (Model.StudentDTO.Attendances == null)
-                        {
-                            <p>Devamsızlık Bilgisi Girilmedi</p>
-                        }
-                        else
-                        {
-                            <p>@Model.StudentDTO.Attendances.Count()</p>
-                        }
-                    </div>
-                </div>
-
-                <div class="row">
-                    @if (Model.StudentDTO.Attendances != null)
+                <div class="col-3">
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
                     {
-                        <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Devamsızlık Tarihi</th>
-                                    <th scope="col">Devamsızlık Durumu</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var attendance in Model.AttendanceDTOs)
-                                {
-                                    <tr>
-                                        <td>@attendance.DateTime.ToShortDateString()</td>
-                                        <td>@Model.AttendanceTypeDTOs.FirstOrDefault(z => z.Id == attendance.AttendanceTypeId).AttendanceTypeName</td>
-                                        <td>
-                                            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
-                                            {
-                                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceUpdate", "Attendance", new { id = attendance.Id })')"><i class="fa fa-pen"></i></a>
-                                                <a class="btn btn-outline-danger btn-sm" asp-action="AttendanceDelete" asp-route-id="@attendance.Id"><i class="fa fa-trash"></i></a>
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                        <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AttendanceAdd", "Attendance", new { studentId = Model.StudentDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
                     }
                 </div>
             </div>
         </div>
+        <div class="card-text">
+
+            <div class="row">
+                <b>Toplam Devamsızlık Günü : </b>
+
+                @if (Model.StudentDTO.Attendances == null)
+                {
+                    <p>Devamsızlık Bilgisi Girilmedi</p>
+                }
+                else
+                {
+                    <p>@Model.StudentDTO.Attendances.Count()</p>
+                }
+            </div>
+        </div>
+
+
+        @*<div class="row">
+                <div class="col">
+                    <p><b>Okul Numarası : </b></p>
+                    <p><b>Öğrenci Adı Soyadı : </b></p>
+                    <p><b>Toplam Devamsızlık Günü : </b></p>
+                </div>
+                <div class="col">
+                    <p>@Model.StudentDTO.Id</p>
+                    <p>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName</p>
+                    @if (Model.StudentDTO.Attendances == null)
+                    {
+                        <p>Devamsızlık Bilgisi Girilmedi</p>
+                    }
+                    else
+                    {
+                        <p>@Model.StudentDTO.Attendances.Count()</p>
+                    }
+                </div>
+            </div>*@
+
+        <div class="row">
+            <div class="col col-xl-6">
+
+            </div>
+            @if (Model.StudentDTO.Attendances != null)
+            {
+                <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Devamsızlık Tarihi</th>
+                            <th scope="col">Devamsızlık Durumu</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var attendance in Model.AttendanceDTOs)
+                        {
+                            <tr>
+                                <td>@attendance.DateTime.ToShortDateString()</td>
+                                <td>@Model.AttendanceTypeDTOs.FirstOrDefault(z => z.Id == attendance.AttendanceTypeId).AttendanceTypeName</td>
+                                <td>
+                                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
+                                    {
+                                        <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceUpdate", "Attendance", new { id = attendance.Id })')"><i class="fa fa-pen"></i></a>
+                                        <a class="btn btn-outline-danger btn-sm" asp-action="AttendanceDelete" asp-route-id="@attendance.Id"><i class="fa fa-trash"></i></a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
     </div>
 </div>
-
 @section BeginPageJs{
     <script>
         function modalFunction(url) {

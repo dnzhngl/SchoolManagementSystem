@@ -14,9 +14,10 @@ namespace SMS.DTO
         public DateTime? FailedLogin { get; set; }
 
         public Nullable<int> RoleId { get; set; }
-      //  public RoleDTO RoleDTO { get; set; }
         public RoleDTO Role { get; set; }
 
         public List<PostDTO> Posts { get; set; }
+        public List<MessageDTO> MessageSender { get; set; }
+        public List<MessageDTO> MessageReceiver { get; set; }
     }
 }

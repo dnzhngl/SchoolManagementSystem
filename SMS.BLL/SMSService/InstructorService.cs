@@ -48,7 +48,8 @@ namespace SMS.BLL.SMSService
 
         public List<InstructorDTO> GetAll()
         {
-            var instructorList = instructorRepo.GetAll().ToList();
+            //var instructorList = instructorRepo.GetAll().ToList();
+            var instructorList = instructorRepo.GetIncludesList(null, z => z.User);
             return MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(instructorList);
         }
 

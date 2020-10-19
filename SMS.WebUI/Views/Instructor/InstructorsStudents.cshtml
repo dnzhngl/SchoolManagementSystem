@@ -65,6 +65,7 @@
                             <td>
                                 <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentDetails" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
                                 @*<a class="btn btn-outline-primary btn-sm" asp-controller="Attendance" asp-action="AttendanceList" asp-route-id="@student.Id">Devamsızlık Bilgisi</a>*@
+                                <a class="btn btn-outline-info btn-sm" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@student.User.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-envelope"></i></a>
 
                             </td>
                         </tr>

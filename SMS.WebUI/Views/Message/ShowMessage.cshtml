@@ -1,0 +1,54 @@
+﻿@model MessageDTO
+@{
+    ViewData["Title"] = "ShowMessage";
+}
+
+<div class="card text-center shadow-sm">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="MessageList" asp-controller="Message" asp-route-username="@this.User.Identity.Name">Tüm Mesajlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Inbox" asp-controller="Message" asp-route-username="@this.User.Identity.Name">Gelen Mesajlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Outbox" asp-controller="Message" asp-route-username="@this.User.Identity.Name">Gönderilen Mesajlar</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body text-left">
+
+        @*<a href="@ViewBag.previousPage" class="card-link p-2" ><i class="fa fa-angle-double-left"></i> Geri</a>*@
+        <a class="card-link p-2" style="cursor:pointer;" onclick="history.back()"><i class="fa fa-angle-double-left"></i> Geri</a>
+
+        <div class="border p-4 mt-3">
+
+            @if (Model.Subject == null || Model.Subject == "")
+            {
+                <p><b>(konu yok)</b></p>
+            }
+            else
+            {
+                <p class="card-title"><b>Konu:</b> @Model.Subject</p>
+            }
+            <p><b>Gönderen:</b> @Model.Sender.UserName - <span style="font-size:medium;">@Model.Sender.Email</span> <span class="float-right" style="font-size:medium;">@Model.TimeSent.ToString("dd/MM/yyy hh:mm")</span></p>
+
+            <br />
+            <p class="card-text">@Model.MessageContent</p>
+            <br />
+
+            @if (this.User.Identity.Name == Model.Receiver.UserName)
+            {
+                <a class="btn btn-outline-dark mt-4" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@Model.Sender.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-reply"></i> Yanıtla</a>
+            }
+            else if (this.User.Identity.Name == Model.Sender.UserName)
+            {
+                <a class="btn btn-outline-dark mt-4" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@Model.Receiver.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-reply"></i> Yanıtla</a>
+            }
+
+
+            @*<a asp-action="ReplyMessage" asp-controller="Message" asp-route-repliedMessage="@Model.Id" class="btn btn-outline-dark mt-4"><i class="fa fa-reply"></i> Yanıtla</a>*@
+        </div>
+    </div>
+</div>

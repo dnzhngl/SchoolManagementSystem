@@ -11,80 +11,51 @@
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800"></h1>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        @*<li class="breadcrumb-item"><a asp-controller="Student" asp-action="StudentDetails" asp-route-studentId="@Model.StudentDTO.Id"> Kişisel Bilgileri</a></li>*@
-        <li class="breadcrumb-item"> <a asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@Model.StudentDTO.Id">Belge Listesi</a></li>
-        <li class="breadcrumb-item"><a asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a></li>
-        <li class="breadcrumb-item"><a asp-controller="Attendance" asp-action="AttendanceList" asp-route-studentId="@Model.StudentDTO.Id"> Devamsızlık Bilgisi</a></li>
-    </ol>
-</nav>
+
+<div class="card shadow-sm mt-3">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item ">
+                <a class="nav-link active" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@Model.StudentDTO.Id"> Akademik Bilgi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@Model.StudentDTO.Id">Belge Listesi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Attendance" asp-action="AttendanceList" asp-route-studentId="@Model.StudentDTO.Id"> Devamsızlık Bilgisi</a>
+            </li>
+        </ul>
+    </div>
 
 
+    <div class="card-body">
+        <div class="card-title py-3">
+            <div class="row">
+                <div class="col">
+                    <h5 class="m-0 font-weight-bold text-primary"> @Model.StudentDTO.FirstName @Model.StudentDTO.LastName  - Akademik Bilgi</h5>
+                </div>
+                <div class="col">
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        @*<a class="btn btn-outline-warning btn-sm float-right" asp-action="ChangeStudentStatus" asp-controller="Student" asp-route-studentId="@Model.StudentDTO.Id"> Mezuniyet / Sevk İşlemleri <i class="fa fa-pen"></i></a>*@
 
-@*<div class="card shadow">
-        <div class="card-header">
-            <h4> Öğrenci Akademik Durum Bilgisi</h4>
-        </div>
-        <div class="card-body">
-
-        </div>
-    </div>*@
-
-
-<!-- DataTales Example -->
-<div class="card shadow mt-3">
-    <div class="card-header py-3">
-        <div class="row">
-            <div class="col">
-                <h5 class="m-0 font-weight-bold text-primary"> @Model.StudentDTO.FirstName @Model.StudentDTO.LastName Sınav Sonuçları Listesi</h5>
+                        <a class="btn btn-outline-warning btn-sm float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ChangeStudentStatus", "Student",  new { studentId = Model.StudentDTO.Id })')"> Mezuniyet / Sevk İşlemleri <i class="fa fa-pen"></i></a>
+                    }
+                </div>
             </div>
         </div>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Sınav</th>
-                        <th>Tarih</th>
-                        <th>Sınav Notu</th>
-                        <th>Durumu</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (ExamResultDTO examResult in Model.ExamResultDTOs)
-                    {
-                        <tr>
 
-                            <td>@examResult.Exam.ExamName</td>
-                            <td>@examResult.Exam.ExamDate.ToString("dd/MM/yyyy")</td>
-                            <td>@examResult.ExamMark</td>
-                            @if (examResult.StudentStatus == null)
-                            {
-                                <td>Not Bilgisi Girilmedi</td>
-                            }
-                            else if (examResult.StudentStatus == "Geçmez")
-                            {
-                                <td>Başarısız</td>
-                            }
-                            else if (examResult.StudentStatus != "Geçmez")
-                            {
-                                <td>Başarılı</td>
-                            }
-                        <td>
-                            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
-                            {
-                                <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultUpdate", "ExamResult", new { examResultId = examResult.Id})')"><i class="fa fa-pen"></i></a>
-                                @*<a class="btn btn-outline-primary btn-sm" asp-action="InstructorDetails" asp-route-id="@instructor.Id"><i class="fa fa-search"></i></a>*@
-                                <a class="btn btn-outline-danger btn-sm" asp-action="ExamResultDelete" asp-route-id="@examResult.Id"><i class="fa fa-trash"></i></a>
-                            }
-                        </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="card-text">
+
+            <p><b>Okul Numarası : </b>@Model.StudentDTO.Id</p>
+            <p><b>Öğrenci Adı Soyadı : </b>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName</p>
+            <p>
+                <b>Öğrencilik Durumu :</b> @Model.StudentDTO.StudentStatus
+            </p>
+
         </div>
     </div>
 </div>
@@ -97,13 +68,7 @@
     </div>
 </div>
 
-@section FooterJsPlugin{
-    <!-- Page level plugins -->
-    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <!-- Page level custom scripts -->
-    <script src="~/js/demo/datatables-demo.js"></script>
-}
+
 
 @section BeginPageJs{
     <script>

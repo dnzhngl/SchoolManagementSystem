@@ -39,6 +39,7 @@ namespace SMS.DAL
         public DbSet<CertificateType> CertificateTypes { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostCategory> PostCategories { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         public DbSet<Timetable> Timetables { get; set; }
 

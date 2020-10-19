@@ -46,7 +46,6 @@ namespace SMS.WebUI.Controllers
         {
             InstructorBranchViewModel model = new InstructorBranchViewModel();
 
-            //sadece if kısmını yeni ekledin. else kısmı vardı.
             if (id != null)
             {
                 model.InstructorDTOs = instructorService.GetAllInstructorsBasedOnBranch((int)id);

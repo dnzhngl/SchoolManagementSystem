@@ -64,8 +64,9 @@
 
                             </td>
                             <td>
-                                <a class="btn btn-outline-info btn-sm" asp-controller="Post" asp-action="SendPostMessage" asp-route-mailReceiver="@parent.User.Email"><i class="fa fa-envelope"></i></a> @*mailto:@parent.UserDTO.Email*@
-                                <a class="btn btn-outline-info btn-sm" href="#" onclick="modalFunction('@Url.Action("SendPostMessage", "Post", new { mailReceiver = parent.User.Email })')">Mesaj Gönder<i class="fa fa-envelope"></i></a>
+                                <a class="btn btn-outline-info btn-sm" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@parent.User.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-envelope"></i></a>
+                                @* mailto:@parent.UserDTO.Email
+                                    <a class="btn btn-outline-info btn-sm" href="#" onclick="modalFunction('@Url.Action("SendMessage", "Message", new {username = this.User.Identity, receiver = parent.User.Email })')">Mesaj Gönder<i class="fa fa-envelope"></i></a>*@
                                 <a class="btn btn-outline-primary btn-sm" asp-action="ParentDetails" asp-route-id="@parent.Id"><i class="fa fa-search"></i></a>
 
                                 @if (this.User.IsInRole("Admin"))

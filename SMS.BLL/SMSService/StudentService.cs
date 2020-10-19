@@ -47,7 +47,8 @@ namespace SMS.BLL.SMSService
 
         public List<StudentDTO> GetAll()
         {
-            var studentList = studentRepo.GetAll().ToList();
+           // var studentList = studentRepo.GetAll().ToList();
+            var studentList = studentRepo.GetIncludesList(null, z => z.User).ToList();
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
 
@@ -57,7 +58,8 @@ namespace SMS.BLL.SMSService
         /// <returns></returns>
         public List<StudentDTO> GetAllStudents()
         {
-            var studentList = studentRepo.GetAll().Where(z => z.SectionId != null).ToList();
+            //var studentList = studentRepo.GetAll().Where(z => z.SectionId != null).ToList();
+            var studentList = studentRepo.GetIncludesList(z => z.SectionId != null, z => z.User).ToList();
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
         public StudentDTO GetStudentDetails(int id)
@@ -73,7 +75,7 @@ namespace SMS.BLL.SMSService
 
         public List<StudentDTO> GetStudentBySection(int sectionId)
         {
-            var studentList = studentRepo.GetIncludesList(z => z.SectionId == sectionId, z => z.Section, z => z.Section.Grade).ToList();
+            var studentList = studentRepo.GetIncludesList(z => z.SectionId == sectionId, z => z.Section, z => z.Section.Grade, z=>z.User).ToList();
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
         public List<StudentDTO> GetStudentsByGrade(int gradeId)
@@ -129,7 +131,7 @@ namespace SMS.BLL.SMSService
                 //var sectionsStudentList = studentRepo.GetAll().Where(z => z.SectionId == sectionId).ToList();
                 //studentList.AddRange(sectionsStudentList);
 
-                var students = studentRepo.GetIncludesList(z => z.SectionId == sectionId, z => z.Section); //
+                var students = studentRepo.GetIncludesList(z => z.SectionId == sectionId, z => z.Section, z=>z.User); //
                 studentList.AddRange(students);
             }
 
@@ -163,7 +165,7 @@ namespace SMS.BLL.SMSService
         /// <returns></returns>
         public List<StudentDTO> GetStudentsIncludes(int sectionId)
         {
-            var studentList = studentRepo.GetIncludesList(x => x.SectionId == sectionId, x => x.Section,  x => x.ExamResults, x => x.Attendances);
+            var studentList = studentRepo.GetIncludesList(x => x.SectionId == sectionId, x => x.Section,  x => x.ExamResults, x => x.Attendances, x=>x.User);
             
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
@@ -186,14 +188,13 @@ namespace SMS.BLL.SMSService
             var studentList = new List<Student>();
             if (studentStatus != null)
             {
-                studentList = studentRepo.GetIncludesList(z => z.StudentStatus == studentStatus, z => z.Section, z=>z.Section.Grade).ToList();
+                studentList = studentRepo.GetIncludesList(z => z.StudentStatus == studentStatus, z => z.Section, z=>z.Section.Grade, z=>z.User).ToList();
             }
             else
             {
-                studentList = studentRepo.GetIncludesList(z => z.SectionId != null, z => z.Section, z=>z.Section.Grade).ToList();
+                studentList = studentRepo.GetIncludesList(z => z.SectionId != null, z => z.Section, z=>z.Section.Grade, z => z.User).ToList();
             }
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
-        
     }
 }

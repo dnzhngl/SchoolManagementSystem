@@ -87,9 +87,9 @@
                             </td>
                             @*<td><a class="btn btn-outline-info btn-sm" asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@student.Id"><i class="fa fa-certificate"></i> Belge Listesi</a></td>
                             <td><a class="btn btn-outline-primary btn-sm" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@student.Id">Not Bilgisi</a></td>*@
-                            <td><a class="btn btn-outline-info btn-sm" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@student.Id"> Akademik Bilgi</a></td><!---->
+                            <td><a class="btn btn-outline-info btn-sm" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@student.Id"> Akademik Bilgi</a></td>
                             <td>
-
+                                <a class="btn btn-outline-info btn-sm" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@student.User.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-envelope"></i></a>
                                 <a class="btn btn-outline-primary btn-sm" asp-action="StudentDetails" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
 
                                 @if (this.User.IsInRole("Admin"))

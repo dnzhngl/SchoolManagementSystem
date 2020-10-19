@@ -61,8 +61,9 @@
                                 <a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorId="@instructor.Id"><i class="fa fa-table"></i> Ders Programı</a>
                             </td>
                             <td>
-                               
+
                                 @*<a class="btn btn-outline-info btn-sm" asp-controller="Email" asp-action="SendEmail" asp-route-userMail="@instructor.User.Email"><i class="fa fa-envelope"></i></a>*@
+                                <a class="btn btn-outline-info btn-sm" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@instructor.User.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-envelope"></i></a>
 
                                 @if (this.User.IsInRole("Admin"))
                                 {

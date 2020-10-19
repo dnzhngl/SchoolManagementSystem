@@ -1,0 +1,67 @@
+﻿@model IEnumerable<MessageDTO>
+@{
+    ViewData["Title"] = "MessageList";
+}
+
+
+<div class="card text-center shadow-sm">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" asp-action="MessageList" asp-controller="Message" asp-route-username="@this.User.Identity.Name">Tüm Mesajlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Inbox" asp-controller="Message" asp-route-username="@this.User.Identity.Name">Gelen Mesajlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Outbox" asp-controller="Message" asp-route-username="@this.User.Identity.Name">Gönderilen Mesajlar</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>İçerik</th>
+                        <th>Gönderen</th>
+                        <th>Alıcı</th>
+                        <th>Tarih</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var message in Model)
+                    {
+                        <tr>
+                            <td>@message.Subject</td>
+                            <td>
+                                @if (message.MessageContent != null && message.MessageContent.Length > 50)
+                                {
+                                    @message.MessageContent.Substring(0, 15)
+                                }
+                                else
+                                {
+                                    @message.MessageContent
+                                }
+                            </td>
+                            <td>@message.Sender.Email </td>
+                            <td>@message.Receiver.Email </td>
+                            <td>@message.TimeSent.ToString("dd/MM/yyy hh:mm") </td>
+
+                            <td>
+                                <a class="btn btn-outline-primary btn-sm" asp-action="ShowMessage" asp-route-messageId="@message.Id"><i class="fa fa-search"></i></a>
+
+                                <a class="btn btn-outline-danger btn-sm" asp-action="DeleteMessage" asp-route-messageId="@message.Id"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

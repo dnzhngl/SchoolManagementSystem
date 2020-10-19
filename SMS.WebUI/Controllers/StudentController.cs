@@ -207,5 +207,21 @@ namespace SMS.WebUI.Controllers
             model.CertificateDTOs = certificateService.GetCertificateList(studentId);
             return View(model);
         }
+
+        public IActionResult ChangeStudentStatus(int studentId)
+        {
+            StudentDTO student = studentService.GetStudent(studentId);
+            return PartialView(student);
+        }
+        [HttpPost]
+        public IActionResult ChangeStudentStatus(StudentDTO student)
+        {
+            var studentStatus = student.StudentStatus;
+            student = studentService.GetStudent(student.Id);
+            student.StudentStatus = studentStatus;
+
+            studentService.UpdateStudent(student);
+            return PartialView(student);
+        }
     }
 }

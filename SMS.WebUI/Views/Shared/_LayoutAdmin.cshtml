@@ -314,8 +314,8 @@
                         <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-certificateTypeName="Teşekkür">Teşekkür Belgesi Alanlar</a>
                         <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-certificateTypeName="Onur">Onur Belgesi Alanlar</a>
                         @*<a class="collapse-item" href="#">Takdir Alanlar</a>
-                    <a class="collapse-item" href="#">Teşekkür Alanlar</a>
-                    <a class="collapse-item" href="#">Onur Belgesi Alanlar</a>*@
+                            <a class="collapse-item" href="#">Teşekkür Alanlar</a>
+                            <a class="collapse-item" href="#">Onur Belgesi Alanlar</a>*@
 
                         <div class="collapse-divider"></div>
 
@@ -342,297 +342,6 @@
                     </div>
                 </div>
             </li>
-
-
-            @*
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Yönetici İşlemleri
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageAdmin" aria-expanded="true" aria-controls="collapsePageAdmin">
-                <i class="fas fa-id-badge"></i>
-                <span>Yönetici İşlemleri</span>
-            </a>
-            <div id="collapsePageAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Yönetici İşlemleri</h6>
-                    <a class="collapse-item" href="/Admin/AdminList">Yönetici Listesi</a>
-                    <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AdminAdd", "Admin", "AdminDTO")')">Yönetici Ekle</a>
-                    <div class="collapse-divider"></div>
-                </div>
-            </div>
-        </li>
-
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Dönem İşlemleri
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSemester" aria-expanded="true" aria-controls="collapsePageSemester">
-                <i class="fas fa-id-badge"></i>
-                <span>Dönem İşlemleri</span>
-            </a>
-            <div id="collapsePageSemester" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Dönem İşlemleri</h6>
-                    <a class="collapse-item" href="/Semester/SemesterList">Dönem Listesi</a>
-
-                    <h6 class="collapse-header">Etkinlik İşlemleri</h6>
-                    <a class="collapse-item" asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Etkinlik">Etkinlik Listesi</a>
-                    <a class="collapse-item" href="/#">Etkinlik Ekle</a>
-
-                    <h6 class="collapse-header">Duyuru İşlemleri</h6>
-                    <a class="collapse-item" asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Duyuru">Duyuru Listesi</a>
-                    <a class="collapse-item" href="#">Duyuru Ekle</a>
-                    <div class="collapse-divider"></div>
-                </div>
-            </div>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Sınıf, Şube ve Derslik İşlemleri
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageGrade" aria-expanded="true" aria-controls="collapsePageGrade">
-                <i class="fas fa-list-alt"></i>
-                <span>Sınıf İşlemleri</span>
-            </a>
-            <div id="collapsePageGrade" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Sınıf İşlemleri</h6>
-                    <a class="collapse-item" href="/Grade/GradeList">Sınıf Listesi</a>
-                    <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("GradeAdd", "Grade", "GradeDTO")')">Sınıf Ekle</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSection" aria-expanded="true" aria-controls="collapsePageSection">
-                <i class="fas fa-list-ol"></i>
-                <span>Şube İşlemleri</span>
-            </a>
-            <div id="collapsePageSection" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Şube İşlemleri</h6>
-                    <a class="collapse-item" href="/Section/SectionList">Şube Listesi</a>
-                    <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("SectionAdd", "Section", "SectionGradeViewModel")')">Şube Ekle</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageClassroom" aria-expanded="true" aria-controls="collapsePageClassroom">
-                <i class="fas fa-cubes"></i>
-                <span>Derslik İşlemleri</span>
-            </a>
-            <div id="collapsePageClassroom" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Derslik Bilgileri</h6>
-                    <a class="collapse-item" href="/Classroom/ClassroomList">Derslik Listesi</a>
-                    <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ClassroomAdd", "Classroom", "ClassroomDTO")')">Derslik Ekle</a>
-                </div>
-            </div>
-        </li>
-
-
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Ders İşlemleri
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMainSubject" aria-expanded="true" aria-controls="collapseMainSubject">
-                <i class="fas fa-book-dead"></i>
-                <span>Ders İşlemleri</span>
-            </a>
-            <div id="collapseMainSubject" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Ana Ders İşlemleri</h6>
-                    <a class="collapse-item" href="/MainSubject/MainSubjectList">Ana Ders Listesi</a>
-                    <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("MainSubjectAdd", "MainSubject", "MainSubjectDTO")')">Ana Ders Ekle</a>
-
-                    <h6 class="collapse-header">Alt Ders İşlemleri</h6>
-                    <a class="collapse-item" href="/Subject/SubjectList">Alt Ders Listesi</a>
-                    <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("SubjectAdd", "Subject", "SubjectDetailViewModel")')">Alt Ders Ekle</a>
-                </div>
-            </div>
-        </li>
-
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTimetable" aria-expanded="true" aria-controls="collapseTimetable">
-                    <i class="fas fa-book-reader"></i>
-                    <span>Ders Programları</span>
-                </a>
-                <div id="collapseTimetable" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Ders Programları</h6>
-                        <a class="collapse-item" href="/Timetable/TimetableIndex">Ders Programı Listesi</a>
-                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("TimetableAdd", "Timetable", "TimetableViewModel")')">Ders Programı Ekle</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseExam" aria-expanded="true" aria-controls="collapseExam">
-                    <i class="fas fa-subscript"></i>
-                    <span>Sınav İşlemleri</span>
-                </a>
-                <div id="collapseExam" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Sınav İşlemleri</h6>
-                        <a class="collapse-item" href="/Exam/ExamList">Sınav Listesi</a>
-                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ExamAdd", "Exam", "SubjectDetailViewModel")')">Sınav Ekle</a>
-                    </div>
-                </div>
-            </li>
-
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Öğretmen ve Branş İşlemleri
-            </div>
-
-            <!-- Instructors -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageOgretmen" aria-expanded="true" aria-controls="collapsePageOgretmen">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Öğretmen İşlemleri</span>
-                </a>
-                <div id="collapsePageOgretmen" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Öğretmen İşlemleri</h6>
-                        <a class="collapse-item" href="/Instructor/InstructorList">Öğretmen Listesi</a>
-                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("InstructorAdd", "Instructor", "InstructorBranchViewModel")')">Öğretmen Ekle</a>
-                    </div>
-                </div>
-
-            </li>
-
-            <!--Branches-->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageBranch" aria-expanded="true" aria-controls="collapsePageBranch">
-                    <i class="fas fa-code-branch"></i>
-                    <span>Branş İşlemleri</span>
-                </a>
-                <div id="collapsePageBranch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Branş İşlemleri</h6>
-                        <a class="collapse-item" href="/Branch/BranchList">Branş Listesi</a>
-                        <a class="collapse-item" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("BranchAdd", "Branch", "BranchDTO")')">Branş Ekle</a>
-                    </div>
-                </div>
-            </li>
-
-
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Kayıt İşlemleri
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageRegistration" aria-expanded="true" aria-controls="collapsePageRegistration">
-                    <i class="fas fa-id-badge"></i>
-                    <span>Kayıt İşlemleri</span>
-                </a>
-                <div id="collapsePageRegistration" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Ön Kayıt</h6>
-                        <a class="collapse-item" href="/Student/RegistrationList">Ön Kayıt Listesi</a>
-                        <a class="collapse-item" href="/Parent/ParentAdd">Ön Kayıt Ekle</a>
-                        <div class="collapse-divider"></div>
-                    </div>
-                </div>
-
-            </li>
-
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Öğrenci İşlemleri
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageOgrenci" aria-expanded="true" aria-controls="collapsePageOgrenci">
-                    <i class="fas fa-book-open"></i>
-                    <span>Öğrenci İşlemleri</span>
-                </a>
-                <div id="collapsePageOgrenci" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-header">Öğrenci Listesi</a>
-                        <a class="collapse-item" href="/Student/StudentList">Tüm Öğrenciler</a>
-
-                        <div class="collapse-divider"></div>
-
-                        <h6 class="collapse-header">Öğrenci Listeleri</h6>
-                        <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-certificateTypeName="Takdir">Takdir Belgesi Alanlar</a>
-                        <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-certificateTypeName="Teşekkür">Teşekkür Belgesi Alanlar</a>
-                        <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-certificateTypeName="Onur">Onur Belgesi Alanlar</a>
-
-
-                        <div class="collapse-divider"></div>
-
-                        <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-studentStatus="Mezun">Mezunlar</a>
-                        <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-studentStatus="Sevk">İlişkisi Kesilenler</a>
-                        <div class="collapse-divider"></div>
-                    </div>
-                </div>
-
-            </li>
-
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageVeli" aria-expanded="true" aria-controls="collapsePageVeli">
-                    <i class="fas fa-users"></i>
-                    <span>Veli İşlemleri</span>
-                </a>
-                <div id="collapsePageVeli" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Veli Bilgileri</h6>
-                        <a class="collapse-item" href="/Parent/ParentList">Veli Listesi</a>
-                        <div class="collapse-divider"></div>
-                    </div>
-                </div>
-            </li>
-            *@
 
 
 
@@ -661,176 +370,87 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Ara..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
+                    @*<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Ara..." aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>*@
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
+                    <!-- Nav Item - Search Dropdown (Visible Only XS)
+    <li class="nav-item dropdown no-arrow d-sm-none">
+        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-search fa-fw"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+            <form class="form-inline mr-auto w-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Arama Yap" aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </li>-->
+                    <!-- Nav Item - Alerts -->
+                    <li class="nav-item mx-1">
+                        <a class="nav-link" href="#" role="button">
+                            <i class="fas fa-bell fa-fw"></i>
+                            <!-- Counter - Alerts -->
+                            <span class="badge badge-danger badge-counter"></span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Messages -->
+                    <li class="nav-item mx-1">
+
+                        <a class="nav-link btn-lg" style="color:#4e73df" role="button" asp-controller="Message" asp-action="MessageList" asp-route-username="@this.User.Identity.Name">
+                            <i class="fas fa-envelope fa-fw"></i>
+                            <span class="badge badge-danger badge-counter"></span>
+                        </a>
+
+                    </li>
+
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
+                            <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Profil
                             </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Arama Yap" aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
+                            <a class="dropdown-item" asp-controller="User" asp-action="UserSettings" asp-route-username="@this.User.Identity.Name">
+                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Ayarlar
                             </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Bildirimler
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                            @*<a class="dropdown-item" href="#">
+                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Activity Log
+                </a>*@
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Çıkış
                             </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Mesajlar
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
-                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profil
-                                </a>
-                                <a class="dropdown-item" asp-controller="User" asp-action="UserSettings" asp-route-username="@this.User.Identity.Name">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Ayarlar
-                                </a>
-                                @*<a class="dropdown-item" href="#">
-                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Activity Log
-                                    </a>*@
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Çıkış
-                                </a>
-                            </div>
-                        </li>
-
-                    </ul>
+                        </div>
+                    </li>
+                </ul>
 
                 </nav>
                 <!-- End of Topbar -->
