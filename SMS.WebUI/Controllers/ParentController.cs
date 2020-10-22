@@ -68,6 +68,7 @@ namespace SMS.WebUI.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ParentAdd(StudentParentViewModel parent)
         {
             if (ModelState.IsValid)

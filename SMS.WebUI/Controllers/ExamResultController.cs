@@ -24,16 +24,18 @@ namespace SMS.WebUI.Controllers
             studentService = _studentService;
         }
         [HttpGet]
-        public IActionResult ExamResultAdd(int studentId)
+        public IActionResult ExamResultAdd(int studentId, int examId)
         {
-            StudentDetailsViewModel model = new StudentDetailsViewModel();
-            model.StudentDTO = studentService.GetStudent(studentId);
-            return PartialView(model);
+            var examResult = new ExamResultDTO() { StudentId = studentId, ExamId = examId };
+            examResult.Exam = examService.GetExam(examId);
+            examResult.Student = studentService.GetStudent(studentId);
+            return PartialView(examResult);
         }
         [HttpPost]
-        public IActionResult ExamResultAdd(StudentDetailsViewModel model)
+        public IActionResult ExamResultAdd(ExamResultDTO examResult)
         {
-            examResultService.NewExamResult(model.ExamResultDTO);
+            examResult.Exam = null;
+            examResultService.NewExamResult(examResult);
             return RedirectToAction();
         }
         public IActionResult StudentExamResults(int studentId, string? studentUserName) 

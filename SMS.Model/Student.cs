@@ -27,8 +27,9 @@ namespace SMS.Model
         public string GraduatedFrom { get; set; } //Mezun olduğu okul
         public decimal GPA { get; set; }    //Not ortalaması
         public bool StudentStatusBool { get; set; }    //İlişkisi Devam Ediyor, İlişkisi Kesildi (Öğrencilik Durumu)
-        public string StudentStatus { get; set; }   
-
+        public string StudentStatus { get; set; }
+        public DateTime RegistrationDate { get; set; }
+        
 
         [ForeignKey("Section")]
         public Nullable<int> SectionId { get; set; }

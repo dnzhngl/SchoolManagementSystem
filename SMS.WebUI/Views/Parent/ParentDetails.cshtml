@@ -21,7 +21,8 @@
             <div class="col">
                 @if (this.User.IsInRole("Admin"))
                 {
-                    <a class="btn btn-outline-warning btn-sm float-right" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>
+                    @*<a class="btn btn-outline-warning btn-sm float-right" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>*@
+                    <a class="btn btn-outline-warning btn-sm float-right" asp-action="ParentUpdate" asp-controller="Parent" asp-route-id="@Model.ParentDTO.Id"><i class="fa fa-pen"></i></a>
                 }
             </div>
         </div>

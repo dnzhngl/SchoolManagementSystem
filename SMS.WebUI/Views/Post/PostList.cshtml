@@ -99,6 +99,7 @@
                                     <td>@post.User.UserName</td>
                                     <td>
                                         <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("PostDetails", "Post", new { id = post.Id })')"><i class="fa fa-search"></i></a>
+
                                         @if (this.User.IsInRole("Admin") || this.User.Identity.Name == post.User.UserName)
                                         {
                                             @*<a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("PostUpdate", "Post", new { postId = post.Id })')"><i class="fa fa-pen"></i></a>*@

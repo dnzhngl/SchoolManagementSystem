@@ -132,6 +132,7 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult StudentAdd(StudentParentViewModel student)
         {
             if (ModelState.IsValid)
@@ -155,14 +156,19 @@ namespace SMS.WebUI.Controllers
         {
             StudentParentViewModel model = new StudentParentViewModel();
             model.StudentDTO = studentService.GetStudent(id);
-            return PartialView(model);
+            return View(model);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult StudentUpdate(StudentParentViewModel student)
         {
-            StudentDTO selectedStudent = studentService.GetStudent(student.StudentDTO.Id);
-            studentService.UpdateStudent(student.StudentDTO);
-            return Redirect(Request.Headers["Referer"].ToString());
+            if (ModelState.IsValid)
+            {
+                //StudentDTO selectedStudent = studentService.GetStudent(student.StudentDTO.Id);
+                studentService.UpdateStudent(student.StudentDTO);
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+            return View(student);
         }
 
         public IActionResult AssignSection(int id)
@@ -203,8 +209,8 @@ namespace SMS.WebUI.Controllers
         {
             StudentDetailsViewModel model = new StudentDetailsViewModel();
             model.StudentDTO = studentService.GetStudent(studentId);
-            model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
-            model.CertificateDTOs = certificateService.GetCertificateList(studentId);
+            //model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+            //model.CertificateDTOs = certificateService.GetCertificateList(studentId);
             return View(model);
         }
 

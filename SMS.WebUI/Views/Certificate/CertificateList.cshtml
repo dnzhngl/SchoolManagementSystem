@@ -21,7 +21,7 @@
                 <a class="nav-link active" asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@Model.StudentDTO.Id">Belge Listesi</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
+                <a class="nav-link" asp-controller="Exam" asp-action="StudentExamList" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Attendance" asp-action="AttendanceList" asp-route-studentId="@Model.StudentDTO.Id"> Devamsızlık Bilgisi</a>

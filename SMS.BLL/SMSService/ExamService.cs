@@ -47,7 +47,7 @@ namespace SMS.BLL.SMSService
 
         public ExamDTO GetExam(int id)
         {
-            var selectedExam = examRepo.GetIncludes(z => z.Id == id, z => z.Subject, z=>z.ExamType);
+            var selectedExam = examRepo.GetIncludes(z => z.Id == id, z => z.Subject, z => z.ExamType);
             return MapperFactory.CurrentMapper.Map<ExamDTO>(selectedExam);
         }
 
@@ -68,7 +68,7 @@ namespace SMS.BLL.SMSService
                 uow.SaveChanges();
 
                 var addedExam = examRepo.Get(z => z.Id == newExam.Id);
-                GenerateExamResults(exam.SubjectId, addedExam.Id);
+                // GenerateExamResults(exam.SubjectId, addedExam.Id);
 
                 return MapperFactory.CurrentMapper.Map<ExamDTO>(newExam);
             }
@@ -79,8 +79,11 @@ namespace SMS.BLL.SMSService
         }
         public void GenerateExamResults(int subjectId, int examId)
         {
+            // var instructors = uow.GetRepository<Timetable>().GetIncludesList(z => z.SubjectId == subjectId, z => z.Instructor, z => z.Section.Students);
+
             var sections = uow.GetRepository<Timetable>().GetAll().Where(z => z.SubjectId == subjectId).GroupBy(z => z.SectionId).Select(z => z.Key);
             List<Student> students = new List<Student>();
+
             foreach (var sectionId in sections)
             {
                 var studentList = uow.GetRepository<Student>().GetAll().Where(z => z.SectionId == sectionId);
@@ -89,6 +92,7 @@ namespace SMS.BLL.SMSService
 
             foreach (var student in students)
             {
+
                 ExamResult newExamResult = new ExamResult();
                 newExamResult.StudentId = student.Id;
                 newExamResult.ExamId = examId;
@@ -107,20 +111,30 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<ExamDTO>(selectedExam);
         }
 
-        //public List<ExamDTO> StudentsExamList(int studentId)
-        //{
-        //    var studentsSection = uow.GetRepository<Student>().Get(Z => Z.Id == studentId).SectionId;
-        //    var examList = uow.GetRepository<Timetable>().GetIncludesList(z => z.SectionId == studentsSection, z => z.Subject.Exams).Select(z => z.Subject.Exams);
-            
-        //    return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);
-        //}
-
         public List<ExamDTO> GetExamsByStudent(int studentId)
         {
 
-            var examList = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam).Select(z=> z.Exam).ToList();
-            
+            var examList = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam, z => z.Exam.ExamResults).Select(z => z.Exam).ToList();
             return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);
         }
+        public List<ExamDTO> GetExamsOfStudent(int studentId)
+        {
+            var sectionId = uow.GetRepository<Student>().Get(z => z.Id == studentId).SectionId;
+
+            var exams = uow.GetRepository<Timetable>().GetIncludesList(z => z.SectionId == sectionId, z => z.Subject.Exams).SelectMany(z => z.Subject.Exams);
+            var examList = exams.GroupBy(z => new Exam() {Id = z.Id, ExamName= z.ExamName, ExamDate = z.ExamDate, ExamTypeId = z.ExamTypeId, SubjectId = z.SubjectId }).Select(z => z.Key);
+
+
+            return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);
+
+            // select Students.FirstName, Students.LastName, Sections.SectionName, Subjects.SubjectName, Exams.ExamName, Exams.ExamDate, ExamResults.ExamMark from Students
+            // inner join Sections on Students.SectionId = Sections.Id
+            // inner join Timetables on Sections.Id = Timetables.SectionId
+            // inner join Subjects on Timetables.SubjectId = Subjects.Id
+            // inner join Exams on Subjects.Id = Exams.SubjectId
+            // inner join ExamResults on Exams.Id = ExamResults.ExamId and Students.Id = ExamResults.StudentId
+            // Group by  Students.FirstName, Students.LastName, Sections.SectionName, Subjects.SubjectName, Exams.ExamName, Exams.ExamDate, ExamResults.ExamMark
+        }
+
     }
 }

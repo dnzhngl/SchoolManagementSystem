@@ -28,6 +28,7 @@
 
         <div class="card-body">
             <form asp-action="ParentAdd">
+                @Html.AntiForgeryToken()
 
                 <div class="form-body ">
                     <div class="row">

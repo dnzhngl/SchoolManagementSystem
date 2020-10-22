@@ -47,34 +47,41 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<UserDTO>(user);
         }
 
-        public UserDTO GenerateUserAccount(string firstname, string lastname, string identityNo, string roleName)
+        public UserDTO GenerateUserAccount(string firstname, string lastname, string identityNo, string roleName, string schoolNumber = null)
         {
-            User newUser = new User();
-            newUser.RoleId = roleRepo.Get(z => z.RoleName == roleName).Id;
-            if (roleName == "Öğretmen" || roleName == "Admin")
+            if (!userRepo.GetAll().Any(z => z.UserName == identityNo))
             {
-                newUser.UserName = CreateUserName(firstname, lastname);
-                newUser.Email = newUser.UserName.ToLower() + "@bilgekoleji.com";
+                User newUser = new User();
+                newUser.RoleId = roleRepo.Get(z => z.RoleName == roleName).Id;
+                if (roleName == "Öğretmen" || roleName == "Admin")
+                {
+                    newUser.UserName = CreateUserName(firstname, lastname);
+                    newUser.Email = newUser.UserName.ToLower() + "@bilgekoleji.com";
+                }
+                else if (roleName == "Öğrenci")
+                {
+                    newUser.UserName = schoolNumber;
+                    newUser.Email = string.Format("{0}@std.bilgekoleji.com", schoolNumber);
+
+                }
+                else if (roleName == "Veli")
+                {
+                    newUser.UserName = identityNo;
+                    newUser.Email = string.Format("{0}@pt.bilgekoleji.com", identityNo);
+                    // newUser.Email = identityNo;
+                }
+
+                newUser.Password = identityNo;
+
+                userRepo.Add(newUser);
+                uow.SaveChanges();
+
+                return MapperFactory.CurrentMapper.Map<UserDTO>(newUser);
             }
-            else if (roleName == "Öğrenci")
+            else
             {
-                newUser.UserName = identityNo ;
-                newUser.Email = string.Format("{0}@std.bilgekoleji.com", identityNo);
-
+                return null;
             }
-            else if (roleName =="Veli")
-            {
-                newUser.UserName = identityNo;
-                newUser.Email = string.Format("{0}@pt.bilgekoleji.com", identityNo);
-               // newUser.Email = identityNo;
-            }
-
-            newUser.Password = identityNo;
-
-            userRepo.Add(newUser);
-            uow.SaveChanges();
-
-            return MapperFactory.CurrentMapper.Map<UserDTO>(newUser);
         }
 
         public List<UserDTO> GetAll()

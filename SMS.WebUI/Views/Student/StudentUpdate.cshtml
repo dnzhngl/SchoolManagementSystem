@@ -1,83 +1,121 @@
 ﻿@model StudentParentViewModel
+@{
+    ViewData["Title"] = "StudentUpdate";
+}
 
 
-<div class="modal-header">
-    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Öğrenci Bilgilerini Güncelle</h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h4>Öğrenci Bilgisini Güncelle</h4>
+    </div>
+    <div class="card-body">
+        <p></p>
+    </div>
 </div>
 
-<form asp-action="StudentUpdate" class="shadow-sm">
 
-    <input type="hidden" asp-for="StudentDTO.Id" />
-    <input type="hidden" asp-for="StudentDTO.SchoolNumber" />
-    <input type="hidden" asp-for="StudentDTO.ParentId" />
-    <input type="hidden" asp-for="StudentDTO.SectionId" />
-    <input type="hidden" asp-for="StudentDTO.StudentStatusBool" />
-    <input type="hidden" asp-for="StudentDTO.StudentStatus" />
-    <input type="hidden" asp-for="StudentDTO.UserId" />
+<div class="col col-12 col-lg-8 mt-3">
 
-    <div class="modal-body">
-
-        <div class="form-group">
-            <label for="formGroupExampleInput">Öğrenci Adı</label>
-            <input type="text" class="form-control" id="" placeholder="Adı" asp-for="StudentDTO.FirstName">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Öğrenci Soyadı</label>
-            <input type="text" class="form-control" id="" placeholder="Soyadı" asp-for="StudentDTO.LastName">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput">Kimlik No</label>
-            <input type="text" class="form-control" id="" placeholder="Kimlik Numarası" asp-for="StudentDTO.IdentityNumber">
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="font-weight-bold text-primary">Öğrenci Bilgisi Güncelleme</h5>
         </div>
 
-        <fieldset class="form-group">
-            <div class="row">
-                <label class="col-form-label col-sm-5 pt-0">Cinsiyeti</label>
-                <div class="col col-sm-3 form-check">
-                    <input class="form-check-input" type="radio" name="StudentDTO.Gender" id="gridRadios1" value="Erkek" asp-for="StudentDTO.Gender">
-                    <label class="form-check-label" for="gridRadios1">
-                        Erkek
-                    </label>
+        <div class="card-body">
+
+            <form asp-action="StudentUpdate">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="StudentDTO.Id" />
+                <input type="hidden" asp-for="StudentDTO.SchoolNumber" />
+                <input type="hidden" asp-for="StudentDTO.ParentId" />
+                <input type="hidden" asp-for="StudentDTO.SectionId" />
+                <input type="hidden" asp-for="StudentDTO.StudentStatusBool" />
+                <input type="hidden" asp-for="StudentDTO.StudentStatus" />
+                <input type="hidden" asp-for="StudentDTO.UserId" />
+                <input type="hidden" asp-for="StudentDTO.RegistrationDate" />
+
+                <div class="form-body ">
+                    <div class="row">
+                        <div class="col col-12 col-lg-6">
+                            <h4>Kimlik Bilgisi</h4>
+                            <hr />
+
+                            <div class="form-group">
+                                <label for="formGroupExampleInput">Öğrenci Adı</label>
+                                <input type="text" class="form-control" id="" placeholder="Adı" asp-for="StudentDTO.FirstName">
+                                @Html.ValidationMessageFor(model => model.ParentDTO.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Öğrenci Soyadı</label>
+                                <input type="text" class="form-control" id="" placeholder="Soyadı" asp-for="StudentDTO.LastName">
+                                @Html.ValidationMessageFor(model => model.ParentDTO.LastName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput">Kimlik No</label>
+                                <input type="text" class="form-control" id="" placeholder="Kimlik Numarası" asp-for="StudentDTO.IdentityNumber">
+                                @Html.ValidationMessageFor(model => model.ParentDTO.IdentityNumber, "", new { @class = "text-danger" })
+                            </div>
+
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <label class="col-form-label col-sm-5 pt-0">Cinsiyeti</label>
+                                    <div class="col col-sm-3 form-check">
+                                        <input class="form-check-input" type="radio" name="StudentDTO.Gender" id="gridRadios1" value="Erkek" asp-for="StudentDTO.Gender">
+                                        <label class="form-check-label" for="gridRadios1">
+                                            Erkek
+                                        </label>
+                                    </div>
+                                    <div class="col col-sm-3 form-check">
+                                        <input class="form-check-input" type="radio" name="StudentDTO.Gender" id="gridRadios2" value="Kadın" asp-for="StudentDTO.Gender">
+                                        <label class="form-check-label" for="gridRadios2">
+                                            Kadın
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Doğum Tarihi</label>
+                                <input type="date" class="form-control" asp-for="StudentDTO.DOB">
+                            </div>
+                        </div>
+
+                        <div class="col col-12 col-lg-6">
+                            <h4>İletişim Bilgisi</h4>
+                            <hr />
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Telefon Numarası</label>
+                                <input type="text" class="form-control" placeholder="+90" asp-for="StudentDTO.CellPhone">
+                            </div>
+
+                            <h4 class="mt-md-5">Eğitim Bilgisi</h4>
+                            <hr />
+
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Mezun olduğu Okul</label>
+                                <input type="text" class="form-control" placeholder="" asp-for="StudentDTO.GraduatedFrom">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Not Ortalaması</label>
+                                <input type="text" class="form-control" id="" placeholder="Not Ortalaması" asp-for="StudentDTO.GPA">
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12 p-3">
+                            <div class="form-actions float-right">
+                                <button type="button" class="btn btn-secondary" onclick="history.back()">Geri</button>
+                                <button type="submit" class="btn btn-primary">Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col col-sm-3 form-check">
-                    <input class="form-check-input" type="radio" name="StudentDTO.Gender" id="gridRadios2" value="Kadın" asp-for="StudentDTO.Gender">
-                    <label class="form-check-label" for="gridRadios2">
-                        Kadın
-                    </label>
-                </div>
-            </div>
-        </fieldset>
-
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Doğum Tarihi</label>
-            <input type="date" class="form-control" asp-for="StudentDTO.DOB">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Telefon Numarası</label>
-            <input type="text" class="form-control" placeholder="+90" asp-for="StudentDTO.CellPhone">
-        </div>
-
-        <h4 class="mt-md-5">Eğitim Bilgisi</h4>
-        <hr />
-
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Mezun olduğu Okul</label>
-            <input type="text" class="form-control" placeholder="" asp-for="StudentDTO.GraduatedFrom">
-        </div>
-
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Not Ortalaması</label>
-            <input type="text" class="form-control" id="" placeholder="Not Ortalaması" asp-for="StudentDTO.GPA">
+            </form>
         </div>
     </div>
-
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
-        <button type="submit" class="btn btn-primary">Kaydet</button>
-    </div>
-</form>
-
-
+</div>

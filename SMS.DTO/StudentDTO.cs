@@ -24,7 +24,8 @@ namespace SMS.DTO
         [Required(ErrorMessage = "Bu alan boş bırakılamaz.")]
         public decimal GPA { get; set; }    //Not ortalaması
         public bool StudentStatusBool { get; set; }    //İlişkisi Devam Ediyor, İlişkisi Kesildi (Öğrencilik Durumu)
-        public string StudentStatus { get; set; }  
+        public string StudentStatus { get; set; }
+        public DateTime RegistrationDate { get; set; }
 
 
         public Nullable<int> SectionId { get; set; }

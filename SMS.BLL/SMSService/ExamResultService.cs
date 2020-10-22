@@ -54,7 +54,9 @@ namespace SMS.BLL.SMSService
         public List<ExamResultDTO> GetExamResultsOfStudent(int studentId)
         {
            // var student = uow.GetRepository<Student>().Get(z => z.Id == studentId);
-            var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam).OrderBy(z => z.Exam.ExamDate).ToList();
+           var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam).OrderBy(z => z.Exam.ExamDate).ToList();
+           // var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam, z=>z.Exam.Subject.Timetables).OrderBy(z => z.Exam.ExamDate).ToList();
+
             return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(examResults);
         }
 
@@ -69,9 +71,31 @@ namespace SMS.BLL.SMSService
 
         public ExamResultDTO NewExamResult(ExamResultDTO examResult)
         {
-            if (!examResultRepo.GetAll().Any(z => z.Id == examResult.Id))
+            if (!examResultRepo.GetAll().Any(z => z.StudentId == examResult.StudentId && z.ExamId == examResult.ExamId))
             {
                 ExamResult newExamResult = MapperFactory.CurrentMapper.Map<ExamResult>(examResult);
+
+                if (newExamResult.ExamMark >= 85 && newExamResult.ExamMark <= 100)
+                {
+                    newExamResult.StudentStatus = "Pekiyi";
+                }
+                else if (newExamResult.ExamMark >= 70 && newExamResult.ExamMark < 85)
+                {
+                    newExamResult.StudentStatus = "İyi";
+                }
+                else if (newExamResult.ExamMark >= 60 && newExamResult.ExamMark < 70)
+                {
+                    newExamResult.StudentStatus = "Orta";
+                }
+                else if (newExamResult.ExamMark >= 50 && newExamResult.ExamMark < 60)
+                {
+                    newExamResult.StudentStatus = "Geçer";
+                }
+                else if (newExamResult.ExamMark >= 0 && newExamResult.ExamMark < 50)
+                {
+                    newExamResult.StudentStatus = "Geçmez";
+                }
+
                 examResultRepo.Add(newExamResult);
                 uow.SaveChanges();
 

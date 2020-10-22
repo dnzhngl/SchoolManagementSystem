@@ -25,6 +25,6 @@ namespace SMS.BLL.Abstract
         StudentDTO NewStudent(StudentDTO student);
         StudentDTO UpdateStudent(StudentDTO student);
         bool DeleteStudent(int id);
-
+        string GenerateStudentNumber();
     }
 }

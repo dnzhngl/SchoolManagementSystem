@@ -12,21 +12,23 @@ namespace SMS.WebUI.Controllers
     public class ExamController : Controller
     {
         private readonly IExamService examService;
+        private readonly IExamResultService examResultService;
         private readonly IExamTypeService examTypeService;
         private readonly ISubjectService subjectService;
         private readonly IMainSubjectService mainSubjectService;
         private readonly IStudentService studentService;
 
-        public ExamController(IExamService _examService, IExamTypeService _examTypeService, ISubjectService _subjectService, IMainSubjectService _mainSubjectService, IStudentService _studentService)
+        public ExamController(IExamService _examService, IExamTypeService _examTypeService, ISubjectService _subjectService, IMainSubjectService _mainSubjectService, IStudentService _studentService, IExamResultService _examResultService)
         {
             examService = _examService;
             examTypeService = _examTypeService;
             subjectService = _subjectService;
             mainSubjectService = _mainSubjectService;
             studentService = _studentService;
+            examResultService = _examResultService;
         }
 
-        public IActionResult ExamList(int? id, string? subjectName, string? studentUsername)
+        public IActionResult ExamList(int? id, string? subjectName, string? studentUsername, int? studentId)
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
             if (id != null)
@@ -45,6 +47,10 @@ namespace SMS.WebUI.Controllers
                 var student = studentService.GetStudentByUsername(studentUsername);
                // model.ExamDTOs = examService.StudentsExamList(student.Id);
                 model.ExamDTOs = examService.GetExamsByStudent((int)student.Id);
+            }
+            else if (studentId != null)
+            {
+                model.ExamDTOs = examService.GetExamsByStudent((int)studentId);
             }
             else
             {
@@ -116,6 +122,15 @@ namespace SMS.WebUI.Controllers
 
             return Redirect(Request.Headers["Referer"].ToString());
             //return RedirectToAction("SubjectDetails", "Subject", new { subjectId = exam.ExamDTO.SubjectId });
+        }
+
+        public IActionResult StudentExamsList(int studentId)
+        {
+            StudentDetailsViewModel model = new StudentDetailsViewModel();
+            model.ExamDTOs = examService.GetExamsOfStudent(studentId);
+            model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+            model.StudentDTO = studentService.GetStudent(studentId);
+            return View(model);
         }
     }
 }

@@ -112,5 +112,11 @@ namespace SMS.BLL.SMSService
 
                 //"Select Parents.FirstName + ' ' + Parents.LastName as [Ad-Soyad], Parents.Gender, Parents.CellPhone, Parents.HomePhone,  Parents.WorkPhone, Parents.Address, Instructors.FirstName, Instructors.LastName from Parents inner join Students on Parents.Id = Students.ParentId inner join Sections on Students.SectionId = Sections.Id inner join Timetables on Sections.Id = Timetables.SectionId inner join Instructors on Instructors.Id = Timetables.InstructorId Group by Parents.FirstName, Parents.LastName, Parents.Gender, Parents.CellPhone, Parents.HomePhone, Parents.WorkPhone, Parents.Address, Instructors.FirstName, Instructors.LastName"
         }
+
+        public ParentDTO GetParent(string identityNo, string firstname, string lastname)
+        {
+            var parent = parentRepo.Get(z => z.IdentityNumber == identityNo && z.FirstName == firstname && z.LastName == lastname);
+            return MapperFactory.CurrentMapper.Map<ParentDTO>(parent);
+        }
     }
 }

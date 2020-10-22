@@ -21,8 +21,11 @@
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@Model.StudentDTO.Id">Belge Listesi</a>
             </li>
-            <li class="nav-item">
+            @*<li class="nav-item">
                 <a class="nav-link" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
+            </li>*@
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Exam" asp-action="StudentExamsList" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Attendance" asp-action="AttendanceList" asp-route-studentId="@Model.StudentDTO.Id"> Devamsızlık Bilgisi</a>
@@ -50,7 +53,7 @@
 
         <div class="card-text">
 
-            <p><b>Okul Numarası : </b>@Model.StudentDTO.Id</p>
+            <p><b>Okul Numarası : </b>@Model.StudentDTO.SchoolNumber</p>
             <p><b>Öğrenci Adı Soyadı : </b>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName</p>
             <p>
                 <b>Öğrencilik Durumu :</b> @Model.StudentDTO.StudentStatus

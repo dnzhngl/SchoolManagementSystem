@@ -26,8 +26,10 @@
                     <div class="form-actions">
                         @if (this.User.IsInRole("Admin"))
                         {
-                            <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = Model.StudentDTO.Id})')"><i class="fa fa-pen"></i></a>
-                            if (Model.StudentDTO.Section != null)
+                            @*<a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = Model.StudentDTO.Id})')"><i class="fa fa-pen"></i></a>*@
+                            <a class="btn btn-outline-warning btn-sm float-right" asp-action="StudentUpdate" asp-controller="Student" asp-route-id="@Model.StudentDTO.Id"><i class="fa fa-pen"></i></a>
+
+                            if (Model.StudentDTO.Section == null)
                             {
                                 <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new {id = Model.StudentDTO.Id })')">Şube Ata</a>
                             }
@@ -138,7 +140,8 @@
                 <div class="col">
                     @if (this.User.IsInRole("Admin"))
                     {
-                        <a class="btn btn-outline-warning btn-sm float-right" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>
+                        @*<a class="btn btn-outline-warning btn-sm float-right" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>*@
+                        <a class="btn btn-outline-warning btn-sm float-right" asp-action="ParentUpdate" asp-controller="Parent" asp-route-id="@Model.ParentDTO.Id"><i class="fa fa-pen"></i></a>
                     }
                 </div>
             </div>

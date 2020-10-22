@@ -27,6 +27,7 @@ namespace SMS.WebUI.Controllers
             return PartialView();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult BranchAdd(BranchDTO branchDTO)
         {
             if (ModelState.IsValid)

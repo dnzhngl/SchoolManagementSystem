@@ -11,7 +11,7 @@ namespace SMS.BLL.Abstract
         List<UserDTO> GetAll();
         UserDTO GetUser(int id);
         UserDTO GetUserByUsername(string userName);
-        UserDTO GenerateUserAccount(string firstname, string lastname, string identityNo, string roleName);
+        UserDTO GenerateUserAccount(string firstname, string lastname, string identityNo, string roleName, string schoolNumber = null);
         UserDTO NewUser(string identityNo, string roleName);
         UserDTO UpdateUser(UserDTO user);
         bool DeleteUser(int id);

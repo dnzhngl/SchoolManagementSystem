@@ -10,6 +10,7 @@ namespace SMS.BLL.Abstract
     {
         List<ParentDTO> GetAll();
         ParentDTO GetParent(int id);
+        ParentDTO GetParent(string identityNo, string firstname, string lastname);
         ParentDTO GetParentByUserId(int userId);
         List<ParentDTO> GetParentName(string name);
         ParentDTO NewParent(ParentDTO parent);
