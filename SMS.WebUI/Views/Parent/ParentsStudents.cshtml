@@ -1,4 +1,4 @@
-﻿@model StudentParentViewModel
+﻿@model IEnumerable<StudentDTO>
 
 
 <div class="modal-header">
@@ -8,12 +8,11 @@
     </button>
 </div>
 
-<input type="hidden" asp-for="ParentDTO.Id" />
 
 <div class="modal-body">
-    @foreach (var student in Model.StudentDTOs)
+    @foreach (var student in Model)
     {
-        <div class="card">
+        <div class="card m-2">
 
             <img class="card-img-top" src="..." alt="Öğrenci Resmi" />
 
@@ -59,24 +58,18 @@
                                 @if (student.Section != null) //SectionDTO
                                 {
                                     <label>
-                                        @student.Section.SectionName @*SectionDTO*@
+                                        @student.Section.SectionName
                                     </label>
                                 }
                                 else
                                 {
                                     <label>Atanmadı</label>
                                 }
-
-                                @*<label>@Model.SectionDTOs.FirstOrDefault(z => z.Id == student.SectionId).SectionName</label>*@
                             </div>
                         </div>
                     </li>
                 </ul>
             </div>
-
-            @*<div class="card-footer float-right">
-                    <button type="submit" class="btn btn-primary" asp-controller="Student" asp-action="StudentList" asp-route-student="@Model.StudentDTO">Git</button>
-                </div>*@
         </div>
     }
 </div>

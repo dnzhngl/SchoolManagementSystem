@@ -75,20 +75,6 @@
                 </a>
             </li>
 
-            <!-- Sections
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSections" aria-expanded="true" aria-controls="collapsePageSections">
-                    <i class="fas fa-list-alt"></i>
-                    <span>Sınıf İşlemleri</span>
-                </a>
-                <div id="collapsePageSections" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Sınıf İşlemleri</h6>
-                        <a class="collapse-item" asp-controller="Instructor" asp-action="LecturedClasses" asp-route-instructorUsername="@User.Identity.Name">Sınıf Listesi</a>
-                        @*<a class="collapse-item" href="/Instructor/InstructorSectionList">Sınıf Listesi</a>*@
-                    </div>
-                </div>
-            </li>-->
             <!-- Subjects -->
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorUserName="@User.Identity.Name">
@@ -96,21 +82,6 @@
                     <span>Ders Programım</span>
                 </a>
             </li>
-
-            <!-- Subjects
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageSubjects" aria-expanded="true" aria-controls="collapsePageSubjects">
-                    <i class="fas fa-book-dead"></i>
-                    <span>Ders İşlemleri</span>
-                </a>
-                <div id="collapsePageSubjects" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Ders İşlemleri</h6>
-                        @*<a class="collapse-item" asp-controller="Timetable" asp-action="TimetableList" asp-route-username="@User.Identity.Name">Ders Listesi</a>*@
-                        <a class="collapse-item" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorUserName="@User.Identity.Name">Ders Programı</a>
-                    </div>
-                </div>
-            </li> -->
 
 
             <hr class="sidebar-divider">
@@ -127,19 +98,7 @@
                 </a>
             </li>
 
-            <!--Students
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageStudents" aria-expanded="true" aria-controls="collapsePageStudents">
-                    <i class="fas fa-book-open"></i>
-                    <span>Öğrenci İşlemleri</span>
-                </a>
-                <div id="collapsePageStudents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Öğrenci İşlemleri</h6>
-                        <a class="collapse-item" asp-controller="Instructor" asp-action="InstructorsStudents" asp-route-instructorUsername="@User.Identity.Name">Öğrenci Listesi</a>
-                    </div>
-                </div>
-            </li>-->
+     
             <!--Parents-->
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Parent" asp-action="ParentList" asp-route-instructorUsername="@User.Identity.Name">
@@ -147,19 +106,6 @@
                     <span>Velilerim</span>
                 </a>
             </li>
-            <!--Parents
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageParents" aria-expanded="true" aria-controls="collapsePageParents">
-                    <i class="fas fa-users"></i>
-                    <span>Veli İşlemleri</span>
-                </a>
-                <div id="collapsePageParents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Veli İşlemleri</h6>
-                        <a class="collapse-item" asp-controller="Parent" asp-action="ParentList" asp-route-instructorUsername="@User.Identity.Name">Veli Listesi</a>
-                    </div>
-                </div>
-            </li>-->
 
 
 
@@ -186,25 +132,7 @@
                 </div>
             </li>
 
-            <!--Announcements
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageAnnouncement" aria-expanded="true" aria-controls="collapsePageAnnouncement">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>Duyurular &amp; Etkinlikler</span>
-                </a>
-                <div id="collapsePageAnnouncement" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Etkinlik İşlemleri</h6>
-                        <a class="collapse-item" asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Etkinlik">Etkinlik Listesi</a>
-                        <a class="collapse-item" href="/#">Etkinlik Ekle</a>
 
-                        <h6 class="collapse-header">Duyuru İşlemleri</h6>
-                        <a class="collapse-item" asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Duyuru">Duyuru Listesi</a>
-                        <a class="collapse-item" href="#">Duyuru Ekle</a>
-
-                    </div>
-                </div>
-            </li>-->
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -229,17 +157,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    @*<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small" placeholder="Ara..." aria-label="Search" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>*@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">

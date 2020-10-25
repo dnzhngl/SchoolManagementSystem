@@ -10,9 +10,7 @@ namespace SMS.BLL.Abstract
     {
         List<StudentDTO> GetAll();
         List<StudentDTO> GetAllStudents();
-
         StudentDTO GetStudent(int id);
-        StudentDTO GetStudentDetails(int id);
         StudentDTO GetStudentByUsername(string username);
         List<StudentDTO> GetStudentByParent(int parentId);
         List<StudentDTO> GetStudentBySection(int sectionId);

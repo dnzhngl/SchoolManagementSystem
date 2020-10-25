@@ -41,7 +41,6 @@ namespace SMS.WebUI.Controllers
 
         public IActionResult CertificateAdd(int studentId)
         {
-           
             CertificateViewModel model = new CertificateViewModel();
             model.CertificateTypeDTOs = certificateTypeService.GetAll();
             model.StudentDTO = studentService.GetStudent(studentId);
@@ -51,7 +50,7 @@ namespace SMS.WebUI.Controllers
         }
         [HttpPost]
         public IActionResult CertificateAdd(CertificateViewModel model)
-         {
+        {
             model.CertificateDTO.StudentId = model.StudentDTO.Id;
             certificateService.NewCertificate(model.CertificateDTO);
 
@@ -74,7 +73,7 @@ namespace SMS.WebUI.Controllers
         public IActionResult CertificateUpdate(CertificateViewModel model)
         {
             certificateService.UpdateCertificate(model.CertificateDTO);
-            return RedirectToAction("CertificateList", new { studentId =  model.CertificateDTO.StudentId});
+            return RedirectToAction("CertificateList", new { studentId = model.CertificateDTO.StudentId });
         }
     }
 }

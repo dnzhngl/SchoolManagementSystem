@@ -11,7 +11,7 @@ namespace SMS.BLL.Abstract
         List<ExamResultDTO> GetAll();
         ExamResultDTO GetExamResult(int id);
         List<ExamResultDTO> GetExamResultsOfStudent(int studentId);
-        List<ExamResultDTO> GetExamResultBySubject(int id);
+        List<ExamResultDTO> GetExamResultsOfExam(int examId);
         ExamResultDTO NewExamResult(ExamResultDTO examResult);
         ExamResultDTO UpdateExamResult(ExamResultDTO examResult);
         bool DeleteExamResult(int id);

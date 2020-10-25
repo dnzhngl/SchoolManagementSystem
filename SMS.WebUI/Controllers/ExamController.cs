@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SMS.BLL.Abstract;
+using SMS.BLL.SMSService;
 using SMS.DTO;
 using SMS.WebUI.Models;
 
@@ -27,7 +29,7 @@ namespace SMS.WebUI.Controllers
             studentService = _studentService;
             examResultService = _examResultService;
         }
-
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen, Öğrenci, Veli")]
         public IActionResult ExamList(int? id, string? subjectName, string? studentUsername, int? studentId)
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
@@ -60,8 +62,7 @@ namespace SMS.WebUI.Controllers
             model.ExamTypeDTOs = examTypeService.GetAll();
             return View(model);
         }
-
-
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         public IActionResult ExamAdd(int? subjectId, string? subjectName)
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
@@ -82,55 +83,47 @@ namespace SMS.WebUI.Controllers
             return PartialView(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         public IActionResult ExamAdd(SubjectDetailViewModel exam)
         {
             ExamDTO newExam = exam.ExamDTO;
-           // newExam.SubjectId = exam.SubjectDTO.Id; //
             examService.NewExam(newExam);
 
             return Redirect(Request.Headers["Referer"].ToString());
-
-            //int subjectId = newExam.SubjectId;
-           // return RedirectToAction("SubjectDetails","Subject", new { subjectId = subjectId });
-            //return RedirectToAction("SubjectDetails", "Subject", new { id = exam.SubjectDTO.Id }); //ExamListBySubject
         }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         public IActionResult ExamDelete(int id)
         {
-            var subjectId = examService.GetExam(id).SubjectId;
-
             examService.DeleteExam(id);
-
-            //return RedirectToAction("SubjectDetails", "Subject", new { id = subjectId });
             return Redirect(Request.Headers["Referer"].ToString());
         }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         public IActionResult ExamUpdate(int id)
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
-
             model.ExamDTO = examService.GetExam(id);
             model.ExamTypeDTOs = examTypeService.GetAll();
 
             return PartialView(model);
         }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         [HttpPost]
         public IActionResult ExamUpdate(SubjectDetailViewModel exam)
         {
             ExamDTO selectedExam = exam.ExamDTO;
-            //selectedExam.ExamType = examTypeService.GetExamType(exam.ExamDTO.ExamTypeId);
-            //selectedExam.Subject = subjectService.GetSubject(exam.ExamDTO.SubjectId);
             examService.UpdateExam(selectedExam);
 
             return Redirect(Request.Headers["Referer"].ToString());
-            //return RedirectToAction("SubjectDetails", "Subject", new { subjectId = exam.ExamDTO.SubjectId });
         }
 
-        public IActionResult StudentExamsList(int studentId)
-        {
-            StudentDetailsViewModel model = new StudentDetailsViewModel();
-            model.ExamDTOs = examService.GetExamsOfStudent(studentId);
-            model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
-            model.StudentDTO = studentService.GetStudent(studentId);
-            return View(model);
-        }
+        //public IActionResult StudentExamsList(int studentId)
+        //{
+        //    StudentDetailsViewModel model = new StudentDetailsViewModel();
+        //    model.ExamDTOs = examService.GetExamsOfStudent(studentId);
+        //    model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+        //    model.StudentDTO = studentService.GetStudent(studentId);
+        //    ViewBag.userId = 
+        //    return View(model);
+        //}
     }
 }

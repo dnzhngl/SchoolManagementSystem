@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SMS.BLL.Abstract;
 using SMS.DTO;
@@ -22,6 +23,7 @@ namespace SMS.WebUI.Controllers
             attendanceTypeService = _attendanceTypeService;
             sectionService = _sectionService;
         }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli, Öğrenci")]
         public IActionResult AttendanceList(int studentId)
         {
             StudentDetailsViewModel model = new StudentDetailsViewModel();
@@ -32,6 +34,7 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
         [HttpGet]
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         public IActionResult AttendanceAdd(int studentId)
         {
             StudentDetailsViewModel model = new StudentDetailsViewModel();
@@ -40,6 +43,7 @@ namespace SMS.WebUI.Controllers
             return PartialView(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         public IActionResult AttendanceAdd(StudentDetailsViewModel model)
         {
             var student = studentService.GetStudent(model.StudentDTO.Id);
@@ -48,12 +52,13 @@ namespace SMS.WebUI.Controllers
             string sectionN = sectionService.GetSection((int)student.SectionId).SectionName;
             return Redirect(Request.Headers["Referer"].ToString());
         }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         public IActionResult AttendanceDelete(int id)
         {
             attendanceService.DeleteAttendance(id);
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         [HttpGet]
         public IActionResult AttendanceUpdate(int id)
         {
@@ -63,6 +68,12 @@ namespace SMS.WebUI.Controllers
             model.StudentDTO = studentService.GetStudent(attendance.StudentId);
 
             return PartialView(model);
+        }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
+        public IActionResult AttendanceUpdate(StudentDetailsViewModel model)
+        {
+            attendanceService.UpdateAttendance(model.AttendanceDTO);
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }

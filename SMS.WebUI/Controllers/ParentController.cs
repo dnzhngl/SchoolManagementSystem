@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query;
 using SMS.BLL.Abstract;
@@ -27,6 +28,7 @@ namespace SMS.WebUI.Controllers
             userService = _userService;
             instructorService = _instructorService;
         }
+        [Authorize(Roles = "Veli")]
         public IActionResult Index(int? userId, string? userName)
         {
             StudentParentViewModel model = new StudentParentViewModel();
@@ -44,116 +46,87 @@ namespace SMS.WebUI.Controllers
 
             return View(model);
         }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli")]
         public IActionResult ParentList(string? instructorUserName)
         {
-            StudentParentViewModel model = new StudentParentViewModel();
+            List<ParentDTO> parents = new List<ParentDTO>();
 
             if (instructorUserName != null)
             {
-               // var instructor = instructorService.GetInstructorByUsername(instructorUserName);
+                // var instructor = instructorService.GetInstructorByUsername(instructorUserName);
 
-                model.ParentDTOs = parentService.GetInstructorsParents(instructorUserName);
-               // model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);
+                parents = parentService.GetInstructorsParents(instructorUserName);
+                // model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);
             }
             else
             {
-                model.ParentDTOs = parentService.GetAll();
+                parents = parentService.GetAll();
                 //model.StudentDTOs = studentService.GetAll();
             }
-            return View(model);
+            return View(parents);
         }
+        #region Instead of this RegisterAdd and RegistrationList in RegisterController is in use.
+        //public IActionResult ParentAdd()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult ParentAdd(StudentParentViewModel parent)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        ParentDTO newParent = parent.ParentDTO;
 
-        public IActionResult ParentAdd()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult ParentAdd(StudentParentViewModel parent)
-        {
-            if (ModelState.IsValid)
-            {
-                ParentDTO newParent = parent.ParentDTO;
+        //        // userService.NewUser(newParent.IdentityNumber, "Veli");
+        //        UserDTO newUser = userService.GenerateUserAccount(newParent.FirstName, newParent.LastName, newParent.IdentityNumber, "Veli");
+        //        newParent.UserId = newUser.Id;
 
-                // userService.NewUser(newParent.IdentityNumber, "Veli");
-                UserDTO newUser = userService.GenerateUserAccount(newParent.FirstName, newParent.LastName, newParent.IdentityNumber, "Veli");
-                newParent.UserId = newUser.Id;
+        //        newParent = parentService.NewParent(newParent);
 
-                newParent = parentService.NewParent(newParent);
-
-                int parentId = newParent.Id;
-                return RedirectToAction("StudentAdd", "Student", new { parentId });
-            }
-            return View(parent);
-        }
-
+        //        int parentId = newParent.Id;
+        //        return RedirectToAction("StudentAdd", "Student", new { parentId });
+        //    }
+        //    return View(parent);
+        //}
+        #endregion
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult ParentDelete(int id)
         {
             int userId = (int)parentService.GetParent(id).UserId;
             userService.DeleteUser(userId);
-
             parentService.DeleteParent(id);
-            //return RedirectToAction("ParentList");
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult ParentUpdate(int id)
         {
             ParentDTO selectedParent = parentService.GetParent(id);
-            StudentParentViewModel model = new StudentParentViewModel();
-            model.ParentDTO = selectedParent;
-           // model.StudentDTOs = studentService.GetStudentByParent(id);
-            return View(model);
-            //return PartialView(model);
+            return View(selectedParent);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ParentUpdate(StudentParentViewModel parent)
+        [Authorize(Roles = "Admin, Yönetici")]
+        public IActionResult ParentUpdate(ParentDTO parent)
         {
             if (ModelState.IsValid)
             {
-                ParentDTO selectedParent = parent.ParentDTO;
-                parentService.UpdateParent(selectedParent);
+                parentService.UpdateParent(parent);
                 return RedirectToAction("ParentList");
             }
             return View(parent);
         }
-
-        public IActionResult ParentsStudents(int? id, string? username)
-        {
-            StudentParentViewModel model = new StudentParentViewModel();
-            if (id != null)
-            {
-                model.StudentDTOs = studentService.GetStudentByParent((int)id);
-            }
-            else if (username != null)
-            {
-                var userparent = userService.GetUserByUsername(username);
-                model.ParentDTO = parentService.GetParentByUserId(userparent.Id);
-                model.StudentDTOs = studentService.GetStudentByParent((int)model.ParentDTO.Id);
-            }
-            foreach (var student in model.StudentDTOs)
-            {
-                if (student.SectionId != null)
-                {
-                    student.Section = sectionService.GetSection((int)student.SectionId); //SectionDTO
-                }
-                else
-                {
-                    student.Section = null; //SectionDTO
-                }
-            }
-            //model.SectionDTOs = sectionService.GetAll();
-            return PartialView(model);
-        }
-
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli")]
         public IActionResult ParentDetails(int id)
         {
-            StudentParentViewModel model = new StudentParentViewModel();
-            model.ParentDTO = parentService.GetParent(id);
-            model.StudentDTOs = studentService.GetStudentByParent(id);
-            return View(model);
+            ParentDTO parent = parentService.GetParent(id);
+            return View(parent);
         }
-
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli")]
+        public IActionResult ParentsStudents(int parentId)
+        {
+            List<StudentDTO> students = studentService.GetStudentByParent(parentId);
+            return PartialView(students);
+        }
     }
 }

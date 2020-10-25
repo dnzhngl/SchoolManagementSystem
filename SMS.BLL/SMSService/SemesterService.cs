@@ -38,7 +38,7 @@ namespace SMS.BLL.SMSService
 
         public List<SemesterDTO> GetAll()
         {
-            var semesterList = semesterRepo.GetAll().ToList();
+            var semesterList = semesterRepo.GetAll().OrderBy(z => z.SemesterBeginning).ToList();
             return MapperFactory.CurrentMapper.Map<List<SemesterDTO>>(semesterList);
         }
 

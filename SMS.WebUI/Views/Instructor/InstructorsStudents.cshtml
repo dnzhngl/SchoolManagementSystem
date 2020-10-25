@@ -27,7 +27,14 @@
     <div class="card-header py-3">
         <div class="row">
             <div class="col-9">
-                <h5 class="m-0 font-weight-bold text-primary">Öğrenci Listesi</h5>
+                @if (ViewBag.SubjectName != null)
+                {
+                    <h5 class="m-0 font-weight-bold text-primary">@ViewBag.SubjectName Dersi Öğrenci Listesi</h5>
+                }
+                else
+                {
+                    <h5 class="m-0 font-weight-bold text-primary"> Öğrenci Listesi</h5>
+                }
             </div>
         </div>
     </div>
@@ -40,10 +47,12 @@
                         <th>Adı</th>
                         <th>Soyadı</th>
                         <th>Şubesi</th>
-                        @*<th>Devam Durumu</th>
-                            <th>Sınav Notları</th>*@
+                        @if (ViewBag.SubjectId != null)
+                        {
+                            <th>Sınav İşlemleri</th>
+                        }
                         <th>Akademik Bilgi</th>
-                        <th>Öğrenci Bilgisi</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,19 +63,22 @@
                             <td>@student.FirstName</td>
                             <td>@student.LastName</td>
                             <td>@student.Section.SectionName</td>
-                            @*<td>
-                                    <a class="btn btn-outline-primary btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceList", "Attendance", new { studentId = student.Id })')"><i class="fa fa-search"></i></a>
-                                </td>
-                                <td>
-                                    <a class="btn btn-outline-primary btn-sm" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
-                                </td>*@
-                            <td><a class="btn btn-outline-info btn-sm" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@student.Id"> Akademik Bilgi</a></td><!---->
+
+                            @if (ViewBag.SubjectId != null)
+                            {
+                        <td>
+                            <a class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ExamResultAdd", "ExamResult", new {studentId = student.Id, subjectId = ViewBag.SubjectId })')">Not İşlemleri <i class="fa fa-plus-circle"></i></a>
+
+                            @*<a class="btn btn-outline-primary btn-sm" asp-controller="ExamResult" asp-action="ExamResultAdd" asp-route-studentId="@student.Id" asp-route-subjectId="@ViewBag.SubjectId">Sınav İşlemleri</a>*@
+                        </td>
+                            }
+
+
+                            <td><a class="btn btn-outline-info btn-sm" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@student.Id"> Akademik Bilgi</a></td>
 
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentDetails" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
-                                @*<a class="btn btn-outline-primary btn-sm" asp-controller="Attendance" asp-action="AttendanceList" asp-route-id="@student.Id">Devamsızlık Bilgisi</a>*@
                                 <a class="btn btn-outline-info btn-sm" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@student.User.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-envelope"></i></a>
-
+                                <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentDetails" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
                             </td>
                         </tr>
                     }

@@ -1,4 +1,4 @@
-﻿@model StudentParentViewModel
+﻿@model ParentDTO
 @{
     ViewData["Title"] = "ParentDetails";
 }
@@ -22,7 +22,7 @@
                 @if (this.User.IsInRole("Admin"))
                 {
                     @*<a class="btn btn-outline-warning btn-sm float-right" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>*@
-                    <a class="btn btn-outline-warning btn-sm float-right" asp-action="ParentUpdate" asp-controller="Parent" asp-route-id="@Model.ParentDTO.Id"><i class="fa fa-pen"></i></a>
+                    <a class="btn btn-outline-warning btn-sm float-right" asp-action="ParentUpdate" asp-controller="Parent" asp-route-id="@Model.Id"><i class="fa fa-pen"></i></a>
                 }
             </div>
         </div>
@@ -38,25 +38,25 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label text-black-50"><b>TC Kimlik No</b></label>
                         <div class="col-sm-8">
-                            <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.IdentityNumber">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="IdentityNumber">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label text-black-50"><b>Adı</b></label>
                         <div class="col-sm-8">
-                            <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.FirstName">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="FirstName">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label text-black-50"><b>Soyadı</b></label>
                         <div class="col-sm-8">
-                            <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.LastName">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="LastName">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label text-black-50"><b>Cinsiyeti</b></label>
                         <div class="col-sm-8">
-                            <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.Gender">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="Gender">
                         </div>
                     </div>
                 </div>
@@ -69,19 +69,19 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label text-black-50"><b>Cep Telefonu</b></label>
                                 <div class="col-sm-8">
-                                    <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.CellPhone">
+                                    <input type="text" readonly class="form-control-plaintext" asp-for="CellPhone">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label text-black-50"><b>Ev Telefonu</b></label>
                                 <div class="col-sm-8">
-                                    <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.HomePhone">
+                                    <input type="text" readonly class="form-control-plaintext" asp-for="HomePhone">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label text-black-50"><b>İş Telefonu</b></label>
                                 <div class="col-sm-8">
-                                    <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.WorkPhone">
+                                    <input type="text" readonly class="form-control-plaintext" asp-for="WorkPhone">
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label text-black-50"><b>Adres Bilgisi</b></label>
                                 <div class="col-sm-8">
-                                    <input type="text" readonly class="form-control-plaintext" asp-for="ParentDTO.Address">
+                                    <input type="text" readonly class="form-control-plaintext" asp-for="Address">
                                 </div>
                             </div>
                         </div>

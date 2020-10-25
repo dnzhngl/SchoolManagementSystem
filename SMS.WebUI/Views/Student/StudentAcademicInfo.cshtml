@@ -1,8 +1,7 @@
-﻿@model StudentDetailsViewModel
+﻿@model StudentDTO
 @{
     ViewData["Title"] = "StudentAcademicInfo";
 }
-
 
 @section BeginPage{
     <!-- Custom styles for this page -->
@@ -16,19 +15,16 @@
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item ">
-                <a class="nav-link active" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@Model.StudentDTO.Id"> Akademik Bilgi</a>
+                <a class="nav-link active" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId=" @Model.Id"> Akademik Bilgi</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@Model.StudentDTO.Id">Belge Listesi</a>
-            </li>
-            @*<li class="nav-item">
-                <a class="nav-link" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
-            </li>*@
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Exam" asp-action="StudentExamsList" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
+                <a class="nav-link" asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId=" @Model.Id">Belge Listesi</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Attendance" asp-action="AttendanceList" asp-route-studentId="@Model.StudentDTO.Id"> Devamsızlık Bilgisi</a>
+                <a class="nav-link" asp-controller="Student" asp-action="StudentExamResults" asp-route-studentId=" @Model.Id"> Not Bilgisi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Attendance" asp-action="AttendanceList" asp-route-studentId=" @Model.Id"> Devamsızlık Bilgisi</a>
             </li>
         </ul>
     </div>
@@ -38,14 +34,14 @@
         <div class="card-title py-3">
             <div class="row">
                 <div class="col">
-                    <h5 class="m-0 font-weight-bold text-primary"> @Model.StudentDTO.FirstName @Model.StudentDTO.LastName  - Akademik Bilgi</h5>
+                    <h5 class="m-0 font-weight-bold text-primary"> @Model.FirstName @Model.LastName  - Akademik Bilgi</h5>
                 </div>
                 <div class="col">
                     @if (this.User.IsInRole("Admin"))
                     {
                         @*<a class="btn btn-outline-warning btn-sm float-right" asp-action="ChangeStudentStatus" asp-controller="Student" asp-route-studentId="@Model.StudentDTO.Id"> Mezuniyet / Sevk İşlemleri <i class="fa fa-pen"></i></a>*@
 
-                        <a class="btn btn-outline-warning btn-sm float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ChangeStudentStatus", "Student",  new { studentId = Model.StudentDTO.Id })')"> Mezuniyet / Sevk İşlemleri <i class="fa fa-pen"></i></a>
+                        <a class="btn btn-outline-warning btn-sm float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ChangeStudentStatus", "Student",  new { studentId = Model.Id })')"> Mezuniyet / Sevk İşlemleri <i class="fa fa-pen"></i></a>
                     }
                 </div>
             </div>
@@ -53,10 +49,10 @@
 
         <div class="card-text">
 
-            <p><b>Okul Numarası : </b>@Model.StudentDTO.SchoolNumber</p>
-            <p><b>Öğrenci Adı Soyadı : </b>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName</p>
+            <p><b>Okul Numarası : </b>@Model.SchoolNumber</p>
+            <p><b>Öğrenci Adı Soyadı : </b>@Model.FirstName @Model.LastName</p>
             <p>
-                <b>Öğrencilik Durumu :</b> @Model.StudentDTO.StudentStatus
+                <b>Öğrencilik Durumu :</b> @Model.StudentStatus
             </p>
 
         </div>

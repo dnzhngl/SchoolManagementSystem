@@ -51,24 +51,6 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<ExamResultDTO>(selectedResult);
         }
 
-        public List<ExamResultDTO> GetExamResultsOfStudent(int studentId)
-        {
-           // var student = uow.GetRepository<Student>().Get(z => z.Id == studentId);
-           var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam).OrderBy(z => z.Exam.ExamDate).ToList();
-           // var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam, z=>z.Exam.Subject.Timetables).OrderBy(z => z.Exam.ExamDate).ToList();
-
-            return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(examResults);
-        }
-
-        public List<ExamResultDTO> GetExamResultBySubject(int id)
-        {
-            var subject = subjectRepo.Get(z => z.Id == id);
-            var subjectsExams = examRepo.GetAll().Where(z => z.SubjectId == id).ToList();
-            var examResultList = examResultRepo.GetAll().Where(z => z.ExamId == subjectsExams.FirstOrDefault().Id).ToList();
-
-            return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(examResultList);
-        }
-
         public ExamResultDTO NewExamResult(ExamResultDTO examResult)
         {
             if (!examResultRepo.GetAll().Any(z => z.StudentId == examResult.StudentId && z.ExamId == examResult.ExamId))
@@ -136,6 +118,18 @@ namespace SMS.BLL.SMSService
             examResultRepo.Update(selectedResult);
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<ExamResultDTO>(selectedResult);
+        }
+
+        public List<ExamResultDTO> GetExamResultsOfExam(int examId)
+        {
+            var examResultList = examResultRepo.GetIncludesList(z => z.ExamId == examId, z => z.Student).ToList();
+            return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(examResultList);
+        }
+        
+        public List<ExamResultDTO> GetExamResultsOfStudent(int studentId)
+        {
+            var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam, z=>z.Student).ToList();
+            return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(examResults);
         }
     }
 }

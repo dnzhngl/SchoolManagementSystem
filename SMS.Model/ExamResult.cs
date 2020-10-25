@@ -10,6 +10,7 @@ namespace SMS.Model
     {
         public decimal ExamMark { get; set; }
         public string StudentStatus { get; set; }
+        public int CreatedBy { get; set; }
 
         [ForeignKey("Exam")]
         public int ExamId { get; set; }

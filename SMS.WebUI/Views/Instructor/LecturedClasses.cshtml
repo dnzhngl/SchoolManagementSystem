@@ -21,10 +21,10 @@
                 <div class="card-body">
                     <h5 class="card-title">@timetable.SectionName</h5>
                     <h5>@timetable.SubjectName</h5>
-                    <a class="btn btn-outline-primary btn-sm" asp-controller="Instructor" asp-action="InstructorsStudents" asp-route-sectionName="@timetable.SectionName">Öğrenci Listesi <i class="fa fa-graduation-cap"></i></a>
-                    @*<a class="btn btn-outline-success btn-sm" asp-controller="Exam" asp-action="ExamList" asp-route-subjectName="@timetable.SubjectName"> Sınav İşlemleri</a>*@
 
-                <a class="btn btn-outline-success btn-sm" asp-controller="Subject" asp-action="SubjectDetails" asp-route-subjectName="@timetable.SubjectName" asp-route-sectionName="@timetable.SectionName">Ders İşlemleri <i class="fa fa-book-open"></i></a> 
+                    <a class="btn btn-outline-primary btn-sm" asp-controller="Instructor" asp-action="InstructorsStudents" asp-route-sectionName="@timetable.SectionName" asp-route-subjectName="@timetable.SubjectName">Öğrenci Listesi <i class="fa fa-graduation-cap"></i></a>
+
+                    <a class="btn btn-outline-success btn-sm" asp-controller="Subject" asp-action="SubjectDetails" asp-route-subjectName="@timetable.SubjectName" asp-route-sectionName="@timetable.SectionName">Ders İşlemleri <i class="fa fa-book-open"></i></a>
                 </div>
             </div>
         </div>

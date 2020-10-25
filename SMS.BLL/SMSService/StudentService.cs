@@ -35,7 +35,6 @@ namespace SMS.BLL.SMSService
             try
             {
                 var selectedStudent = studentRepo.Get(z => z.Id == id);
-                //var selectedStudent = studentRepo.GetIncludes(z => z.Id == id, z => z.User, z => z.Parent, z => z.Attendances, z => z.ExamResults, z => z.Certificates, z => z.Parent.User);
                 studentRepo.Delete(selectedStudent);
                 uow.SaveChanges();
                 return true;
@@ -63,11 +62,7 @@ namespace SMS.BLL.SMSService
             var studentList = studentRepo.GetIncludesList(z => z.SectionId != null, z => z.User).ToList();
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
-        public StudentDTO GetStudentDetails(int id)
-        {
-            var selectedStudent = studentRepo.GetIncludes(z => z.Id == id, z => z.Section);
-            return MapperFactory.CurrentMapper.Map<StudentDTO>(selectedStudent);
-        }
+       
         public StudentDTO GetStudent(int id)
         {
             //var selectedStudent = studentRepo.Get(z => z.Id == id);
@@ -90,7 +85,8 @@ namespace SMS.BLL.SMSService
 
         public List<StudentDTO> GetStudentByParent(int parentId)
         {
-            var studentsOfParent = studentRepo.GetAll().Where(z => z.ParentId == parentId);
+            //var studentsOfParent = studentRepo.GetAll().Where(z => z.ParentId == parentId);
+            var studentsOfParent = studentRepo.GetIncludesList(z => z.ParentId == parentId, z => z.Section).ToList() ;
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentsOfParent);
         }
 
@@ -149,19 +145,10 @@ namespace SMS.BLL.SMSService
 
         public StudentDTO GetStudentByUsername(string username)
         {
-            var selectedStudent = studentRepo.Get(z => z.IdentityNumber == username);
+            var selectedStudent = studentRepo.Get(z => z.SchoolNumber == username);
             return MapperFactory.CurrentMapper.Map<StudentDTO>(selectedStudent);
         }
 
-        //public string GenerateStudentNumber(int StudentCount)
-        //{
-        //    int registrationOrder = 100 + StudentCount;
-        //    var year = DateTime.Today.Year.ToString();
-        //    year = year.Substring(2, 2);
-        //    var studentNumber = string.Format("{0}-{1}", registrationOrder, year);
-
-        //    return studentNumber;
-        //}
         public string GenerateStudentNumber()
         {
             var lastSchoolNumber = studentRepo.GetAll().OrderBy(z => z.RegistrationDate).LastOrDefault().SchoolNumber;

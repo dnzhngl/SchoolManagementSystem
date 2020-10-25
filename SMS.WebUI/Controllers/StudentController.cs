@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SMS.BLL.Abstract;
 using SMS.BLL.SMSService;
@@ -15,6 +16,7 @@ namespace SMS.WebUI.Controllers
     {
         private readonly IStudentService studentService;
         private readonly IParentService parentService;
+        private readonly IInstructorService instructorService;
         private readonly ISectionService sectionService;
         private readonly IGradeService gradeService;
         private readonly IUserService userService;
@@ -22,8 +24,9 @@ namespace SMS.WebUI.Controllers
         private readonly ICertificateService certificateService;
         private readonly IPostService postService;
         private readonly IExamResultService examResultService;
+        private readonly IExamService examService;
 
-        public StudentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService, IGradeService _gradeService, IUserService _userService, ICertificateTypeService _certificateTypeService, IPostService _postService, IExamResultService _examResultService, ICertificateService _certificateService)
+        public StudentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService, IGradeService _gradeService, IUserService _userService, ICertificateTypeService _certificateTypeService, IPostService _postService, IExamResultService _examResultService, ICertificateService _certificateService, IExamService _examService, IInstructorService _instructorService)
         {
             studentService = _studentService;
             parentService = _parentService;
@@ -34,6 +37,8 @@ namespace SMS.WebUI.Controllers
             certificateService = _certificateService;
             postService = _postService;
             examResultService = _examResultService;
+            examService = _examService;
+            instructorService = _instructorService;
         }
         public IActionResult Index()
         {
@@ -42,12 +47,8 @@ namespace SMS.WebUI.Controllers
             model.UserDTO = userService.GetUserByUsername(this.User.Identity.Name);
             return View(model);
         }
-        public IActionResult RegistrationList()
-        {
-            var registrationList = studentService.GetAll().Where(z => z.SectionId == null);
-            return View(registrationList);
-        }
 
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult StudentDelete(int id)
         {
             var student = studentService.GetStudent(id);
@@ -56,19 +57,12 @@ namespace SMS.WebUI.Controllers
             userService.DeleteUser(userId);
 
             int parentId = student.ParentId;
-            //var parent = parentService.GetParent(student.ParentId);
-            //userService.DeleteUser((int)parent.UserId);
-            //parentService.DeleteParent(student.ParentId);
-
             studentService.DeleteStudent(id);
-
-            //return RedirectToAction("RegistrationList");
-            // return Redirect(Request.Headers["Referer"].ToString());
 
             return RedirectToAction("ParentDelete", "Parent", new { id = parentId });
         }
-
-        public IActionResult StudentList(int? sectionId, string? sectionName, string? parentUsername, string? certificateTypeName, string? studentStatus, int? gradeId)
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
+        public IActionResult StudentList(int? sectionId, string? sectionName, string? certificateTypeName, string? studentStatus, int? gradeId)
         {
             // id for Section
             StudentDetailsViewModel model = new StudentDetailsViewModel();
@@ -78,7 +72,6 @@ namespace SMS.WebUI.Controllers
                 model.StudentDTOs = studentService.GetStudentBySection((int)sectionId);
                 var section_Name = sectionService.GetSection((int)sectionId).SectionName;
                 ViewBag.sectionName = section_Name;
-
             }
             else if (gradeId != null)
             {
@@ -89,12 +82,6 @@ namespace SMS.WebUI.Controllers
                 var section = sectionService.GetSectionByName(sectionName);
                 ViewBag.sectionName = sectionName;
                 model.StudentDTOs = studentService.GetStudentBySection(section.Id);
-            }
-            else if (parentUsername != null)
-            {
-                var userId = userService.GetUserByUsername(parentUsername).Id;
-                var parent = parentService.GetParentByUserId(userId);
-                model.StudentDTOs = studentService.GetStudentByParent(parent.Id);
             }
             else if (certificateTypeName != null)
             {
@@ -119,58 +106,32 @@ namespace SMS.WebUI.Controllers
 
         public IActionResult StudentDetails(int studentId)
         {
-            StudentParentViewModel model = new StudentParentViewModel();
-            model.StudentDTO = studentService.GetStudentDetails(studentId);
-            model.ParentDTO = parentService.GetParent((int)model.StudentDTO.ParentId);
-            return View(model);
-        }
-
-        public IActionResult StudentAdd(int parentId)
-        {
-            StudentParentViewModel model = new StudentParentViewModel();
-            model.ParentDTO = parentService.GetParent(parentId);
-            return View(model);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult StudentAdd(StudentParentViewModel student)
-        {
-            if (ModelState.IsValid)
-            {
-                StudentDTO newStudent = student.StudentDTO;
-                newStudent.ParentId = student.ParentDTO.Id;
-                userService.GenerateUserAccount(newStudent.FirstName, newStudent.LastName, newStudent.IdentityNumber, "Öğrenci");
-                // userService.NewUser(newStudent.IdentityNumber, "Öğrenci");
-
-                UserDTO newUser = userService.GetUserByUsername(newStudent.IdentityNumber);
-                newStudent.UserId = newUser.Id;
-
-                studentService.NewStudent(newStudent);
-                return RedirectToAction("RegistrationList");
-            }
+            StudentDTO student = studentService.GetStudent(studentId);
             return View(student);
-
         }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult StudentUpdate(int id)
         {
-            StudentParentViewModel model = new StudentParentViewModel();
-            model.StudentDTO = studentService.GetStudent(id);
-            return View(model);
+            //StudentParentViewModel model = new StudentParentViewModel();
+            //model.StudentDTO = studentService.GetStudent(id);
+            StudentDTO student = studentService.GetStudent(id);
+
+            return View(student);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult StudentUpdate(StudentParentViewModel student)
+        [Authorize(Roles = "Admin, Yönetici")]
+        public IActionResult StudentUpdate(StudentDTO student)
         {
             if (ModelState.IsValid)
             {
                 //StudentDTO selectedStudent = studentService.GetStudent(student.StudentDTO.Id);
-                studentService.UpdateStudent(student.StudentDTO);
+                studentService.UpdateStudent(student);
                 return Redirect(Request.Headers["Referer"].ToString());
             }
             return View(student);
         }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult AssignSection(int id)
         {
             StudentDetailsViewModel model = new StudentDetailsViewModel();
@@ -180,6 +141,7 @@ namespace SMS.WebUI.Controllers
             return PartialView(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult AssignSection(StudentDetailsViewModel studentDetail)
         {
             StudentDTO student = studentService.GetStudent(studentDetail.StudentDTO.Id);
@@ -200,34 +162,123 @@ namespace SMS.WebUI.Controllers
                 student.SectionId = studentDetail.StudentDTO.SectionId;
                 studentService.UpdateStudent(student);
             }
-            //else{ Hata mesajı döndür. }
+            else
+            {
+                return View(studentDetail);
+            }
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
-        public IActionResult StudentAcademicInfo(int studentId)
-        {
-            StudentDetailsViewModel model = new StudentDetailsViewModel();
-            model.StudentDTO = studentService.GetStudent(studentId);
-            //model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
-            //model.CertificateDTOs = certificateService.GetCertificateList(studentId);
-            return View(model);
-        }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult ChangeStudentStatus(int studentId)
         {
             StudentDTO student = studentService.GetStudent(studentId);
             return PartialView(student);
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         [HttpPost]
         public IActionResult ChangeStudentStatus(StudentDTO student)
         {
             var studentStatus = student.StudentStatus;
+
             student = studentService.GetStudent(student.Id);
             student.StudentStatus = studentStatus;
 
             studentService.UpdateStudent(student);
             return PartialView(student);
         }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli, Öğrenci")]
+        public IActionResult StudentAcademicInfo(int? studentId, string? studentUserName)
+        {
+            if (studentUserName != null)
+            {
+                studentId = studentService.GetStudentByUsername(studentUserName).Id;
+            }
+            StudentDTO student = studentService.GetStudent((int)studentId);
+            return View(student);
+        }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli, Öğrenci")]
+        public IActionResult StudentExamResults(int studentId)
+        {
+            StudentDetailsViewModel model = new StudentDetailsViewModel();
+            model.StudentDTO = studentService.GetStudent(studentId);
+            model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+            if (User.IsInRole("Öğretmen"))
+            {
+                ViewBag.InstructorId = instructorService.GetInstructorByUsername(User.Identity.Name).Id;
+            }
+
+            return View(model);
+        }
+
+
+        #region Instead of this RegisterAdd and RegistrationList in RegisterController is in use.
+        //public IActionResult StudentAdd(int parentId)
+        //{
+        //    StudentParentViewModel model = new StudentParentViewModel();
+        //    model.ParentDTO = parentService.GetParent(parentId);
+        //    return View(model);
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult StudentAdd(StudentParentViewModel student)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        StudentDTO newStudent = student.StudentDTO;
+        //        newStudent.ParentId = student.ParentDTO.Id;
+        //        userService.GenerateUserAccount(newStudent.FirstName, newStudent.LastName, newStudent.IdentityNumber, "Öğrenci");
+        //        // userService.NewUser(newStudent.IdentityNumber, "Öğrenci");
+
+        //        UserDTO newUser = userService.GetUserByUsername(newStudent.IdentityNumber);
+        //        newStudent.UserId = newUser.Id;
+
+        //        studentService.NewStudent(newStudent);
+        //        return RedirectToAction("RegistrationList");
+        //    }
+        //    return View(student);
+        //}
+
+        #endregion
+
+
+        //public IActionResult StudentExamsList(int studentId)
+        //{
+        //    StudentDetailsViewModel model = new StudentDetailsViewModel();
+
+        //    model.ExamDTOs = examService.GetExamsByStudent(studentId);// 
+        //    model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+        //    model.StudentDTO = studentService.GetStudent(studentId);
+
+
+        //    if (User.IsInRole("Öğretmen"))
+        //    {
+        //        var user = userService.GetUserByUsername(this.User.Identity.Name);
+        //        var instructor = instructorService.GetInstructorByUsername(user.UserName);
+
+        //        ViewBag.userId = user.Id;
+        //        ViewBag.instructorId = instructor.Id;
+
+        //     //   model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId, instructor.Id);
+        //    }
+
+        //    return View(model);
+        //}
+        //public IActionResult StudentExamResults(int studentId, string? studentUserName, int? subjectId)
+        //{
+        //    StudentDetailsViewModel model = new StudentDetailsViewModel();
+        //    if (studentUserName != null)
+        //    {
+        //        studentId = studentService.GetStudentByUsername(studentUserName).Id;
+        //    }
+        //    if (subjectId != null)
+        //    {
+        //        model.ExamDTOs = examService.GetExamBySubject((int)subjectId);
+        //    }
+        //    model.StudentDTO = studentService.GetStudent(studentId);
+        //    model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+        //    return View(model);
+        //}
+
     }
 }

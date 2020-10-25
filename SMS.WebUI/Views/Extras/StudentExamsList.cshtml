@@ -21,11 +21,8 @@
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Certificate" asp-action="CertificateList" asp-route-studentId="@Model.StudentDTO.Id">Belge Listesi</a>
             </li>
-            @*<li class="nav-item">
-                <a class="nav-link" asp-controller="ExamResult" asp-action="StudentExamResults" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
-            </li>*@
             <li class="nav-item">
-                <a class="nav-link active" asp-controller="Exam" asp-action="StudentExamsList" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
+                <a class="nav-link active" asp-controller="Student" asp-action="StudentExamsList" asp-route-studentId="@Model.StudentDTO.Id"> Not Bilgisi</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Attendance" asp-action="AttendanceList" asp-route-studentId="@Model.StudentDTO.Id"> Devamsızlık Bilgisi</a>
@@ -62,8 +59,6 @@
                             <td>@exam.ExamDate.ToString("dd/MM/yyyy")</td>
                             @if (Model.ExamResultDTOs.FirstOrDefault(z => z.ExamId == exam.Id) != null)
                             {
-
-
                                 <td>@Model.ExamResultDTOs.FirstOrDefault(z => z.ExamId == exam.Id).ExamMark</td>
                                 @*<td>@Model.ExamResultDTOs.FirstOrDefault(z => z.ExamId == exam.Id).StudentStatus</td>*@
                                 @if (Model.ExamResultDTOs.FirstOrDefault(z => z.ExamId == exam.Id).StudentStatus == null)
@@ -87,18 +82,22 @@
                             <td>
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
                                 {
-                                    //if (Model.ExamResultDTOs.FirstOrDefault(z => z.ExamId == exam.Id) == null)
                                     if (Model.ExamResultDTOs.FirstOrDefault(z => z.ExamId == exam.Id) == null)
                                     {
+
                                         <a class="btn btn-outline-success btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultAdd", "ExamResult", new { studentId = Model.StudentDTO.Id, examId = exam.Id })')"><i class="fa fa-plus"></i></a>
+
                                     }
                                     else
                                     {
-                                        <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultUpdate", "ExamResult", new { examResultId = Model.ExamResultDTOs.FirstOrDefault(z=>z.ExamId == exam.Id && z.StudentId == Model.StudentDTO.Id).Id })')"><i class="fa fa-pen"></i></a>
+                                        if (Model.ExamResultDTOs.FirstOrDefault(z => z.ExamId == exam.Id && z.StudentId == Model.StudentDTO.Id).CreatedBy == ViewBag.userId)
+                                        {
+                                            <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultUpdate", "ExamResult", new { examResultId = Model.ExamResultDTOs.FirstOrDefault(z=>z.ExamId == exam.Id && z.StudentId == Model.StudentDTO.Id).Id })')"><i class="fa fa-pen"></i></a>
+                                        }
                                     }
                                     if (this.User.IsInRole("Admin"))
                                     {
-                                        <a class="btn btn-outline-danger btn-sm" asp-action="ExamResultDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-outline-danger btn-sm" asp-action="ExamResultDelete" asp-route-examResultId="@exam.Id"><i class="fa fa-trash"></i></a>
                                     }
                                 }
                             </td>

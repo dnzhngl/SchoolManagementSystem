@@ -87,7 +87,7 @@ namespace SMS.BLL.SMSService
             //var examList = uow.GetRepository<Timetable>().GetIncludesList(z => z.Section.SectionName == sectionName && z.Subject.SubjectName == subjectName, z => z.Subject.Exams).Select(z => z.Subject.Exams);
             //examList = (IQueryable<Exam>)examList.GroupBy(z => z.ExamName).SelectMany(z => z.Key);
 
-            var subject = subjectRepo.GetIncludes(z => z.SubjectName == subjectName && z.Timetables.Any(x => x.Section.SectionName == sectionName), z => z.Exams); //Examı ekledin
+            var subject = subjectRepo.GetIncludes(z => z.SubjectName == subjectName && z.Timetables.Any(x => x.Section.SectionName == sectionName), z => z.Exams, z=>z.MainSubject); //Examı ekledin
             return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
         }
 
@@ -106,7 +106,6 @@ namespace SMS.BLL.SMSService
                 return null;
             }
         }
-
         public SubjectDTO UpdateSubject(SubjectDTO subject)
         {
             var selectedSubject = subjectRepo.Get(z => z.Id == subject.Id);
@@ -116,19 +115,5 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<SubjectDTO>(selectedSubject);
         }
 
-
-        //public SubjectDTO GetSubjectByName(string subjectName)
-        //{
-        //    var subject = subjectRepo.Get(z => z.SubjectName == subjectName);
-        //    return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
-        //}
-
-
-        //public SubjectDTO GetSubjectIncludeMainSubject(string subjectName)
-        //{
-        //    var subject = subjectRepo.GetIncludes(z => z.SubjectName == subjectName, z => z.MainSubject, z => z.Exams); //Examı ekledin
-
-        //    return MapperFactory.CurrentMapper.Map<SubjectDTO>(subject);
-        //}
     }
 }

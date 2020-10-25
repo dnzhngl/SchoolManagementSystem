@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SMS.BLL.Abstract;
 using SMS.DTO;
@@ -20,9 +21,10 @@ namespace SMS.WebUI.Controllers
         private readonly ISectionService sectionService;
         private readonly IPostService postService;
         private readonly IAttendanceService attendanceService;
+        private readonly ISubjectService subjectService;
 
 
-        public InstructorController(IBranchService _branchService, IInstructorService _instructorService, IUserService _userService, ITimetableViewService _timetableViewService, IStudentService _studentService, ISectionService _sectionService, IAttendanceService _attendanceService, IPostService _postService)
+        public InstructorController(IBranchService _branchService, IInstructorService _instructorService, IUserService _userService, ITimetableViewService _timetableViewService, IStudentService _studentService, ISectionService _sectionService, IAttendanceService _attendanceService, IPostService _postService, ISubjectService _subjectService)
         {
             instructorService = _instructorService;
             branchService = _branchService;
@@ -32,6 +34,7 @@ namespace SMS.WebUI.Controllers
             sectionService = _sectionService;
             attendanceService = _attendanceService;
             postService = _postService;
+            subjectService = _subjectService;
         }
 
         public IActionResult Index()
@@ -59,12 +62,14 @@ namespace SMS.WebUI.Controllers
             return View(model);
 
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult InstructorAdd()
         {
             InstructorBranchViewModel model = new InstructorBranchViewModel();
             model.BranchDTOs = branchService.GetAll();
             return View(model);
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         [HttpPost]
         public IActionResult InstructorAdd(InstructorBranchViewModel instructor)
         {
@@ -82,7 +87,7 @@ namespace SMS.WebUI.Controllers
             return View(instructor);
             //return RedirectToAction("InstructorList");
         }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult InstructorDelete(int id)
         {
             int userId = (int)instructorService.GetInstructor(id).UserId;
@@ -91,7 +96,7 @@ namespace SMS.WebUI.Controllers
             instructorService.DeleteInstructor(id);
             return RedirectToAction("InstructorList");
         }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult InstructorUpdate(int id)
         {
             InstructorDTO selectedInstructor = instructorService.GetInstructor(id);
@@ -103,6 +108,7 @@ namespace SMS.WebUI.Controllers
 
             return PartialView(model);
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         [HttpPost]
         public IActionResult InstructorUpdate(InstructorBranchViewModel instructor)
         {
@@ -111,7 +117,6 @@ namespace SMS.WebUI.Controllers
             instructorService.UpdateInstructor(selectedInstructor);
             return RedirectToAction("InstructorList");
         }
-
         public IActionResult InstructorDetails(int id)
         {
             InstructorDTO selectedInstructor = instructorService.GetInstructor(id);
@@ -121,7 +126,7 @@ namespace SMS.WebUI.Controllers
             model.InstructorDTO.Branch = branchService.GetBranch(selectedInstructor.BranchId);
             return View(model);
         }
-
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
         public IActionResult LecturedClasses(int? id, string? instructorUsername)//Ahmet.Solmaz olarak geliyor isim.
         {
             List<TimetableViewDTO> ttmodel = new List<TimetableViewDTO>();
@@ -138,20 +143,21 @@ namespace SMS.WebUI.Controllers
 
             return View(ttmodel);
         }
-
-        public IActionResult InstructorsStudents(string? sectionName, string? instructorUsername)
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
+        public IActionResult InstructorsStudents(string? sectionName,string? subjectName, string? instructorUsername)
         {
             StudentDetailsViewModel model = new StudentDetailsViewModel();
-            if (sectionName != null)
+            if (sectionName != null && subjectName != null)
             {
                 model.SectionDTO = sectionService.GetSectionByName(sectionName);
                 model.StudentDTOs = studentService.GetStudentsIncludes(model.SectionDTO.Id);
+                ViewBag.SubjectId = subjectService.GetSubject(subjectName).Id;
+                ViewBag.SubjectName = subjectName;
             }
             else if (instructorUsername != null)
             {
                 var instructor = instructorService.GetInstructorByUsername(instructorUsername);
                 model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);
-                //  model.SectionDTOs = sectionService.GetAll();
             }
 
             return View(model);

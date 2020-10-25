@@ -9,6 +9,8 @@ namespace SMS.DTO
         public int Id { get; set; }
         public decimal ExamMark { get; set; }
         public string StudentStatus { get; set; }
+        public int CreatedBy { get; set; }
+
 
         public int ExamId { get; set; }
         public ExamDTO Exam { get; set; }

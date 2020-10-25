@@ -1,4 +1,5 @@
-﻿using SMS.BLL.Abstract;
+﻿using Microsoft.EntityFrameworkCore;
+using SMS.BLL.Abstract;
 using SMS.Core.Data.Repositories;
 using SMS.Core.Data.UnitOfWork;
 using SMS.DAL;
@@ -38,27 +39,21 @@ namespace SMS.BLL.SMSService
                 return false;
             }
         }
-
         public List<ExamDTO> GetAll()
         {
             var examList = examRepo.GetAll().ToList();
             return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);
         }
-
         public ExamDTO GetExam(int id)
         {
             var selectedExam = examRepo.GetIncludes(z => z.Id == id, z => z.Subject, z => z.ExamType);
             return MapperFactory.CurrentMapper.Map<ExamDTO>(selectedExam);
         }
-
-
-
         public List<ExamDTO> GetExamBySubject(int id)
         {
             var examList = examRepo.GetAll().Where(z => z.SubjectId == id);
             return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);
         }
-
         public ExamDTO NewExam(ExamDTO exam)
         {
             if (!examRepo.GetAll().Any(z => z.ExamName == exam.ExamName && z.SubjectId == exam.SubjectId))
@@ -113,16 +108,29 @@ namespace SMS.BLL.SMSService
 
         public List<ExamDTO> GetExamsByStudent(int studentId)
         {
+            var timetables = uow.GetRepository<Student>().GetIncludes(z => z.Id == studentId, z => z.Section.Timetables).Section.Timetables.GroupBy(z => z.SubjectId).Select(z => z.Key);
+            var examList = examRepo.GetAll();
 
-            var examList = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam, z => z.Exam.ExamResults).Select(z => z.Exam).ToList();
-            return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);
+            var query = from tt in timetables
+                        from exam in examList.Where(exam => exam.SubjectId == tt)
+                        select new { exam };
+
+            List<Exam> exams = query.Select(z => z.exam).ToList();
+
+            //Foreach döngüsünü sonradan ekledin.s
+            foreach (Exam exam in exams)
+            {
+                exam.ExamResults = examResultRepo.GetAll().Where(z => z.StudentId == studentId && z.ExamId == exam.Id).ToList();
+            }
+
+            return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(exams);
         }
         public List<ExamDTO> GetExamsOfStudent(int studentId)
         {
-            var sectionId = uow.GetRepository<Student>().Get(z => z.Id == studentId).SectionId;
 
+            var sectionId = uow.GetRepository<Student>().Get(z => z.Id == studentId).SectionId;
             var exams = uow.GetRepository<Timetable>().GetIncludesList(z => z.SectionId == sectionId, z => z.Subject.Exams).SelectMany(z => z.Subject.Exams);
-            var examList = exams.GroupBy(z => new Exam() {Id = z.Id, ExamName= z.ExamName, ExamDate = z.ExamDate, ExamTypeId = z.ExamTypeId, SubjectId = z.SubjectId }).Select(z => z.Key);
+            var examList = exams.GroupBy(z => new Exam() { Id = z.Id, ExamName = z.ExamName, ExamDate = z.ExamDate, ExamTypeId = z.ExamTypeId, SubjectId = z.SubjectId }).Select(z => z.Key);
 
 
             return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);

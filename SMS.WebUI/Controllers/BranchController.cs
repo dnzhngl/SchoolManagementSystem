@@ -21,11 +21,12 @@ namespace SMS.WebUI.Controllers
         {
             return View(branchService.GetAll());
         }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult BranchAdd()
         {
             return PartialView();
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult BranchAdd(BranchDTO branchDTO)
@@ -39,17 +40,19 @@ namespace SMS.WebUI.Controllers
             return RedirectToAction("BranchAdd");
             // return RedirectToAction("BranchList");
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult BranchDelete(int id)
         {
             branchService.DeleteBranch(id);
             return RedirectToAction("BranchList");
         }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult BranchUpdate(int id)
         {
             BranchDTO selectedBranch = branchService.GetBranch(id);
             return PartialView(selectedBranch);
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         [HttpPost]
         public IActionResult BranchUpdate(BranchDTO branchDTO)
         {

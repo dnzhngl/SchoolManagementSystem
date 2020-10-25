@@ -12,7 +12,6 @@ using SMS.WebUI.Models;
 
 namespace SMS.WebUI.Controllers
 {
-    [Authorize(Roles = "Admin, Yönetici")]
     public class AdminController : BaseController
     {
         private readonly IAdminService adminService;
@@ -26,7 +25,7 @@ namespace SMS.WebUI.Controllers
             roleService = _roleService;
             postService = _postService;
         }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult Index()
         {
             MainPageViewModel model = new MainPageViewModel();
@@ -34,14 +33,18 @@ namespace SMS.WebUI.Controllers
             model.UserDTO = userService.GetUserByUsername(this.User.Identity.Name);
             return View(model);
         }
+        [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli, Öğrenci")]
         public IActionResult AdminList()
         {
             return View(adminService.GetAll());
         }
+
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult AdminAdd()
         {
             return PartialView();
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AdminAdd(AdminDTO admin)
@@ -56,6 +59,7 @@ namespace SMS.WebUI.Controllers
             }
             return View(admin);
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult AdminDelete(int id)
         {
             int userId = (int)adminService.GetAdmin(id).UserId;
@@ -64,6 +68,7 @@ namespace SMS.WebUI.Controllers
             adminService.DeleteAdmin(id);
             return RedirectToAction("AdminList");
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult AdminUpdate(int id)
         {
             AdminDTO selectedAdmin = adminService.GetAdmin(id);
@@ -71,6 +76,7 @@ namespace SMS.WebUI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult AdminUpdate(AdminDTO admin)
         {
             if (ModelState.IsValid)
@@ -80,6 +86,7 @@ namespace SMS.WebUI.Controllers
             }
             return View(admin);
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult AdminDetails(int id)
         {
             AdminDTO selectedAdmin = adminService.GetAdmin(id);

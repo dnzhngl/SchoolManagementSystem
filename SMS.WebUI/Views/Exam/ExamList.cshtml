@@ -86,8 +86,8 @@
                                     <td>
                                         @if (this.User.IsInRole("Admin") | this.User.IsInRole("Öğretmen"))
                                         {
+                                            <a class="btn btn-outline-primary btn-sm" asp-controller="ExamResult" asp-action="ExamResultList" asp-route-examId="@exam.Id">Sınav Sonuçları</a>
                                             <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamUpdate", "Exam", new { id = exam.Id })')"><i class="fa fa-pen"></i></a>
-                                            @*<a class="btn btn-outline-warning btn-sm" asp-action="ExamUpdate" asp-route-id="@exam.Id"><i class="fa fa-pen"></i></a>*@
                                             <a class="btn btn-outline-danger btn-sm" asp-action="ExamDelete" asp-route-id="@exam.Id"><i class="fa fa-trash"></i></a>
                                         }
                                     </td>

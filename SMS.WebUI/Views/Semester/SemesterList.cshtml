@@ -12,10 +12,12 @@
 
 <div class="card shadow">
     <div class="card-header">
-        <h4>Mevcut Dönem Bilgisi</h4>
+        <h5 class="font-weight-bold text-primary">Mevcut Dönem Bilgisi</h5>
     </div>
     <div class="card-body">
-        <p></p>
+        <h6><b>Geçerli Dönem: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterName</h6>
+        <h6><b>Başlangıç Tarihi: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterBeginning.ToString("dd/MM/yyyy") </h6>
+        <h6><b>Bitiş Tarihi: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterEnd.ToString("dd/MM/yyyy")  </h6>
     </div>
 </div>
 
