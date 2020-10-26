@@ -34,7 +34,8 @@ namespace SMS.BLL.SMSService
         {
             try
             {
-                var selectedStudent = studentRepo.Get(z => z.Id == id);
+               // var selectedStudent = studentRepo.Get(z => z.Id == id);
+                var selectedStudent = studentRepo.GetIncludes(z => z.Id == id, z=> z.ExamResults, z=>z.Certificates, z=>z.Attendances);
                 studentRepo.Delete(selectedStudent);
                 uow.SaveChanges();
                 return true;

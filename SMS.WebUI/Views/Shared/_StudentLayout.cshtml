@@ -52,11 +52,30 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item">
+                <a class="nav-link" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentUserName="@User.Identity.Name">
+                    <i class="fas fa-book"></i>
+                    Akademik Bilgi
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
                 <a class="nav-link" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-studentUserName="@User.Identity.Name">
                     <i class="fas fa-book"></i>
                     Ders Programım
                 </a>
             </li>
+
+            <hr class="sidebar-divider">
+
+            @*<li class="nav-item">
+                <a class="nav-link" asp-action="PostList" asp-controller="Post" asp-route-postCategoryName="Ödev">
+                    <i class="fas fa-superscript"></i>
+                    Ödev İşlemlerim
+                </a>
+            </li>*@
+
             <hr class="sidebar-divider">
 
             <li class="nav-item">
@@ -69,20 +88,12 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentUserName="@User.Identity.Name">
-                    <i class="fas fa-book"></i>
-                    Akademik Bilgi
+                <a class="nav-link" href="/Instructor/InstructorList">
+                    <i class="fas fa-user-circle"></i>
+                    Öğretmen Listesi
                 </a>
             </li>
 
-            <hr class="sidebar-divider">
-
-            <li class="nav-item">
-                <a class="nav-link" asp-action="PostList" asp-controller="Post" asp-route-postCategoryName="Ödev">
-                    <i class="fas fa-superscript"></i>
-                    Ödev İşlemlerim
-                </a>
-            </li>
             <hr class="sidebar-divider">
 
             <li class="nav-item">
@@ -117,7 +128,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -160,9 +171,9 @@
                                     Ayarlar
                                 </a>
                                 @*<a class="dropdown-item" href="#">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Activity Log
-                </a>*@
+                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Activity Log
+                                    </a>*@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

@@ -94,8 +94,9 @@ namespace SMS.WebUI.Controllers
         public IActionResult ParentDelete(int id)
         {
             int userId = (int)parentService.GetParent(id).UserId;
-            userService.DeleteUser(userId);
             parentService.DeleteParent(id);
+            userService.DeleteUser(userId);
+            
             return Redirect(Request.Headers["Referer"].ToString());
         }
         [Authorize(Roles = "Admin, Yönetici")]

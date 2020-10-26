@@ -128,6 +128,11 @@ namespace SMS.WebUI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                   name: "AdminRegistration",
+                   pattern: "Login/AdminRegistration",
+                   defaults: new { controller = "Login", action = "AdminRegistration" });
+
+                endpoints.MapControllerRoute(
                     name: "Login",
                     pattern: "Login",
                     defaults: new { controller = "Login", action = "UserLogin" });
@@ -137,6 +142,10 @@ namespace SMS.WebUI
                      pattern: "Logout",
                      defaults: new { controller = "Login", action = "Logout" });
 
+                endpoints.MapControllerRoute(
+                     name: "AccessDenied",
+                     pattern: "AccessDenied",
+                     defaults: new { controller = "Login", action = "AccessDenied" });
 
 
                 endpoints.MapControllerRoute(

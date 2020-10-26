@@ -30,7 +30,8 @@ namespace SMS.BLL.SMSService
         {
             try
             {
-                var selectedUser = userRepo.Get(z => z.Id == id);
+                //var selectedUser = userRepo.Get(z => z.Id == id);
+                var selectedUser = userRepo.GetIncludes(z => z.Id == id, z => z.MessageSender, z => z.MessageReceiver);
                 userRepo.Delete(selectedUser);
                 uow.SaveChanges();
                 return true;
