@@ -23,8 +23,8 @@ namespace SMS.DTO
         public string GraduatedFrom { get; set; } //Mezun olduğu okul
         [Required(ErrorMessage = "Bu alan boş bırakılamaz.")]
         public decimal GPA { get; set; }    //Not ortalaması
-        public bool StudentStatusBool { get; set; }    //İlişkisi Devam Ediyor, İlişkisi Kesildi (Öğrencilik Durumu)
         public string StudentStatus { get; set; }
+        public DateTime? StudentStatusEditDate { get; set; }
         public DateTime RegistrationDate { get; set; }
 
 

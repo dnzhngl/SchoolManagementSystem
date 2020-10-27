@@ -12,3 +12,8 @@ INNER JOIN Semesters ON Semesters.Id = Timetables.SemesterId
 INNER JOIN Classrooms ON Classrooms.Id = Timetables.ClassroomId
 
 --Sql view'i 2 turde olusturabilirsin = migration ile ya da sql command'i visual studio'da calistirarak. 
+
+
+--CREATE VIEW View_DismissedStudents AS
+--SELECT * FROM Students
+--WHERE Students.StudentStatus = 'Mezun' or StudentStatus = 'Sevk' and Students.StudentStatusEditDate IS NOT NULL

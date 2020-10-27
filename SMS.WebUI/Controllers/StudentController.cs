@@ -183,9 +183,10 @@ namespace SMS.WebUI.Controllers
 
             student = studentService.GetStudent(student.Id);
             student.StudentStatus = studentStatus;
-
+            student.StudentStatusEditDate = DateTime.Now;
             studentService.UpdateStudent(student);
-            return PartialView(student);
+
+            return Redirect(Request.Headers["Referer"].ToString());
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli, Öğrenci")]
         public IActionResult StudentAcademicInfo(int? studentId, string? studentUserName)

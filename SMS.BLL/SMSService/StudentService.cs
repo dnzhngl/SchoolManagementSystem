@@ -99,8 +99,6 @@ namespace SMS.BLL.SMSService
             {
                 var newStudent = MapperFactory.CurrentMapper.Map<Student>(student);
 
-                //newStudent.SchoolNumber = GenerateStudentNumber(studentCount);
-                newStudent.StudentStatusBool = true; //Gereksiz.
                 newStudent.StudentStatus = "Öğrenci";
                 newStudent.RegistrationDate = DateTime.Now;
                 newStudent = studentRepo.Add(newStudent);
