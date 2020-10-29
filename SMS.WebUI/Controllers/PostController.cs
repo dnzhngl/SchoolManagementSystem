@@ -5,7 +5,7 @@ using SMS.DTO;
 using SMS.WebUI.Models;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
 
 namespace SMS.WebUI.Controllers
 {
@@ -21,17 +21,19 @@ namespace SMS.WebUI.Controllers
         }
         public IActionResult PostList(string postCategoryName)
         {
-            var postList = new List<PostDTO>();
+            PostViewModel model = new PostViewModel();
+            
+            //var postList = new List<PostDTO>();
             if (postCategoryName != null)
             {
                 ViewBag.postCategoryName = postCategoryName;
-                postList = postService.GetAll(postCategoryName);
+                model.PostDTOs = postService.GetAll(postCategoryName);
             }
             else
             {
-                postList = postService.GetAll();
+                model.PostDTOs = postService.GetAll();
             }
-            return View(postList);
+            return View(model);
         }
 
         public IActionResult PostAdd(string postCategoryName)

@@ -1,5 +1,4 @@
-﻿@model IEnumerable<PostDTO>
-@{
+﻿@model PostViewModel
     ViewData["Title"] = "PostList";
 }
 
@@ -63,7 +62,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (PostDTO post in Model)
+                            @foreach (PostDTO post in Model.PostDTOs)
                             {
                                 <tr>
                                     <td>@post.PostCategory.CategoryName</td>

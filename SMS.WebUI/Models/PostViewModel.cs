@@ -12,5 +12,6 @@ namespace SMS.WebUI.Models
         public PostDTO PostDTO { get; set; }
         public List<PostDTO> PostDTOs { get; set; }
         public IFormFile File { get; set; }
+       // public List<IFormFile> Files { get; set; }
     }
 }

@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="14"
-  DTS:VersionGUID="{DA3E72CA-44D7-42C2-9357-6F674E0E627A}">
+  DTS:VersionBuild="51"
+  DTS:VersionGUID="{A4CCF53C-0544-4788-B507-CF5459917E21}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -30,13 +30,13 @@
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Data Flow Task"
+      DTS:refId="Package\Data Transfer Dismissed Students"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:DTSID="{EA196BEA-338D-4D6B-9A92-29AF478821B8}"
+      DTS:DTSID="{E7227A65-3669-441C-A1B9-C9E90C680DF9}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Data Flow Task"
+      DTS:ObjectName="Data Transfer Dismissed Students"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -44,7 +44,7 @@
           version="1">
           <components>
             <component
-              refId="Package\Data Flow Task\Lookup"
+              refId="Package\Data Transfer Dismissed Students\Lookup"
               componentClassID="Microsoft.Lookup"
               contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
               description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
@@ -57,13 +57,13 @@
                   description="Specifies the SQL statement that generates the lookup table."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT * FROM Students WHERE (Students.StudentStatus = 'Mezun' OR Students.StudentStatus = 'Sevk') AND Students.StudentStatusEditDate IS NOT NULL</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[DismissedStudents]</property>
                 <property
                   dataType="System.String"
                   description="Specifies a SQL statement that uses parameters to generate the lookup table."
                   expressionType="Notify"
                   name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (SELECT * FROM Students WHERE (Students.StudentStatus = 'Mezun' OR Students.StudentStatus = 'Sevk') AND Students.StudentStatusEditDate IS NOT NULL) [refTable]
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[DismissedStudents]) [refTable]
 where [refTable].[Id] = ?</property>
                 <property
                   dataType="System.Int32"
@@ -79,7 +79,7 @@ where [refTable].[Id] = ?</property>
                   dataType="System.Int32"
                   description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
                   name="NoMatchBehavior"
-                  typeConverter="LookupNoMatchBehavior">0</property>
+                  typeConverter="LookupNoMatchBehavior">1</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
@@ -100,7 +100,7 @@ where [refTable].[Id] = ?</property>
                   containsID="true"
                   dataType="System.String"
                   description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]};</property>
+                  name="ParameterMap">#{Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]};</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -112,7 +112,7 @@ where [refTable].[Id] = ?</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Data Flow Task\Lookup.Connections[OleDbConnection]"
+                  refId="Package\Data Transfer Dismissed Students\Lookup.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[localhost.SMSDb]"
                   connectionManagerRefId="Package.ConnectionManagers[localhost.SMSDb]"
                   description="Connection manager used to access lookup data."
@@ -120,26 +120,23 @@ where [refTable].[Id] = ?</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\Data Flow Task\Lookup.Inputs[Lookup Input]"
+                  refId="Package\Data Transfer Dismissed Students\Lookup.Inputs[Lookup Input]"
                   name="Lookup Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Data Flow Task\Lookup.Inputs[Lookup Input].Columns[Id]"
+                      refId="Package\Data Transfer Dismissed Students\Lookup.Inputs[Lookup Input].Columns[Id]"
                       cachedDataType="i4"
                       cachedName="Id"
-                      errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]"
-                      truncationRowDisposition="FailComponent"
-                      usageType="readWrite">
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]">
                       <properties>
                         <property
                           dataType="System.String"
                           description="Specifies the column in the reference table that a column joins."
                           name="JoinToReferenceColumn">Id</property>
                         <property
-                          dataType="System.String"
+                          dataType="System.Null"
                           description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">Id</property>
+                          name="CopyFromReferenceColumn" />
                       </properties>
                     </inputColumn>
                   </inputColumns>
@@ -148,39 +145,38 @@ where [refTable].[Id] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Data Flow Task\Lookup.Outputs[Lookup Match Output]"
+                  refId="Package\Data Transfer Dismissed Students\Lookup.Outputs[Lookup Match Output]"
                   errorOrTruncationOperation="Lookup"
-                  errorRowDisposition="FailComponent"
                   exclusionGroup="1"
                   name="Lookup Match Output"
-                  synchronousInputId="Package\Data Flow Task\Lookup.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Data Transfer Dismissed Students\Lookup.Inputs[Lookup Input]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Data Flow Task\Lookup.Outputs[Lookup No Match Output]"
+                  refId="Package\Data Transfer Dismissed Students\Lookup.Outputs[Lookup No Match Output]"
                   description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
                   exclusionGroup="1"
                   name="Lookup No Match Output"
-                  synchronousInputId="Package\Data Flow Task\Lookup.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Data Transfer Dismissed Students\Lookup.Inputs[Lookup Input]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Data Flow Task\Lookup.Outputs[Lookup Error Output]"
+                  refId="Package\Data Transfer Dismissed Students\Lookup.Outputs[Lookup Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Lookup Error Output"
-                  synchronousInputId="Package\Data Flow Task\Lookup.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Data Transfer Dismissed Students\Lookup.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Data Flow Task\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      refId="Package\Data Transfer Dismissed Students\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Data Transfer Dismissed Students\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Data Flow Task\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      refId="Package\Data Transfer Dismissed Students\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Data Transfer Dismissed Students\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -189,7 +185,7 @@ where [refTable].[Id] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\Data Flow Task\OLE DB Destination"
+              refId="Package\Data Transfer Dismissed Students\OLE DB Destination"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
@@ -213,7 +209,12 @@ where [refTable].[Id] = ?</property>
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT *
+FROM View_DismissedStudents
+WHERE NOT EXISTS(
+                SELECT *
+                FROM DismissedStudents
+                WHERE View_DismissedStudents.Id = DismissedStudents.ID)</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -230,15 +231,15 @@ where [refTable].[Id] = ?</property>
                 <property
                   dataType="System.Boolean"
                   description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepIdentity">false</property>
+                  name="FastLoadKeepIdentity">true</property>
                 <property
                   dataType="System.Boolean"
                   description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepNulls">false</property>
+                  name="FastLoadKeepNulls">true</property>
                 <property
                   dataType="System.String"
                   description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
-                  name="FastLoadOptions"></property>
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
@@ -246,7 +247,7 @@ where [refTable].[Id] = ?</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[localhost.SMSDb]"
                   connectionManagerRefId="Package.ConnectionManagers[localhost.SMSDb]"
                   description="The OLE DB runtime connection used to access the database."
@@ -254,179 +255,179 @@ where [refTable].[Id] = ?</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Id]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Id]"
                       cachedDataType="i4"
                       cachedName="Id"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IdentityNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IdentityNumber]"
                       cachedDataType="nText"
                       cachedName="IdentityNumber"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdentityNumber]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[IdentityNumber]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdentityNumber]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[IdentityNumber]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FirstName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FirstName]"
                       cachedDataType="nText"
                       cachedName="FirstName"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[FirstName]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[FirstName]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LastName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LastName]"
                       cachedDataType="nText"
                       cachedName="LastName"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[LastName]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[LastName]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Gender]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Gender]"
                       cachedDataType="nText"
                       cachedName="Gender"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[Gender]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[Gender]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DOB]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DOB]"
                       cachedDataType="dbTimeStamp2"
                       cachedName="DOB"
                       cachedScale="7"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DOB]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[DOB]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DOB]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[DOB]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CellPhone]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CellPhone]"
                       cachedDataType="nText"
                       cachedName="CellPhone"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CellPhone]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[CellPhone]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CellPhone]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[CellPhone]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GraduatedFrom]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GraduatedFrom]"
                       cachedDataType="nText"
                       cachedName="GraduatedFrom"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GraduatedFrom]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[GraduatedFrom]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GraduatedFrom]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[GraduatedFrom]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GPA]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GPA]"
                       cachedDataType="numeric"
                       cachedName="GPA"
                       cachedPrecision="18"
                       cachedScale="2"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GPA]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[GPA]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GPA]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[GPA]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SectionId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SectionId]"
                       cachedDataType="i4"
                       cachedName="SectionId"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SectionId]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[SectionId]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SectionId]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[SectionId]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ParentId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ParentId]"
                       cachedDataType="i4"
                       cachedName="ParentId"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ParentId]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[ParentId]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ParentId]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[ParentId]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UserId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UserId]"
                       cachedDataType="i4"
                       cachedName="UserId"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UserId]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[UserId]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UserId]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[UserId]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SchoolNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SchoolNumber]"
                       cachedDataType="nText"
                       cachedName="SchoolNumber"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SchoolNumber]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[SchoolNumber]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SchoolNumber]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[SchoolNumber]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[StudentStatus]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[StudentStatus]"
                       cachedDataType="nText"
                       cachedName="StudentStatus"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StudentStatus]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatus]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StudentStatus]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatus]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RegistrationDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RegistrationDate]"
                       cachedDataType="dbTimeStamp"
                       cachedName="RegistrationDate"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RegistrationDate]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[RegistrationDate]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RegistrationDate]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[RegistrationDate]" />
                     <inputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[StudentStatusEditDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[StudentStatusEditDate]"
                       cachedDataType="dbTimeStamp"
                       cachedName="StudentStatusEditDate"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StudentStatusEditDate]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatusEditDate]" />
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StudentStatusEditDate]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatusEditDate]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
                       dataType="i4"
                       name="Id" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdentityNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IdentityNumber]"
                       dataType="nText"
                       name="IdentityNumber" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
                       dataType="nText"
                       name="FirstName" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
                       dataType="nText"
                       name="LastName" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
                       dataType="nText"
                       name="Gender" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DOB]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DOB]"
                       dataType="dbTimeStamp2"
                       name="DOB"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CellPhone]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CellPhone]"
                       dataType="nText"
                       name="CellPhone" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GraduatedFrom]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GraduatedFrom]"
                       dataType="nText"
                       name="GraduatedFrom" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GPA]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GPA]"
                       dataType="numeric"
                       name="GPA"
                       precision="18"
                       scale="2" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SectionId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SectionId]"
                       dataType="i4"
                       name="SectionId" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ParentId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ParentId]"
                       dataType="i4"
                       name="ParentId" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UserId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UserId]"
                       dataType="i4"
                       name="UserId" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SchoolNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SchoolNumber]"
                       dataType="nText"
                       name="SchoolNumber" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StudentStatus]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StudentStatus]"
                       dataType="nText"
                       name="StudentStatus" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RegistrationDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RegistrationDate]"
                       dataType="dbTimeStamp"
                       name="RegistrationDate" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StudentStatusEditDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StudentStatusEditDate]"
                       dataType="dbTimeStamp"
                       name="StudentStatusEditDate" />
                   </externalMetadataColumns>
@@ -434,22 +435,22 @@ where [refTable].[Id] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -458,7 +459,7 @@ where [refTable].[Id] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\Data Flow Task\OLE DB Students"
+              refId="Package\Data Transfer Dismissed Students\OLE DB Students"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
@@ -473,7 +474,7 @@ where [refTable].[Id] = ?</property>
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[Students]</property>
+                  name="OpenRowset">[dbo].[View_DismissedStudents]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -507,7 +508,7 @@ where [refTable].[Id] = ?</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Data Flow Task\OLE DB Students.Connections[OleDbConnection]"
+                  refId="Package\Data Transfer Dismissed Students\OLE DB Students.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[localhost.SMSDb]"
                   connectionManagerRefId="Package.ConnectionManagers[localhost.SMSDb]"
                   description="The OLE DB runtime connection used to access the database."
@@ -515,326 +516,326 @@ where [refTable].[Id] = ?</property>
               </connections>
               <outputs>
                 <output
-                  refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output]"
+                  refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[Id]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[Id]"
                       name="Id"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[IdentityNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[IdentityNumber]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[IdentityNumber]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[IdentityNumber]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[IdentityNumber]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[IdentityNumber]"
                       name="IdentityNumber"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[FirstName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[FirstName]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[FirstName]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[FirstName]"
                       name="FirstName"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[LastName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[LastName]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[LastName]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[LastName]"
                       name="LastName"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[Gender]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[Gender]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[Gender]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[Gender]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[Gender]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[Gender]"
                       name="Gender"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[DOB]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[DOB]"
                       dataType="dbTimeStamp2"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[DOB]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[DOB]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[DOB]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[DOB]"
                       name="DOB"
                       scale="7"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[CellPhone]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[CellPhone]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[CellPhone]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[CellPhone]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[CellPhone]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[CellPhone]"
                       name="CellPhone"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[GraduatedFrom]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[GraduatedFrom]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[GraduatedFrom]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[GraduatedFrom]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[GraduatedFrom]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[GraduatedFrom]"
                       name="GraduatedFrom"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[GPA]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[GPA]"
                       dataType="numeric"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[GPA]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[GPA]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[GPA]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[GPA]"
                       name="GPA"
                       precision="18"
                       scale="2"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[SectionId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[SectionId]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[SectionId]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[SectionId]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[SectionId]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[SectionId]"
                       name="SectionId"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[ParentId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[ParentId]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[ParentId]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[ParentId]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[ParentId]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[ParentId]"
                       name="ParentId"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[UserId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[UserId]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[UserId]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[UserId]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[UserId]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[UserId]"
                       name="UserId"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[SchoolNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[SchoolNumber]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[SchoolNumber]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[SchoolNumber]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[SchoolNumber]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[SchoolNumber]"
                       name="SchoolNumber"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatus]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatus]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[StudentStatus]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatus]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[StudentStatus]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatus]"
                       name="StudentStatus"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[RegistrationDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[RegistrationDate]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[RegistrationDate]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[RegistrationDate]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[RegistrationDate]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[RegistrationDate]"
                       name="RegistrationDate"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatusEditDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatusEditDate]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[StudentStatusEditDate]"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatusEditDate]"
+                      externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[StudentStatusEditDate]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[StudentStatusEditDate]"
                       name="StudentStatusEditDate"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[Id]"
                       dataType="i4"
                       name="Id" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[IdentityNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[IdentityNumber]"
                       dataType="nText"
                       name="IdentityNumber" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
                       dataType="nText"
                       name="FirstName" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
                       dataType="nText"
                       name="LastName" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[Gender]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[Gender]"
                       dataType="nText"
                       name="Gender" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[DOB]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[DOB]"
                       dataType="dbTimeStamp2"
                       name="DOB"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[CellPhone]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[CellPhone]"
                       dataType="nText"
                       name="CellPhone" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[GraduatedFrom]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[GraduatedFrom]"
                       dataType="nText"
                       name="GraduatedFrom" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[GPA]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[GPA]"
                       dataType="numeric"
                       name="GPA"
                       precision="18"
                       scale="2" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[SectionId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[SectionId]"
                       dataType="i4"
                       name="SectionId" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[ParentId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[ParentId]"
                       dataType="i4"
                       name="ParentId" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[UserId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[UserId]"
                       dataType="i4"
                       name="UserId" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[SchoolNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[SchoolNumber]"
                       dataType="nText"
                       name="SchoolNumber" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[StudentStatus]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[StudentStatus]"
                       dataType="nText"
                       name="StudentStatus" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[RegistrationDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[RegistrationDate]"
                       dataType="dbTimeStamp"
                       name="RegistrationDate" />
                     <externalMetadataColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[StudentStatusEditDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[StudentStatusEditDate]"
                       dataType="dbTimeStamp"
                       name="StudentStatusEditDate" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[Id]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[Id]"
                       name="Id" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[IdentityNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[IdentityNumber]"
                       dataType="nText"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[IdentityNumber]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[IdentityNumber]"
                       name="IdentityNumber" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[FirstName]"
                       dataType="nText"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[FirstName]"
                       name="FirstName" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[LastName]"
                       dataType="nText"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[LastName]"
                       name="LastName" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[Gender]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[Gender]"
                       dataType="nText"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[Gender]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[Gender]"
                       name="Gender" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[DOB]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[DOB]"
                       dataType="dbTimeStamp2"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[DOB]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[DOB]"
                       name="DOB"
                       scale="7" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[CellPhone]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[CellPhone]"
                       dataType="nText"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[CellPhone]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[CellPhone]"
                       name="CellPhone" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[GraduatedFrom]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[GraduatedFrom]"
                       dataType="nText"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[GraduatedFrom]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[GraduatedFrom]"
                       name="GraduatedFrom" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[GPA]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[GPA]"
                       dataType="numeric"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[GPA]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[GPA]"
                       name="GPA"
                       precision="18"
                       scale="2" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[SectionId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[SectionId]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[SectionId]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[SectionId]"
                       name="SectionId" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ParentId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ParentId]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ParentId]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ParentId]"
                       name="ParentId" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[UserId]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[UserId]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[UserId]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[UserId]"
                       name="UserId" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[SchoolNumber]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[SchoolNumber]"
                       dataType="nText"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[SchoolNumber]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[SchoolNumber]"
                       name="SchoolNumber" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[StudentStatus]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[StudentStatus]"
                       dataType="nText"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[StudentStatus]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[StudentStatus]"
                       name="StudentStatus" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[RegistrationDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[RegistrationDate]"
                       dataType="dbTimeStamp"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[RegistrationDate]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[RegistrationDate]"
                       name="RegistrationDate" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[StudentStatusEditDate]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[StudentStatusEditDate]"
                       dataType="dbTimeStamp"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[StudentStatusEditDate]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[StudentStatusEditDate]"
                       name="StudentStatusEditDate" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -845,20 +846,47 @@ where [refTable].[Id] = ?</property>
           </components>
           <paths>
             <path
-              refId="Package\Data Flow Task.Paths[Lookup Match Output]"
-              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
-              name="Lookup Match Output"
-              startId="Package\Data Flow Task\Lookup.Outputs[Lookup Match Output]" />
+              refId="Package\Data Transfer Dismissed Students.Paths[Lookup No Match Output]"
+              endId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Lookup No Match Output"
+              startId="Package\Data Transfer Dismissed Students\Lookup.Outputs[Lookup No Match Output]" />
             <path
-              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
-              endId="Package\Data Flow Task\Lookup.Inputs[Lookup Input]"
+              refId="Package\Data Transfer Dismissed Students.Paths[OLE DB Source Output]"
+              endId="Package\Data Transfer Dismissed Students\Lookup.Inputs[Lookup Input]"
               name="OLE DB Source Output"
-              startId="Package\Data Flow Task\OLE DB Students.Outputs[OLE DB Source Output]" />
+              startId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Delete Dismissed Students"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Delete dismissed students from students table after 1 year from StudentStatusEditDate property changed"
+      DTS:DTSID="{078c3c7c-b2fa-47ca-b6b1-f09ef40ae564}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete Dismissed Students"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2ECDFF21-AF01-4ACF-A1BE-323E84C998F1}"
+          SQLTask:SqlStatementSource="DELETE FROM Students&#xA;WHERE        (StudentStatusEditDate &lt; DATEADD([year], - 1, GETDATE()))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{61540C1F-ECA4-45AE-B7E3-463AD308E103}"
+      DTS:From="Package\Data Transfer Dismissed Students"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Delete Dismissed Students" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -870,45 +898,71 @@ where [refTable].[Id] = ?</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="151,42"
-          Id="Package\Data Flow Task"
-          TopLeft="114,115" />
-      </GraphLayout>
-    </LayoutInfo>
-  </Package>
-  <TaskHost
-    design-time-name="Package\Data Flow Task">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+          Size="246,42"
+          Id="Package\Data Transfer Dismissed Students"
+          TopLeft="136,64" />
         <NodeLayout
-          Size="166,42"
-          Id="Package\Data Flow Task\OLE DB Students"
-          TopLeft="167,102" />
-        <NodeLayout
-          Size="115,42"
-          Id="Package\Data Flow Task\Lookup"
-          TopLeft="197.5,198.5" />
-        <NodeLayout
-          Size="177,42"
-          Id="Package\Data Flow Task\OLE DB Destination"
-          TopLeft="177,352" />
+          Size="211,42"
+          Id="Package\Delete Dismissed Students"
+          TopLeft="158,201" />
         <EdgeLayout
-          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
-          TopLeft="252.5,144">
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="261.25,106">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,54.5"
+              EndConnector="0,95"
               Start="0,0"
-              End="0,47">
+              End="0,87.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,47" />
+                    End="0,87.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Transfer Dismissed Students">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Transfer Dismissed Students\OLE DB Destination"
+          TopLeft="59,326" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Data Transfer Dismissed Students\OLE DB Students"
+          TopLeft="76,71" />
+        <NodeLayout
+          Size="115,42"
+          Id="Package\Data Transfer Dismissed Students\Lookup"
+          TopLeft="97,192" />
+        <EdgeLayout
+          Id="Package\Data Transfer Dismissed Students.Paths[OLE DB Source Output]"
+          TopLeft="156.75,113">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,79"
+              Start="0,0"
+              End="0,71.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,71.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -918,38 +972,26 @@ where [refTable].[Id] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Task.Paths[Lookup Match Output]"
-          TopLeft="255,240.5">
+          Id="Package\Data Transfer Dismissed Students.Paths[Lookup No Match Output]"
+          TopLeft="151,234">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="10.5,111.5"
+              EndConnector="0,92"
               Start="0,0"
-              End="10.5,104">
+              End="0,84.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,51.75" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,51.75"
-                    Point2="0,55.75"
-                    Point3="4,55.75" />
-                  <mssgle:LineSegment
-                    End="6.5,55.75" />
-                  <mssgle:CubicBezierSegment
-                    Point1="6.5,55.75"
-                    Point2="10.5,55.75"
-                    Point3="10.5,59.75" />
-                  <mssgle:LineSegment
-                    End="10.5,104" />
+                    End="0,84.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-42.94138671875,60.75,96.3827734375,11.609375"
+              BoundingBox="-55.80638671875,36.4453125,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -957,7 +999,7 @@ where [refTable].[Id] = ?</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Task\OLE DB Students">
+    design-time-name="Package\Data Transfer Dismissed Students\OLE DB Destination">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -970,22 +1012,22 @@ where [refTable].[Id] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Task\Lookup">
+    design-time-name="Package\Data Transfer Dismissed Students\Lookup">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
         <Value
-          type="q3:string"></Value>
+          type="q3:string">[dbo].[DismissedStudents]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -993,7 +1035,7 @@ where [refTable].[Id] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    design-time-name="Package\Data Transfer Dismissed Students\OLE DB Students">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1001,7 +1043,7 @@ where [refTable].[Id] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q2:string">Table</Value>
+          type="q2:string">View</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

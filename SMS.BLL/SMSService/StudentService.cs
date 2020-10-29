@@ -176,7 +176,7 @@ namespace SMS.BLL.SMSService
 
         public List<StudentDTO> GetStudentBasedOnCertificates(int certificateTypeId)
         {
-            var certificateList = uow.GetRepository<Certificate>().GetIncludesList(z => z.CertificateTypeId == certificateTypeId, z => z.Student, z => z.Student.Section.Grade);
+            var certificateList = uow.GetRepository<Certificate>().GetIncludesList(z => z.CertificateTypeId == certificateTypeId, z => z.Student, z => z.Student.Section.Grade, z=>z.Student.User);
             var studentList = certificateList.Select(z => z.Student);
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
