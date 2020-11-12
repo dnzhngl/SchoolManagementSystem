@@ -56,12 +56,12 @@ namespace SMS.WebUI.Controllers
             return PartialView(user);
         }
         [HttpPost]
-        public IActionResult ChangePassword(UserDTO user, string newPassword)
+        public IActionResult ChangePassword(UserDTO user)
         {
-            user.Password = newPassword;
-            userService.UpdateUser(user);
-
-            return RedirectToAction("UserSettings", new { username = user.UserName });
+            var selectedUser = userService.GetUser(user.Id);
+            selectedUser.Password = user.Password;
+            userService.UpdateUser(selectedUser);
+            return RedirectToAction("UserSettings", new { username = selectedUser.UserName });
         }
 
     }
