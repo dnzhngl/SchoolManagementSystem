@@ -45,13 +45,13 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
 
-        public IActionResult InstructorList(int? id)
+        public IActionResult InstructorList(int? branchId)
         {
             InstructorBranchViewModel model = new InstructorBranchViewModel();
 
-            if (id != null)
+            if (branchId != null)
             {
-                model.InstructorDTOs = instructorService.GetAllInstructorsBasedOnBranch((int)id);
+                model.InstructorDTOs = instructorService.GetAllInstructorsBasedOnBranch((int)branchId);
             }
             else
             {
@@ -81,11 +81,8 @@ namespace SMS.WebUI.Controllers
 
                 instructorService.NewInstructor(newInstructor);
                 return Redirect(Request.Headers["Referer"].ToString());
-
             }
-            instructor.BranchDTOs = branchService.GetAll();
             return View(instructor);
-            //return RedirectToAction("InstructorList");
         }
         [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult InstructorDelete(int id)
@@ -99,31 +96,23 @@ namespace SMS.WebUI.Controllers
         [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult InstructorUpdate(int id)
         {
-            InstructorDTO selectedInstructor = instructorService.GetInstructor(id);
             InstructorBranchViewModel model = new InstructorBranchViewModel();
-
-            model.InstructorDTO = selectedInstructor;
-            model.BranchDTO = branchService.GetBranch(selectedInstructor.BranchId);
+            model.InstructorDTO = instructorService.GetInstructor(id);
             model.BranchDTOs = branchService.GetAll();
-
             return PartialView(model);
         }
         [Authorize(Roles = "Admin, Yönetici")]
         [HttpPost]
         public IActionResult InstructorUpdate(InstructorBranchViewModel instructor)
         {
-            InstructorDTO selectedInstructor = instructor.InstructorDTO;
-            selectedInstructor.Branch = instructor.BranchDTO;
-            instructorService.UpdateInstructor(selectedInstructor);
+            instructorService.UpdateInstructor(instructor.InstructorDTO);
             return RedirectToAction("InstructorList");
         }
         public IActionResult InstructorDetails(int id)
         {
-            InstructorDTO selectedInstructor = instructorService.GetInstructor(id);
             InstructorBranchViewModel model = new InstructorBranchViewModel();
-
-            model.InstructorDTO = selectedInstructor;
-            model.InstructorDTO.Branch = branchService.GetBranch(selectedInstructor.BranchId);
+            model.InstructorDTO = instructorService.GetInstructor(id); 
+            model.InstructorDTO.Branch = branchService.GetBranch(model.InstructorDTO.BranchId);
             return View(model);
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen")]

@@ -42,13 +42,13 @@ namespace SMS.WebUI.Controllers
 
         public IActionResult TimetableIndex()
         {
-            TimetableViewModel model = new TimetableViewModel();
+            SectionGradeViewModel model = new SectionGradeViewModel();
             model.SectionDTOs = sectionService.GetAll();
             model.GradeDTOs = gradeService.GetAll();
             return View(model);
         }
 
-        public IActionResult TimetableList(int? sectionId, string? username, int? instructorId, int? classroomId) //sectionId
+        public IActionResult TimetableList(int? sectionId, string? username, int? instructorId, int? classroomId) 
         {
             TimetableViewModel model = new TimetableViewModel();
 
@@ -200,7 +200,6 @@ namespace SMS.WebUI.Controllers
 
             timetableService.UpdateTimeTable(tt);
             return Redirect(Request.Headers["Referer"].ToString());
-           // return RedirectToAction("TimetableDesign", new { sectionId = tt.SectionId });
         }
 
     }

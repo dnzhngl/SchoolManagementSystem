@@ -54,10 +54,17 @@ namespace SMS.BLL.SMSService
 
         public List<AttendanceDTO> GetAttendanceOfStudent(int studentId)
         {
-            var attendanceList = attendanceRepo.GetAll().Where(z => z.StudentId == studentId);
+            //var attendanceList = attendanceRepo.GetAll().Where(z => z.StudentId == studentId);
+            var attendanceList = attendanceRepo.GetIncludesList(z => z.StudentId == studentId, z => z.AttendanceType);
             return MapperFactory.CurrentMapper.Map<List<AttendanceDTO>>(attendanceList);
         }
 
+        public List<AttendanceDTO> GetAttendanceOfStudent(int studentId, int semesterId)
+        {
+            var attendanceList = attendanceRepo.GetIncludesList(z => z.StudentId == studentId && z.Semester.Id == semesterId, z => z.AttendanceType, z => z.Semester);
+            return MapperFactory.CurrentMapper.Map<List<AttendanceDTO>>(attendanceList);
+
+        }
 
         public AttendanceDTO NewAttendance(AttendanceDTO attendance)
         {

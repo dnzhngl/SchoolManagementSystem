@@ -10,7 +10,9 @@ namespace SMS.WebUI.Models
     {
         public CertificateDTO CertificateDTO { get; set; }
         public List<CertificateDTO> CertificateDTOs { get; set; }
+
         public List<CertificateTypeDTO> CertificateTypeDTOs { get; set; }
+
         public StudentDTO StudentDTO { get; set; }
         public List<StudentDTO> StudentDTOs { get; set; }
 

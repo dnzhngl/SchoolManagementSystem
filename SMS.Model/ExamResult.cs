@@ -9,6 +9,7 @@ namespace SMS.Model
     public class ExamResult : Entity<int>
     {
         public decimal ExamMark { get; set; }
+        public int ExamMarkNumeral { get; set; }
         public string StudentStatus { get; set; }
         public int CreatedBy { get; set; }
 

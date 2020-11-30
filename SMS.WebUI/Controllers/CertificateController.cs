@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SMS.BLL.Abstract;
 using SMS.DTO;
@@ -38,29 +39,34 @@ namespace SMS.WebUI.Controllers
             }
             return View(model);
         }
-
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult CertificateAdd(int studentId)
         {
             CertificateViewModel model = new CertificateViewModel();
             model.CertificateTypeDTOs = certificateTypeService.GetAll();
-            model.StudentDTO = studentService.GetStudent(studentId);
+
+            model.CertificateDTO = new CertificateDTO();
+            model.CertificateDTO.StudentId = studentId;
+           // model.StudentDTO = studentService.GetStudent(studentId);
             model.SemesterDTOs = semesterService.GetAll();
 
             return PartialView(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult CertificateAdd(CertificateViewModel model)
         {
-            model.CertificateDTO.StudentId = model.StudentDTO.Id;
+            //model.CertificateDTO.StudentId = model.StudentDTO.Id;
             certificateService.NewCertificate(model.CertificateDTO);
-
-            return RedirectToAction("CertificateList", new { studentId = model.StudentDTO.Id });
+            return RedirectToAction("CertificateList", new { studentId = model.CertificateDTO.StudentId });
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult CertificateDelete(int certificateId, int studentId)
         {
             certificateService.DeleteCertificate(certificateId);
             return RedirectToAction("CertificateList", new { studentId = studentId });
         }
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult CertificateUpdate(int certificateId)
         {
             CertificateViewModel model = new CertificateViewModel();
@@ -70,6 +76,7 @@ namespace SMS.WebUI.Controllers
             return PartialView(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult CertificateUpdate(CertificateViewModel model)
         {
             certificateService.UpdateCertificate(model.CertificateDTO);

@@ -10,7 +10,7 @@ namespace SMS.DTO
         public decimal ExamMark { get; set; }
         public string StudentStatus { get; set; }
         public int CreatedBy { get; set; }
-
+        public int ExamMarkNumeral { get; set; }
 
         public int ExamId { get; set; }
         public ExamDTO Exam { get; set; }

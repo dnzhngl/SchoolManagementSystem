@@ -15,6 +15,7 @@ namespace SMS.Model
         public string SemesterName { get; set; }
         public DateTime SemesterBeginning { get; set; }
         public DateTime SemesterEnd { get; set; }
+        public string AcademicYear { get; set; }
 
         public virtual ICollection<Timetable> Timetables { get; set; }
         public virtual ICollection<Certificate> Certificates { get; set; }

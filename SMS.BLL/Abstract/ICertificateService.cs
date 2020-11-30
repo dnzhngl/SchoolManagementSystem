@@ -15,5 +15,6 @@ namespace SMS.BLL.Abstract
         CertificateDTO UpdateCertificate(CertificateDTO certificate);
         bool DeleteCertificate(int certificateId);
         List<CertificateDTO> GetAllCertificatesInclude();
+        CertificateDTO CreateCertificate(int studentId, int semesterId);
     }
 }

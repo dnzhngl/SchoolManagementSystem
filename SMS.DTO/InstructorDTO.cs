@@ -23,10 +23,8 @@ namespace SMS.DTO
         public string Duty { get; set; }
 
         public int BranchId { get; set; }
-        //public BranchDTO BranchDTO { get; set; }
         public BranchDTO Branch { get; set; }
 
-        public int TimeTableId { get; set; }
         public List<TimetableDTO> TimeTables { get; set; }
 
         public Nullable<int> UserId { get; set; }
@@ -35,5 +33,8 @@ namespace SMS.DTO
         public string FullName { get { return String.Format("{0} {1}", FirstName, LastName); } }
         // public string FullNameBranch { get { return String.Format("{0} {1} / {2}", FirstName, LastName, BranchDTO.BranchName); } }
         public string FullNameBranch => String.Format("{0} {1} / {2}", FirstName, LastName, Branch?.BranchName);
+
+        public virtual SectionDTO Section { get; set; }
+
     }
 }

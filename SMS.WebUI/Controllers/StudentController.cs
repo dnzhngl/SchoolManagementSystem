@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SMS.BLL.Abstract;
 using SMS.BLL.SMSService;
 using SMS.DTO;
@@ -25,8 +26,11 @@ namespace SMS.WebUI.Controllers
         private readonly IPostService postService;
         private readonly IExamResultService examResultService;
         private readonly IExamService examService;
+        private readonly IStudentSchoolReportViewService schoolReportService;
+        private readonly IAttendanceService attendanceService;
+        private readonly ISemesterService semesterService;
 
-        public StudentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService, IGradeService _gradeService, IUserService _userService, ICertificateTypeService _certificateTypeService, IPostService _postService, IExamResultService _examResultService, ICertificateService _certificateService, IExamService _examService, IInstructorService _instructorService)
+        public StudentController(IStudentService _studentService, IParentService _parentService, ISectionService _sectionService, IGradeService _gradeService, IUserService _userService, ICertificateTypeService _certificateTypeService, IPostService _postService, IExamResultService _examResultService, ICertificateService _certificateService, IExamService _examService, IInstructorService _instructorService, IStudentSchoolReportViewService _schoolReportService, IAttendanceService _attendanceService, ISemesterService _semesterService)
         {
             studentService = _studentService;
             parentService = _parentService;
@@ -39,6 +43,9 @@ namespace SMS.WebUI.Controllers
             examResultService = _examResultService;
             examService = _examService;
             instructorService = _instructorService;
+            schoolReportService = _schoolReportService;
+            attendanceService = _attendanceService;
+            semesterService = _semesterService;
         }
         public IActionResult Index()
         {
@@ -87,7 +94,7 @@ namespace SMS.WebUI.Controllers
             {
                 var certificateTypeId = certificateTypeService.GetCertificateType(certificateTypeName).Id;
                 model.StudentDTOs = studentService.GetStudentBasedOnCertificates(certificateTypeId);
-                ViewBag.certificateTypeName = certificateTypeName;
+                ViewBag.certificateTypeName = certificateTypeName + " Belgesi Alan";
             }
             else if (studentStatus != null)
             {
@@ -112,10 +119,7 @@ namespace SMS.WebUI.Controllers
         [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult StudentUpdate(int id)
         {
-            //StudentParentViewModel model = new StudentParentViewModel();
-            //model.StudentDTO = studentService.GetStudent(id);
             StudentDTO student = studentService.GetStudent(id);
-
             return View(student);
         }
         [HttpPost]
@@ -125,7 +129,6 @@ namespace SMS.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                //StudentDTO selectedStudent = studentService.GetStudent(student.StudentDTO.Id);
                 studentService.UpdateStudent(student);
                 return Redirect(Request.Headers["Referer"].ToString());
             }
@@ -212,35 +215,48 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
 
+        public IActionResult CreateSchoolReport(int studentId)
+        {
 
-        #region Instead of this RegisterAdd and RegistrationList in RegisterController is in use.
-        //public IActionResult StudentAdd(int parentId)
-        //{
-        //    StudentParentViewModel model = new StudentParentViewModel();
-        //    model.ParentDTO = parentService.GetParent(parentId);
-        //    return View(model);
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult StudentAdd(StudentParentViewModel student)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        StudentDTO newStudent = student.StudentDTO;
-        //        newStudent.ParentId = student.ParentDTO.Id;
-        //        userService.GenerateUserAccount(newStudent.FirstName, newStudent.LastName, newStudent.IdentityNumber, "Öğrenci");
-        //        // userService.NewUser(newStudent.IdentityNumber, "Öğrenci");
+            var model = new StudentDetailsViewModel();
+            model.StudentDTO = studentService.GetStudent(studentId);
+            model.SemesterDTO = semesterService.GetCurrentSemester(DateTime.Now);
 
-        //        UserDTO newUser = userService.GetUserByUsername(newStudent.IdentityNumber);
-        //        newStudent.UserId = newUser.Id;
+            var schoolReport = schoolReportService.CreateSchoolReport(studentId);
+            model.StudentSchoolReportViewDTOs1 = schoolReport.Where(z => z.SemesterName == "I. Dönem").ToList();
+            model.StudentSchoolReportViewDTOs2 = schoolReport.Where(z => z.SemesterName == "II. Dönem").ToList();
 
-        //        studentService.NewStudent(newStudent);
-        //        return RedirectToAction("RegistrationList");
-        //    }
-        //    return View(student);
-        //}
+            ViewBag.schoolPrinciple = instructorService.GetInstructorByDuty("Okul Müdürü");
+            ViewBag.vicePrinciple = instructorService.GetInstructorByDuty("Müdür Yardımcısı");
+            var instructor = instructorService.GetInstructor((int)model.StudentDTO.Section.AdvisoryTeacherId);
+            ViewBag.advisoryTeacher = String.Format("{0} {1}", instructor.FirstName, instructor.LastName);
 
-        #endregion
+
+            if (model.SemesterDTO.SemesterName == "I. Dönem")
+            {
+                model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(studentId, model.SemesterDTO.Id);
+
+                ViewBag.attendanceExcuse1 = model.AttendanceDTOs.Where(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nobetçi Öğrenci").Count();
+                ViewBag.attendance1 = model.AttendanceDTOs.Where(z => z.AttendanceType.AttendanceTypeName == "Katılmadı").Count();
+            }
+            else if (model.SemesterDTO.SemesterName == "II. Dönem")
+            {
+                model.SemesterDTOs = semesterService.GetSemestersByAcademicYear(model.SemesterDTO.AcademicYear);
+                var firstSemesterId = model.SemesterDTOs.FirstOrDefault(z => z.AcademicYear == model.SemesterDTO.AcademicYear && z.SemesterName == "I. Dönem").Id;
+
+                model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(studentId, firstSemesterId);
+                model.AttendanceDTOs2 = attendanceService.GetAttendanceOfStudent(studentId, model.SemesterDTO.Id);
+
+                ViewBag.attendanceExcuse2 = model.AttendanceDTOs2.Where(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nobetçi Öğrenci").Count();
+                ViewBag.attendance2 = model.AttendanceDTOs2.Where(z => z.AttendanceType.AttendanceTypeName == "Katılmadı").Count();
+            }
+
+            //var certificate = certificateService.CreateCertificate(studentId, model.SemesterDTO.Id);
+            //certificateService.NewCertificate(certificate);
+
+            return View(model);
+        }
+
 
 
         //public IActionResult StudentExamsList(int studentId)

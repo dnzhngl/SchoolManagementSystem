@@ -45,7 +45,7 @@ namespace SMS.DAL
 
         public DbSet<TimetableView> TimetableViews { get; set; }  //DbQuery ile de yapabilirsin.
 
-
+        public DbSet<StudentSchoolReportView> StudentSchoolReportView { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,11 @@ namespace SMS.DAL
                 d.ToView("View_Timetables");
             });
 
+            modelBuilder.Entity<StudentSchoolReportView>(d =>
+            {
+                d.HasKey("Id");
+                d.ToView("View_StudentSchoolReport");
+            });
             //modelBuilder.Entity<TimetableView>().ToView("TimetableView");
 
         }

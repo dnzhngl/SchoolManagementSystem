@@ -55,13 +55,13 @@ namespace SMS.BLL.SMSService
 
         public TimetableDTO NewTimeTable(TimetableDTO timeTable)
         {
-            if (!timeTableRepo.GetAll().Any(z => z.ClassroomId == timeTable.ClassroomId && z.DayId == timeTable.DayId && z.LessonTimeId == timeTable.LessonTimeId))
+            if ((!timeTableRepo.GetAll().Any(z => z.ClassroomId == timeTable.ClassroomId && z.DayId == timeTable.DayId && z.LessonTimeId == timeTable.LessonTimeId)) && (!timeTableRepo.GetAll().Any(z => z.InstructorId == timeTable.InstructorId && z.DayId == timeTable.DayId && z.LessonTimeId == timeTable.LessonTimeId)))
             {
+
                 Timetable newTimetable = MapperFactory.CurrentMapper.Map<Timetable>(timeTable);
 
                 newTimetable.SemesterId = 1;  //Bunu alttaki kodun yerine geçici olarak yazdın!!!
-                //newTimetable.SemesterId = semesterService.GetCurrentSemester(DateTime.Now).Id;
-
+                                              //newTimetable.SemesterId = semesterService.GetCurrentSemester(DateTime.Now).Id;
                 timeTableRepo.Add(newTimetable);
                 uow.SaveChanges();
 

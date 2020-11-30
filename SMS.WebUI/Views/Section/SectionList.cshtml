@@ -22,7 +22,7 @@
 
 <!-- DataTables Example -->
 <div class="row">
-    <div class="col col-12 col-xl-8">
+    <div class="col col-12 col-xl-10">
 
         <div class="card shadow mt-3">
             <div class="card-header py-3">
@@ -49,6 +49,7 @@
                                 <th>Sınıfı</th>
                                 <th>Öğrenci Kapasitesi</th>
                                 <th>Kayıtlı Öğrenci Sayısı</th>
+                                <th>Danışman Öğretmen</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -63,6 +64,18 @@
                                     <td>@sectionDto.StudentCapacity</td>
                                     @*<td>@sectionDto.NumberOfStudentsEnrolled</td>*@
                                     <td>@sectionDto.Students.Count()</td>
+                                    <td>
+                                        @if (sectionDto.AdvisoryTeacherId != null)
+                                        {
+                                            @Model.InstructorDTOs.FirstOrDefault(z => z.Id == sectionDto.AdvisoryTeacherId).FullName
+                                        }
+                                        else
+                                        {
+                                            <p>Atanmadı</p>
+                                        }
+                                    </td>
+
+
                                     <td>
                                         <a class="btn btn-outline-primary btn-sm" asp-controller="Student" asp-action="StudentList" asp-route-sectionId="@sectionDto.Id"><i class="fa fa-graduation-cap"></i> Öğrenciler</a>
                                         @*<a class="btn btn-outline-info btn-sm" asp-controller="Timetable" asp-action="TimetableList" asp-route-sectionId="@sectionDto.Id"><i class="fa fa-table"></i></a>*@

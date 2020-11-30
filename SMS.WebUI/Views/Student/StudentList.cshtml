@@ -53,7 +53,7 @@
                         <th>Soyadı</th>
                         <th>Cinsiyet</th>
                         <th>Devam Durumu</th>
-                        <th>Akademik Bilgi</th> <!---->
+                        <th>Akademik Bilgi</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -68,7 +68,8 @@
                             <td>@student.LastName</td>
                             <td>@student.Gender</td>
                             <td>
-                                @if (student.StudentStatus == "Öğrenci")
+                                @student.StudentStatus
+                                @*@if (student.StudentStatus == "Öğrenci")
                                 {
                                     <p>Öğrenciliği devam ediyor.</p>
                                 }
@@ -79,7 +80,7 @@
                                 else if (student.StudentStatus == "Mezun")
                                 {
                                     <p>Mezun</p>
-                                }
+                                }*@
                             </td>
                              <td><a class="btn btn-outline-info btn-sm" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@student.Id"> Akademik Bilgi</a></td>
                             <td>

@@ -10,7 +10,8 @@ namespace SMS.BLL.Abstract
     {
         List<AttendanceDTO> GetAll();
         AttendanceDTO GetAttendance(int id);
-        List<AttendanceDTO> GetAttendanceOfStudent(int id);
+        List<AttendanceDTO> GetAttendanceOfStudent(int studentId);
+        List<AttendanceDTO> GetAttendanceOfStudent(int studentId, int semesterId);
         AttendanceDTO NewAttendance(AttendanceDTO attendance);
         AttendanceDTO UpdateAttendance(AttendanceDTO attendance);
         bool DeleteAttendance(int id);

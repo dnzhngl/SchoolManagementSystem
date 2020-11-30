@@ -44,7 +44,8 @@ namespace SMS.BLL.SMSService
 
         public SemesterDTO GetCurrentSemester(DateTime time)
         {
-            var currentSemester = semesterRepo.Get(z => z.SemesterBeginning > time && time > z.SemesterEnd);
+           // var currentSemester = semesterRepo.Get(z => z.SemesterBeginning > time && time > z.SemesterEnd);
+            var currentSemester = semesterRepo.Get(z => z.SemesterBeginning < time && time < z.SemesterEnd);
             return MapperFactory.CurrentMapper.Map<SemesterDTO>(currentSemester);
         }
 
@@ -54,11 +55,29 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<SemesterDTO>(selectedSemester);
         }
 
+        public List<SemesterDTO> GetSemestersByAcademicYear(string academicYear)
+        {
+            var semesters = semesterRepo.GetAll().Where(z => z.AcademicYear == academicYear);
+            return MapperFactory.CurrentMapper.Map<List<SemesterDTO>>(semesters);
+        }
+
         public SemesterDTO NewSemester(SemesterDTO semester)
         {
-            if (!semesterRepo.GetAll().Any(z => z.SemesterBeginning.Year == semester.SemesterBeginning.Year ))
+            if (!semesterRepo.GetAll().Any(z => z.SemesterBeginning.Year == semester.SemesterBeginning.Year && z.SemesterEnd == semester.SemesterEnd))
             {
                 var newSemester = MapperFactory.CurrentMapper.Map<Semester>(semester);
+                if (newSemester.SemesterBeginning.Month < 12 && newSemester.SemesterBeginning.Month >= 8)
+                {
+                    newSemester.SemesterName = "I. Dönem";
+                    newSemester.AcademicYear = newSemester.SemesterBeginning.Year + "/" + (newSemester.SemesterBeginning.Year + 1);
+
+                }
+                else if (newSemester.SemesterBeginning.Month >= 1 && newSemester.SemesterBeginning.Month < 8)
+                {
+                    newSemester.SemesterName = "II. Dönem";
+                    newSemester.AcademicYear = (newSemester.SemesterBeginning.Year - 1) + "/" + newSemester.SemesterBeginning.Year;
+                }
+
                 semesterRepo.Add(newSemester);
                 uow.SaveChanges();
                 return MapperFactory.CurrentMapper.Map<SemesterDTO>(newSemester);

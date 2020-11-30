@@ -1,0 +1,417 @@
+﻿@model StudentDetailsViewModel
+@{
+    ViewData["Title"] = "CreateSchoolReport";
+}
+<div class="card shadow-sm mt-3">
+    <div class="card-header">
+        <h5 class="card-title font-weight-bold text-primary">Karne</h5>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <div class="card m-1">
+                    <div class="card-body">
+                        <h5 class="card-title">ÖĞRENCİNİN</h5>
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-subtitle mb-2 text-muted">Adı ve Soyadı</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">Okulu</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">Okul Numarası</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">Sınıfı</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">Şubesi</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">Ders Yılı</h5>
+                            </div>
+                            <div class="col">
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.StudentDTO.FirstName @Model.StudentDTO.LastName.ToUpper()</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">BİLGE KOLEJİ</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.StudentDTO.SchoolNumber</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.StudentDTO.Section.Grade.GradeName</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.StudentDTO.Section.SectionName</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@String.Format("{0}/{1}", Model.SemesterDTO.SemesterBeginning.Year, Model.SemesterDTO.SemesterEnd.Year) @*Model.SemesterDTO.SemesterInfo*@</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card m-1">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                <h5 class="card-title">DERSLER</h5>
+                            </div>
+                            <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                <h5 class="card-title">Saat</h5>
+                            </div>
+                            <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                <h5 class="card-title">I.Dönem</h5>
+                            </div>
+                            <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                <h5 class="card-title">II.Dönem</h5>
+                            </div>
+                            <div class="col">
+                                <h5 class="card-title">Yıl Sonu Notu</h5>
+                            </div>
+                        </div>
+                        <div class="row" style="height:480px;">
+                            <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+
+                                @foreach (var subject in ViewBag.subjectList)
+                                {
+                                    <div class="row">
+
+                                        <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                            <h5 class="card-subtitle mb-2 text-muted">@subject</h5>
+                                        </div>
+
+                                        <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                            <h5 class="card-subtitle mb-2 text-muted">@Model.StudentSchoolReportViewDTOs1.First(z => z.SubjectName.Contains(subject)).WeeklyCourseHours</h5>
+                                        </div>
+                                        @if (Model.StudentSchoolReportViewDTOs1 != null)
+                                        {
+
+                                            @foreach (var result in Model.StudentSchoolReportViewDTOs1.Where(z => z.SubjectName.Contains(subject)))
+                                            {
+
+                                                <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                                    <h5 class="card-subtitle mb-2 text-muted">@result.AvgMark.ToString().Substring(0, 2)</h5>
+                                                    @*<h5 class="card-subtitle mb-2 text-muted" id="semesterI">@Model.StudentSchoolReportViewDTOs.FirstOrDefault(z => z.SubjectName.Contains(subject) && z.SemesterName == "I.Dönem").AvgMark.ToString().Take(2)</h5>
+                                                        <h5 class="card-subtitle mb-2 text-muted" id="semesterI">@Model.StudentSchoolReportViewDTOs.Where(z => z.SubjectName.Contains(subject) && z.SemesterName == "I.Dönem").FirstOrDefault().AvgMark.ToString().Take(2)</h5>*@
+                                                </div>
+
+                                                @if (Model.StudentSchoolReportViewDTOs2 != null && Model.StudentSchoolReportViewDTOs2.Count() != 0)
+                                                {
+
+                                                    @foreach (var result2 in Model.StudentSchoolReportViewDTOs2.Where(z => z.SubjectName.Contains(subject)))
+                                                    {
+
+                                                        <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                                            <h5 class="card-subtitle mb-2 text-muted">@result2.AvgMark.ToString().Substring(0, 2)</h5>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <h5 class="card-subtitle mb-2 text-muted" id="endOfYearMark">
+                                                                @{((result.AvgMark + result2.AvgMark) / 2).ToString().Substring(0, 2);
+                                                                }
+                                                            </h5>
+
+                                                        </div>
+                                                    }
+                                                }
+                                            }
+                                        }
+
+
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card m-1">
+                    <div class="card-body">
+                        <h5 class="card-title">Yıl Sonu Başarı Ortalaması </h5>
+
+                        <div class="row">
+
+                            <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                <h5 class="card-subtitle mb-2 text-muted">Devam Etmediği Günler </h5>
+                                <h5 class="card-subtitle mb-2 text-muted">I. Dönem</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">II. Dönem</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">TOPLAM</h5>
+                            </div>
+
+                            <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                <h5 class="card-subtitle mb-2 text-muted">Özürlü</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.AttendanceDTOs.Count()</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nöbetçi Öğrenci")</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName != "Katıldı")</h5>
+                            </div>
+
+                            <div class="col">
+                                <h5 class="card-subtitle mb-2 text-muted">Özürsüz</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.AttendanceDTOs.Count()</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName == "Katılmadı")</h5>
+                                <h5 class="card-subtitle mb-2 text-muted">@Model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName != "Katıldı")</h5>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card m-1">
+                    <div class="card-body">
+
+                        <h3 class="card-title font-weight-bold text-primary">ÖĞRETMENLER, YENİ NESİL SİZİN ESERİNİZ OLACAKTIR.</h3>
+                        <h5 class="card-title font-weight-bold text-primary float-right">K.ATATÜRK</h5>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card m-1">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col col-6" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+                                <h5 class="card-title">Not Verme Düzeni</h5>
+
+                                <div class="row">
+
+                                    <div class="col">
+                                        <h5><u>Puanla</u></h5>
+                                        <h5>85-100</h5>
+                                        <h5>70-84</h5>
+                                        <h5>55-69</h5>
+                                        <h5>45-54</h5>
+                                        <h5>25-44</h5>
+                                        <h5>0-24</h5>
+                                    </div>
+                                    <div class="col">
+                                        <h5><u>Rakamla</u></h5>
+                                        <h5>5</h5>
+                                        <h5>4</h5>
+                                        <h5>3</h5>
+                                        <h5>2</h5>
+                                        <h5>1</h5>
+                                        <h5>0</h5>
+                                    </div>
+                                    <div class="col">
+                                        <h5><u>Yazıyla</u></h5>
+                                        <h5>Pekiyi</h5>
+                                        <h5>İyi</h5>
+                                        <h5>Orta</h5>
+                                        <h5>Geçer</h5>
+                                        <h5>Geçmez</h5>
+                                        <h5>Etkisiz</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col col-6">
+                                <h5 class="card-title">SONUÇ :</h5>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-check">
+
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                            <h5 class="card-subtitle mb-2 text-muted" for="inlineRadio1">Doğrudan Geçti</h5>
+
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                            <h5 class="card-subtitle mb-2 text-muted" for="inlineRadio2">Ortalama İle Geçti</h5>
+
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                            <h5 class="card-subtitle mb-2 text-muted" for="inlineRadio3">Devamsızlıktan kaldı. Sınıf Tekrarı</h5>
+
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+                                            <h5 class="card-subtitle mb-2 text-muted" for="inlineRadio4">OYS Sınavına Girmesi Gerekir.</h5>
+
+                                            <div class="form-group">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card m-1">
+                    <div class="card-body">
+                        <h5 class="card-title">Danışman Öğretmenin Görüşü</h5>
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-subtitle mb-2 text-muted">I. Dönem</h5>
+
+                                <div class="form-group">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
+                                    <h5 class="card-subtitle mb-2 mt-2 text-muted">Ad-Soyad-İmza</h5>
+                                    <h5 class="card-subtitle mb-2 mt-2 text-muted">@ViewBag.advisoryTeacher</h5>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h5 class="card-subtitle mb-2 text-muted">II. Dönem</h5>
+
+                                <div class="form-group">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
+                                    <h5 class="card-subtitle mb-2 mt-2 text-muted">Ad-Soyad-İmza</h5>
+                                    <h5 class="card-subtitle mb-2 mt-2 text-muted">@ViewBag.advisoryTeacher</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card m-1">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><h5 class="card-subtitle mb-2 mt-2 text-muted">İMZALAR</h5></th>
+                                    <th><h5 class="card-subtitle mb-2 mt-2 text-muted">I. Dönem</h5></th>
+                                    <th><h5 class="card-subtitle mb-2 mt-2 text-muted">II. Dönem</h5></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th><h5 class="card-subtitle mb-2 mt-2 text-muted">Okul Müdürü</h5></th>
+                                    <td>@ViewBag.schoolPrinciple</td>
+                                    <td>@ViewBag.schoolPrinciple</td>
+                                </tr>
+                                <tr>
+                                    <th><h5 class="card-subtitle mb-2 mt-2 text-muted">Müdür Yardımcısı</h5></th>
+                                    <td>@ViewBag.vicePrinciple</td>
+                                    <td>@ViewBag.vicePrinciple</td>
+                                </tr>
+                                <tr>
+                                    <th><h5 class="card-subtitle mb-2 mt-2 text-muted">Öğrenci Velisi</h5></th>
+                                    <td>@Model.StudentDTO.Parent.FirstName @Model.StudentDTO.Parent.LastName</td>
+                                    <td>@Model.StudentDTO.Parent.FirstName @Model.StudentDTO.Parent.LastName</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <div class="float-right">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">Geri</button>
+            <button type="submit" class="btn btn-primary" onclick="window.print()">Yazdır</button>
+        </div>
+    </div>
+</div>
+
+@section BeginPageJs{
+    <script>
+
+                                        //if (document.getElementById("semesterI") != null) {
+                                        //    var semesterI = document.getElementById("semesterI").innerHTML;
+                                        //    semesterI = parseInt(semesterI);
+                                        //}
+                                        //else {
+                                        //    document.getElementById("semester").innerHTML = "";
+                                        //}
+
+                                        ////var semesterI = parseInt(document.getElementById("semesterI").innerHTML);
+                                        ////if (semesterI == null) {
+                                        ////    semesterI = 0;
+                                        ////}
+                                        ////var semesterII = parseInt( document.getElementById("semesterII").innerHTML);
+                                        ////if (semesterII == null) {
+                                        ////    semesterII == 0;
+                                        ////}
+
+                                        //studentMarkOutOf5(semesterI, "semesterI");
+                                        //studentMarkOutOf5(semesterII, "semesterII");
+                                        //document.getElementById("enfOfYearMark").innerHTML = endOfYearMark(semesterI, semesterII);
+
+                                        //function endOfYearMark(semesterI, semesterII) {
+                                        //    return (semesterI + semesterII) / 2;
+                                        //}
+                                        //function studentMarkOutOf5(avgExamMark, element) {
+
+                                        //    if (avgExamMark >= 85 && avgExamMark <= 100) {
+                                        //        //return document.getElementById('studentStatus').innerHTML = "Pekiyi";
+                                        //        document.getElementById(element).innerHTML = 5;
+                                        //    }
+                                        //    else if (avgExamMark >= 70 && avgExamMark < 85) {
+                                        //        //return document.getElementById('studentStatus').innerHTML = "İyi";
+                                        //        document.getElementById(element).innerHTML = 4;
+                                        //    }
+                                        //    else if (avgExamMark >= 55 && avgExamMark < 70) {
+                                        //        //return document.getElementById('studentStatus').innerHTML = "Orta";
+                                        //        document.getElementById(element).innerHTML = 3;
+                                        //    }
+                                        //    else if (avgExamMark >= 45 && avgExamMark < 55) {
+                                        //        //return document.getElementById('studentStatus').innerHTML = "Geçer";
+                                        //        document.getElementById(element).innerHTML = 2;
+                                        //    }
+                                        //    else if (avgExamMark >= 25 && avgExamMark < 45) {
+                                        //        //return document.getElementById('studentStatus').innerHTML = "Geçmez";
+                                        //        rdocument.getElementById(element).innerHTML = 1;
+                                        //    }
+                                        //    else if (avgExamMark >= 0 && avgExamMark < 25) {
+                                        //        //return document.getElementById('studentStatus').innerHTML = "Etkisiz";
+                                        //        document.getElementById(element).innerHTML = 0;
+                                        //    }
+                                        //    else {
+                                        //        document.getElementById(element).innerHTML = "Geçersiz Not";
+                                        //    }
+                                        //}
+
+    </script>
+}
+
+@* <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+        <h5 class="card-title">DERSLER</h5>
+        @foreach (var result in Model.StudentSchoolReportViewDTOs)
+        {
+            <h5 class="card-subtitle mb-2 text-muted">@result.MainSubjectName</h5>
+        }
+    </div>
+
+    <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+        <h5 class="card-title">Saat</h5>
+
+        @foreach (var result in Model.StudentSchoolReportViewDTOs)
+        {
+            <h5>@result.WeeklyCourseHours</h5>
+        }
+    </div>
+    <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+        <h5 class="card-title">1.Dön.</h5>
+
+        @foreach (var result in Model.StudentSchoolReportViewDTOs)
+        {
+            if (result.SemesterName == "I.Dönem")
+            {
+                <h5>@result.AvgMark.ToString().Substring(0, 2)</h5>
+            }
+
+        }
+    </div>
+    <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+        <h5 class="card-title">2.Dön.</h5>
+
+        @foreach (var result in Model.StudentSchoolReportViewDTOs)
+        {
+            if (result.SemesterName == "II.DÖnem")
+            {
+                <h5>@result.AvgMark.ToString().Substring(0, 2)</h5>
+            }
+        }
+    </div>
+
+    <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+        <h5 class="card-title">Yıl Sonu Notu</h5>
+
+        @foreach (var result in Model.StudentSchoolReportViewDTOs)
+        {
+            <h5>@result.AvgMark.ToString().Substring(0, 2)</h5>
+        }
+    </div>
+    <div class="col" style="border-right:1px solid rgba(128, 128, 128, 0.83)">
+        <h5 class="card-title">Öğrenci Durumu</h5>
+
+        @foreach (var result in Model.StudentSchoolReportViewDTOs)
+        {
+            <h5 id="studentStatus" onload="getStudentStatus(@result.AvgMark)"></h5>
+        }
+    </div>
+
+
+    <div class="col">
+            <h5 class="card-title">Ağırlıklı Notu</h5>
+
+        </div>*@

@@ -53,43 +53,14 @@ namespace SMS.WebUI.Controllers
 
             if (instructorUserName != null)
             {
-                // var instructor = instructorService.GetInstructorByUsername(instructorUserName);
-
                 parents = parentService.GetInstructorsParents(instructorUserName);
-                // model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);
             }
             else
             {
                 parents = parentService.GetAll();
-                //model.StudentDTOs = studentService.GetAll();
             }
             return View(parents);
         }
-        #region Instead of this RegisterAdd and RegistrationList in RegisterController is in use.
-        //public IActionResult ParentAdd()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult ParentAdd(StudentParentViewModel parent)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        ParentDTO newParent = parent.ParentDTO;
-
-        //        // userService.NewUser(newParent.IdentityNumber, "Veli");
-        //        UserDTO newUser = userService.GenerateUserAccount(newParent.FirstName, newParent.LastName, newParent.IdentityNumber, "Veli");
-        //        newParent.UserId = newUser.Id;
-
-        //        newParent = parentService.NewParent(newParent);
-
-        //        int parentId = newParent.Id;
-        //        return RedirectToAction("StudentAdd", "Student", new { parentId });
-        //    }
-        //    return View(parent);
-        //}
-        #endregion
         [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult ParentDelete(int id)
         {

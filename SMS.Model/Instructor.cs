@@ -25,13 +25,13 @@ namespace SMS.Model
         public Nullable<int> BranchId { get; set; }
         public virtual Branch Branch { get; set; }
 
-        //[ForeignKey("Role")]
-        //public Nullable<int> RoleId { get; set; }
-        //public virtual Role Role { get; set; }
         [ForeignKey("User")]
         public Nullable<int> UserId { get; set; }
         public virtual User User { get; set; }
 
         public virtual ICollection<Timetable> Timetables { get; set; }
+        
+        public virtual Section Section { get; set; }
+
     }
 }

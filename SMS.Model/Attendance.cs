@@ -18,5 +18,9 @@ namespace SMS.Model
         public int AttendanceTypeId { get; set; }
         public virtual AttendanceType AttendanceType { get; set; }
 
+        [ForeignKey("Semester")]
+        public Nullable<int> SemesterId { get; set; }
+        public virtual Semester Semester { get; set; }
+
     }
 }

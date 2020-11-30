@@ -1,7 +1,6 @@
 ﻿using SMS.Core.Entities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -17,10 +16,6 @@ namespace SMS.Model
         public string CellPhone { get; set; }
         public string Address { get; set; }
         public string Duty { get; set; }
-
-        //[ForeignKey("Role")]
-        //public Nullable<int> RoleId { get; set; }
-        //public virtual Role Role { get; set; }
 
         [ForeignKey("User")]
         public Nullable<int> UserId { get; set; }

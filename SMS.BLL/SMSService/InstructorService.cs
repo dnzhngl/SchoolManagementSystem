@@ -48,7 +48,6 @@ namespace SMS.BLL.SMSService
 
         public List<InstructorDTO> GetAll()
         {
-            //var instructorList = instructorRepo.GetAll().ToList();
             var instructorList = instructorRepo.GetIncludesList(null, z => z.User);
             return MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(instructorList);
         }
@@ -75,11 +74,10 @@ namespace SMS.BLL.SMSService
 
         public InstructorDTO NewInstructor(InstructorDTO instructor)
         {
-
-            if (!instructorRepo.GetAll().Any(z => z.FirstName.ToLower() == instructor.FirstName.ToLower() && z.LastName.ToLower() == instructor.LastName.ToLower() && z.DOB == instructor.DOB))
+            if (!instructorRepo.GetAll().Any(z => z.IdentityNumber == instructor.IdentityNumber))
             {
                 var newInstructor = MapperFactory.CurrentMapper.Map<Instructor>(instructor);
-                newInstructor.BranchId = instructor.BranchId; //
+                //newInstructor.BranchId = instructor.BranchId; //
                                                               // newInstructor.RoleId = roleRepo.Get(z => z.RoleName.Contains("Öğretmen")).Id;
                 newInstructor = instructorRepo.Add(newInstructor);
 
@@ -112,8 +110,8 @@ namespace SMS.BLL.SMSService
 
         public List<InstructorDTO> GetInstructorNameWithBranch()
         {
-            var lili = instructorRepo.GetIncludesList(null, z => z.Branch);
-            return MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(lili);
+            var instructorList = instructorRepo.GetIncludesList(null, z => z.Branch);
+            return MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(instructorList);
 
             //var instructorList = instructorRepo.GetAll().ToList();
             //var iList = MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(instructorList);
@@ -135,6 +133,12 @@ namespace SMS.BLL.SMSService
         {
             var user = userRepo.Get(z => z.UserName == username);
             var instructor = instructorRepo.Get(z => z.UserId == user.Id);
+            return MapperFactory.CurrentMapper.Map<InstructorDTO>(instructor);
+        }
+
+        public InstructorDTO GetInstructorByDuty(string duty)
+        {
+            var instructor = instructorRepo.Get(z => z.Duty == duty);
             return MapperFactory.CurrentMapper.Map<InstructorDTO>(instructor);
         }
     }

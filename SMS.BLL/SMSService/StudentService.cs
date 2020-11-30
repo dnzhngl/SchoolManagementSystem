@@ -67,7 +67,7 @@ namespace SMS.BLL.SMSService
         public StudentDTO GetStudent(int id)
         {
             //var selectedStudent = studentRepo.Get(z => z.Id == id);
-            var selectedStudent = studentRepo.GetIncludes(z => z.Id == id, z => z.User, z => z.Parent.User, z=>z.Section);
+            var selectedStudent = studentRepo.GetIncludes(z => z.Id == id, z => z.User, z => z.Parent.User, z=>z.Section.Grade);
 
             //var selectedStudent = studentRepo.GetIncludes(z => z.Id == id, z => z.User, z => z.Parent, z => z.Attendances, z => z.ExamResults, z => z.Certificates, z => z.Parent.User);
             return MapperFactory.CurrentMapper.Map<StudentDTO>(selectedStudent);

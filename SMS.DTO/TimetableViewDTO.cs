@@ -13,6 +13,5 @@ namespace SMS.DTO
         public string Instructor { get; set; }
         public string DayName { get; set; }
         public string LessonPeriod { get; set; }
-
     }
 }

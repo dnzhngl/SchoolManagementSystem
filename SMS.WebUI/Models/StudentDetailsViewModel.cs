@@ -16,6 +16,7 @@ namespace SMS.WebUI.Models
 
         public AttendanceDTO AttendanceDTO { get; set; }
         public List<AttendanceDTO> AttendanceDTOs { get; set; }
+        public List<AttendanceDTO> AttendanceDTOs2 { get; set; }
 
         public AttendanceTypeDTO AttendanceTypeDTO { get; set; }
         public List<AttendanceTypeDTO> AttendanceTypeDTOs { get; set; }
@@ -26,5 +27,11 @@ namespace SMS.WebUI.Models
         public ExamDTO ExamDTO { get; set; }
         public List<ExamDTO> ExamDTOs { get; set; }
 
+        public List<StudentSchoolReportViewDTO> StudentSchoolReportViewDTOs1 { get; set; }
+        public List<StudentSchoolReportViewDTO> StudentSchoolReportViewDTOs2 { get; set; }
+        public StudentSchoolReportViewDTO StudentSchoolReportViewDTO { get; set; }
+
+        public SemesterDTO SemesterDTO {get;set;}
+        public List<SemesterDTO> SemesterDTOs {get;set;}
     }
 }

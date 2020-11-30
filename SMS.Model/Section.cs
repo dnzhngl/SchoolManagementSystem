@@ -20,6 +20,9 @@ namespace SMS.Model
 
         public int NumberOfStudentsEnrolled { get; set; }
 
+        [ForeignKey("Instructor")]
+        public Nullable<int> AdvisoryTeacherId { get; set; }
+        public virtual Instructor AdvisoryTeacher { get; set; }
 
         [ForeignKey("Grade")]
         public Nullable<int> GradeId { get; set; }

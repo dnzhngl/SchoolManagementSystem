@@ -56,7 +56,7 @@
                                 <tr>
                                     <td>@branch.BranchName</td>
                                     <td>
-                                        <a class="btn btn-outline-primary btn-sm" asp-controller="Instructor" asp-action="InstructorList" asp-route-id="@branch.Id">Öğretmenler</a>
+                                        <a class="btn btn-outline-primary btn-sm" asp-controller="Instructor" asp-action="InstructorList" asp-route-branchId="@branch.Id">Öğretmenler</a>
                                     </td>
                                     <td>
                                         @if (this.User.IsInRole("Admin"))

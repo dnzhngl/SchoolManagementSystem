@@ -10,6 +10,7 @@ namespace SMS.BLL.Abstract
     {
         List<SemesterDTO> GetAll();
         SemesterDTO GetSemester(int id);
+        List<SemesterDTO> GetSemestersByAcademicYear(string academicYear);
         SemesterDTO NewSemester(SemesterDTO semester);
         SemesterDTO UpdateSemester(SemesterDTO semester);
         bool DeleteSemester(int id);

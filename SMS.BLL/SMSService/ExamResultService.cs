@@ -47,7 +47,7 @@ namespace SMS.BLL.SMSService
 
         public ExamResultDTO GetExamResult(int id)
         {
-            var selectedResult = examResultRepo.GetIncludes(z => z.Id == id, z => z.Exam, z=>z.Exam.Subject);
+            var selectedResult = examResultRepo.GetIncludes(z => z.Id == id, z => z.Exam, z => z.Exam.Subject);
             return MapperFactory.CurrentMapper.Map<ExamResultDTO>(selectedResult);
         }
 
@@ -57,26 +57,7 @@ namespace SMS.BLL.SMSService
             {
                 ExamResult newExamResult = MapperFactory.CurrentMapper.Map<ExamResult>(examResult);
 
-                if (newExamResult.ExamMark >= 85 && newExamResult.ExamMark <= 100)
-                {
-                    newExamResult.StudentStatus = "Pekiyi";
-                }
-                else if (newExamResult.ExamMark >= 70 && newExamResult.ExamMark < 85)
-                {
-                    newExamResult.StudentStatus = "İyi";
-                }
-                else if (newExamResult.ExamMark >= 60 && newExamResult.ExamMark < 70)
-                {
-                    newExamResult.StudentStatus = "Orta";
-                }
-                else if (newExamResult.ExamMark >= 50 && newExamResult.ExamMark < 60)
-                {
-                    newExamResult.StudentStatus = "Geçer";
-                }
-                else if (newExamResult.ExamMark >= 0 && newExamResult.ExamMark < 50)
-                {
-                    newExamResult.StudentStatus = "Geçmez";
-                }
+                GetStudentStatus(newExamResult);
 
                 examResultRepo.Add(newExamResult);
                 uow.SaveChanges();
@@ -89,31 +70,46 @@ namespace SMS.BLL.SMSService
             }
         }
 
+        private static void GetStudentStatus(ExamResult ExamResult)
+        {
+            if (ExamResult.ExamMark >= 85 && ExamResult.ExamMark <= 100)
+            {
+                ExamResult.StudentStatus = "Pekiyi";
+                ExamResult.ExamMarkNumeral = 5;
+            }
+            else if (ExamResult.ExamMark >= 70 && ExamResult.ExamMark < 85)
+            {
+                ExamResult.StudentStatus = "İyi";
+                ExamResult.ExamMarkNumeral = 4;
+            }
+            else if (ExamResult.ExamMark >= 55 && ExamResult.ExamMark < 70)
+            {
+                ExamResult.StudentStatus = "Orta";
+                ExamResult.ExamMarkNumeral = 3;
+            }
+            else if (ExamResult.ExamMark >= 45 && ExamResult.ExamMark < 55)
+            {
+                ExamResult.StudentStatus = "Geçer";
+                ExamResult.ExamMarkNumeral = 2;
+            }
+            else if (ExamResult.ExamMark >= 25 && ExamResult.ExamMark < 45)
+            {
+                ExamResult.StudentStatus = "Geçmez";
+                ExamResult.ExamMarkNumeral = 1;
+            }
+            else if (ExamResult.ExamMark >= 0 && ExamResult.ExamMark < 25)
+            {
+                ExamResult.StudentStatus = "Etkisiz";
+                ExamResult.ExamMarkNumeral = 0;
+            }
+        }
+
         public ExamResultDTO UpdateExamResult(ExamResultDTO examResult)
         {
             var selectedResult = examResultRepo.Get(z => z.Id == examResult.Id);
             selectedResult = MapperFactory.CurrentMapper.Map<ExamResult>(examResult);
 
-            if (selectedResult.ExamMark >= 85 && selectedResult.ExamMark <= 100)
-            {
-                selectedResult.StudentStatus = "Pekiyi";
-            }
-            else if (selectedResult.ExamMark >= 70 && selectedResult.ExamMark < 85)
-            {
-                selectedResult.StudentStatus = "İyi";
-            }
-            else if (selectedResult.ExamMark >= 60 && selectedResult.ExamMark < 70)
-            {
-                selectedResult.StudentStatus = "Orta";
-            }
-            else if (selectedResult.ExamMark >= 50 && selectedResult.ExamMark < 60)
-            {
-                selectedResult.StudentStatus = "Geçer";
-            }
-            else if (selectedResult.ExamMark >= 0 && selectedResult.ExamMark < 50)
-            {
-                selectedResult.StudentStatus = "Geçmez";
-            }
+            GetStudentStatus(selectedResult);
 
             examResultRepo.Update(selectedResult);
             uow.SaveChanges();
@@ -125,10 +121,10 @@ namespace SMS.BLL.SMSService
             var examResultList = examResultRepo.GetIncludesList(z => z.ExamId == examId, z => z.Student).ToList();
             return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(examResultList);
         }
-        
+
         public List<ExamResultDTO> GetExamResultsOfStudent(int studentId)
         {
-            var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam, z=>z.Student).ToList();
+            var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam, z => z.Student).ToList();
             return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(examResults);
         }
     }

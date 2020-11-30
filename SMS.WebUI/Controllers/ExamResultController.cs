@@ -56,12 +56,6 @@ namespace SMS.WebUI.Controllers
                 model.ExamResultDTO = new ExamResultDTO() { StudentId = studentId };
                 ViewBag.SubjectName = subjectService.GetSubject((int)subjectId).SubjectName;
             }
-            //model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
-
-
-            //var examResult = new ExamResultDTO() { StudentId = studentId, ExamId = examId };
-            //examResult.Exam = examService.GetExam(examId);
-            //examResult.Student = studentService.GetStudent(studentId);
             return PartialView(model);
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
@@ -72,9 +66,6 @@ namespace SMS.WebUI.Controllers
             model.ExamResultDTO.CreatedBy = instructorService.GetInstructorByUsername(user.UserName).Id;
             examResultService.NewExamResult(model.ExamResultDTO);
 
-            //examResult.Exam = null;
-            //examResult.CreatedBy = user.Id;
-            //examResultService.NewExamResult(examResult);
             return Redirect(Request.Headers["Referer"].ToString());
         }
         [Authorize(Roles = "Admin, Yönetici")]

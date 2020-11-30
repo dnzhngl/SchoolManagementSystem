@@ -13,6 +13,10 @@ namespace SMS.DTO
         public StudentDTO Student { get; set; }
 
         public int AttendanceTypeId { get; set; }
-        public AttendanceTypeDTO AttendanceTypeDTO { get; set; }
+        public AttendanceTypeDTO AttendanceType { get; set; }
+
+        public int SemesterId { get; set; }
+        public SemesterDTO Semester { get; set; }
+
     }
 }

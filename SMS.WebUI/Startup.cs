@@ -105,6 +105,7 @@ namespace SMS.WebUI
             services.AddSingleton<IPostCategoryService, PostCategoryService>();
 
             services.AddSingleton<IMessageService, MessageService>();
+            services.AddSingleton<IStudentSchoolReportViewService, StudentSchoolReportViewService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

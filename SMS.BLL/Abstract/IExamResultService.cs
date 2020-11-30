@@ -2,6 +2,7 @@
 using SMS.DTO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SMS.BLL.Abstract
@@ -15,5 +16,7 @@ namespace SMS.BLL.Abstract
         ExamResultDTO NewExamResult(ExamResultDTO examResult);
         ExamResultDTO UpdateExamResult(ExamResultDTO examResult);
         bool DeleteExamResult(int id);
+
+        // IQueryable<object> CreateSchoolReport(int studentId);
     }
 }

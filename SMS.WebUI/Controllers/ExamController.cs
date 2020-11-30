@@ -116,14 +116,5 @@ namespace SMS.WebUI.Controllers
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        //public IActionResult StudentExamsList(int studentId)
-        //{
-        //    StudentDetailsViewModel model = new StudentDetailsViewModel();
-        //    model.ExamDTOs = examService.GetExamsOfStudent(studentId);
-        //    model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
-        //    model.StudentDTO = studentService.GetStudent(studentId);
-        //    ViewBag.userId = 
-        //    return View(model);
-        //}
     }
 }

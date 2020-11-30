@@ -15,10 +15,14 @@ namespace SMS.BLL.SMSService
     {
         private readonly IUnitOfWork uow;
         private IRepository<Certificate> certificateRepo;
+        private IRepository<CertificateType> certificateTypeRepo;
+        private IRepository<StudentSchoolReportView> schoolReportRepo;
         public CertificateService(IUnitOfWork _uow)
         {
             uow = _uow;
             certificateRepo = uow.GetRepository<Certificate>();
+            certificateTypeRepo = uow.GetRepository<CertificateType>();
+            schoolReportRepo = uow.GetRepository<StudentSchoolReportView>();
         }
         public bool DeleteCertificate(int certificateId)
         {
@@ -37,7 +41,7 @@ namespace SMS.BLL.SMSService
 
         public List<CertificateDTO> GetAll()
         {
-            var certificateList = certificateRepo.GetIncludesList(null, z=> z.CertificateType, z => z.Semester).ToList();
+            var certificateList = certificateRepo.GetIncludesList(null, z => z.CertificateType, z => z.Semester).ToList();
             return MapperFactory.CurrentMapper.Map<List<CertificateDTO>>(certificateList);
         }
 
@@ -64,7 +68,7 @@ namespace SMS.BLL.SMSService
             if (!certificateRepo.GetAll().Any(z => z.CertificateTypeId == certificate.CertificateTypeId && z.SemesterId == certificate.SemesterId && z.StudentId == certificate.StudentId))
             {
                 var newCertificate = MapperFactory.CurrentMapper.Map<Certificate>(certificate);
-               // newCertificate.SerialNumber = GenerateSerialNumber();
+                // newCertificate.SerialNumber = GenerateSerialNumber();
                 certificateRepo.Add(newCertificate);
                 uow.SaveChanges();
                 return MapperFactory.CurrentMapper.Map<CertificateDTO>(newCertificate);
@@ -88,6 +92,40 @@ namespace SMS.BLL.SMSService
         {
             var certificateList = certificateRepo.Get(z => z.Student, z => z.CertificateType, z => z.Semester).ToList();
             return MapperFactory.CurrentMapper.Map<List<CertificateDTO>>(certificateList);
+        }
+
+        public CertificateDTO CreateCertificate(int studentId, int semesterId)
+        {
+            var yearEndMarks = schoolReportRepo.GetAll().Where(z => z.Id == studentId).GroupBy(z => new { z.Id, z.SchoolNumber, z.FirstName, z.LastName, z.AcademicYear }).Select(x => new
+            {
+                x.Key.Id,
+                x.Key.SchoolNumber,
+                x.Key.FirstName,
+                x.Key.LastName,
+                GPA = x.Sum(z => z.GPA),
+                GPANumeral = x.Sum(z => z.GpaNumeral),
+                WeeklyCourseHours = x.Where(z => z.SemesterName == "I. Dönem").Sum(z => z.WeeklyCourseHours),
+                x.Key.AcademicYear
+            });
+
+            CertificateDTO certificate = new CertificateDTO();
+
+            var result = yearEndMarks.First();
+            if (result.GPA >= 70 & result.GPA < 85)
+            {
+                certificate.StudentId = studentId;
+                certificate.SemesterId = semesterId;
+                certificate.CertificateTypeId = certificateTypeRepo.Get(z => z.CertificateTypeName.Contains("Teşekkür Belgesi")).Id;
+                certificate.IssueDate =  DateTime.Now;
+                             }
+            else if (result.GPA >= 85)
+            {
+                certificate.StudentId = studentId;
+                certificate.SemesterId = semesterId;
+                certificate.CertificateTypeId = certificateTypeRepo.Get(z => z.CertificateTypeName.Contains("Takdir Belgesi")).Id;
+                certificate.IssueDate = DateTime.Now;
+            }
+            return certificate;
         }
 
         Guid GenerateSerialNumber()

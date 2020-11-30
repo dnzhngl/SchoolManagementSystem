@@ -15,13 +15,13 @@ namespace SMS.WebUI.Controllers
         private readonly IAttendanceService attendanceService;
         private readonly IAttendanceTypeService attendanceTypeService;
         private readonly IStudentService studentService;
-        private readonly ISectionService sectionService;
-        public AttendanceController(IAttendanceService _attendanceService, IStudentService _studentService, IAttendanceTypeService _attendanceTypeService, ISectionService _sectionService)
+        private readonly ISemesterService semesterService;
+        public AttendanceController(IAttendanceService _attendanceService, IStudentService _studentService, IAttendanceTypeService _attendanceTypeService, ISemesterService _semesterService)
         {
             attendanceService = _attendanceService;
             studentService = _studentService;
             attendanceTypeService = _attendanceTypeService;
-            sectionService = _sectionService;
+            semesterService = _semesterService;
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli, Öğrenci")]
         public IActionResult AttendanceList(int studentId)
@@ -48,8 +48,8 @@ namespace SMS.WebUI.Controllers
         {
             var student = studentService.GetStudent(model.StudentDTO.Id);
             model.AttendanceDTO.StudentId = student.Id;
+            model.AttendanceDTO.SemesterId = semesterService.GetCurrentSemester(model.AttendanceDTO.DateTime).Id;
             attendanceService.NewAttendance(model.AttendanceDTO);
-            string sectionN = sectionService.GetSection((int)student.SectionId).SectionName;
             return Redirect(Request.Headers["Referer"].ToString());
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
