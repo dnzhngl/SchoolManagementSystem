@@ -226,10 +226,9 @@ namespace SMS.WebUI.Controllers
             model.StudentSchoolReportViewDTOs1 = schoolReport.Where(z => z.SemesterName == "I. Dönem").ToList();
             model.StudentSchoolReportViewDTOs2 = schoolReport.Where(z => z.SemesterName == "II. Dönem").ToList();
 
-            ViewBag.schoolPrinciple = instructorService.GetInstructorByDuty("Okul Müdürü");
-            ViewBag.vicePrinciple = instructorService.GetInstructorByDuty("Müdür Yardımcısı");
-            var instructor = instructorService.GetInstructor((int)model.StudentDTO.Section.AdvisoryTeacherId);
-            ViewBag.advisoryTeacher = String.Format("{0} {1}", instructor.FirstName, instructor.LastName);
+            ViewBag.schoolPrinciple = instructorService.GetInstructorByDuty("Okul Müdürü").FullName;
+            ViewBag.vicePrinciple = instructorService.GetInstructorByDuty("Müdür Yardımcısı").FullName;
+            ViewBag.advisoryTeacher = instructorService.GetInstructor((int)model.StudentDTO.Section.AdvisoryTeacherId).FullName;
 
 
             if (model.SemesterDTO.SemesterName == "I. Dönem")

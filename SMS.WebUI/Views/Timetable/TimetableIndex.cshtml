@@ -3,18 +3,14 @@
     ViewData["Title"] = "TimetableIndex";
 }
 
-<div class="card shadow">
+<div class="card border-bottom-primary shadow">
     <div class="card-header">
-        <h4>Ders Programı</h4>
-    </div>
-    <div class="card-body">
-        <p></p>
+        <h5 class="m-0 font-weight-bold text-primary">Ders Programları</h5>
     </div>
 </div>
 
 @foreach (var grade in Model.GradeDTOs)
 {
-
     <div class="card mt-2">
         <div class="card-body">
             <h4>@grade.GradeName</h4>

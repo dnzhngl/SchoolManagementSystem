@@ -4,24 +4,22 @@
 }
 
 
-<div class="card shadow">
+<div class="card border-bottom-primary shadow">
     <div class="card-header">
         @if (ViewBag.postCategoryName == "Etkinlik")
         {
-            <h4> Etkinlik İşlemleri</h4>
+            <h5 class="m-0 font-weight-bold text-primary"> Etkinlik İşlemleri</h5>
         }
         else if (ViewBag.postCategoryName == "Duyuru")
         {
-            <h4> Duyuru İşlemleri</h4>
+            <h5 class="m-0 font-weight-bold text-primary"> Duyuru İşlemleri</h5>
         }
         else if (ViewBag.postCategoryName == "Ödev")
         {
-            <h4> Ödev İşlemleri</h4>
+            <h5 class="m-0 font-weight-bold text-primary"> Ödev İşlemleri</h5>
         }
     </div>
-    <div class="card-body">
-        <p></p>
-    </div>
+
 </div>
 
 <div class="row">

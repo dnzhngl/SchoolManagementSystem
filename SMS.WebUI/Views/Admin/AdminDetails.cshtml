@@ -3,12 +3,9 @@
     ViewData["Title"] = "AdminDetails";
 }
 
-<div class="card shadow">
+<div class="card border-bottom-primary shadow">
     <div class="card-header">
-        <h4>Yönetici Bilgisi</h4>
-    </div>
-    <div class="card-body">
-        <p></p>
+        <h5 class="card-title font-weight-bold text-primary">Yönetici Bilgisi</h5>
     </div>
 </div>
 
@@ -17,7 +14,7 @@
     <div class="card-header">
         <div class="row">
             <div class="col">
-                <h4 class="card-title font-weight-bold text-primary">Yönetici Bilgisi</h4>
+                <h5 class="card-title font-weight-bold text-primary">Yönetici Bilgisi</h5>
             </div>
             <div class="col">
                 <a class="btn btn-outline-warning float-right" href="#" onclick="modalFunction('@Url.Action("AdminUpdate", "Admin", new { id = Model.Id })')"><i class="fa fa-pen"></i></a>

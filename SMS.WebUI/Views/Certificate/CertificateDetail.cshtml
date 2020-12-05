@@ -1,0 +1,86 @@
+﻿@model CertificateViewModel
+
+@section BeginPage{
+
+    <style>
+        h2, h4, h6, p {
+            font-family: 'Times New Roman', Times, serif;
+            color: black;
+        }
+    </style>
+}
+
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Belge Sorgulama</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+@*style="border:5px double red; width:900px; height:600px; "*@
+<div class="modal-body">
+    @*<div class="card" style="background-image: url('../../wwwroot/Images/certificateBg.png'); padding: 10px;">*@
+    <div class="container" style="width:740px; height:460px;">
+
+        <div class="card" id="studentCertificate" style="background-image: url('https://i.pinimg.com/originals/9c/cc/43/9ccc43af51b9a27f4d1ae2a82bc8f067.jpg'); background-size:690px 430px; padding: 25px; background-position:center; background-repeat:no-repeat;">
+
+            <div class="card-body">
+
+                <input type="hidden" asp-for="CertificateDTO.StudentId" />
+                <input type="hidden" asp-for="CertificateDTO.SemesterId" />
+                <input type="hidden" asp-for="CertificateDTO.IssueDate" />
+                <input type="hidden" asp-for="CertificateDTO.CertificateTypeId" />
+
+                <div class="row mt-4">
+                    <div class="col">
+                        <h5 class="text-uppercase text-center font-weight-bold">@Model.CertificateDTO.CertificateType.CertificateTypeName</h5>
+                    </div>
+                </div>
+
+                <div class="row m-4">
+                    @*padding-right:50px;*@
+                    <div class="col" style="padding-right:50px; padding-left:50px;">
+                        <p>
+                            Okulumuz öğrencilerinden <b>@Model.StudentDTO.SchoolNumber</b> numaralı <b>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName </b>
+                            Lise <b>@Model.CertificateDTO.Semester.AcademicYear</b> ders yılı <b>(@Model.CertificateDTO.Semester.SemesterName)</b> döneminde okul içinde ve okul
+                            dışındaki, milli ve insani bakımdan fazilet olarak kabul edilen
+                            örnek davranışlarından ve derslerindeki başarısından dolayı bu
+                            @Model.CertificateDTO.CertificateType.CertificateTypeName ni almaya hak kazanmıştır.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row m-4">
+                    <div class="col">
+                        <h6 class="text-right mb-1">@Model.CertificateDTO.IssueDate.ToShortDateString()</h6>
+                        <h6 class="text-right">BİLGE KOLEJİ</h6>
+                        <h6 class="text-right">@ViewBag.schoolPrinciple</h6>
+                        <h6 class="text-right">Okul Müdürü</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+    <button type="submit" class="btn btn-primary" onclick="printCertificate()">Yazdır</button>@*onclick="window.print()"*@
+</div>
+
+@section BeginPageJs{
+    <script>
+
+        function printCertificate() {
+            var prtContent = document.getElementById("studentCertificate");
+            var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=650,toolbar=0,scrollbars=0,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.write('<link href="/css/sb-admin-2.min.css" rel="stylesheet">');
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+        }
+
+    </script>
+}

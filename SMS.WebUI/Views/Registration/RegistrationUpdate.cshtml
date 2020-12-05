@@ -4,35 +4,37 @@
 }
 
 
-<div class="card shadow">
+<div class="card border-bottom-primary shadow">
     <div class="card-header">
-        <h4>Ön Kayıt Bilgisini Güncelle</h4>
-    </div>
-    <div class="card-body">
-        <p></p>
+        <h5 class="font-weight-bold text-primary">Ön Kayıt Bilgisini Güncelle</h5>
     </div>
 </div>
 
 
 
 <div class="card shadow mt-2">
-
     <div class="card-header">
         <div class="row">
-            <h4 class="font-weight-bold text-primary">Ön Kayıt Formu </h4>
+            <h5 class="font-weight-bold text-primary">Ön Kayıt Formu </h5>
         </div>
     </div>
     @Html.AntiForgeryToken()
     <div class="card-body">
-        <form asp-action="RegistrationAdd">
+        <form asp-action="RegistrationUpdate">
             <input type="hidden" asp-for="SchoolNumber" />
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Parent.Id" />
+            <input type="hidden" asp-for="ParentId" />
+
             <div class="form-body">
                 <div class="row">
+                    <div class="col ">
+                        <h5 class="font-weight-bold text-primary">Öğrenci Bilgisi</h5>
+                    </div>
+                </div>
 
+                <div class="row">
                     <div class="col col-12 col-lg-6">
-                        <h4>Öğrenci Bilgisi</h4>
-                        <hr />
-
                         <div class="form-group">
                             <label for="formGroupExampleInput">Öğrenci Adı</label>
                             <input type="text" class="form-control" id="" placeholder="Adı" asp-for="FirstName">
@@ -93,15 +95,14 @@
                             @Html.ValidationMessageFor(model => model.GPA, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                 </div>
-
-
-                <div class="row mt-3">
+           
+            <div class="row mt-3">
+                <div class="col">
+                    <h5 class="font-weight-bold text-primary">Veli Bilgisi</h5>
+                </div>
+                <div class="row">
                     <div class="col col-12 col-lg-6">
-                        <h4>Veli Bilgisi</h4>
-                        <hr />
-
                         <div class="form-group">
                             <label for="formGroupExampleInput">Adı</label>
                             <input type="text" class="form-control" id="" placeholder="Adı" asp-for="Parent.FirstName">
@@ -161,18 +162,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-12 p-3">
-                        <div class="form-actions float-right">
-                            <button type="button" class="btn btn-secondary" onclick="history.back()">Geri</button>
-                            <button type="submit" class="btn btn-primary">Kaydet</button>
-                        </div>
+            <div class="row">
+                <div class="col-12 p-3">
+                    <div class="form-actions float-right">
+                        <button type="button" class="btn btn-secondary" onclick="history.back()">Geri</button>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
                     </div>
                 </div>
             </div>
-        </form>
     </div>
+    </form>
+</div>
 
 </div>
 

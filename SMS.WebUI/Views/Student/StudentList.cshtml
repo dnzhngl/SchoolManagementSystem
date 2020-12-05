@@ -8,15 +8,12 @@
     <!-- Custom styles for this page -->
     <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 }
-<!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800"></h1>
-<div class="card shadow">
+
+<div class="card border-bottom-primary shadow">
     <div class="card-header">
-        <h4>Öğrenci İşlemleri</h4>
+        <h5 class="m-0 font-weight-bold text-primary">Öğrenci İşlemleri</h5>
     </div>
-    <div class="card-body">
-        <p></p>
-    </div>
+
 </div>
 
 <!-- DataTales Example -->
@@ -67,22 +64,8 @@
                             <td>@student.FirstName</td>
                             <td>@student.LastName</td>
                             <td>@student.Gender</td>
-                            <td>
-                                @student.StudentStatus
-                                @*@if (student.StudentStatus == "Öğrenci")
-                                {
-                                    <p>Öğrenciliği devam ediyor.</p>
-                                }
-                                else if (student.StudentStatus == "Sevk")
-                                {
-                                    <p>Sevk edilmiş.</p>
-                                }
-                                else if (student.StudentStatus == "Mezun")
-                                {
-                                    <p>Mezun</p>
-                                }*@
-                            </td>
-                             <td><a class="btn btn-outline-info btn-sm" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@student.Id"> Akademik Bilgi</a></td>
+                            <td>@student.StudentStatus</td>
+                            <td><a class="btn btn-outline-info btn-sm" asp-controller="Student" asp-action="StudentAcademicInfo" asp-route-studentId="@student.Id"> Akademik Bilgi</a></td>
                             <td>
                                 <a class="btn btn-outline-info btn-sm" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@student.User.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-envelope"></i></a>
                                 <a class="btn btn-outline-primary btn-sm" asp-action="StudentDetails" asp-route-studentId="@student.Id"><i class="fa fa-search"></i></a>
@@ -100,6 +83,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="mainModal" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content" id="modalContent">
@@ -107,6 +91,7 @@
         </div>
     </div>
 </div>
+
 @section FooterJsPlugin{
     <!-- Page level plugins -->
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>

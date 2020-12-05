@@ -3,25 +3,37 @@
     ViewData["Title"] = "UserSettings";
 }
 
-<h2>Kullanıcı Ayarları</h2>
 
-<div class="row">
+<div class="card border-bottom-primary shadow">
+    <div class="card-header">
+        <h5 class="m-0 font-weight-bold text-primary">Kullanıcı Ayarları</h5>
+    </div>
+</div>
+
+<div class="row mt-2">
     <div class="col col-12 col-lg-4">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col col-12 col-lg-4">
-                        <p><b>Kullanıcı Adı:</b></p>
-                        <p><b>E-Posta: </b></p> 
+                        <p><b>Kullanıcı Adı : </b></p>
                     </div>
                     <div class="col col-12 col-lg-8">
                         <p>@Model.UserName</p>
-                        <p>@Model.Email</p>
-
-                        <a class="stretched-link float-left m-2" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ChangePassword", "User", new{ username = Model.UserName})')">Şifre Değiştir</a>
-
-                        @*<a class="stretched-link float-left m-2" asp-controller="User" asp-action="ChangePassword" asp-route-username="@Model.UserName">Şifre Değiştir</a>*@
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col col-12 col-lg-4">
+                        <p><b>E-Posta: </b></p>
+                    </div>
+                    <div class="col col-12 col-lg-8">
+                        <p>@Model.Email</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <a class="stretched-link float-left m-2" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("ChangePassword", "User", new{ username = Model.UserName})')">Şifre Değiştir</a>
+
+                    @*<a class="stretched-link float-left m-2" asp-controller="User" asp-action="ChangePassword" asp-route-username="@Model.UserName">Şifre Değiştir</a>*@
                 </div>
             </div>
         </div>

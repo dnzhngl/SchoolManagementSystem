@@ -8,8 +8,6 @@
     <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 }
 
-<!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800"></h1>
 <div class="card shadow">
 
     <div class="card-header">
@@ -65,7 +63,10 @@
                             <td>
                                 @if (this.User.IsInRole("Admin"))
                                 {
+                                    <a class="btn btn-outline-primary btn-sm" href="#" onclick="createSchoolReportModalFunction('@Url.Action("CertificateDetail", "Certificate", new { certificateId = certificate.Id , studentId = certificate.StudentId})')"><i class="fa fa-search"></i></a>
+                                
                                     <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("CertificateUpdate", "Certificate", new { certificateId = certificate.Id })')"><i class="fa fa-pen"></i></a>
+
                                     <a class="btn btn-outline-danger btn-sm" asp-action="CertificateDelete" asp-route-certificateId="@certificate.Id" asp-route-studentId="@certificate.StudentId"><i class="fa fa-trash"></i></a>
                                 }
                             </td>
@@ -86,6 +87,13 @@
     </div>
 </div>
 
+<div class="modal fade bd-example-modal-lg" id="certificateModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-popout-bg" id="certificateModalContent">
+
+        </div>
+    </div>
+</div>
 
 @section FooterJsPlugin{
     <!-- Page level plugins -->
@@ -100,6 +108,11 @@
         function modalFunction(url) {
             $('#modalContent').load(url);
             $('#mainModal').modal('show');
+        }
+
+        function createSchoolReportModalFunction(url) {
+            $('#certificateModalContent').load(url);
+            $('#certificateModal').modal('show');
         }
     </script>
 }

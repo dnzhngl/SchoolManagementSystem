@@ -1,12 +1,32 @@
 ﻿@model StudentDetailsViewModel
-@using Newtonsoft.Json
 
 @{
     ViewData["Title"] = "CreateSchoolReport";
 }
+
+@*@section BeginPage{
+    <style>
+        #certificateModalContent .modal-popout-bg {
+            background-image: url("../../wwwroot/Images/certificateBg.png");
+        }
+    </style>
+
+}*@
+
 <div class="card shadow-sm mt-3">
     <div class="card-header">
-        <h5 class="card-title font-weight-bold text-primary">Karne</h5>
+        <div class="row">
+            <div class="col-9">
+                <h5 class="m-0 font-weight-bold text-primary">Karne</h5>
+            </div>
+            <div class="col-3">
+                @if (this.User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-success float-right" data-toggle="modal" data-target=".bd-example-modal-xl"
+                       href="#" onclick="createSchoolReportModalFunction('@Url.Action("CreateCertificate", "Certificate", new { studentId = Model.StudentDTO.Id, semesterId = Model.SemesterDTO.Id } )')">Takdir/Teşekkür Belgesi Sorgula <i class="fa fa-plus-circle"></i></a>
+                }
+            </div>
+        </div>
     </div>
 
     <div class="card-body" id="schoolReport">
@@ -114,7 +134,7 @@
                                         <th><!--Second Semester--></th>
                                         <th><!--Year End Mark--></th>
                                         <th>
-                                           @((Model.StudentSchoolReportViewDTOs1.Sum(z =>z.GpaNumeral) + Model.StudentSchoolReportViewDTOs2.Sum(z => z.GpaNumeral))/2)
+                                            @((Model.StudentSchoolReportViewDTOs1.Sum(z =>z.GpaNumeral) + Model.StudentSchoolReportViewDTOs2.Sum(z => z.GpaNumeral))/2)
                                             <!--GPA Sum-->
                                         </th>
                                     }
@@ -141,12 +161,12 @@
                                 @if (Model.StudentSchoolReportViewDTOs2.Count() != 0)
                                 {
                                     <th colspan="2">
-                                        @((Model.StudentSchoolReportViewDTOs1.Sum(z => z.GPA) + Model.StudentSchoolReportViewDTOs2.Sum(z => z.GPA)) / Model.StudentSchoolReportViewDTOs1.Sum(z => z.WeeklyCourseHours))
+                                        @(((Model.StudentSchoolReportViewDTOs1.Sum(z => z.GPA) + Model.StudentSchoolReportViewDTOs2.Sum(z => z.GPA)) / Model.StudentSchoolReportViewDTOs1.Sum(z => z.WeeklyCourseHours)).ToString().Substring(0, 6))
                                     </th>
                                 }
                                 else
                                 {
-                                    <th colspan="2"></th>
+                                    <th colspan="2">@((Model.StudentSchoolReportViewDTOs1.Sum(z => z.GPA)/Model.StudentSchoolReportViewDTOs1.Sum(z => z.WeeklyCourseHours)).ToString().Substring(0,6))</th>
                                 }
                             </tr>
                             <tr>
@@ -367,6 +387,13 @@
     </div>
 </div>
 
+<div class="modal fade bd-example-modal-lg" id="certificateModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-popout-bg" id="certificateModalContent">
+            
+        </div>
+    </div>
+</div>
 
 
 @section BeginPageJs{
@@ -383,60 +410,66 @@
             WinPrint.close();
         }
 
-                                                                                 //if (document.getElementById("semesterI") != null) {
-                                                                                 //    var semesterI = document.getElementById("semesterI").innerHTML;
-                                                                                 //    semesterI = parseInt(semesterI);
-                                                                                 //}
-                                                                                 //else {
-                                                                                 //    document.getElementById("semester").innerHTML = "";
-                                                                                 //}
+        function createSchoolReportModalFunction(url) {
+            $('#certificateModalContent').load(url);
+            $('#certificateModal').modal('show');
+        }
 
-                                                                                 ////var semesterI = parseInt(document.getElementById("semesterI").innerHTML);
-                                                                                 ////if (semesterI == null) {
-                                                                                 ////    semesterI = 0;
-                                                                                 ////}
-                                                                                 ////var semesterII = parseInt( document.getElementById("semesterII").innerHTML);
-                                                                                 ////if (semesterII == null) {
-                                                                                 ////    semesterII == 0;
-                                                                                 ////}
 
-                                                                                 //studentMarkOutOf5(semesterI, "semesterI");
-                                                                                 //studentMarkOutOf5(semesterII, "semesterII");
-                                                                                 //document.getElementById("enfOfYearMark").innerHTML = endOfYearMark(semesterI, semesterII);
+                                                                                                             //if (document.getElementById("semesterI") != null) {
+                                                                                                             //    var semesterI = document.getElementById("semesterI").innerHTML;
+                                                                                                             //    semesterI = parseInt(semesterI);
+                                                                                                             //}
+                                                                                                             //else {
+                                                                                                             //    document.getElementById("semester").innerHTML = "";
+                                                                                                             //}
 
-                                                                                 //function endOfYearMark(semesterI, semesterII) {
-                                                                                 //    return (semesterI + semesterII) / 2;
-                                                                                 //}
-                                                                                 //function studentMarkOutOf5(avgExamMark, element) {
+                                                                                                             ////var semesterI = parseInt(document.getElementById("semesterI").innerHTML);
+                                                                                                             ////if (semesterI == null) {
+                                                                                                             ////    semesterI = 0;
+                                                                                                             ////}
+                                                                                                             ////var semesterII = parseInt( document.getElementById("semesterII").innerHTML);
+                                                                                                             ////if (semesterII == null) {
+                                                                                                             ////    semesterII == 0;
+                                                                                                             ////}
 
-                                                                                 //    if (avgExamMark >= 85 && avgExamMark <= 100) {
-                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Pekiyi";
-                                                                                 //        document.getElementById(element).innerHTML = 5;
-                                                                                 //    }
-                                                                                 //    else if (avgExamMark >= 70 && avgExamMark < 85) {
-                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "İyi";
-                                                                                 //        document.getElementById(element).innerHTML = 4;
-                                                                                 //    }
-                                                                                 //    else if (avgExamMark >= 55 && avgExamMark < 70) {
-                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Orta";
-                                                                                 //        document.getElementById(element).innerHTML = 3;
-                                                                                 //    }
-                                                                                 //    else if (avgExamMark >= 45 && avgExamMark < 55) {
-                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Geçer";
-                                                                                 //        document.getElementById(element).innerHTML = 2;
-                                                                                 //    }
-                                                                                 //    else if (avgExamMark >= 25 && avgExamMark < 45) {
-                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Geçmez";
-                                                                                 //        rdocument.getElementById(element).innerHTML = 1;
-                                                                                 //    }
-                                                                                 //    else if (avgExamMark >= 0 && avgExamMark < 25) {
-                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Etkisiz";
-                                                                                 //        document.getElementById(element).innerHTML = 0;
-                                                                                 //    }
-                                                                                 //    else {
-                                                                                 //        document.getElementById(element).innerHTML = "Geçersiz Not";
-                                                                                 //    }
-                                                                                 //}
+                                                                                                             //studentMarkOutOf5(semesterI, "semesterI");
+                                                                                                             //studentMarkOutOf5(semesterII, "semesterII");
+                                                                                                             //document.getElementById("enfOfYearMark").innerHTML = endOfYearMark(semesterI, semesterII);
+
+                                                                                                             //function endOfYearMark(semesterI, semesterII) {
+                                                                                                             //    return (semesterI + semesterII) / 2;
+                                                                                                             //}
+                                                                                                             //function studentMarkOutOf5(avgExamMark, element) {
+
+                                                                                                             //    if (avgExamMark >= 85 && avgExamMark <= 100) {
+                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Pekiyi";
+                                                                                                             //        document.getElementById(element).innerHTML = 5;
+                                                                                                             //    }
+                                                                                                             //    else if (avgExamMark >= 70 && avgExamMark < 85) {
+                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "İyi";
+                                                                                                             //        document.getElementById(element).innerHTML = 4;
+                                                                                                             //    }
+                                                                                                             //    else if (avgExamMark >= 55 && avgExamMark < 70) {
+                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Orta";
+                                                                                                             //        document.getElementById(element).innerHTML = 3;
+                                                                                                             //    }
+                                                                                                             //    else if (avgExamMark >= 45 && avgExamMark < 55) {
+                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Geçer";
+                                                                                                             //        document.getElementById(element).innerHTML = 2;
+                                                                                                             //    }
+                                                                                                             //    else if (avgExamMark >= 25 && avgExamMark < 45) {
+                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Geçmez";
+                                                                                                             //        rdocument.getElementById(element).innerHTML = 1;
+                                                                                                             //    }
+                                                                                                             //    else if (avgExamMark >= 0 && avgExamMark < 25) {
+                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Etkisiz";
+                                                                                                             //        document.getElementById(element).innerHTML = 0;
+                                                                                                             //    }
+                                                                                                             //    else {
+                                                                                                             //        document.getElementById(element).innerHTML = "Geçersiz Not";
+                                                                                                             //    }
+                                                                                                             //}
 
     </script>
 }

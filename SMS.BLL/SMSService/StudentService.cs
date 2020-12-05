@@ -80,7 +80,7 @@ namespace SMS.BLL.SMSService
         }
         public List<StudentDTO> GetStudentsByGrade(int gradeId)
         {
-            var studentList = studentRepo.GetIncludesList(z => z.Section.GradeId == gradeId, z => z.Section, z => z.Section.Grade).ToList();
+            var studentList = studentRepo.GetIncludesList(z => z.Section.GradeId == gradeId, z => z.Section, z => z.Section.Grade, z => z.User).ToList();
             return MapperFactory.CurrentMapper.Map<List<StudentDTO>>(studentList);
         }
 

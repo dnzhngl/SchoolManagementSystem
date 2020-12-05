@@ -47,15 +47,10 @@ namespace SMS.BLL.SMSService
 
         public CertificateDTO GetCertificate(int certificateId)
         {
-            var selectedCertificate = certificateRepo.GetIncludes(z => z.Id == certificateId, z => z.Semester);
+            var selectedCertificate = certificateRepo.GetIncludes(z => z.Id == certificateId, z => z.Semester, z => z.CertificateType);
             return MapperFactory.CurrentMapper.Map<CertificateDTO>(selectedCertificate);
         }
 
-        /// <summary>
-        /// It gives certificate list of specified student with Certificate type
-        /// </summary>
-        /// <param name="studentId"></param>
-        /// <returns>List of certificates</returns>
         public List<CertificateDTO> GetCertificateList(int studentId)
         {
             //var studentsCertificates = certificateRepo.GetAll().Where(z => z.StudentId == studentId).ToList();
@@ -104,28 +99,31 @@ namespace SMS.BLL.SMSService
                 x.Key.LastName,
                 GPA = x.Sum(z => z.GPA),
                 GPANumeral = x.Sum(z => z.GpaNumeral),
-                WeeklyCourseHours = x.Where(z => z.SemesterName == "I. Dönem").Sum(z => z.WeeklyCourseHours),
+                WeeklyCourseHours = x.Sum(z => z.WeeklyCourseHours),
                 x.Key.AcademicYear
             });
 
-            CertificateDTO certificate = new CertificateDTO();
+            Certificate certificate = new Certificate();
+            certificate.CertificateType = new CertificateType();
 
             var result = yearEndMarks.First();
-            if (result.GPA >= 70 & result.GPA < 85)
+            if ((result.GPA/result.WeeklyCourseHours) >= 70 & (result.GPA/result.WeeklyCourseHours) < 85)
             {
                 certificate.StudentId = studentId;
                 certificate.SemesterId = semesterId;
                 certificate.CertificateTypeId = certificateTypeRepo.Get(z => z.CertificateTypeName.Contains("Teşekkür Belgesi")).Id;
-                certificate.IssueDate =  DateTime.Now;
+                certificate.CertificateType.CertificateTypeName = certificateTypeRepo.Get(z => z.Id == certificate.CertificateTypeId).CertificateTypeName;
+                certificate.IssueDate =  DateTime.Today;
                              }
             else if (result.GPA >= 85)
             {
                 certificate.StudentId = studentId;
                 certificate.SemesterId = semesterId;
                 certificate.CertificateTypeId = certificateTypeRepo.Get(z => z.CertificateTypeName.Contains("Takdir Belgesi")).Id;
-                certificate.IssueDate = DateTime.Now;
+                certificate.CertificateType.CertificateTypeName = certificateTypeRepo.Get(z => z.Id == certificate.CertificateTypeId).CertificateTypeName;
+                certificate.IssueDate = DateTime.Today;
             }
-            return certificate;
+            return MapperFactory.CurrentMapper.Map<CertificateDTO>(certificate);
         }
 
         Guid GenerateSerialNumber()

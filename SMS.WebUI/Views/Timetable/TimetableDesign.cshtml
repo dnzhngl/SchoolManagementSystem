@@ -6,12 +6,9 @@
 
 @if (this.User.IsInRole("Admin") & this.User.IsInRole("Öğretmen"))
 {
-    <div class="card shadow">
+    <div class="card border-bottom-primary shadow">
         <div class="card-header">
-            <h4>Ders Programı İşlemleri</h4>
-        </div>
-        <div class="card-body">
-            <p></p>
+            <h5 class="m-0 font-weight-bold text-primary">Ders Programı İşlemleri</h5>
         </div>
     </div>
 }
@@ -23,19 +20,19 @@
     <div class="card-header">
         @if (Model.SectionDTO != null)
         {
-            <h4 class="font-weight-bold text-primary">@Model.SectionDTO.SectionName Şubesi Ders Programı</h4>
+            <h5 class="font-weight-bold text-primary">@Model.SectionDTO.SectionName Şubesi Ders Programı</h5>
         }
         else if (Model.InstructorDTO != null)
         {
-            <h4 class="font-weight-bold text-primary">@Model.InstructorDTO.FullName Ders Programı</h4>
+            <h5 class="font-weight-bold text-primary">@Model.InstructorDTO.FullName Ders Programı</h5>
         }
         else if (Model.ClassroomDTO != null)
         {
-            <h4 class="font-weight-bold text-primary">@Model.ClassroomDTO.ClassroomName - Derslik Ders Programı</h4>
+            <h5 class="font-weight-bold text-primary">@Model.ClassroomDTO.ClassroomName - Derslik Ders Programı</h5>
         }
         else
         {
-            <h4>Ders Programı</h4>
+            <h5 class="font-weight-bold text-primary">Ders Programı</h5>
         }
     </div>
     <div class="card-body">

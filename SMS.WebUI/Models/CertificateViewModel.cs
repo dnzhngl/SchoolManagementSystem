@@ -17,5 +17,6 @@ namespace SMS.WebUI.Models
         public List<StudentDTO> StudentDTOs { get; set; }
 
         public List<SemesterDTO> SemesterDTOs { get; set; }
+        public SemesterDTO SemesterDTO { get; set; }
     }
 }

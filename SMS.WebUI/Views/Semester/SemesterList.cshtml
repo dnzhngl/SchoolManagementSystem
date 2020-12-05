@@ -7,26 +7,25 @@
     <!-- Custom styles for this page -->
     <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 }
-<!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800"></h1>
-
-<div class="card shadow">
-    <div class="card-header">
-        <h5 class="font-weight-bold text-primary">Mevcut Dönem Bilgisi</h5>
-    </div>
-    <div class="card-body">
-        <h6><b>Geçerli Dönem: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterName</h6>
-        <h6><b>Başlangıç Tarihi: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterBeginning.ToString("dd/MM/yyyy") </h6>
-        <h6><b>Bitiş Tarihi: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterEnd.ToString("dd/MM/yyyy")  </h6>
-    </div>
-</div>
-
-
-<!-- DataTables Example -->
 <div class="row">
-    <div class="col col-12 col-xl-6">
 
-        <div class="card shadow mt-3">
+    <div class="col col-12 col-xl-3">
+        <div class="card mb-2 shadow">
+            <div class="card-header">
+                <h5 class="font-weight-bold text-primary">Mevcut Dönem Bilgisi</h5>
+            </div>
+            <div class="card-body">
+                <p><b>Geçerli Dönem: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterName</p>
+                <p><b>Başlangıç Tarihi: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterBeginning.ToString("dd/MM/yyyy") </p>
+                <p><b>Bitiş Tarihi: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterEnd.ToString("dd/MM/yyyy")  </p>
+                <p><b>Akademik Yıl :</b> @Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).AcademicYear</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DataTables Example -->
+    <div class="col col-12 col-xl-6">
+        <div class="card shadow">
             <div class="card-header py-3">
                 <div class="row">
                     <div class="col-9">
@@ -34,7 +33,7 @@
                     </div>
                     <div class="col-3">
                         @*<a class="btn btn-success float-right" href="#" data-toggle="modal" data-target="semesterAddModal" id="addSemesterModalToggle">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@
-                        <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("SemesterAdd", "Semester", "SemesterDTO")')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
+                        <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("SemesterAdd", "Semester", "SemesterDTO")">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
                     </div>
                 </div>
             </div>
@@ -46,6 +45,7 @@
                                 <th>Dönem</th>
                                 <th>Başlangıç Tarihi</th>
                                 <th>Bitiş Tarihi</th>
+                                <th>Akademik Yıl</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -56,10 +56,10 @@
                                     <td>@semester.SemesterName</td>
                                     <td>@semester.SemesterBeginning.ToString("dd/MM/yyy")</td>
                                     <td>@semester.SemesterEnd.ToString("dd/MM/yyy")</td>
-
+                                    <td>@semester.AcademicYear</td>
                                     <td>
                                         @*<a class="btn btn-outline-warning btn-sm" data-semester-id="@semester.Id" id="updateSemesterModalToggle" data-toggle="modal" href="#"><i class="fa fa-pen"></i></a>*@
-                                        <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("SemesterUpdate", "Semester", new { id = semester.Id })')"><i class="fa fa-pen"></i></a>
+                                        <a class="btn btn-outline-warning btn-sm" href="#" onclick="@Url.Action("SemesterUpdate", "Semester", new { id = semester.Id })"><i class="fa fa-pen"></i></a>
                                         <a class="btn btn-outline-danger btn-sm" asp-action="SemesterDelete" asp-route-id="@semester.Id"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
@@ -93,6 +93,7 @@
 
 @section BeginPageJs{
     <script>
+
         function modalFunction(url) {
             $('#modalContent').load(url);
             $('#mainModal').modal('show');

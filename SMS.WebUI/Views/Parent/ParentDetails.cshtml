@@ -3,12 +3,9 @@
     ViewData["Title"] = "ParentDetails";
 }
 
-<div class="card shadow">
+<div class="card border-bottom-primary shadow">
     <div class="card-header">
-        <h4>Veli Bilgisi</h4>
-    </div>
-    <div class="card-body">
-        <p></p>
+        <h5 class="card-title font-weight-bold text-primary">Veli Bilgisi</h5>
     </div>
 </div>
 
@@ -16,7 +13,7 @@
     <div class="card-header" id="headingOne">
         <div class="row">
             <div class="col">
-                <h4 class="card-title font-weight-bold text-primary">Veli Bilgisi</h4>
+                <h5 class="card-title font-weight-bold text-primary">Veli Bilgisi</h5>
             </div>
             <div class="col">
                 @if (this.User.IsInRole("Admin"))
@@ -62,8 +59,9 @@
                 </div>
 
                 <div class="col col-12 col-lg-8">
-                    <h5 class="card-subtitle mb-2 text-muted">İletişim Bilgisi</h5>
+                    <h5 class="card-subtitle mb-2 text-muted"><b>İletişim Bilgisi</b></h5>
                     <hr />
+
                     <div class="row">
                         <div class="col col-12 col-lg-6">
                             <div class="form-group row">

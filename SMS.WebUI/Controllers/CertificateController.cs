@@ -16,13 +16,15 @@ namespace SMS.WebUI.Controllers
         private readonly ICertificateTypeService certificateTypeService;
         private readonly IStudentService studentService;
         private readonly ISemesterService semesterService;
+        private readonly IInstructorService instructorService;
 
-        public CertificateController(ICertificateService _certificateService, ICertificateTypeService _certificateTypeService, IStudentService _studentService, ISemesterService _semesterService)
+        public CertificateController(ICertificateService _certificateService, ICertificateTypeService _certificateTypeService, IStudentService _studentService, ISemesterService _semesterService, IInstructorService _instructorService)
         {
             certificateService = _certificateService;
             certificateTypeService = _certificateTypeService;
             studentService = _studentService;
             semesterService = _semesterService;
+            instructorService = _instructorService;
         }
 
         public IActionResult CertificateList(int? studentId)
@@ -47,7 +49,7 @@ namespace SMS.WebUI.Controllers
 
             model.CertificateDTO = new CertificateDTO();
             model.CertificateDTO.StudentId = studentId;
-           // model.StudentDTO = studentService.GetStudent(studentId);
+            // model.StudentDTO = studentService.GetStudent(studentId);
             model.SemesterDTOs = semesterService.GetAll();
 
             return PartialView(model);
@@ -56,9 +58,9 @@ namespace SMS.WebUI.Controllers
         [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult CertificateAdd(CertificateViewModel model)
         {
-            //model.CertificateDTO.StudentId = model.StudentDTO.Id;
             certificateService.NewCertificate(model.CertificateDTO);
-            return RedirectToAction("CertificateList", new { studentId = model.CertificateDTO.StudentId });
+            //return RedirectToAction("CertificateList", new { studentId = model.CertificateDTO.StudentId });
+            return Redirect(Request.Headers["Referrer"].ToString());
         }
         [Authorize(Roles = "Admin, Yönetici")]
         public IActionResult CertificateDelete(int certificateId, int studentId)
@@ -81,6 +83,25 @@ namespace SMS.WebUI.Controllers
         {
             certificateService.UpdateCertificate(model.CertificateDTO);
             return RedirectToAction("CertificateList", new { studentId = model.CertificateDTO.StudentId });
+        }
+
+        public IActionResult CreateCertificate(int studentId, int semesterId)
+        {
+            CertificateViewModel model = new CertificateViewModel();
+            ViewBag.schoolPrinciple = instructorService.GetInstructorByDuty("Okul Müdürü").FullName;
+            model.CertificateDTO = certificateService.CreateCertificate(studentId, semesterId);
+            model.StudentDTO = studentService.GetStudent(studentId);
+            model.SemesterDTO = semesterService.GetSemester(semesterId);
+            return PartialView(model);
+        }
+
+        public IActionResult CertificateDetail(int studentId, int certificateId)
+        {
+            CertificateViewModel model = new CertificateViewModel();
+            ViewBag.schoolPrinciple = instructorService.GetInstructorByDuty("Okul Müdürü").FullName;
+            model.CertificateDTO = certificateService.GetCertificate(certificateId);
+            model.StudentDTO = studentService.GetStudent(studentId);
+            return PartialView(model);
         }
     }
 }
