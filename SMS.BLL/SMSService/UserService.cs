@@ -139,6 +139,26 @@ namespace SMS.BLL.SMSService
 
         string CreateUserName(string firstname, string lastname)
         {
+            List<char> specialCharacters = new List<char> { 'Ç', 'ç', 'Ğ', 'ğ', 'İ', 'ı', 'Ö', 'ö', 'Ş', 'ş', 'Ü', 'ü' };
+            List<char> characters = new List<char> { 'C', 'c', 'G', 'g', 'I', 'i', 'O', 'o', 'S', 's', 'U', 'u' };
+
+            firstname = firstname.Trim();
+            lastname = lastname.Trim();
+
+            foreach (var c in specialCharacters)
+            {
+                var indexNum = specialCharacters.IndexOf(c);
+
+                if (firstname.Contains(c))
+                {
+                    firstname = firstname.Replace(c, characters[indexNum]);
+                }
+                if (lastname.Contains(c))
+                {
+                    lastname = lastname.Replace(c, characters[indexNum]);
+                }
+            }
+
             var userName = String.Format("{0}.{1}", firstname, lastname);
 
             if (!userRepo.GetAll().Any(z => z.UserName == userName))
@@ -148,8 +168,44 @@ namespace SMS.BLL.SMSService
             else
             {
                 userName = String.Format("{0}.{1}", lastname, firstname);
-                return userName;
+                if (!userRepo.GetAll().Any(z => z.UserName == userName))
+                {
+                    return userName;
+                }
+                else
+                {
+                    var registrationYear = DateTime.Now.Year;
+                    userName = String.Format("{0}{1}.{2}", lastname, firstname, registrationYear);
+                    return userName;
+                }
             }
         }
+
+        //string CheckUserName(string firstname, string lastname)
+        //{
+        //    List<char> specialCharacters = new List<char> { 'Ç', 'ç', 'Ğ', 'ğ', 'İ', 'ı', 'Ö', 'ö', 'Ş', 'ş', 'Ü', 'ü' };
+        //    List<char> characters = new List<char> { 'C', 'c', 'G', 'g', 'I', 'i', 'O', 'o', 'S', 's', 'U', 'u' };
+
+        //    firstname = firstname.Trim();
+        //    lastname = lastname.Trim();
+
+        //    foreach (var c in specialCharacters)
+        //    {
+        //        var indexNum = specialCharacters.IndexOf(c);
+
+        //        if (firstname.Contains(c))
+        //        {
+        //            firstname = firstname.Replace(c, characters[indexNum]);
+        //        }
+        //        if (lastname.Contains(c))
+        //        {
+        //            lastname = lastname.Replace(c, characters[indexNum]);
+        //        }
+        //    }
+
+        //    var userName = String.Format("{0}.{1}", firstname, lastname);
+
+        //    return userName;
+        //}
     }
 }

@@ -10,30 +10,32 @@
 <input type="hidden" asp-for="Id" />
 
 <div class="modal-body">
+    <div class="card" style="border-style:solid; border-color:lightgray; border-width:thin; padding:15px;">
 
-    @if (Model.File != null)
-    {
-        if (Model.File.Contains(".pdf") || Model.File.Contains("txt") || Model.File.Contains(".doc") || Model.File.Contains(".docx"))
+        @if (Model.File != null)
         {
-    <a href="@Model.File"><i class="fa fa-file"></i> Dosyayı indir</a>
+            if (Model.File.Contains(".pdf") || Model.File.Contains("txt") || Model.File.Contains(".doc") || Model.File.Contains(".docx"))
+            {
+                <a href="@Model.File"><i class="fa fa-file"></i> Dosyayı görüntüle</a>
+            }
+            else if (Model.File.Contains(".jpeg") || Model.File.Contains(".jpg") || Model.File.Contains(".gif") || Model.File.Contains(".png"))
+            {
+                <img class="card-img-top" src="@Model.File" alt="" />
+            }
         }
-        else if (Model.File.Contains(".jpeg") || Model.File.Contains(".jpg") || Model.File.Contains(".gif") || Model.File.Contains(".png"))
-        {
-            <img class="card-img-top" src="@Model.File" alt="" />
-        }
-    }
 
-    <div class="card-subtitle mt-2">
-        <label><strong>@Model.PostName</strong></label>
-    </div>
+        <div class="card-subtitle mt-2">
+            <label><strong>@Model.PostName</strong></label>
+        </div>
 
-    <div class="card-body" style="border-style:solid; border-color:lightgray; border-width:thin;">
-        <p>@Model.PostContent</p>
-    </div>
-    <div class="float-right">
-        <label>@Model.User.UserName</label>
-        <br />
-        <label>@Model.PublishedDate.Date.ToString("dd/MM/yyy")</label>
+        <div class="card-body">
+            <p>@Model.PostContent</p>
+        </div>
+        <div class="float-right">
+            <label>@Model.User.UserName</label>
+            <br />
+            <label>@Model.PublishedDate.Date.ToString("dd/MM/yyy")</label>
+        </div>
     </div>
 </div>
 
