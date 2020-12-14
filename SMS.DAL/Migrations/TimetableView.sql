@@ -48,9 +48,3 @@ INNER JOIN Classrooms ON Classrooms.Id = Timetables.ClassroomId
 --MainSubjects.MainSubjectName
 
 
---FILESTREAM TABLE CREATION FOR STUDENTS IMAGES
-
---create table StudentImages(
---	Id UniqueIdentifier rowguidcol not null unique, 
---	ImageFile Varbinary(MAX) Filestream
---);
