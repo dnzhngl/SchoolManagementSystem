@@ -3,6 +3,11 @@
     ViewData["Title"] = "PostAdd";
 }
 
+@section BeginPage{
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+}
+
 
 <div class="card border-bottom-primary shadow">
     <div class="card-header">
@@ -46,12 +51,14 @@
 
                         <div class="col-sm-10 ">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
-                                <div class="fileinput-preview thumbnail" data-trigger="fileinput"> </div>
+                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="max-height:280px; max-width:290px;"> </div>
                                 <div>
-                                    <span class="btn btn-outline btn-file">
-                                        @*<span class="fileinput-new"> Dosya Seç </span>
-                                        <span class="fileinput-exists"> Değiştir </span>*@
-                                        <input type="file" asp-for="File">
+                                    <span class="btn btn-outline-primary btn-sm btn-file">
+
+                                        <span class="fileinput-new"> Dosya Seç </span>
+                                        <span class="fileinput-exists"> Değiştir </span>
+
+                                        <input class="form-control" type="file" asp-for="File">
                                     </span>
                                     <a href="javascript:;" class="btn btn-outline-danger btn-sm fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i></a>
                                 </div>
@@ -75,7 +82,7 @@
                     </div>
 
                     <div class="form-actions float-right p-2">
-                        <button type="button" class="btn btn-secondary">İptal Et</button>
+                        <button type="button" class="btn btn-secondary" onclick="history.back()">İptal Et</button>
                         <button type="submit" class="btn btn-primary" asp-route-postCategoryName="@ViewBag.postCategoryName">Kaydet</button>
                     </div>
                 </div>
@@ -86,3 +93,7 @@
     </div>
 </div>
 
+@section FooterJsPlugin{
+    <script src="~/lib/bootstrap/dist/css/bootstrap-fileinput.js" type="text/javascript"></script>
+
+}

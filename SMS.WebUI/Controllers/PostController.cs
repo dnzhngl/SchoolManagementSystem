@@ -49,17 +49,17 @@ namespace SMS.WebUI.Controllers
             {
                 if (model.File.ContentType == "image/jpeg" || model.File.ContentType == "image/jpg" || model.File.ContentType == "image/png" || model.File.ContentType == "image/gif")
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images");
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images");
                     var fileStream = new FileStream(Path.Combine(path, model.File.FileName), FileMode.Create);
                     model.File.CopyTo(fileStream);
-                    fileInfo = "/Images/";
+                    fileInfo = "/images/";
                 }
                 else if (model.File.ContentType == "application/doc" || model.File.ContentType == "application/docx" || model.File.ContentType == "application/pdf" || model.File.ContentType == "application/txt")
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files");
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\files");
                     var fileStream = new FileStream(Path.Combine(path, model.File.FileName), FileMode.Create);
                     model.File.CopyTo(fileStream);
-                    fileInfo = "/Files/";
+                    fileInfo = "/files/";
                 }
                 model.PostDTO.File = fileInfo + model.File.FileName;
             }
@@ -98,24 +98,28 @@ namespace SMS.WebUI.Controllers
         [HttpPost]
         public IActionResult PostUpdate(PostViewModel model, string postCategoryName)
         {
+            string fileInfo = null;
             if (model.File != null)
             {
                 if (model.File.ContentType == "image/jpeg" || model.File.ContentType == "image/jpg" || model.File.ContentType == "image/png" || model.File.ContentType == "image/gif")
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images");
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images");
                     var fileStream = new FileStream(Path.Combine(path, model.File.FileName), FileMode.Create);
                     model.File.CopyTo(fileStream);
-                    model.PostDTO.File = "/Images/" + model.File.FileName;
+                    fileInfo = "/images/";
                 }
-                else if (model.File.ContentType == "application/doc" || model.File.ContentType == "application/docx" || model.File.ContentType == "application/pdf" || model.File.ContentType == "text/plain")
+                else if (model.File.ContentType == "application/doc" || model.File.ContentType == "application/docx" || model.File.ContentType == "application/pdf" || model.File.ContentType == "application/txt")
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files");
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\files");
                     var fileStream = new FileStream(Path.Combine(path, model.File.FileName), FileMode.Create);
                     model.File.CopyTo(fileStream);
-                    model.PostDTO.File = "/Files/" + model.File.FileName;
+                    fileInfo = "/files/";
                 }
+                model.PostDTO.File = fileInfo + model.File.FileName;
             }
-            model.PostDTO.PostCategoryId = postCategoryService.GetPostCategory(postCategoryName).Id;
+
+            // EditedBy
+            //model.PostDTO.UserId = this.CurrentUser.Id;
             postService.UpdatePost(model.PostDTO);
             return RedirectToAction("PostList", new { postCategoryName = postCategoryName });
         }

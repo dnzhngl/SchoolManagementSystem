@@ -65,7 +65,7 @@
                                 <tr>
                                     <td>@post.PostCategory.CategoryName</td>
                                     <td>@post.PostName</td>
-                                    @if (post.File != null)
+                                    @if (post.File != null && post.File != "")
                                     {
                                         @if (post.File.Contains(".jpeg") || post.File.Contains(".jpg") || post.File.Contains(".gif") || post.File.Contains(".png"))
                                         {
@@ -73,7 +73,7 @@
                                         }
                                         else if(post.File.Contains(".pdf") || post.File.Contains("txt") || post.File.Contains(".doc") || post.File.Contains(".docx"))
                                         {
-                                            <td><a href=""><i class="fa fa-file"></i> @post.File</a> </td>
+                                            <td><a href="@post.File"><i class="fa fa-file"></i> @post.File.Substring(7)</a></td>
                                             //<td><input type="file" asp-for="@post.File"/></td>
                                         }
                                     }
