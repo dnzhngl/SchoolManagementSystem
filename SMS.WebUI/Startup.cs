@@ -160,9 +160,6 @@ namespace SMS.WebUI
                    defaults: new { controller = "Subject", action = "SubjectList" });
 
 
-
-
-
                 endpoints.MapControllerRoute(
                    name: "MainSubjectAdd",
                    pattern: "MainSubject/MainSubjectAdd",
@@ -268,7 +265,7 @@ namespace SMS.WebUI
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Admin}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
 
             });
         }
