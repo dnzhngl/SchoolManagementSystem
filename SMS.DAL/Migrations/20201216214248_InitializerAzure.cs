@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SMS.DAL.Migrations
 {
-    public partial class Initializer : Migration
+    public partial class InitializerAzure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -160,34 +160,14 @@ namespace SMS.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SemesterName = table.Column<string>(nullable: true),
                     SemesterBeginning = table.Column<DateTime>(nullable: false),
-                    SemesterEnd = table.Column<DateTime>(nullable: false)
+                    SemesterEnd = table.Column<DateTime>(nullable: false),
+                    AcademicYear = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Semesters", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sections",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SectionName = table.Column<string>(nullable: true),
-                    StudentCapacity = table.Column<int>(nullable: false),
-                    NumberOfStudentsEnrolled = table.Column<int>(nullable: false),
-                    GradeId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sections", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sections_Grades_GradeId",
-                        column: x => x.GradeId,
-                        principalTable: "Grades",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -218,9 +198,10 @@ namespace SMS.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
-                    LoginTimeStamps = table.Column<DateTime>(nullable: false),
-                    FailedLogin = table.Column<DateTime>(nullable: false),
+                    LoginTimeStamps = table.Column<DateTime>(nullable: true),
+                    FailedLogin = table.Column<DateTime>(nullable: true),
                     RoleId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -326,6 +307,36 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SenderId = table.Column<int>(nullable: true),
+                    ReceiverId = table.Column<int>(nullable: true),
+                    Subject = table.Column<string>(nullable: true),
+                    MessageContent = table.Column<string>(nullable: true),
+                    TimeSent = table.Column<DateTime>(nullable: false),
+                    Attachments = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_Users_ReceiverId",
+                        column: x => x.ReceiverId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Messages_Users_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Parents",
                 columns: table => new
                 {
@@ -360,6 +371,8 @@ namespace SMS.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PostName = table.Column<string>(nullable: true),
                     PublishedDate = table.Column<DateTime>(nullable: false),
+                    PostContent = table.Column<string>(nullable: true),
+                    File = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: true),
                     PostCategoryId = table.Column<int>(nullable: true)
                 },
@@ -374,6 +387,80 @@ namespace SMS.DAL.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Posts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sections",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SectionName = table.Column<string>(nullable: true),
+                    StudentCapacity = table.Column<int>(nullable: false),
+                    NumberOfStudentsEnrolled = table.Column<int>(nullable: false),
+                    AdvisoryTeacherId = table.Column<int>(nullable: true),
+                    GradeId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sections", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sections_Instructors_AdvisoryTeacherId",
+                        column: x => x.AdvisoryTeacherId,
+                        principalTable: "Instructors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Sections_Grades_GradeId",
+                        column: x => x.GradeId,
+                        principalTable: "Grades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdentityNumber = table.Column<string>(nullable: true),
+                    SchoolNumber = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    DOB = table.Column<DateTime>(nullable: false),
+                    CellPhone = table.Column<string>(nullable: true),
+                    GraduatedFrom = table.Column<string>(nullable: true),
+                    GPA = table.Column<decimal>(nullable: false),
+                    StudentStatus = table.Column<string>(nullable: true),
+                    StudentStatusEditDate = table.Column<DateTime>(nullable: true),
+                    RegistrationDate = table.Column<DateTime>(nullable: false),
+                    SectionId = table.Column<int>(nullable: true),
+                    ParentId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Students_Parents_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Parents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Students_Sections_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "Sections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Students_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -442,48 +529,6 @@ namespace SMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdentityNumber = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    DOB = table.Column<DateTime>(nullable: false),
-                    CellPhone = table.Column<string>(nullable: true),
-                    GraduatedFrom = table.Column<string>(nullable: true),
-                    GPA = table.Column<decimal>(nullable: false),
-                    StudentStatus = table.Column<bool>(nullable: false),
-                    SectionId = table.Column<int>(nullable: true),
-                    ParentId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Students", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Students_Parents_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Parents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Students_Sections_SectionId",
-                        column: x => x.SectionId,
-                        principalTable: "Sections",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Students_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Attendances",
                 columns: table => new
                 {
@@ -491,7 +536,8 @@ namespace SMS.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateTime = table.Column<DateTime>(nullable: false),
                     StudentId = table.Column<int>(nullable: false),
-                    AttendanceTypeId = table.Column<int>(nullable: false)
+                    AttendanceTypeId = table.Column<int>(nullable: false),
+                    SemesterId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -502,6 +548,12 @@ namespace SMS.DAL.Migrations
                         principalTable: "AttendanceTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Attendances_Semesters_SemesterId",
+                        column: x => x.SemesterId,
+                        principalTable: "Semesters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Attendances_Students_StudentId",
                         column: x => x.StudentId,
@@ -516,8 +568,8 @@ namespace SMS.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SerialNumber = table.Column<Guid>(nullable: false),
                     IssueDate = table.Column<DateTime>(nullable: false),
+                    SemesterId = table.Column<int>(nullable: true),
                     StudentId = table.Column<int>(nullable: true),
                     CertificateTypeId = table.Column<int>(nullable: true)
                 },
@@ -528,6 +580,12 @@ namespace SMS.DAL.Migrations
                         name: "FK_Certificates_CertificateTypes_CertificateTypeId",
                         column: x => x.CertificateTypeId,
                         principalTable: "CertificateTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Certificates_Semesters_SemesterId",
+                        column: x => x.SemesterId,
+                        principalTable: "Semesters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -545,7 +603,9 @@ namespace SMS.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExamMark = table.Column<decimal>(nullable: false),
+                    ExamMarkNumeral = table.Column<int>(nullable: false),
                     StudentStatus = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<int>(nullable: false),
                     ExamId = table.Column<int>(nullable: false),
                     StudentId = table.Column<int>(nullable: false)
                 },
@@ -577,6 +637,11 @@ namespace SMS.DAL.Migrations
                 column: "AttendanceTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Attendances_SemesterId",
+                table: "Attendances",
+                column: "SemesterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Attendances_StudentId",
                 table: "Attendances",
                 column: "StudentId");
@@ -585,6 +650,11 @@ namespace SMS.DAL.Migrations
                 name: "IX_Certificates_CertificateTypeId",
                 table: "Certificates",
                 column: "CertificateTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Certificates_SemesterId",
+                table: "Certificates",
+                column: "SemesterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Certificates_StudentId",
@@ -622,6 +692,16 @@ namespace SMS.DAL.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Messages_ReceiverId",
+                table: "Messages",
+                column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Parents_UserId",
                 table: "Parents",
                 column: "UserId");
@@ -635,6 +715,13 @@ namespace SMS.DAL.Migrations
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sections_AdvisoryTeacherId",
+                table: "Sections",
+                column: "AdvisoryTeacherId",
+                unique: true,
+                filter: "[AdvisoryTeacherId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sections_GradeId",
@@ -717,6 +804,9 @@ namespace SMS.DAL.Migrations
                 name: "ExamResults");
 
             migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "Posts");
 
             migrationBuilder.DropTable(
@@ -744,9 +834,6 @@ namespace SMS.DAL.Migrations
                 name: "Days");
 
             migrationBuilder.DropTable(
-                name: "Instructors");
-
-            migrationBuilder.DropTable(
                 name: "LessonTimes");
 
             migrationBuilder.DropTable(
@@ -765,16 +852,19 @@ namespace SMS.DAL.Migrations
                 name: "Sections");
 
             migrationBuilder.DropTable(
-                name: "Branches");
-
-            migrationBuilder.DropTable(
                 name: "MainSubjects");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Instructors");
 
             migrationBuilder.DropTable(
                 name: "Grades");
+
+            migrationBuilder.DropTable(
+                name: "Branches");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Roles");

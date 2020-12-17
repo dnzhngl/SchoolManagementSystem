@@ -116,7 +116,7 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
-        public IActionResult LecturedClasses(int? id, string? instructorUsername)//Ahmet.Solmaz olarak geliyor isim.
+        public IActionResult LecturedClasses(int? id, string instructorUsername = "")//Ahmet.Solmaz olarak geliyor isim.
         {
             List<TimetableViewDTO> ttmodel = new List<TimetableViewDTO>();
             InstructorDTO instructor = new InstructorDTO();
@@ -124,7 +124,7 @@ namespace SMS.WebUI.Controllers
             {
                 instructor = instructorService.GetInstructoreByUserId((int)id);
             }
-            else if (instructorUsername != null)
+            else if (instructorUsername != "")
             {
                 instructor = instructorService.GetInstructorByUsername(instructorUsername);
             }
@@ -133,17 +133,17 @@ namespace SMS.WebUI.Controllers
             return View(ttmodel);
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
-        public IActionResult InstructorsStudents(string? sectionName,string? subjectName, string? instructorUsername)
+        public IActionResult InstructorsStudents(string sectionName = "",string subjectName = "", string instructorUsername = "")
         {
             StudentDetailsViewModel model = new StudentDetailsViewModel();
-            if (sectionName != null && subjectName != null)
+            if (sectionName != "" && subjectName != "")
             {
                 model.SectionDTO = sectionService.GetSectionByName(sectionName);
                 model.StudentDTOs = studentService.GetStudentsIncludes(model.SectionDTO.Id);
                 ViewBag.SubjectId = subjectService.GetSubject(subjectName).Id;
                 ViewBag.SubjectName = subjectName;
             }
-            else if (instructorUsername != null)
+            else if (instructorUsername != "")
             {
                 var instructor = instructorService.GetInstructorByUsername(instructorUsername);
                 model.StudentDTOs = studentService.GetStudentsOfInstructor(instructor.Id);

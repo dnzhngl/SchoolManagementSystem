@@ -75,7 +75,7 @@ namespace SMS.WebUI.Controllers
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        public IActionResult SubjectDetails(int? subjectId, string? subjectName, string? sectionName)
+        public IActionResult SubjectDetails(int? subjectId, string subjectName = "", string sectionName = "")
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
 
@@ -84,7 +84,7 @@ namespace SMS.WebUI.Controllers
                 subjectName = subjectService.GetSubject((int)subjectId).SubjectName;
                 model.SubjectDTO = subjectService.GetSubjectIncludes(subjectName);
             }
-            if (sectionName != null)
+            if (sectionName != "")
             {
                 model.SubjectDTO = subjectService.GetSubjectIncludes(subjectName, sectionName);
             }

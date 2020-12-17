@@ -29,7 +29,7 @@ namespace SMS.WebUI.Controllers
             instructorService = _instructorService;
         }
         [Authorize(Roles = "Veli")]
-        public IActionResult Index(int? userId, string? userName)
+        public IActionResult Index(int? userId, string userName = "")
         {
             StudentParentViewModel model = new StudentParentViewModel();
             if (userId != null)
@@ -37,7 +37,7 @@ namespace SMS.WebUI.Controllers
                 model.ParentDTO = parentService.GetParentByUserId((int)userId);
                 model.StudentDTOs = studentService.GetStudentByParent((int)model.ParentDTO.Id);
             }
-            else if (userName != null)
+            else if (userName != "")
             {
                 var parentUserId = userService.GetUserByUsername(userName).Id;
                 model.ParentDTO = parentService.GetParentByUserId(parentUserId);
@@ -47,11 +47,11 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli")]
-        public IActionResult ParentList(string? instructorUserName)
+        public IActionResult ParentList(string instructorUserName = "")
         {
             List<ParentDTO> parents = new List<ParentDTO>();
 
-            if (instructorUserName != null)
+            if (instructorUserName != "")
             {
                 parents = parentService.GetInstructorsParents(instructorUserName);
             }

@@ -10,8 +10,8 @@ using SMS.DAL;
 namespace SMS.DAL.Migrations
 {
     [DbContext(typeof(SMSDbContext))]
-    [Migration("20200917150500_Initializer")]
-    partial class Initializer
+    [Migration("20201216214248_InitializerAzure")]
+    partial class InitializerAzure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,12 +75,17 @@ namespace SMS.DAL.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("SemesterId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AttendanceTypeId");
+
+                    b.HasIndex("SemesterId");
 
                     b.HasIndex("StudentId");
 
@@ -133,8 +138,8 @@ namespace SMS.DAL.Migrations
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("SerialNumber")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("SemesterId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("StudentId")
                         .HasColumnType("int");
@@ -142,6 +147,8 @@ namespace SMS.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CertificateTypeId");
+
+                    b.HasIndex("SemesterId");
 
                     b.HasIndex("StudentId");
 
@@ -237,11 +244,17 @@ namespace SMS.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<int>("ExamId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("ExamMark")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ExamMarkNumeral")
+                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -367,6 +380,40 @@ namespace SMS.DAL.Migrations
                     b.ToTable("MainSubjects");
                 });
 
+            modelBuilder.Entity("SMS.Model.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Attachments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ReceiverId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeSent")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("SMS.Model.Parent", b =>
                 {
                     b.Property<int>("Id")
@@ -415,8 +462,14 @@ namespace SMS.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("File")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("PostCategoryId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PostContent")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostName")
                         .HasColumnType("nvarchar(max)");
@@ -476,6 +529,9 @@ namespace SMS.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AdvisoryTeacherId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("GradeId")
                         .HasColumnType("int");
 
@@ -490,6 +546,10 @@ namespace SMS.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdvisoryTeacherId")
+                        .IsUnique()
+                        .HasFilter("[AdvisoryTeacherId] IS NOT NULL");
+
                     b.HasIndex("GradeId");
 
                     b.ToTable("Sections");
@@ -502,11 +562,17 @@ namespace SMS.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AcademicYear")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("SemesterBeginning")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("SemesterEnd")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("SemesterName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -547,11 +613,20 @@ namespace SMS.DAL.Migrations
                     b.Property<int>("ParentId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SchoolNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("SectionId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("StudentStatus")
-                        .HasColumnType("bit");
+                    b.Property<string>("StudentStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StudentStatusEditDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -644,10 +719,13 @@ namespace SMS.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("FailedLogin")
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("FailedLogin")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("LoginTimeStamps")
+                    b.Property<DateTime?>("LoginTimeStamps")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
@@ -681,6 +759,10 @@ namespace SMS.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SMS.Model.Semester", "Semester")
+                        .WithMany()
+                        .HasForeignKey("SemesterId");
+
                     b.HasOne("SMS.Model.Student", "Student")
                         .WithMany("Attendances")
                         .HasForeignKey("StudentId")
@@ -693,6 +775,10 @@ namespace SMS.DAL.Migrations
                     b.HasOne("SMS.Model.CertificateType", "CertificateType")
                         .WithMany("Certificates")
                         .HasForeignKey("CertificateTypeId");
+
+                    b.HasOne("SMS.Model.Semester", "Semester")
+                        .WithMany("Certificates")
+                        .HasForeignKey("SemesterId");
 
                     b.HasOne("SMS.Model.Student", "Student")
                         .WithMany("Certificates")
@@ -740,6 +826,17 @@ namespace SMS.DAL.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("SMS.Model.Message", b =>
+                {
+                    b.HasOne("SMS.Model.User", "Receiver")
+                        .WithMany("MessageReceiver")
+                        .HasForeignKey("ReceiverId");
+
+                    b.HasOne("SMS.Model.User", "Sender")
+                        .WithMany("MessageSender")
+                        .HasForeignKey("SenderId");
+                });
+
             modelBuilder.Entity("SMS.Model.Parent", b =>
                 {
                     b.HasOne("SMS.Model.User", "User")
@@ -760,6 +857,10 @@ namespace SMS.DAL.Migrations
 
             modelBuilder.Entity("SMS.Model.Section", b =>
                 {
+                    b.HasOne("SMS.Model.Instructor", "AdvisoryTeacher")
+                        .WithOne("Section")
+                        .HasForeignKey("SMS.Model.Section", "AdvisoryTeacherId");
+
                     b.HasOne("SMS.Model.Grade", "Grade")
                         .WithMany("Sections")
                         .HasForeignKey("GradeId");

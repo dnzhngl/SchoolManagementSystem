@@ -30,7 +30,7 @@ namespace SMS.WebUI.Controllers
             examResultService = _examResultService;
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen, Öğrenci, Veli")]
-        public IActionResult ExamList(int? id, string? subjectName, string? studentUsername, int? studentId)
+        public IActionResult ExamList(int? id, int? studentId, string subjectName = "", string studentUsername = "")
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
             if (id != null)
@@ -39,12 +39,12 @@ namespace SMS.WebUI.Controllers
                 model.SubjectDTO = subjectService.GetSubject((int)id);
                 model.SubjectDTO.Exams = model.ExamDTOs; //
             }
-            else if (subjectName != null)
+            else if (subjectName != "")
             {
                 model.SubjectDTO = subjectService.GetSubject(subjectName);
                 model.ExamDTOs = examService.GetExamBySubject((int)model.SubjectDTO.Id);
             }
-            else if (studentUsername != null)
+            else if (studentUsername != "")
             {
                 var student = studentService.GetStudentByUsername(studentUsername);
                // model.ExamDTOs = examService.StudentsExamList(student.Id);
@@ -63,14 +63,14 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
-        public IActionResult ExamAdd(int? subjectId, string? subjectName)
+        public IActionResult ExamAdd(int? subjectId, string subjectName = "")
         {
             SubjectDetailViewModel model = new SubjectDetailViewModel();
             if (subjectId != null)
             {
                 model.SubjectDTO = subjectService.GetSubject((int)subjectId);
             }
-            else if (subjectName != null)
+            else if (subjectName != "")
             {
                 model.SubjectDTO = subjectService.GetSubject(subjectName);
             }

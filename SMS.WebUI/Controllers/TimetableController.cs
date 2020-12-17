@@ -48,7 +48,7 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
 
-        public IActionResult TimetableList(int? sectionId, string? username, int? instructorId, int? classroomId) 
+        public IActionResult TimetableList(int? sectionId, int? instructorId, int? classroomId, string username = "") 
         {
             TimetableViewModel model = new TimetableViewModel();
 
@@ -57,9 +57,9 @@ namespace SMS.WebUI.Controllers
                 model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)sectionId);
                 model.SectionDTO = sectionService.GetSection((int)sectionId);
             }
-            else if (username != null | instructorId != null)
+            else if (username != "" | instructorId != null)
             {
-                if (username != null)
+                if (username != "")
                 {
                     instructorId = instructorService.GetInstructorByUsername(username).Id;
                 }
@@ -79,7 +79,7 @@ namespace SMS.WebUI.Controllers
             }
             return View(model);
         }
-        public IActionResult TimetableDesign(int? sectionId, int? instructorId, string? studentUserName, string? instructorUserName, int? classroomId) //SectionId
+        public IActionResult TimetableDesign(int? sectionId, int? instructorId, int? classroomId, string studentUserName = "", string instructorUserName = "") //SectionId
         {
             TimetableViewModel model = new TimetableViewModel();
 
@@ -90,16 +90,16 @@ namespace SMS.WebUI.Controllers
                 model.SectionDTO = sectionService.GetSection((int)sectionId);
                 model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)sectionId);
             }
-            else if (instructorId != null | instructorUserName != null)
+            else if (instructorId != null | instructorUserName != "")
             {
-                if (instructorUserName != null)
+                if (instructorUserName != "")
                 {
                     instructorId = instructorService.GetInstructorByUsername(instructorUserName).Id;
                 }
                 model.TimetableViewDTOs = timetableViewService.GetTimetableByInstructor((int)instructorId);
                 model.InstructorDTO = instructorService.GetInstructor((int)instructorId);
             }
-            else if (studentUserName != null)
+            else if (studentUserName != "")
             {
                 var student = studentService.GetStudentByUsername(studentUserName);
                 model.TimetableViewDTOs = timetableViewService.GetTimetableBySection((int)student.SectionId);

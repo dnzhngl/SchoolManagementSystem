@@ -69,7 +69,7 @@ namespace SMS.WebUI.Controllers
             return RedirectToAction("ParentDelete", "Parent", new { id = parentId });
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen")]
-        public IActionResult StudentList(int? sectionId, string? sectionName, string? certificateTypeName, string? studentStatus, int? gradeId)
+        public IActionResult StudentList(int? sectionId, int? gradeId, string sectionName = "", string certificateTypeName = "", string studentStatus = "")
         {
             // id for Section
             StudentDetailsViewModel model = new StudentDetailsViewModel();
@@ -84,19 +84,19 @@ namespace SMS.WebUI.Controllers
             {
                 model.StudentDTOs = studentService.GetStudentsByGrade((int)gradeId);
             }
-            else if (sectionName != null)
+            else if (sectionName != "")
             {
                 var section = sectionService.GetSectionByName(sectionName);
                 ViewBag.sectionName = sectionName;
                 model.StudentDTOs = studentService.GetStudentBySection(section.Id);
             }
-            else if (certificateTypeName != null)
+            else if (certificateTypeName != "")
             {
                 var certificateTypeId = certificateTypeService.GetCertificateType(certificateTypeName).Id;
                 model.StudentDTOs = studentService.GetStudentBasedOnCertificates(certificateTypeId);
                 ViewBag.certificateTypeName = certificateTypeName + " Belgesi Alan";
             }
-            else if (studentStatus != null)
+            else if (studentStatus != "")
             {
                 model.StudentDTOs = studentService.GetStudentList(studentStatus);
                 ViewBag.studentStatus = studentStatus;
@@ -192,9 +192,9 @@ namespace SMS.WebUI.Controllers
             return Redirect(Request.Headers["Referer"].ToString());
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli, Öğrenci")]
-        public IActionResult StudentAcademicInfo(int? studentId, string? studentUserName)
+        public IActionResult StudentAcademicInfo(int? studentId, string studentUserName = "")
         {
-            if (studentUserName != null)
+            if (studentUserName != "")
             {
                 studentId = studentService.GetStudentByUsername(studentUserName).Id;
             }

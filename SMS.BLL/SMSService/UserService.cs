@@ -139,6 +139,24 @@ namespace SMS.BLL.SMSService
 
         string CreateUserName(string firstname, string lastname)
         {
+            var turkishChars = new List<char> { 'Ç', 'ç', 'Ğ', 'ğ', 'İ', 'ı', 'Ö', 'ö', 'Ş', 'ş', 'Ü', 'ü' };
+            var englishChars = new List<char> { 'C', 'c', 'G', 'g', 'I', 'i', 'O', 'o', 'S', 's', 'U', 'u' };
+
+            foreach (char c in turkishChars)
+            {
+                if (firstname.Contains(c))
+                {
+                    var index = turkishChars.IndexOf(c);
+                    firstname = firstname.Replace(turkishChars[index], englishChars[index]);
+                }
+                if (lastname.Contains(c))
+                {
+                    var index = turkishChars.IndexOf(c);
+                    lastname = lastname.Replace(turkishChars[index], englishChars[index]);
+                }
+            }
+
+
             var userName = String.Format("{0}.{1}", firstname, lastname);
 
             if (!userRepo.GetAll().Any(z => z.UserName == userName))
