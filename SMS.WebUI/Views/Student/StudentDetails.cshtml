@@ -8,7 +8,14 @@
 
 <div class="card border-bottom-primary shadow">
     <div class="card-header">
-        <h5 class="m-0 font-weight-bold text-primary">Ön Kayıt Detay</h5>
+        @if (Model.Section == null)
+        {
+            <h5 class="m-0 font-weight-bold text-primary">Ön Kayıt Detay</h5>
+        }
+        else
+        {
+            <h5 class="m-0 font-weight-bold text-primary">Öğrenci Detay</h5>
+        }
     </div>
 </div>
 
@@ -25,7 +32,7 @@
                         @if (this.User.IsInRole("Admin"))
                         {
                             @*<a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = Model.StudentDTO.Id})')"><i class="fa fa-pen"></i></a>*@
-                            <a class="btn btn-outline-warning btn-sm float-right" asp-action="StudentUpdate" asp-controller="Student" asp-route-id="Id"><i class="fa fa-pen"></i></a>
+                            <a class="btn btn-outline-warning btn-sm float-right" asp-action="StudentUpdate" asp-controller="Student" asp-route-id="@Model.Id"><i class="fa fa-pen"></i></a>
 
                             if (Model.Section == null)
                             {
@@ -123,6 +130,12 @@
                             <input type="text" readonly class="form-control-plaintext" placeholder="Şubesi atanmamış" asp-for="Section.SectionName"> @*SectionDTO*@
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>Kayıt Tarihi</b></label>
+                        <div class="col-sm-8">
+                            <input type="date" readonly class="form-control-plaintext" placeholder="Şubesi atanmamış" asp-for="RegistrationDate">
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -139,7 +152,7 @@
                     @if (this.User.IsInRole("Admin"))
                     {
                         @*<a class="btn btn-outline-warning btn-sm float-right" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("ParentUpdate", "Parent", new { id = Model.ParentDTO.Id })')"><i class="fa fa-pen"></i></a>*@
-                        <a class="btn btn-outline-warning btn-sm float-right" asp-action="ParentUpdate" asp-controller="Parent" asp-route-id="Parent.Id"><i class="fa fa-pen"></i></a>
+                        <a class="btn btn-outline-warning btn-sm float-right" asp-action="ParentUpdate" asp-controller="Parent" asp-route-id="@Model.ParentId"><i class="fa fa-pen"></i></a>
                     }
                 </div>
             </div>

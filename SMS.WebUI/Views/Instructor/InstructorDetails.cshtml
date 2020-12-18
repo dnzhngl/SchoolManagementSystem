@@ -16,7 +16,9 @@
                 <h5 class="font-weight-bold text-primary">Öğretmen Bilgisi</h5>
             </div>
             <div class="col">
-                <a class="btn btn-outline-warning float-right " href="#" onclick="modalFunction('@Url.Action("InstructorUpdate", "Instructor", new { id = Model.InstructorDTO.Id })')"><i class="fa fa-pen"></i></a>
+                @*<a class="btn btn-outline-warning float-right " href="#" onclick="modalFunction('@Url.Action("InstructorUpdate", "Instructor", new { id = Model.InstructorDTO.Id })')"><i class="fa fa-pen"></i></a>*@
+
+                <a class="btn btn-outline-warning btn-sm float-right" asp-action="InstructorUpdate" asp-route-id="@Model.InstructorDTO.Id"><i class="fa fa-pen"></i></a>
             </div>
         </div>
     </div>

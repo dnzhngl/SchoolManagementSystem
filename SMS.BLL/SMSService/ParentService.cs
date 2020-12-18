@@ -17,6 +17,7 @@ namespace SMS.BLL.SMSService
         private IRepository<Parent> parentRepo;
         private IRepository<Role> roleRepo;
         private IRepository<User> userRepo;
+        private IRepository<Student> studentRepo;
 
         public ParentService(IUnitOfWork _uow)
         {
@@ -24,6 +25,7 @@ namespace SMS.BLL.SMSService
             roleRepo = uow.GetRepository<Role>();
             parentRepo = uow.GetRepository<Parent>();
             userRepo = uow.GetRepository<User>();
+            studentRepo = uow.GetRepository<Student>();
         }
 
         public bool DeleteParent(int id)
@@ -62,9 +64,10 @@ namespace SMS.BLL.SMSService
 
         }
 
-        public List<ParentDTO> GetParentName(string name)
+        public ParentDTO GetParentWithStudents(int parentId)
         {
-            throw new NotImplementedException();
+            var parent = parentRepo.GetIncludes(z => z.Id == parentId, z => z.Students);
+            return MapperFactory.CurrentMapper.Map<ParentDTO>(parent);
         }
 
         public ParentDTO NewParent(ParentDTO parent)

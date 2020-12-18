@@ -16,8 +16,8 @@
             <h5 class="font-weight-bold text-primary">Ön Kayıt Formu </h5>
         </div>
     </div>
-    @Html.AntiForgeryToken()
     <div class="card-body">
+        @Html.AntiForgeryToken()
         <form asp-action="RegistrationAdd">
             <input type="hidden" asp-for="SchoolNumber" />
             <div class="form-body">
@@ -28,6 +28,10 @@
                 </div>
                 <div class="row">
                     <div class="col col-12 col-lg-6">
+
+                        <h5>Kimlik Bilgileri</h5>
+                        <hr />
+
 
                         <div class="form-group">
                             <label for="formGroupExampleInput">Öğrenci Adı</label>
@@ -72,6 +76,7 @@
                             <input type="text" class="form-control" placeholder="+90" asp-for="CellPhone">
                         </div>
                     </div>
+
                     <div class="col col-12 col-lg-6">
                         <h5>Eğitim Bilgileri</h5>
                         <hr />
@@ -97,6 +102,9 @@
                 </div>
                 <div class="row">
                     <div class="col col-12 col-lg-6">
+
+                        <h5>Veli Kimlik Bilgisi</h5>
+                        <hr />
 
                         <div class="form-group">
                             <label for="formGroupExampleInput">Adı</label>

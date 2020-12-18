@@ -1,5 +1,4 @@
-﻿@*@model InstructorDTO*@
-@model InstructorBranchViewModel
+﻿@model InstructorBranchViewModel
 
 @{
     ViewData["Title"] = "InstructorAdd";
@@ -9,7 +8,7 @@
 
 <div class="card border-bottom-primary shadow">
     <div class="card-header">
-        <h5 class="m-0 font-weight-bold text-primary">Öğretmen Ekleme Sayfası</h5>
+        <h5 class="m-0 font-weight-bold text-primary">Öğretmen İşlemleri</h5>
     </div>
 </div>
 
@@ -18,7 +17,7 @@
 
         <div class="card shadow">
             <div class="card-header">
-                <h5 class="font-weight-bold text-primary">Öğretmen Ekleme Formu </h5>
+                <h5 class="font-weight-bold text-primary">Öğretmen Ekle </h5>
             </div>
 
             <div class="card-body">
@@ -102,7 +101,7 @@
                     <div class="row">
                         <div class="col-12 p-3">
                             <div class="form-actions float-right">
-                                <button type="button" class="btn btn-secondary">İptal</button>
+                                <button type="button" class="btn btn-secondary" onclick="history.back()">İptal</button>
                                 <button type="submit" class="btn btn-primary">Kaydet</button>
                             </div>
                         </div>

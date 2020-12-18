@@ -150,12 +150,21 @@ namespace SMS.BLL.SMSService
 
         public string GenerateStudentNumber()
         {
+            var year = DateTime.Today.Year.ToString();
+            year = year.Substring(2, 2);
+
+            var numberOfStudents = studentRepo.GetAll().Count();
+            if(numberOfStudents == 0)
+            {
+                var stdNo = string.Format("{0}-{1}", 100, year);
+                return stdNo;
+            }
+
             var lastSchoolNumber = studentRepo.GetAll().OrderBy(z => z.RegistrationDate).LastOrDefault().SchoolNumber;
             var numberPart =  lastSchoolNumber.Split('-').Take(1).ToList();
             var registrationOrder = Convert.ToInt32(numberPart[0]) + 1;
            // int registrationOrder = 100 + StudentCount;
-            var year = DateTime.Today.Year.ToString();
-            year = year.Substring(2, 2);
+
             var studentNumber = string.Format("{0}-{1}", registrationOrder, year);
 
             return studentNumber;

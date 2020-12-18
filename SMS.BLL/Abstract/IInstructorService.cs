@@ -21,5 +21,7 @@ namespace SMS.BLL.Abstract
         List<InstructorDTO> GetAllInstructorsBasedOnBranch(int branchId);
         InstructorDTO GetInstructorByName(string fullName);
         InstructorDTO GetInstructorByDuty(string duty);
+
+        List<InstructorDTO> GetInstructorsThatAreFree(int dayId, int lessontimeId);
     }
 }

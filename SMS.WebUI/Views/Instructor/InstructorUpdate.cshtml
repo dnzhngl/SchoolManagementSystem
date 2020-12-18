@@ -1,7 +1,139 @@
 ﻿@model InstructorBranchViewModel
 
+@{
+    ViewData["Title"] = "InstructorUpdate";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
 
-<div class="modal-header">
+
+<div class="card border-bottom-primary shadow">
+    <div class="card-header">
+        <h5 class="m-0 font-weight-bold text-primary">Öğretmen İşlemleri</h5>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col col-12 col-lg-6 mt-3">
+
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="font-weight-bold text-primary">Öğretmen Bilgilerini Güncelle </h5>
+            </div>
+
+            <div class="card-body">
+                @Html.AntiForgeryToken()
+                <form asp-action="InstructorUpdate">
+
+                    <input type="hidden" asp-for="InstructorDTO.Id" />
+                    <input type="hidden" asp-for="InstructorDTO.UserId" />
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Kimlik No</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="" placeholder="Kimlik Numarası" asp-for="InstructorDTO.IdentityNumber">
+                            @Html.ValidationMessageFor(model => model.InstructorDTO.IdentityNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Adı</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="" placeholder="Adı" asp-for="InstructorDTO.FirstName">
+                            @Html.ValidationMessageFor(model => model.InstructorDTO.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Soyadı</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="" placeholder="Soyadı" asp-for="InstructorDTO.LastName">
+                            @Html.ValidationMessageFor(model => model.InstructorDTO.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Görevi</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="" placeholder="Görevi" asp-for="InstructorDTO.Duty">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Branşı</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" asp-for="InstructorDTO.BranchId" asp-items="@(new SelectList(Model.BranchDTOs, "Id","BranchName"))"></select>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <label class="form-label col-sm-5 pt-0">Cinsiyeti</label>
+                            <div class="col col-sm-3 form-check">
+                                <input class="form-check-input" type="radio" name="InstructorDTO.Gender" id="gridRadios1" value="Erkek" checked asp-for="InstructorDTO.Gender">
+                                <label class="form-check-label" for="gridRadios1">
+                                    Erkek
+                                </label>
+                            </div>
+                            <div class="col col-sm-3 form-check">
+                                <input class="form-check-input" type="radio" name="InstructorDTO.Gender" id="gridRadios2" value="Kadın" asp-for="InstructorDTO.Gender">
+                                <label class="form-check-label" for="gridRadios2">
+                                    Kadın
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Doğum Tarihi</label>
+                        <div class="col-sm-8">
+                            <input type="date" class="form-control" asp-for="InstructorDTO.DOB">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Telefon Numarası</label>
+                        <div class="col-sm-8">
+
+                            <input type="text" class="form-control" placeholder="+90" asp-for="InstructorDTO.CellPhone">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Adres Bilgisi</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" placeholder="" asp-for="InstructorDTO.Address">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 p-3">
+                            <div class="form-actions float-right">
+                                <button type="button" class="btn btn-secondary" onclick="history.back()">İptal</button>
+                                <button type="submit" class="btn btn-primary">Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="modal-header">
     <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">Öğretmen Bilgilerini Güncelle</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -74,5 +206,5 @@
         <button type="submit" class="btn btn-primary">Kaydet</button>
     </div>
 
-</form>
+</form>*@
 

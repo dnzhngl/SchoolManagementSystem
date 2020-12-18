@@ -54,7 +54,8 @@ namespace SMS.WebUI.Controllers
                 student.UserId = studentUserId;
 
                 studentService.NewStudent(student);
-                var addedStudent = studentService.GetStudentByUsername(student.IdentityNumber);
+
+                var addedStudent = studentService.GetStudentByUsername(student.SchoolNumber);
                 if (addedStudent != null)
                 {
                     return RedirectToAction("RegistrationDetail", new { studentId = addedStudent.Id });
@@ -70,13 +71,17 @@ namespace SMS.WebUI.Controllers
         public IActionResult RegistrationDelete(int studentId)
         {
             var student = studentService.GetStudent(studentId);
-            var parent = parentService.GetParent(student.ParentId);
+            //var parent = parentService.GetParent(student.ParentId);
+            var parent = parentService.GetParentWithStudents(student.ParentId);
 
             studentService.DeleteStudent(studentId);
             userService.DeleteUser((int)student.UserId);
 
-            parentService.DeleteParent(student.ParentId);
-            userService.DeleteUser((int)parent.UserId);
+            if (parent.Students.Count() == 1)
+            {
+                parentService.DeleteParent(student.ParentId);
+                userService.DeleteUser((int)parent.UserId);
+            }
 
             return RedirectToAction("RegistrationList");
         }

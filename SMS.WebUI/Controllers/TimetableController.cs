@@ -48,7 +48,7 @@ namespace SMS.WebUI.Controllers
             return View(model);
         }
 
-        public IActionResult TimetableList(int? sectionId, int? instructorId, int? classroomId, string username = "") 
+        public IActionResult TimetableList(int? sectionId, int? instructorId, int? classroomId, string username = "")
         {
             TimetableViewModel model = new TimetableViewModel();
 
@@ -125,11 +125,18 @@ namespace SMS.WebUI.Controllers
                     model.LessonTimeDTO = lessonTimeService.GetLessonTime((int)lessonPeriodId);
                     model.TimetableViewDTO.DayName = model.DayDTO.DayName;
                     model.TimetableViewDTO.LessonPeriod = model.LessonTimeDTO.LessonPeriod;
+
+                    model.InstructorDTOs = instructorService.GetInstructorsThatAreFree((int)dayId, (int)lessonPeriodId);
+                    model.ClassroomDTOs = classroomService.GetClasroomsThatAreFree((int)dayId, (int)lessonPeriodId);
+
                 }
                 else
                 {
                     model.DayDTOs = dayService.GetAll();
                     model.LessonTimeDTOs = lessonTimeService.GetAll();
+
+                    model.InstructorDTOs = instructorService.GetInstructorNameWithBranch();
+                    model.ClassroomDTOs = classroomService.GetAll();
                 }
             }
             else
@@ -137,10 +144,14 @@ namespace SMS.WebUI.Controllers
                 model.SectionDTOs = sectionService.GetAll();
                 model.DayDTOs = dayService.GetAll();
                 model.LessonTimeDTOs = lessonTimeService.GetAll();
+
+                model.InstructorDTOs = instructorService.GetInstructorNameWithBranch();
+                model.ClassroomDTOs = classroomService.GetAll();
             }
-            model.ClassroomDTOs = classroomService.GetAll();
+
             model.SubjectDTOs = subjectService.GetAll();
-            model.InstructorDTOs = instructorService.GetInstructorNameWithBranch();
+            //model.ClassroomDTOs = classroomService.GetAll();
+            //model.InstructorDTOs = instructorService.GetInstructorNameWithBranch();
 
             return PartialView(model);
         }
@@ -187,7 +198,7 @@ namespace SMS.WebUI.Controllers
 
             model.ClassroomDTOs = classroomService.GetAll();
             model.SubjectDTOs = subjectService.GetAll();
-            model.InstructorDTOs = instructorService.GetInstructorNameWithBranch();
+            model.InstructorDTOs = instructorService.GetInstructorsThatAreFree(dayId, lessonPeriodId);
             return PartialView(model);
         }
         [HttpPost]

@@ -69,10 +69,14 @@ namespace SMS.WebUI.Controllers
             if (subjectId != null)
             {
                 model.SubjectDTO = subjectService.GetSubject((int)subjectId);
+                model.ExamDTO = new ExamDTO();
+                model.ExamDTO.SubjectId = (int)subjectId;
             }
             else if (subjectName != "")
             {
                 model.SubjectDTO = subjectService.GetSubject(subjectName);
+                model.ExamDTO = new ExamDTO();
+                model.ExamDTO.SubjectId = model.SubjectDTO.Id;
             }
             else
             {

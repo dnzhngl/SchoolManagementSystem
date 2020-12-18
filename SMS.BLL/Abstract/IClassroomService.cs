@@ -14,5 +14,7 @@ namespace SMS.BLL.Abstract
         ClassroomDTO UpdateClassroom(ClassroomDTO classrroom);
         bool DeleteClassroom(int id);
         ClassroomDTO GetClassroomByName(string name);
+
+        List<ClassroomDTO> GetClasroomsThatAreFree(int dayId, int lessontimeId);
     }
 }

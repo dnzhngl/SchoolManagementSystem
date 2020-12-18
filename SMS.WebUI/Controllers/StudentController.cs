@@ -130,7 +130,8 @@ namespace SMS.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 studentService.UpdateStudent(student);
-                return Redirect(Request.Headers["Referer"].ToString());
+                return RedirectToAction("StudentDetails", new {studentId = student.Id });
+                //return Redirect(Request.Headers["Referer"].ToString());
             }
             return View(student);
         }

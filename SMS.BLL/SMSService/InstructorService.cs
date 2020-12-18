@@ -60,7 +60,8 @@ namespace SMS.BLL.SMSService
 
         public List<InstructorDTO> GetAllInstructorsBasedOnBranch(int branchId)
         {
-            var instructorList = instructorRepo.GetAll().Where(z => z.BranchId == branchId);
+            //var instructorList = instructorRepo.GetAll().Where(z => z.BranchId == branchId);
+            var instructorList = instructorRepo.GetIncludesList(z => z.BranchId == branchId, z => z.User);
             return MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(instructorList);
         }
 
@@ -122,6 +123,18 @@ namespace SMS.BLL.SMSService
             //}
             //return iList;
         }
+
+        public List<InstructorDTO> GetInstructorsThatAreFree(int dayId, int lessontimeId)
+        {
+            var il = instructorRepo.GetIncludesList(null, z => z.Timetables, z=>z.Branch);
+            //var il2 = il.Where(z => z.Timetables.Any(x => x.DayId == dayId && x.LessonTimeId == lessontimeId));
+            //var final = il.Except(il2);
+            var idList = il.Where(z => z.Timetables.Any(x => x.DayId == dayId && x.LessonTimeId == lessontimeId)).Select(x => x.Id);
+            var result = il.Where(x => !idList.Contains(x.Id));
+
+            return MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(result);
+        }
+
 
         public InstructorDTO GetInstructoreByUserId(int id)
         {
