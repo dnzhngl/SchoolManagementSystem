@@ -40,12 +40,11 @@ namespace SMS.DAL
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostCategory> PostCategories { get; set; }
         public DbSet<Message> Messages { get; set; }
-
         public DbSet<Timetable> Timetables { get; set; }
-
         public DbSet<TimetableView> TimetableViews { get; set; }  //DbQuery ile de yapabilirsin.
-
         public DbSet<StudentSchoolReportView> StudentSchoolReportView { get; set; }
+        public DbSet<DismissedStudentView> DismissedStudentsView { get; set; }
+        public DbSet<DismissedStudent> DismissedStudents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -62,7 +61,10 @@ namespace SMS.DAL
                 d.ToView("View_StudentSchoolReport");
             });
             //modelBuilder.Entity<TimetableView>().ToView("TimetableView");
-
+            modelBuilder.Entity<DismissedStudentView>(d =>
+            {
+                d.ToView("View_DismissedStudents");
+            });
         }
     }
 

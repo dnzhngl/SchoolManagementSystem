@@ -48,13 +48,18 @@
         </div>
 
         <div class="card-text">
-
-            <p><b>Okul Numarası : </b>@Model.SchoolNumber</p>
-            <p><b>Öğrenci Adı Soyadı : </b>@Model.FirstName @Model.LastName</p>
-            <p>
-                <b>Öğrencilik Durumu :</b> @Model.StudentStatus
-            </p>
-
+            <div class="row">
+                <div class="col">
+                    <p><b>Okul Numarası : </b>@Model.SchoolNumber</p>
+                    <p><b>Öğrenci Adı Soyadı : </b>@Model.FirstName @Model.LastName</p>
+                    <p><b>Öğrencilik Durumu :</b> @Model.StudentStatus</p>
+                </div>
+                <div class="col">
+                    <p><b>Sınıfı :</b> @Model.Section.Grade.GradeName </p>
+                    <p><b>Şubesi :</b> @Model.Section.SectionName </p>
+                    <p><b>Öğrencilik Durumu :</b> @Model.StudentStatus </p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

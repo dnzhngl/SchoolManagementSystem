@@ -787,6 +787,123 @@ namespace SMS.DAL.Migrations
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
+
+
+            migrationBuilder.InsertData(
+               table: "AttendanceTypes",
+               columns: new[] { "AttendanceTypeName", "Description" },
+               values: new object[,]
+               {
+                    {"Katıldı","Derse katıldı" },
+                    {"Katılmadı","Derse katılmadı"},
+                    {"Raporlu","Doktor raporu bulunmakta."},
+                    {"Nöbetçi Öğrenci","Okul tarafından nöbetçi öğrenci olarak atanmış"}
+               });
+
+            migrationBuilder.InsertData(
+              table: "Branches",
+              column: "BranchName",
+              values: new object[]
+              {
+                    "Matematik",
+                    "Fizik",
+                    "Kimya",
+                    "Biyoloji",
+                    "Tarih",
+                    "Coğrafya",
+                    "Türk Dili ve Edebiyatı",
+                    "İngilizce",
+                    "Almanca",
+                    "Görsel Sanatlar",
+                    "Müzik",
+                    "Beden Eğitimi",
+                    "Din Kültürü ve Ahlak Bilgisi",
+                    "Felsefe",
+                    "Bilişim",
+                    "Rehberlik ve Psikolojik Danışmanlık"
+              });
+
+            migrationBuilder.InsertData(
+                table: "CertificateTypes",
+                column: "CertificateTypeName",
+                values: new object[]
+                {
+                    "Takdir Belgesi",
+                    "Teşekkür Belgesi",
+                    "Onur Belgesi",
+                    "Mezuniyet Belgesi"
+                });
+
+            migrationBuilder.InsertData(
+                table: "Days",
+                column: "DayName",
+                values: new object[]
+                {
+                    "Pazartesi",
+                    "Salı",
+                    "Çarşamba",
+                    "Perşembe",
+                    "Cuma"
+                });
+
+            migrationBuilder.InsertData(
+                table: "ExamTypes",
+                column: "ExamTypeName",
+                values: new object[]
+                {
+                    "Yazılı",
+                    "Sözlü",
+                    "Test",
+                    "Proje",
+                    "Ödev",
+                    "Quiz"
+                });
+
+            migrationBuilder.InsertData(
+                table: "Grades",
+                column: "GradeName",
+                values: new object[]
+                {
+                    "9. Sınıf",
+                    "10. Sınıf",
+                    "11. Sınıf",
+                    "12. Sınıf"
+                });
+
+            migrationBuilder.InsertData(
+                table: "LessonTimes",
+                columns: new[] { "LessonBeginTime", "LessonEndTime" },
+                values: new object[,]
+                {
+                    {"08:30","09:15"},
+                    {"09:30","10:15"},
+                    {"10:30","11:15"},
+                    {"11:30","12:15"},
+                    {"13:15","14:00"},
+                    {"14:15","15:00"},
+                    {"15:15","16:00"}
+                });
+
+            migrationBuilder.InsertData(
+               table: "PostCategories",
+               column: "CategoryName",
+               values: new object[]
+               {
+                    "Duyuru",
+                    "Etkinlik",
+                    "Ödev"
+               });
+
+            migrationBuilder.InsertData(
+              table: "Roles",
+              column: "RoleName",
+              values: new object[]
+              {
+                    "Admin",
+                    "Öğretmen",
+                    "Öğrenci",
+                    "Veli"
+              });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

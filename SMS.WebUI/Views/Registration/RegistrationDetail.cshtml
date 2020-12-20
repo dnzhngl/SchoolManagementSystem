@@ -124,7 +124,7 @@
                                     <input type="text" readonly class="form-control-plaintext" placeholder="Şubesi atanmamış" asp-for="Section.SectionName">
                                 </div>
                                 <div class="col">
-                                    @if (this.User.IsInRole("Admin") && Model.SectionId == null)
+                                    @if (this.User.IsInRole("Admin"))
                                     {
                                         if (Model.SectionId == null)
                                         {

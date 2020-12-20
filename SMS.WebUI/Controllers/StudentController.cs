@@ -103,7 +103,7 @@ namespace SMS.WebUI.Controllers
             }
             else
             {
-                model.StudentDTOs = studentService.GetStudentList();
+                model.StudentDTOs = studentService.GetStudentList(studentStatus);
             }
 
             model.SectionDTOs = sectionService.GetSectionsWithGrade();
@@ -215,7 +215,9 @@ namespace SMS.WebUI.Controllers
             }
             else
             {
-                model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+                model.SemesterDTO = semesterService.GetCurrentSemester(DateTime.Now);
+                model.ExamResultDTOs = examResultService.GetExamResultsOfStudentBasedOnSemester(studentId, model.SemesterDTO.Id);
+                //model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
             }
             if (User.IsInRole("Öğretmen"))
             {
@@ -224,7 +226,7 @@ namespace SMS.WebUI.Controllers
 
             return View(model);
         }
-    
+
         public IActionResult CreateSchoolReport(int studentId)
         {
 

@@ -22,14 +22,39 @@
         </ul>
     </div>
 
-
     <div class="card-body">
         <div class="card-title">
             <div class="row">
-                <div class="col-9">
+                <div class="col col-12 col-md-5 p-1">
                     <h5 class="modal-title font-weight-bold text-primary" id="exampleModalLabel">@Model.StudentDTO.FirstName @Model.StudentDTO.LastName Devamsızlık Bilgisi</h5>
                 </div>
-                <div class="col-3">
+
+                <div class="col col-12 col-md-3 p-1">
+                    @if (Model.SemesterDTO != null)
+                    {
+                        <h5 class="m-0 font-weight-bold text-primary"> @Model.SemesterDTO.SemesterName - @Model.SemesterDTO.AcademicYear Devamsızlık Bilgisi</h5>
+                    }
+                </div>
+
+                <div class="col col-12 col-md-2 p-1">
+                    <div class="dropdown float-right">
+                        <button class="btn btn-outline-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dönem Listesi
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @if (Model.SemesterDTOs.Count != 0)
+                            {
+                                foreach (var semester in Model.SemesterDTOs)
+                                {
+                                    <a class="dropdown-item" asp-action="StudentExamResults" asp-route-semesterId="@semester.Id" asp-route-studentId="@Model.StudentDTO.Id">@semester.SemesterName @semester.AcademicYear</a>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-12 col-md-2 p-1">
                     @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
                     {
                         <a class="btn btn-success float-right" data-toggle="modal" data-target="mainModal" href="#" onclick="modalFunction('@Url.Action("AttendanceAdd", "Attendance", new { studentId = Model.StudentDTO.Id })')">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>
@@ -37,58 +62,41 @@
                 </div>
             </div>
         </div>
-        <div class="card-text">
 
-            <div class="row">
-                <b>Toplam Devamsızlık Günü : </b>
-
-                @if (Model.StudentDTO.Attendances == null)
-                {
-                    <p>Devamsızlık Bilgisi Girilmedi</p>
-                }
-                else
-                {
-                    <p>@Model.StudentDTO.Attendances.Count()</p>
-                }
-            </div>
-        </div>
-
-
-        @*<div class="row">
-                <div class="col">
-                    <p><b>Okul Numarası : </b></p>
-                    <p><b>Öğrenci Adı Soyadı : </b></p>
-                    <p><b>Toplam Devamsızlık Günü : </b></p>
-                </div>
-                <div class="col">
-                    <p>@Model.StudentDTO.Id</p>
-                    <p>@Model.StudentDTO.FirstName @Model.StudentDTO.LastName</p>
-                    @if (Model.StudentDTO.Attendances == null)
-                    {
-                        <p>Devamsızlık Bilgisi Girilmedi</p>
-                    }
-                    else
-                    {
-                        <p>@Model.StudentDTO.Attendances.Count()</p>
-                    }
-                </div>
-            </div>*@
-
-        <div class="row">
-            <div class="col col-xl-6">
-
-            </div>
-            @if (Model.StudentDTO.Attendances != null)
-            {
-                <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+        <div class="row pb-2">
+            <div class="col">
+                <table>
                     <thead>
                         <tr>
-                            <th scope="col">Devamsızlık Tarihi</th>
-                            <th scope="col">Devamsızlık Durumu</th>
-                            <th scope="col"></th>
+                            <th></th>
+                            <th>Toplam Devamsızlık Günü</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <th>Özürlü </th>
+                            <td class="text-center">@ViewBag.TotalSickLeave</td>
+                        </tr>
+                        <tr>
+                            <th>Özürsüz</th>
+                            <td class="text-center">@ViewBag.TotalAbsenteeism</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">Devamsızlık Tarihi</th>
+                        <th scope="col">Devamsızlık Durumu</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.AttendanceDTOs.Count() != 0)
+                    {
                         @foreach (var attendance in Model.AttendanceDTOs)
                         {
                             <tr>
@@ -103,9 +111,10 @@
                                 </td>
                             </tr>
                         }
-                    </tbody>
-                </table>
-            }
+                    }
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>

@@ -25,15 +25,17 @@
             </div>
             <div class="col">
                 <div class="dropdown float-right">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Öğrenci Listeleri
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Takdir">Takdir Belgesi Alanlar</a>
-                        <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Teşekkür">Teşekkür Belgesi Alanlar</a>
-                        <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Onur">Onur Belgesi Alanlar</a>
-
-                    </div>
+                    @if (ViewBag.studentStatus != "Mezun" || ViewBag.studentStatus != "Sevk")
+                    {
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Takdir">Takdir Belgesi Alanlar</a>
+                            <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Teşekkür">Teşekkür Belgesi Alanlar</a>
+                            <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Onur">Onur Belgesi Alanlar</a>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

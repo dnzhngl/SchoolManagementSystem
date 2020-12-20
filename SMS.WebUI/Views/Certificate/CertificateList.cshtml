@@ -30,10 +30,32 @@
     <div class="card-body">
         <div class="card-title py-3">
             <div class="row">
-                <div class="col-9">
+                <div class="col col-12 col-md-5 p-1">
                     <h5 class="m-0 font-weight-bold text-primary">@Model.StudentDTO.FirstName @Model.StudentDTO.LastName Belge Listesi</h5>
                 </div>
-                <div class="col-3">
+                <div class="col col-12 col-md-3 p-1">
+                    @if (Model.SemesterDTO != null)
+                    {
+                        <h5 class="m-0 font-weight-bold text-primary"> @Model.SemesterDTO.SemesterName - @Model.SemesterDTO.AcademicYear Sınav Sonuçları</h5>
+                    }
+                </div>
+                <div class="col col-12 col-md-2 p-1">
+                    <div class="dropdown float-right">
+                        <button class="btn btn-outline-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dönem Listesi
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @if (Model.SemesterDTOs.Count != 0)
+                            {
+                                foreach (var semester in Model.SemesterDTOs)
+                                {
+                                    <a class="dropdown-item" asp-action="CertificateList" asp-route-semesterId="@semester.Id" asp-route-studentId="@Model.StudentDTO.Id">@semester.SemesterName @semester.AcademicYear</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12 col-md-2 p-1">
                     @if (this.User.IsInRole("Admin"))
                     {
                         @*<a class="btn btn-success" asp-action="BranchAdd">Yeni Kayıt <i class="fa fa-plus-circle"></i></a>*@

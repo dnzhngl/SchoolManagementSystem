@@ -58,6 +58,12 @@ namespace SMS.BLL.SMSService
             return MapperFactory.CurrentMapper.Map<List<CertificateDTO>>(studentsCertificates);
         }
 
+        public List<CertificateDTO> GetCertificateList(int studentId, int semesterId)
+        {
+            var studentsCertificates = certificateRepo.GetIncludesList(z => z.StudentId == studentId && z.SemesterId == semesterId, z => z.CertificateType, z => z.Semester).ToList();
+            return MapperFactory.CurrentMapper.Map<List<CertificateDTO>>(studentsCertificates);
+        }
+
         public CertificateDTO NewCertificate(CertificateDTO certificate)
         {
             if (!certificateRepo.GetAll().Any(z => z.CertificateTypeId == certificate.CertificateTypeId && z.SemesterId == certificate.SemesterId && z.StudentId == certificate.StudentId))

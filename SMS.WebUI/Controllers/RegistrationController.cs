@@ -66,6 +66,11 @@ namespace SMS.WebUI.Controllers
         public IActionResult RegistrationDetail(int studentId)
         {
             var student = studentService.GetStudent(studentId);
+            if(student.Section == null)
+            {
+                student.Section = new SectionDTO();
+                student.Section.Grade = new GradeDTO();
+            }
             return View(student);
         }
         public IActionResult RegistrationDelete(int studentId)
