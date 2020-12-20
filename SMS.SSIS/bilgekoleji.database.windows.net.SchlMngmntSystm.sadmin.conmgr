@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="bilgekoleji.database.windows.net.SchlMngmntSystm.sadmin"
+  DTS:DTSID="{08632DDC-78F1-4298-A061-2435E58B02D8}"
+  DTS:CreationName="ADO">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=bilgekoleji.database.windows.net;User ID=sadmin;Initial Catalog=SchlMngmntSystm;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAWvP0KFd1vUuBWpvl+6koQQAAAAACAAAAAAAQZgAAAAEAACAAAACgSskaJTPQ0D4iJeyUej4JqwbBbXzM83PTYVUrMQjrKAAAAAAOgAAAAAIAACAAAAAcPazv4Ck/2cj/zg3Uyn8dnCP2I2bhTsb/wwzwNPJOEYAAAAB5cRn92c1G2crFU1fdiBC6eHZ+0N2D2DdQaTts+XdmAPAxLRgb2t4AF+KJPX4nEy+GIr3/1WD4GcSKUTor65xCS1xig1Je5ka+Y4APC00XnmkjwsIvdkQ1VaAU38J9SLhjfzOIHsw/vTESsUbWPi+fa6R4zB1fOcGr2oOCexg2KUAAAADmTrx/LBdx7DBEDVn3xQTfHAMIP2k/XhXiDhk3Yp8F2f2W0bB2070Sdr0UhWJQb8NFoWf0qXgrIHB4DYvduClR</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

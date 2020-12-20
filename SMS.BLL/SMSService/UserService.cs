@@ -44,7 +44,7 @@ namespace SMS.BLL.SMSService
 
         public UserDTO FindWithUsernameAndMail(string mailOrUsername, string password)
         {
-            var user = userRepo.Get(z => (z.UserName == mailOrUsername && z.Password == password));
+            var user = userRepo.Get(z => ((z.UserName == mailOrUsername || z.Email == mailOrUsername) && z.Password == password));
             return MapperFactory.CurrentMapper.Map<UserDTO>(user);
         }
 

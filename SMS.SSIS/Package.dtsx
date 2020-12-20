@@ -11,11 +11,26 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="51"
-  DTS:VersionGUID="{A4CCF53C-0544-4788-B507-CF5459917E21}">
+  DTS:VersionBuild="52"
+  DTS:VersionGUID="{4EAB63C3-D2DB-47AA-9E3A-CE0D546BC5EC}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[bilgekoleji.database.windows.net.SchlMngmntSystm.sadmin]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{2081B9D5-8563-41B7-8E01-BB280D78E51D}"
+      DTS:ObjectName="bilgekoleji.database.windows.net.SchlMngmntSystm.sadmin">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=bilgekoleji.database.windows.net;User ID=sadmin;Initial Catalog=SchlMngmntSystm;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAWvP0KFd1vUuBWpvl+6koQQAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADjlppWVAxXwKJoMzr5tmcYpWyMwXYu8yQSHP5C3peyUAAAAAAOgAAAAAIAACAAAAB+NCq7JUwTy8DYRxJC5J7ZGdr5ELlZ/J0fIVbj3VG94yAAAAD//cbLYSr7oNBffTE1/TIAGsAS24uCKJxkSY3L7jfptkAAAAAQG51H1TRGpzGZ2be6hFiRFuox7DO2VbMevmQP/vdcU/qQ/mTjXPMwN7s8Z+jslzBWspBDNW837aP+TW/4IC0M</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[localhost.SMSDb]"
       DTS:CreationName="OLEDB"
@@ -23,7 +38,12 @@
       DTS:ObjectName="localhost.SMSDb">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=localhost;Initial Catalog=SMSDb;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=bilgekoleji.database.windows.net;User ID=sadmin;Initial Catalog=SchlMngmntSystm;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAWvP0KFd1vUuBWpvl+6koQQAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB4nhcV5DCeL/DCqqKNmsg8X/LHxsk6EiK8rI5gNKqNCAAAAAAOgAAAAAIAACAAAAAFrPm27a+N0RLUCKbItxRhLeJXrEHTg4M/RMs3UeKrZCAAAABSdBZOFIZ179FnynmaJOW8Zuq5oLVieSaW4F1Nvr4Q80AAAACHNCkKZdvLcmXioS/OlG+JeY1RBJl3VsiQkhHd463i7+LQZzNat/iNWI5i13urwipug860n34auo/WWcSwGzzC</DTS:Password>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -57,13 +77,13 @@
                   description="Specifies the SQL statement that generates the lookup table."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[DismissedStudents]</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[View_DismissedStudents]</property>
                 <property
                   dataType="System.String"
                   description="Specifies a SQL statement that uses parameters to generate the lookup table."
                   expressionType="Notify"
                   name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[DismissedStudents]) [refTable]
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[View_DismissedStudents]) [refTable]
 where [refTable].[Id] = ?</property>
                 <property
                   dataType="System.Int32"
@@ -95,7 +115,7 @@ where [refTable].[Id] = ?</property>
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IdentityNumber" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FirstName" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LastName" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Gender" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DOB" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="CellPhone" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GraduatedFrom" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GPA" dataType="DT_NUMERIC" length="0" precision="18" scale="2" codePage="0"/&gt;&lt;referenceColumn name="SectionId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ParentId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="UserId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SchoolNumber" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StudentStatus" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RegistrationDate" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StudentStatusEditDate" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IdentityNumber" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SchoolNumber" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FirstName" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LastName" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Gender" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DOB" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CellPhone" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GraduatedFrom" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GPA" dataType="DT_NUMERIC" length="0" precision="18" scale="2" codePage="0"/&gt;&lt;referenceColumn name="StudentStatus" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StudentStatusEditDate" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RegistrationDate" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SectionId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ParentId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="UserId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -113,8 +133,8 @@ where [refTable].[Id] = ?</property>
               <connections>
                 <connection
                   refId="Package\Data Transfer Dismissed Students\Lookup.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[localhost.SMSDb]"
-                  connectionManagerRefId="Package.ConnectionManagers[localhost.SMSDb]"
+                  connectionManagerID="Package.ConnectionManagers[bilgekoleji.database.windows.net.SchlMngmntSystm.sadmin]"
+                  connectionManagerRefId="Package.ConnectionManagers[bilgekoleji.database.windows.net.SchlMngmntSystm.sadmin]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -248,8 +268,8 @@ WHERE NOT EXISTS(
               <connections>
                 <connection
                   refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[localhost.SMSDb]"
-                  connectionManagerRefId="Package.ConnectionManagers[localhost.SMSDb]"
+                  connectionManagerID="Package.ConnectionManagers[bilgekoleji.database.windows.net.SchlMngmntSystm.sadmin]"
+                  connectionManagerRefId="Package.ConnectionManagers[bilgekoleji.database.windows.net.SchlMngmntSystm.sadmin]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -293,9 +313,8 @@ WHERE NOT EXISTS(
                       lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[Gender]" />
                     <inputColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DOB]"
-                      cachedDataType="dbTimeStamp2"
+                      cachedDataType="dbTimeStamp"
                       cachedName="DOB"
-                      cachedScale="7"
                       externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DOB]"
                       lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[DOB]" />
                     <inputColumn
@@ -385,9 +404,8 @@ WHERE NOT EXISTS(
                       name="Gender" />
                     <externalMetadataColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DOB]"
-                      dataType="dbTimeStamp2"
-                      name="DOB"
-                      scale="7" />
+                      dataType="dbTimeStamp"
+                      name="DOB" />
                     <externalMetadataColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CellPhone]"
                       dataType="nText"
@@ -428,7 +446,8 @@ WHERE NOT EXISTS(
                       name="RegistrationDate" />
                     <externalMetadataColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StudentStatusEditDate]"
-                      dataType="dbTimeStamp"
+                      dataType="wstr"
+                      length="10"
                       name="StudentStatusEditDate" />
                   </externalMetadataColumns>
                 </input>
@@ -509,8 +528,8 @@ WHERE NOT EXISTS(
               <connections>
                 <connection
                   refId="Package\Data Transfer Dismissed Students\OLE DB Students.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[localhost.SMSDb]"
-                  connectionManagerRefId="Package.ConnectionManagers[localhost.SMSDb]"
+                  connectionManagerID="Package.ConnectionManagers[bilgekoleji.database.windows.net.SchlMngmntSystm.sadmin]"
+                  connectionManagerRefId="Package.ConnectionManagers[bilgekoleji.database.windows.net.SchlMngmntSystm.sadmin]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -566,13 +585,12 @@ WHERE NOT EXISTS(
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[DOB]"
-                      dataType="dbTimeStamp2"
+                      dataType="dbTimeStamp"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[DOB]"
                       lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[DOB]"
                       name="DOB"
-                      scale="7"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].Columns[CellPhone]"
@@ -691,9 +709,8 @@ WHERE NOT EXISTS(
                       name="Gender" />
                     <externalMetadataColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[DOB]"
-                      dataType="dbTimeStamp2"
-                      name="DOB"
-                      scale="7" />
+                      dataType="dbTimeStamp"
+                      name="DOB" />
                     <externalMetadataColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Output].ExternalColumns[CellPhone]"
                       dataType="nText"
@@ -770,10 +787,9 @@ WHERE NOT EXISTS(
                       name="Gender" />
                     <outputColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[DOB]"
-                      dataType="dbTimeStamp2"
+                      dataType="dbTimeStamp"
                       lineageId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[DOB]"
-                      name="DOB"
-                      scale="7" />
+                      name="DOB" />
                     <outputColumn
                       refId="Package\Data Transfer Dismissed Students\OLE DB Students.Outputs[OLE DB Source Error Output].Columns[CellPhone]"
                       dataType="nText"
@@ -942,13 +958,13 @@ WHERE NOT EXISTS(
           Id="Package\Data Transfer Dismissed Students\OLE DB Destination"
           TopLeft="59,326" />
         <NodeLayout
-          Size="166,42"
-          Id="Package\Data Transfer Dismissed Students\OLE DB Students"
-          TopLeft="76,71" />
-        <NodeLayout
           Size="115,42"
           Id="Package\Data Transfer Dismissed Students\Lookup"
           TopLeft="97,192" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Data Transfer Dismissed Students\OLE DB Students"
+          TopLeft="76,71" />
         <EdgeLayout
           Id="Package\Data Transfer Dismissed Students.Paths[OLE DB Source Output]"
           TopLeft="156.75,113">
@@ -1017,17 +1033,17 @@ WHERE NOT EXISTS(
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
         <Value
-          type="q3:string">[dbo].[DismissedStudents]</Value>
+          type="q3:string">[dbo].[View_DismissedStudents]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">1</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>

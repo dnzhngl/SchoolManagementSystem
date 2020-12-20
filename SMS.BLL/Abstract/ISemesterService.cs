@@ -15,5 +15,8 @@ namespace SMS.BLL.Abstract
         SemesterDTO UpdateSemester(SemesterDTO semester);
         bool DeleteSemester(int id);
         SemesterDTO GetCurrentSemester(DateTime time);
+
+        List<SemesterDTO> GetAllSemestersOfStudent(int studentId);
+
     }
 }

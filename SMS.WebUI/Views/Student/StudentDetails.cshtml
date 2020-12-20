@@ -8,7 +8,7 @@
 
 <div class="card border-bottom-primary shadow">
     <div class="card-header">
-        @if (Model.Section == null)
+        @if (Model.SectionId == null)
         {
             <h5 class="m-0 font-weight-bold text-primary">Ön Kayıt Detay</h5>
         }
@@ -34,10 +34,10 @@
                             @*<a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("StudentUpdate","Student", new { id = Model.StudentDTO.Id})')"><i class="fa fa-pen"></i></a>*@
                             <a class="btn btn-outline-warning btn-sm float-right" asp-action="StudentUpdate" asp-controller="Student" asp-route-id="@Model.Id"><i class="fa fa-pen"></i></a>
 
-                            if (Model.Section == null)
-                            {
-                                <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new {id = Model.Id })')">Şube Ata</a>
-                            }
+                            @*if (Model.Section == null)
+                                {
+                                    <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new {id = Model.Id })')">Şube Ata</a>
+                                }*@
                         }
                     </div>
                 </div>
@@ -48,7 +48,7 @@
     <div class="card-body">
 
         <form>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col col-12 col-lg-4">
                     <h6 class="card-subtitle mb-2 text-muted"><b>Kimlik Bilgisi</b></h6>
                     <hr />
@@ -127,13 +127,65 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label text-black-50"><b>Şubesi</b></label>
                         <div class="col-sm-8">
-                            <input type="text" readonly class="form-control-plaintext" placeholder="Şubesi atanmamış" asp-for="Section.SectionName"> @*SectionDTO*@
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" readonly class="form-control-plaintext" placeholder="Şubesi atanmamış" asp-for="Section.SectionName">
+                                </div>
+                                <div class="col">
+                                    @if (this.User.IsInRole("Admin"))
+                                    {
+                                        if (Model.SectionId == null)
+                                        {
+                                            <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new { id = @Model.Id })')">Şube Ata <i class="fa fa-plus"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-outline-warning btn-sm" href="#" data-toggle="modal" data-target="mainModal" onclick="createModal('@Url.Action("AssignSection","Student", new { id = @Model.Id })')">Şube Değiştir <i class="fa fa-pen"></i></a>
+                                        }
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    @if (Model.Section.Grade != null)
+                    {
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-black-50"><b>Sınıfı</b></label>
+                            <div class="col-sm-8">
+                                <input type="text" readonly class="form-control-plaintext" placeholder="Sınıfı" asp-for="Section.Grade.GradeName">
+                            </div>
+                        </div>
+                    }
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label text-black-50"><b>Kayıt Tarihi</b></label>
                         <div class="col-sm-8">
-                            <input type="date" readonly class="form-control-plaintext" placeholder="Şubesi atanmamış" asp-for="RegistrationDate">
+                            <input type="date" readonly class="form-control-plaintext" placeholder="Kayıt Tarihi Girilmemiş" asp-for="RegistrationDate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-12 col-lg-4">
+                    <h6 class="card-subtitle text-muted"><b>Eğitim Portalı - Öğrenci Kullanıcı Bilgisi</b></h6>
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b> Kullanıcı Adı:</b></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext" asp-for="@Model.User.UserName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-black-50"><b>E-Posta Adresi: </b></label>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col col-10">
+                                    <input type="text" readonly class="form-control-plaintext" asp-for="@Model.User.Email">
+                                </div>
+                                <div class="col">
+                                    <a class="btn btn-outline-info btn-sm" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@Model.User.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-envelope"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,7 +212,7 @@
 
         <div class="card-body">
             <form>
-                <div class="row">
+                <div class="row mb-2">
 
                     <div class="col col-12 col-lg-4">
                         <h6 class="card-subtitle mb-2 text-muted"><b>Kimlik Bilgisi</b></h6>
@@ -224,7 +276,30 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="col col-12 col-lg-4">
+                        <h6 class="card-subtitle mb-2 text-muted"><b>Eğitim Portalı - Veli Kullanıcı Bilgisi</b></h6>
+                        <hr />
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-black-50"><b> Kullanıcı Adı:</b></label>
+                            <div class="col-sm-8">
+                                <input type="text" readonly class="form-control-plaintext" asp-for="@Model.Parent.User.UserName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-black-50"><b>E-Posta Adresi: </b></label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col col-10">
+                                        <input type="text" readonly class="form-control-plaintext" asp-for="@Model.Parent.User.Email">
+                                    </div>
+                                    <div class="col">
+                                        <a class="btn btn-outline-info btn-sm" asp-controller="Message" asp-action="SendMessage" asp-route-receiver="@Model.Parent.User.UserName" asp-route-sender="@this.User.Identity.Name"><i class="fa fa-envelope"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>

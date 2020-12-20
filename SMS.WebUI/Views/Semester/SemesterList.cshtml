@@ -8,22 +8,31 @@
     <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 }
 <div class="row">
-    @if (Model != null)
-    {
-        <div class="col col-12 col-xl-3">
-            <div class="card mb-2 shadow">
-                <div class="card-header">
-                    <h5 class="font-weight-bold text-primary">Mevcut Dönem Bilgisi</h5>
-                </div>
-                <div class="card-body">
+
+    <div class="col col-12 col-xl-3">
+        <div class="card mb-2 shadow">
+            <div class="card-header">
+                <h5 class="font-weight-bold text-primary">Mevcut Dönem Bilgisi</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Count() != 0)
+                {
                     <p><b>Geçerli Dönem: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterName</p>
                     <p><b>Başlangıç Tarihi: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterBeginning.ToString("dd/MM/yyyy") </p>
                     <p><b>Bitiş Tarihi: </b>@Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).SemesterEnd.ToString("dd/MM/yyyy")  </p>
                     <p><b>Akademik Yıl :</b> @Model.FirstOrDefault(z => z.SemesterBeginning < DateTime.Now && z.SemesterEnd > DateTime.Now).AcademicYear</p>
-                </div>
+                }
+                else
+                {
+                    <p><b>Geçerli Dönem: </b></p>
+                    <p><b>Başlangıç Tarihi: </b></p>
+                    <p><b>Bitiş Tarihi: </b></p>
+                    <p><b>Akademik Yıl :</b></p>
+                }
             </div>
         </div>
-    }
+    </div>
+
 
 
     <!-- DataTables Example -->

@@ -15,11 +15,13 @@ namespace SMS.BLL.SMSService
     {
         private readonly IUnitOfWork uow;
         private IRepository<Semester> semesterRepo;
+        private IRepository<Student> studentRepo;
 
         public SemesterService(IUnitOfWork _uow)
         {
             uow = _uow;
-            semesterRepo = uow.GetRepository<Semester>();        
+            semesterRepo = uow.GetRepository<Semester>();
+            studentRepo = uow.GetRepository<Student>();
         }
         public bool DeleteSemester(int id)
         {
@@ -96,6 +98,13 @@ namespace SMS.BLL.SMSService
             uow.SaveChanges();
             return MapperFactory.CurrentMapper.Map<SemesterDTO>(selectedSemester);
 
+        }
+
+        public List<SemesterDTO> GetAllSemestersOfStudent(int studentId)
+        {
+            var studentRegistrationDate = studentRepo.Get(z => z.Id == studentId).RegistrationDate.Year;
+            var semesterList = semesterRepo.GetAll().Where(z => z.SemesterBeginning.Year >= studentRegistrationDate).ToList();
+            return MapperFactory.CurrentMapper.Map<List<SemesterDTO>>(semesterList);
         }
     }
 }

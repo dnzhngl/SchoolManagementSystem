@@ -63,7 +63,7 @@
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-studentUserName="@User.Identity.Name">
                     <i class="fas fa-book"></i>
-                    Ders Programım
+                    Ders Programı
                 </a>
             </li>
 
@@ -134,13 +134,13 @@
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item mx-1">
+                        <!--<li class="nav-item mx-1">
                             <a class="nav-link" href="#" role="button">
-                                <i class="fas fa-bell fa-fw"></i>
+                                <i class="fas fa-bell fa-fw"></i>-->
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter"></span>
+                                <!--<span class="badge badge-danger badge-counter"></span>
                             </a>
-                        </li>
+                        </li>-->
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item mx-1">
@@ -162,10 +162,10 @@
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                @*<a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
-                                </a>
+                                </a>*@
                                 <a class="dropdown-item" asp-controller="User" asp-action="UserSettings" asp-route-username="@this.User.Identity.Name">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Ayarlar

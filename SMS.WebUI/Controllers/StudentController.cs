@@ -130,7 +130,7 @@ namespace SMS.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 studentService.UpdateStudent(student);
-                return RedirectToAction("StudentDetails", new {studentId = student.Id });
+                return RedirectToAction("StudentDetails", new { studentId = student.Id });
                 //return Redirect(Request.Headers["Referer"].ToString());
             }
             return View(student);
@@ -203,11 +203,20 @@ namespace SMS.WebUI.Controllers
             return View(student);
         }
         [Authorize(Roles = "Admin, Yönetici, Öğretmen, Veli, Öğrenci")]
-        public IActionResult StudentExamResults(int studentId)
+        public IActionResult StudentExamResults(int studentId, int? semesterId)
         {
             StudentDetailsViewModel model = new StudentDetailsViewModel();
             model.StudentDTO = studentService.GetStudent(studentId);
-            model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+            model.SemesterDTOs = semesterService.GetAllSemestersOfStudent(studentId);
+            if (semesterId != null)
+            {
+                model.ExamResultDTOs = examResultService.GetExamResultsOfStudentBasedOnSemester(studentId, (int)semesterId);
+                model.SemesterDTO = semesterService.GetSemester((int)semesterId);
+            }
+            else
+            {
+                model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+            }
             if (User.IsInRole("Öğretmen"))
             {
                 ViewBag.InstructorId = instructorService.GetInstructorByUsername(User.Identity.Name).Id;
@@ -215,7 +224,7 @@ namespace SMS.WebUI.Controllers
 
             return View(model);
         }
-
+    
         public IActionResult CreateSchoolReport(int studentId)
         {
 
@@ -223,38 +232,43 @@ namespace SMS.WebUI.Controllers
             model.StudentDTO = studentService.GetStudent(studentId);
             model.SemesterDTO = semesterService.GetCurrentSemester(DateTime.Now);
 
-            var schoolReport = schoolReportService.CreateSchoolReport(studentId);
-            model.StudentSchoolReportViewDTOs1 = schoolReport.Where(z => z.SemesterName == "I. Dönem").ToList();
-            model.StudentSchoolReportViewDTOs2 = schoolReport.Where(z => z.SemesterName == "II. Dönem").ToList();
-
-            ViewBag.schoolPrinciple = instructorService.GetInstructorByDuty("Okul Müdürü").FullName;
-            ViewBag.vicePrinciple = instructorService.GetInstructorByDuty("Müdür Yardımcısı").FullName;
-            ViewBag.advisoryTeacher = instructorService.GetInstructor((int)model.StudentDTO.Section.AdvisoryTeacherId).FullName;
-
-
-            if (model.SemesterDTO.SemesterName == "I. Dönem")
+            var numberOfExamResults = examResultService.GetExamResultsOfStudent(studentId).Count();
+            if (numberOfExamResults != 0)
             {
-                model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(studentId, model.SemesterDTO.Id);
+                var schoolReport = schoolReportService.CreateSchoolReport(studentId);
+                model.StudentSchoolReportViewDTOs1 = schoolReport.Where(z => z.SemesterName == "I. Dönem").ToList();
+                model.StudentSchoolReportViewDTOs2 = schoolReport.Where(z => z.SemesterName == "II. Dönem").ToList();
 
-                ViewBag.attendanceExcuse1 = model.AttendanceDTOs.Where(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nobetçi Öğrenci").Count();
-                ViewBag.attendance1 = model.AttendanceDTOs.Where(z => z.AttendanceType.AttendanceTypeName == "Katılmadı").Count();
+                ViewBag.schoolPrinciple = instructorService.GetInstructorByDuty("Okul Müdürü").FullName;
+                ViewBag.vicePrinciple = instructorService.GetInstructorByDuty("Müdür Yardımcısı").FullName;
+                ViewBag.advisoryTeacher = instructorService.GetInstructor((int)model.StudentDTO.Section.AdvisoryTeacherId).FullName;
+
+
+                if (model.SemesterDTO.SemesterName == "I. Dönem")
+                {
+                    model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(studentId, model.SemesterDTO.Id);
+
+                    ViewBag.attendanceExcuse1 = model.AttendanceDTOs.Where(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nobetçi Öğrenci").Count();
+                    ViewBag.attendance1 = model.AttendanceDTOs.Where(z => z.AttendanceType.AttendanceTypeName == "Katılmadı").Count();
+                }
+                else if (model.SemesterDTO.SemesterName == "II. Dönem")
+                {
+                    model.SemesterDTOs = semesterService.GetSemestersByAcademicYear(model.SemesterDTO.AcademicYear);
+                    var firstSemesterId = model.SemesterDTOs.FirstOrDefault(z => z.AcademicYear == model.SemesterDTO.AcademicYear && z.SemesterName == "I. Dönem").Id;
+
+                    model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(studentId, firstSemesterId);
+                    model.AttendanceDTOs2 = attendanceService.GetAttendanceOfStudent(studentId, model.SemesterDTO.Id);
+
+                    ViewBag.attendanceExcuse2 = model.AttendanceDTOs2.Where(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nobetçi Öğrenci").Count();
+                    ViewBag.attendance2 = model.AttendanceDTOs2.Where(z => z.AttendanceType.AttendanceTypeName == "Katılmadı").Count();
+                }
+
+                //var certificate = certificateService.CreateCertificate(studentId, model.SemesterDTO.Id);
+                //certificateService.NewCertificate(certificate);
+
+                return View(model);
             }
-            else if (model.SemesterDTO.SemesterName == "II. Dönem")
-            {
-                model.SemesterDTOs = semesterService.GetSemestersByAcademicYear(model.SemesterDTO.AcademicYear);
-                var firstSemesterId = model.SemesterDTOs.FirstOrDefault(z => z.AcademicYear == model.SemesterDTO.AcademicYear && z.SemesterName == "I. Dönem").Id;
-
-                model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent(studentId, firstSemesterId);
-                model.AttendanceDTOs2 = attendanceService.GetAttendanceOfStudent(studentId, model.SemesterDTO.Id);
-
-                ViewBag.attendanceExcuse2 = model.AttendanceDTOs2.Where(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nobetçi Öğrenci").Count();
-                ViewBag.attendance2 = model.AttendanceDTOs2.Where(z => z.AttendanceType.AttendanceTypeName == "Katılmadı").Count();
-            }
-
-            //var certificate = certificateService.CreateCertificate(studentId, model.SemesterDTO.Id);
-            //certificateService.NewCertificate(certificate);
-
-            return View(model);
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
 

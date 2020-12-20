@@ -54,7 +54,7 @@ namespace SMS.BLL.SMSService
 
         public InstructorDTO GetInstructor(int id)
         {
-            var selectedInstructor = instructorRepo.Get(z => z.Id == id);
+            var selectedInstructor = instructorRepo.GetIncludes(z => z.Id == id, z => z.User);
             return MapperFactory.CurrentMapper.Map<InstructorDTO>(selectedInstructor);
         }
 
@@ -134,7 +134,6 @@ namespace SMS.BLL.SMSService
 
             return MapperFactory.CurrentMapper.Map<List<InstructorDTO>>(result);
         }
-
 
         public InstructorDTO GetInstructoreByUserId(int id)
         {

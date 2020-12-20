@@ -79,33 +79,33 @@
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Timetable" asp-action="TimetableDesign" asp-route-instructorUserName="@User.Identity.Name">
                     <i class="fas fa-book-dead"></i>
-                    <span>Ders Programım</span>
+                    <span>Ders Programı</span>
                 </a>
             </li>
 
 
-            <hr class="sidebar-divider">
+            <!--<hr class="sidebar-divider">-->
 
             <!-- Heading -->
-            <div class="sidebar-heading">
+            <!--<div class="sidebar-heading">
                 Öğrenci &amp; Veli İşlemleri
-            </div>
+            </div>-->
             <!--Students-->
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link" asp-controller="Instructor" asp-action="InstructorsStudents" asp-route-instructorUsername="@User.Identity.Name">
                     <i class="fas fa-book-open"></i>
-                    <span>Öğrencilerim</span>
+                    <span>Öğrenciler </span>
                 </a>
-            </li>
+            </li>-->
 
      
             <!--Parents-->
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link" asp-controller="Parent" asp-action="ParentList" asp-route-instructorUsername="@User.Identity.Name">
                     <i class="fas fa-users"></i>
-                    <span>Velilerim</span>
+                    <span>Veliler</span>
                 </a>
-            </li>
+            </li>-->
 
 
 
@@ -163,13 +163,13 @@
 
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item mx-1">
+                        <!--<li class="nav-item mx-1">
                             <a class="nav-link" href="#" role="button">
-                                <i class="fas fa-bell fa-fw"></i>
+                                <i class="fas fa-bell fa-fw"></i>-->
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter"></span>
+                                <!--<span class="badge badge-danger badge-counter"></span>
                             </a>
-                        </li>
+                        </li>-->
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item mx-1">
@@ -191,10 +191,10 @@
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                @*<a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
-                                </a>
+                                </a>*@
                                 <a class="dropdown-item" asp-controller="User" asp-action="UserSettings" asp-route-username="@this.User.Identity.Name">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Ayarlar

@@ -80,7 +80,10 @@ namespace SMS.WebUI.Controllers
                 newInstructor.UserId = newUser.Id;
 
                 instructorService.NewInstructor(newInstructor);
-                return Redirect(Request.Headers["Referer"].ToString());
+                newInstructor = instructorService.GetInstructoreByUserId(newUser.Id);
+
+                //return Redirect(Request.Headers["Referer"].ToString());
+                return RedirectToAction("InstructorDetails", new { id = newInstructor.Id });
             }
             return View(instructor);
         }

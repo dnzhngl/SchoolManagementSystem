@@ -15,10 +15,12 @@ namespace SMS.BLL.SMSService
     {
         private readonly IUnitOfWork uow;
         private IRepository<MainSubject> mainSubjectRepo;
+        private IRepository<Subject> subjectRepo;
         public MainSubjectService(IUnitOfWork _uow)
         {
             uow = _uow;
             mainSubjectRepo = uow.GetRepository<MainSubject>();
+            subjectRepo = uow.GetRepository<Subject>();
         }
 
 
@@ -27,7 +29,13 @@ namespace SMS.BLL.SMSService
             try
             {
                 var selectedMainSubject = mainSubjectRepo.Get(z => z.Id == id);
-                mainSubjectRepo.Delete(selectedMainSubject);
+                //var selectedMainSubject = mainSubjectRepo.GetIncludes(z => z.Id == id, z=>z.Subjects);
+                //mainSubjectRepo.Delete(selectedMainSubject);
+                //foreach(var subject in selectedMainSubject.Subjects)
+                //{
+                //    subjectRepo.Delete(subject);
+                //    uow.SaveChanges();
+                //}
                 uow.SaveChanges();
                 return true;
             }

@@ -52,24 +52,24 @@
 
             @*<hr class="sidebar-divider">
 
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    Öğrenciler
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Öğrenciler
+        </div>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageStudents" aria-expanded="true" aria-controls="collapsePageStudents">
+                <i class="fas fa-code-branch"></i>
+                <span>Öğrenci Takip</span>
+            </a>
+            <div id="collapsePageStudents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Öğrenci Takip</h6>
+                    <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-parentUsername="@User.Identity.Name">Öğrenci Bilgileri</a>
+
                 </div>
-
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageStudents" aria-expanded="true" aria-controls="collapsePageStudents">
-                        <i class="fas fa-code-branch"></i>
-                        <span>Öğrenci Takip</span>
-                    </a>
-                    <div id="collapsePageStudents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Öğrenci Takip</h6>
-                            <a class="collapse-item" asp-controller="Student" asp-action="StudentList" asp-route-parentUsername="@User.Identity.Name">Öğrenci Bilgileri</a>
-
-                        </div>
-                    </div>
-                </li>*@
+            </div>
+        </li>*@
 
 
             <hr class="sidebar-divider">
@@ -96,13 +96,21 @@
 
             <hr class="sidebar-divider">
 
+            <li class="nav-item">
+                <a class="nav-link" asp-action="PostList" asp-controller="Post">
+                    <i class="fas fa-bullhorn"></i>
+                    Duyuru ve Etkinlikler
+                </a>
+            </li>
+
+
             <!-- Heading -->
-            <div class="sidebar-heading">
+            <!--<div class="sidebar-heading">
                 Duyuru ve Etkinlikler
-            </div>
+            </div>-->
 
             <!--Announcements-->
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePageAnnouncement" aria-expanded="true" aria-controls="collapsePageAnnouncement">
                     <i class="fas fa-code-branch"></i>
                     <span>Duyurular ve Etkinlikler</span>
@@ -113,7 +121,7 @@
                         <a class="collapse-item" asp-controller="Post" asp-action="PostList" asp-route-postCategoryName="Etkinlik">Etkinlik Listesi</a>
                     </div>
                 </div>
-            </li>
+            </li>-->
 
 
 
@@ -157,13 +165,13 @@
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item mx-1">
+                        <!--<li class="nav-item mx-1">
                             <a class="nav-link" href="#" role="button">
-                                <i class="fas fa-bell fa-fw"></i>
+                                <i class="fas fa-bell fa-fw"></i>-->
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter"></span>
+                                <!--<span class="badge badge-danger badge-counter"></span>
                             </a>
-                        </li>
+                        </li>-->
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item mx-1">
@@ -185,10 +193,10 @@
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                @*<a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
-                                </a>
+                                </a>*@
                                 <a class="dropdown-item" asp-controller="User" asp-action="UserSettings" asp-route-username="@this.User.Identity.Name">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Ayarlar

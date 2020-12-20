@@ -17,12 +17,15 @@ namespace SMS.BLL.SMSService
         private IRepository<ExamResult> examResultRepo;
         private IRepository<Exam> examRepo;
         private IRepository<Subject> subjectRepo;
+        private IRepository<Semester> semesterRepo;
+
         public ExamResultService(IUnitOfWork _uow)
         {
             uow = _uow;
             examResultRepo = uow.GetRepository<ExamResult>();
             examRepo = uow.GetRepository<Exam>();
             subjectRepo = uow.GetRepository<Subject>();
+            semesterRepo = uow.GetRepository<Semester>();
         }
         public bool DeleteExamResult(int id)
         {
@@ -126,6 +129,13 @@ namespace SMS.BLL.SMSService
         {
             var examResults = examResultRepo.GetIncludesList(z => z.StudentId == studentId, z => z.Exam, z => z.Student).ToList();
             return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(examResults);
+        }
+
+        public List<ExamResultDTO> GetExamResultsOfStudentBasedOnSemester(int studentId, int semesterId)
+        {
+            var selectedSemester = semesterRepo.Get(z => z.Id == semesterId);
+            var results = examResultRepo.GetIncludesList(z => z.StudentId == studentId & z.Exam.ExamDate < selectedSemester.SemesterEnd && z.Exam.ExamDate > selectedSemester.SemesterBeginning, z => z.Exam);
+            return MapperFactory.CurrentMapper.Map<List<ExamResultDTO>>(results);
         }
     }
 }

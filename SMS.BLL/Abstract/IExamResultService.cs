@@ -17,6 +17,8 @@ namespace SMS.BLL.Abstract
         ExamResultDTO UpdateExamResult(ExamResultDTO examResult);
         bool DeleteExamResult(int id);
 
+        List<ExamResultDTO> GetExamResultsOfStudentBasedOnSemester(int studentId, int semesterId);
+
         // IQueryable<object> CreateSchoolReport(int studentId);
     }
 }

@@ -144,7 +144,7 @@ namespace SMS.BLL.SMSService
 
         public StudentDTO GetStudentByUsername(string username)
         {
-            var selectedStudent = studentRepo.Get(z => z.SchoolNumber == username);
+            var selectedStudent = studentRepo.GetIncludes(z => z.SchoolNumber == username, z => z.Section.Grade);
             return MapperFactory.CurrentMapper.Map<StudentDTO>(selectedStudent);
         }
 
