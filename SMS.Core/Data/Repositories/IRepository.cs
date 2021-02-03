@@ -25,7 +25,6 @@ namespace SMS.Core.Data.Repositories
                            int? take = null
             );
 
-        // BEN EKLEDİM
         IQueryable<T> GetIncludesList(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes);
 
     }
