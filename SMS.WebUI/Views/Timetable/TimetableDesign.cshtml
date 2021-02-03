@@ -4,6 +4,7 @@
     ViewData["Title"] = "TimetableDesign";
 }
 
+
 @if (this.User.IsInRole("Admin") & this.User.IsInRole("Öğretmen"))
 {
     <div class="card border-bottom-primary shadow">
@@ -18,26 +19,50 @@
 
 <div class="card shadow mt-3">
     <div class="card-header">
-        @if (Model.SectionDTO != null)
-        {
-            <h5 class="font-weight-bold text-primary">@Model.SectionDTO.SectionName Şubesi Ders Programı</h5>
-        }
-        else if (Model.InstructorDTO != null)
-        {
-            <h5 class="font-weight-bold text-primary">@Model.InstructorDTO.FullName Ders Programı</h5>
-        }
-        else if (Model.ClassroomDTO != null)
-        {
-            <h5 class="font-weight-bold text-primary">@Model.ClassroomDTO.ClassroomName - Derslik Ders Programı</h5>
-        }
-        else
-        {
-            <h5 class="font-weight-bold text-primary">Ders Programı</h5>
-        }
+        <div class="row">
+            @if (Model.SectionDTO != null)
+            {
+                <div class="col">
+                    <h5 class="font-weight-bold text-primary">@Model.SectionDTO.SectionName Şubesi Ders Programı</h5>
+                </div>
+                <div class="col">
+                    <a onclick="printDiv('timetable')" href="#" class="btn btn-sm btn-outline-primary float-right">
+                        Yazdır <i class="fa fa-print" aria-hidden="true"></i>
+                    </a>
+                </div>
+            }
+            else if (Model.InstructorDTO != null)
+            {
+                <div class="col">
+                    <h5 class="font-weight-bold text-primary">@Model.InstructorDTO.FullName Ders Programı</h5>
+                </div>
+                <div class="col">
+                    <a onclick="printDiv('timetable')" href="#" class="btn btn-sm btn-outline-primary float-right">
+                        Yazdır <i class="fa fa-print" aria-hidden="true"></i>
+                    </a>
+                </div>
+            }
+            else if (Model.ClassroomDTO != null)
+            {
+                <div class="col">
+                    <h5 class="font-weight-bold text-primary">@Model.ClassroomDTO.ClassroomName - Derslik Ders Programı</h5>
+                </div>
+                <div class="col">
+                    <a onclick="printDiv('timetable')" href="#" class="btn btn-sm btn-outline-primary float-right">
+                        Yazdır <i class="fa fa-print" aria-hidden="true"></i>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <h5 class="font-weight-bold text-primary">Ders Programı</h5>
+            }
+        </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="timetable">
 
         <table class="table table-bordered table-responsive">
+            @*table-responsive*@
             <thead>
                 <tr>
                     <th></th>
@@ -71,8 +96,8 @@
 
                                                 @if (this.User.IsInRole("Admin"))
                                                 {
-                                                    <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("TimetableUpdate", "Timetable", new { ttId = ttView.Id, dayId = day.Id, lessonPeriodId = timeDTO.Id })')"><i class="fa fa-pen"></i></a>
-                                                    <a class="btn btn-outline-danger btn-sm" asp-action="TimetableDelete" asp-route-id="@ttView.Id"><i class="fa fa-trash"></i></a>
+                                                    <a class="btn btn-outline-warning btn-sm d-print-none" href="#" onclick="modalFunction('@Url.Action("TimetableUpdate", "Timetable", new { ttId = ttView.Id, dayId = day.Id, lessonPeriodId = timeDTO.Id })')"><i class="fa fa-pen"></i></a>
+                                                    <a class="btn btn-outline-danger btn-sm d-print-none" asp-action="TimetableDelete" asp-route-id="@ttView.Id"><i class="fa fa-trash"></i></a>
                                                 }
                                             </div>
 
@@ -101,3 +126,30 @@
         </table>
     </div>
 </div>
+
+@section BeginPageJS{
+    <script>
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+
+        }
+
+
+        //function printInfo(elementId) {
+        //    var prtContent = document.getElementById(elementId);
+        //    var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+        //    WinPrint.document.write(prtContent.innerHTML);
+        //    WinPrint.document.close();
+        //    WinPrint.focus();
+        //    WinPrint.print();
+        //    WinPrint.close();
+        //}
+    </script>
+}

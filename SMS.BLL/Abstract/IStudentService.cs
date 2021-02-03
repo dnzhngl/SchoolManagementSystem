@@ -15,7 +15,7 @@ namespace SMS.BLL.Abstract
         List<StudentDTO> GetStudentByParent(int parentId);
         List<StudentDTO> GetStudentBySection(int sectionId);
         List<StudentDTO> GetStudentsByGrade(int gradeId);
-        List<StudentDTO> GetStudentBasedOnCertificates(int certificateTypeId);
+        List<StudentDTO> GetStudentBasedOnCertificates(int certificateTypeId, int? gradeId, string sectionName = "");
         List<StudentDTO> GetStudentsOfInstructor(int instructorId);
         List<StudentDTO> GetStudentList(string studentStatus = null);
         List<StudentDTO> GetStudentsIncludes(int sectionId);

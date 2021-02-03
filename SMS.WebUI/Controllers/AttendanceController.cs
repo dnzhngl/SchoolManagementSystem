@@ -35,13 +35,13 @@ namespace SMS.WebUI.Controllers
                 ViewBag.TotalAbsenteeism = model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName == "Katılmadı");
                 ViewBag.TotalSickLeave = model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nöbetçi Öğrenci");
             }
-            else
-            {
-                model.SemesterDTO = semesterService.GetCurrentSemester(DateTime.Now);
-                model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent((int)studentId, model.SemesterDTO.Id);
-                ViewBag.TotalAbsenteeism = model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName == "Katılmadı");
-                ViewBag.TotalSickLeave = model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nöbetçi Öğrenci");
-            }
+            //else
+            //{
+            //    model.SemesterDTO = semesterService.GetCurrentSemester(DateTime.Now);
+            //    model.AttendanceDTOs = attendanceService.GetAttendanceOfStudent((int)studentId, model.SemesterDTO.Id);
+            //    ViewBag.TotalAbsenteeism = model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName == "Katılmadı");
+            //    ViewBag.TotalSickLeave = model.AttendanceDTOs.Count(z => z.AttendanceType.AttendanceTypeName == "Raporlu" || z.AttendanceType.AttendanceTypeName == "Nöbetçi Öğrenci");
+            //}
             model.SemesterDTOs = semesterService.GetAllSemestersOfStudent((int)studentId);
             model.AttendanceTypeDTOs = attendanceTypeService.GetAll();
             return View(model);

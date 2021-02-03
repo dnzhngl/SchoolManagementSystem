@@ -46,9 +46,14 @@ namespace SMS.BLL.SMSService
 
         public List<ParentDTO> GetAll()
         {
-            //var parentList = parentRepo.GetAll().ToList();
+            var parentIdList = studentRepo.GetIncludesList(z => z.StudentStatus == "Öğrenci" && z.SectionId != null).Select(z => z.ParentId);
+
             var parentList = parentRepo.GetIncludesList(null, z => z.User);
-            return MapperFactory.CurrentMapper.Map<List<ParentDTO>>(parentList);
+            var result = parentList.Where(z => parentIdList.Contains(z.Id));
+
+            //var parentList = parentRepo.GetAll().ToList();
+            //var parentList = parentRepo.GetIncludesList(null, z => z.User);
+            return MapperFactory.CurrentMapper.Map<List<ParentDTO>>(result);
         }
 
         public ParentDTO GetParent(int id)

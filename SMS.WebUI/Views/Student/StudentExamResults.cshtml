@@ -78,25 +78,45 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (ExamResultDTO examResult in Model.ExamResultDTOs)
+                    @if (Model.ExamResultDTOs != null)
                     {
-                        <tr>
-                            <td>@examResult.Exam.ExamName</td>
-                            <td>@examResult.ExamMark</td>
-                            <td>@examResult.StudentStatus</td>
-                            <td>
-                                @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Öğretmen") && ViewBag.InstructorId == examResult.CreatedBy))
-                                {
+                        if (Model.ExamResultDTOs.Count() != 0)
+                        {
+                            @foreach (ExamResultDTO examResult in Model.ExamResultDTOs)
+                            {
+                                <tr>
+                                    <td>@examResult.Exam.ExamName</td>
+                                    <td>@examResult.ExamMark</td>
+                                    <td>@examResult.StudentStatus</td>
+                                    <td>
+                                        @*@if (this.User.IsInRole("Admin") || (this.User.IsInRole("Öğretmen") && ViewBag.InstructorId == examResult.CreatedBy))*@
+                                        @if (this.User.IsInRole("Admin") || ((this.User.IsInRole("Öğretmen") && ViewBag.InstructorId == examResult.CreatedBy)))
+                                        {
 
-                                    <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultUpdate", "ExamResult", new { examResultId = examResult.Id})')"><i class="fa fa-pen"></i></a>
-                                    @if (this.User.IsInRole("Admin"))
-                                    {
-                                        <a class="btn btn-outline-danger btn-sm" asp-action="ExamResultDelete" asp-controller="ExamResult" asp-route-examResultId="@examResult.Id"><i class="fa fa-trash"></i></a>
-                                    }
-                                }
-                            </td>
-                        </tr>
+                                            <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("ExamResultUpdate", "ExamResult", new { examResultId = examResult.Id })')"><i class="fa fa-pen"></i></a>
+                                            @if (this.User.IsInRole("Admin"))
+                                            {
+                                                <a class="btn btn-outline-danger btn-sm" asp-action="ExamResultDelete" asp-controller="ExamResult" asp-route-examResultId="@examResult.Id"><i class="fa fa-trash"></i></a>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
                     }
+                    @*@if(Model.ExamResultDTOs.Count() == 0 && Model.ExamDTOs.Count() != 0)
+                        {
+                            foreach(var exam in Model.ExamDTOs)
+                            {
+                                <tr>
+                                    <td>@exam.ExamName</td>
+                                    <td>@exam.ExamDate</td>
+                                    <td>@exam.ExamStartTime - @exam.ExamEndTime</td>
+                                    <td>@exam.ExamType.ExamTypeName</td>
+                                    <td>@exam.Subject.SubjectName</td>
+                                </tr>
+                            }
+                        }*@
                 </tbody>
             </table>
         </div>

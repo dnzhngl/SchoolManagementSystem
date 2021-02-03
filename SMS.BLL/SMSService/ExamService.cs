@@ -130,7 +130,7 @@ namespace SMS.BLL.SMSService
 
             var sectionId = uow.GetRepository<Student>().Get(z => z.Id == studentId).SectionId;
             var exams = uow.GetRepository<Timetable>().GetIncludesList(z => z.SectionId == sectionId, z => z.Subject.Exams).SelectMany(z => z.Subject.Exams);
-            var examList = exams.GroupBy(z => new Exam() { Id = z.Id, ExamName = z.ExamName, ExamDate = z.ExamDate, ExamTypeId = z.ExamTypeId, SubjectId = z.SubjectId }).Select(z => z.Key);
+            var examList = exams.GroupBy(z => new Exam() { Id = z.Id, ExamName = z.ExamName, ExamDate = z.ExamDate, ExamTypeId = z.ExamTypeId, SubjectId = z.SubjectId, ExamStartTime = z.ExamStartTime, ExamEndTime = z.ExamEndTime }).Select(z => z.Key);
 
 
             return MapperFactory.CurrentMapper.Map<List<ExamDTO>>(examList);

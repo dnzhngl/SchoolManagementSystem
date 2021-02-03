@@ -80,21 +80,37 @@ namespace SMS.WebUI.Controllers
                 var section_Name = sectionService.GetSection((int)sectionId).SectionName;
                 ViewBag.sectionName = section_Name;
             }
-            else if (gradeId != null)
+            else if (gradeId != null && certificateTypeName == "")
             {
                 model.StudentDTOs = studentService.GetStudentsByGrade((int)gradeId);
-            }
-            else if (sectionName != "")
-            {
-                var section = sectionService.GetSectionByName(sectionName);
-                ViewBag.sectionName = sectionName;
-                model.StudentDTOs = studentService.GetStudentBySection(section.Id);
+                ViewBag.gradeName = gradeService.GetGrade((int)gradeId).GradeName;
+                ViewBag.gradeId = gradeId;
             }
             else if (certificateTypeName != "")
             {
                 var certificateTypeId = certificateTypeService.GetCertificateType(certificateTypeName).Id;
-                model.StudentDTOs = studentService.GetStudentBasedOnCertificates(certificateTypeId);
+
+                if (sectionName != "")
+                {
+                    model.StudentDTOs = studentService.GetStudentBasedOnCertificates(certificateTypeId, null, sectionName);
+                    ViewBag.sectionName = sectionName + " Şubesi - ";
+                }
+                else if (gradeId != null)
+                {
+                    model.StudentDTOs = studentService.GetStudentBasedOnCertificates(certificateTypeId, gradeId);
+                    ViewBag.gradeName = gradeService.GetGrade((int)gradeId).GradeName;
+                }
+                else
+                {
+                    model.StudentDTOs = studentService.GetStudentBasedOnCertificates(certificateTypeId, null);
+                }
                 ViewBag.certificateTypeName = certificateTypeName + " Belgesi Alan";
+            }
+            else if (sectionName != "" && certificateTypeName == "")
+            {
+                var section = sectionService.GetSectionByName(sectionName);
+                ViewBag.sectionName = sectionName;
+                model.StudentDTOs = studentService.GetStudentBySection(section.Id);
             }
             else if (studentStatus != "")
             {
@@ -213,16 +229,22 @@ namespace SMS.WebUI.Controllers
                 model.ExamResultDTOs = examResultService.GetExamResultsOfStudentBasedOnSemester(studentId, (int)semesterId);
                 model.SemesterDTO = semesterService.GetSemester((int)semesterId);
             }
-            else
-            {
-                model.SemesterDTO = semesterService.GetCurrentSemester(DateTime.Now);
-                model.ExamResultDTOs = examResultService.GetExamResultsOfStudentBasedOnSemester(studentId, model.SemesterDTO.Id);
-                //model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
-            }
+            //else
+            //{
+            //    //model.SemesterDTO = semesterService.GetCurrentSemester(DateTime.Now);
+            //    //model.ExamResultDTOs = examResultService.GetExamResultsOfStudentBasedOnSemester(studentId, model.SemesterDTO.Id);
+            //    //model.ExamResultDTOs = examResultService.GetExamResultsOfStudent(studentId);
+            //}
             if (User.IsInRole("Öğretmen"))
             {
                 ViewBag.InstructorId = instructorService.GetInstructorByUsername(User.Identity.Name).Id;
             }
+
+            //if(model.ExamResultDTOs.Count() == 0)
+            //{
+            //    model.ExamDTOs = examService.GetExamsOfStudent(studentId);
+            //    model.ExamDTOs = examService.GetExamsByStudent(studentId);
+            //}
 
             return View(model);
         }

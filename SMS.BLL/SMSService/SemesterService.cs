@@ -65,7 +65,7 @@ namespace SMS.BLL.SMSService
 
         public SemesterDTO NewSemester(SemesterDTO semester)
         {
-            if (!semesterRepo.GetAll().Any(z => z.SemesterBeginning.Year == semester.SemesterBeginning.Year && z.SemesterEnd == semester.SemesterEnd))
+            if (!semesterRepo.GetAll().Any(z => z.SemesterBeginning.Year == semester.SemesterBeginning.Year && z.SemesterEnd.Year == semester.SemesterEnd.Year))
             {
                 var newSemester = MapperFactory.CurrentMapper.Map<Semester>(semester);
                 if (newSemester.SemesterBeginning.Month < 12 && newSemester.SemesterBeginning.Month >= 8)

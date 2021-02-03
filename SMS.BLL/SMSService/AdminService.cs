@@ -15,13 +15,11 @@ namespace SMS.BLL.SMSService
     {
         private readonly IUnitOfWork uow;
         private IRepository<Admin> adminRepo;
-        private IRepository<Role> roleRepo;
 
         public AdminService(IUnitOfWork _uow)
         {
             uow = _uow;
             adminRepo = uow.GetRepository<Admin>();
-            roleRepo = uow.GetRepository<Role>();
         }
         public bool DeleteAdmin(int id)
         {
@@ -70,7 +68,6 @@ namespace SMS.BLL.SMSService
         {
             var selectedAdmin =  adminRepo.Get(z => z.Id == admin.Id);
             selectedAdmin = MapperFactory.CurrentMapper.Map<Admin>(admin);
-       //     selectedAdmin.RoleId = roleRepo.Get(z => z.RoleName.Contains("Admin")).Id;
             adminRepo.Update(selectedAdmin);
             uow.SaveChanges();
 

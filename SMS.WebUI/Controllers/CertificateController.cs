@@ -38,12 +38,18 @@ namespace SMS.WebUI.Controllers
                     model.CertificateDTOs = certificateService.GetCertificateList((int)studentId, (int)semesterId);
                     model.SemesterDTO = semesterService.GetSemester((int)semesterId);
                 }
-                else
-                {
-                    model.SemesterDTO = semesterService.GetCurrentSemester(DateTime.Now);
-                    model.CertificateDTOs = certificateService.GetCertificateList((int)studentId, model.SemesterDTO.Id);
-                    //model.CertificateDTOs = certificateService.GetCertificateList((int)studentId);
-                }
+                //else
+                //{
+                //    model.SemesterDTO = semesterService.GetCurrentSemester(DateTime.Now);
+                //    if (model.SemesterDTO == null)
+                //    {
+                //        model.CertificateDTOs = certificateService.GetCertificateList((int)studentId);
+                //    }
+                //    else
+                //    {
+                //        model.CertificateDTOs = certificateService.GetCertificateList((int)studentId, model.SemesterDTO.Id);
+                //    }
+                //}
                 model.SemesterDTOs = semesterService.GetAllSemestersOfStudent((int)studentId);
             }
             else

@@ -95,21 +95,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.AttendanceDTOs.Count() != 0)
+                    @if (Model.AttendanceDTOs != null)
                     {
-                        @foreach (var attendance in Model.AttendanceDTOs)
+                        @if (Model.AttendanceDTOs.Count() != 0)
                         {
-                            <tr>
-                                <td>@attendance.DateTime.ToShortDateString()</td>
-                                <td>@Model.AttendanceTypeDTOs.FirstOrDefault(z => z.Id == attendance.AttendanceTypeId).AttendanceTypeName</td>
-                                <td>
-                                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
-                                    {
-                                        <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceUpdate", "Attendance", new { id = attendance.Id })')"><i class="fa fa-pen"></i></a>
-                                        <a class="btn btn-outline-danger btn-sm" asp-action="AttendanceDelete" asp-route-id="@attendance.Id"><i class="fa fa-trash"></i></a>
-                                    }
-                                </td>
-                            </tr>
+
+                            @foreach (var attendance in Model.AttendanceDTOs)
+                            {
+                                <tr>
+                                    <td>@attendance.DateTime.ToShortDateString()</td>
+                                    <td>@Model.AttendanceTypeDTOs.FirstOrDefault(z => z.Id == attendance.AttendanceTypeId).AttendanceTypeName</td>
+                                    <td>
+                                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Öğretmen"))
+                                        {
+                                            <a class="btn btn-outline-warning btn-sm" href="#" onclick="modalFunction('@Url.Action("AttendanceUpdate", "Attendance", new { id = attendance.Id })')"><i class="fa fa-pen"></i></a>
+                                            <a class="btn btn-outline-danger btn-sm" asp-action="AttendanceDelete" asp-route-id="@attendance.Id"><i class="fa fa-trash"></i></a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
                         }
                     }
                 </tbody>

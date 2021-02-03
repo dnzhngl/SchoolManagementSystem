@@ -6,6 +6,7 @@ namespace SMS.Model
 {
     public class DismissedStudent
     {
+        public int RowId { get; set; }
         public int Id { get; set; }
         public string IdentityNumber { get; set; }
         public string SchoolNumber { get; set; }

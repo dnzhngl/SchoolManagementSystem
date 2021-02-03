@@ -64,6 +64,9 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
         <button type="submit" class="btn btn-primary">Kaydet</button>
+        @*<a onclick="printDiv('timetable')" href="#" class="btn btn-sm btn-outline-primary float-right">
+            Yazdır <i class="fa fa-print" aria-hidden="true"></i>
+        </a>*@
         @*<button type="submit" class="btn btn-primary" onclick="printCertificate()">Yazdır</button>*@@*onclick="window.print()"*@
     </div>
 </form>
@@ -71,17 +74,29 @@
 @section BeginPageJs{
     <script>
 
-        function printCertificate() {
-            var prtContent = document.getElementById("studentCertificate");
-            var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=650,toolbar=0,scrollbars=0,status=0');
-            WinPrint.document.write(prtContent.innerHTML);
-            WinPrint.document.write('<link href="/css/sb-admin-2.min.css" rel="stylesheet">');
-            WinPrint.document.write('../../wwwroot/Images/certificate.jpg');
-            WinPrint.document.close();
-            WinPrint.focus();
-            WinPrint.print();
-            WinPrint.close();
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+
         }
+
+        //function printCertificate() {
+        //    var prtContent = document.getElementById("studentCertificate");
+        //    var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=650,toolbar=0,scrollbars=0,status=0');
+        //    WinPrint.document.write(prtContent.innerHTML);
+        //    WinPrint.document.write('<link href="/css/sb-admin-2.min.css" rel="stylesheet">');
+        //    WinPrint.document.write('../../wwwroot/Images/certificate.jpg');
+        //    WinPrint.document.close();
+        //    WinPrint.focus();
+        //    WinPrint.print();
+        //    WinPrint.close();
+        //}
 
     </script>
 }

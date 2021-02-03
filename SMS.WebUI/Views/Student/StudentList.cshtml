@@ -21,19 +21,20 @@
     <div class="card-header py-3">
         <div class="row">
             <div class="col-9">
-                <h5 class="m-0 font-weight-bold text-primary">@ViewBag.sectionName @ViewBag.certificateTypeName Öğrenci Listesi</h5>
+                <h5 class="m-0 font-weight-bold text-primary">@ViewBag.gradeName @ViewBag.sectionName @ViewBag.certificateTypeName Öğrenci Listesi</h5>
             </div>
             <div class="col">
                 <div class="dropdown float-right">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Öğrenci Listeleri
-                    </button>
                     @if (ViewBag.studentStatus != "Mezun" || ViewBag.studentStatus != "Sevk")
                     {
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Öğrenci Listeleri
+                        </button>
+
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Takdir">Takdir Belgesi Alanlar</a>
-                            <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Teşekkür">Teşekkür Belgesi Alanlar</a>
-                            <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Onur">Onur Belgesi Alanlar</a>
+                            <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Takdir" asp-route-sectionName="@ViewBag.sectionName" asp-route-gradeId="@ViewBag.gradeId">Takdir Belgesi Alanlar</a>
+                            <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Teşekkür" asp-route-sectionName="@ViewBag.sectionName" asp-route-gradeId="@ViewBag.gradeId">Teşekkür Belgesi Alanlar</a>
+                            <a class="dropdown-item" asp-action="StudentList" asp-route-certificateTypeName="Onur" asp-route-sectionName="@ViewBag.sectionName" asp-route-gradeId="@ViewBag.gradeId">Onur Belgesi Alanlar</a>
                         </div>
                     }
                 </div>
@@ -75,7 +76,7 @@
                                 @if (this.User.IsInRole("Admin"))
                                 {
                                     <a class="btn btn-outline-warning btn-sm" asp-action="StudentUpdate" asp-route-id="@student.Id"><i class="fa fa-pen"></i></a>
-                                    <a class="btn btn-outline-danger btn-sm" asp-action="StudentDelete" asp-route-id="@student.Id"><i class="fa fa-trash"></i></a>
+                                    @*<a class="btn btn-outline-danger btn-sm" asp-action="StudentDelete" asp-route-id="@student.Id"><i class="fa fa-trash"></i></a>*@
                                 }
                             </td>
                         </tr>

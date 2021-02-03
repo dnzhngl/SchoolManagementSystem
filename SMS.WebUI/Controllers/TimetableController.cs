@@ -195,10 +195,14 @@ namespace SMS.WebUI.Controllers
             TimetableViewModel model = new TimetableViewModel();
             model.TimeTableDTO = timetableService.GetTimeTable(ttId);
             model.TimetableViewDTO = timetableViewService.GetTimeTable(ttId);
+            
+            model.ClassroomDTOs = classroomService.GetClasroomsThatAreFree((int)dayId, (int)lessonPeriodId);
+            model.ClassroomDTOs.Add(classroomService.GetClassroom(model.TimeTableDTO.ClassroomId));
 
-            model.ClassroomDTOs = classroomService.GetAll();
             model.SubjectDTOs = subjectService.GetAll();
+
             model.InstructorDTOs = instructorService.GetInstructorsThatAreFree(dayId, lessonPeriodId);
+            model.InstructorDTOs.Add(instructorService.GetInstructor(model.TimeTableDTO.InstructorId));
             return PartialView(model);
         }
         [HttpPost]

@@ -5,13 +5,13 @@
 }
 
 @*@section BeginPage{
-    <style>
-        #certificateModalContent .modal-popout-bg {
-            background-image: url("../../wwwroot/Images/certificateBg.png");
-        }
-    </style>
+        <style>
+            #certificateModalContent .modal-popout-bg {
+                background-image: url("../../wwwroot/Images/certificateBg.png");
+            }
+        </style>
 
-}*@
+    }*@
 
 <div class="card shadow-sm mt-3">
     <div class="card-header">
@@ -22,7 +22,7 @@
             <div class="col-3">
                 @if (this.User.IsInRole("Admin"))
                 {
-                    <a class="btn btn-success float-right" data-toggle="modal" data-target=".bd-example-modal-xl"
+                    <a class="btn btn-outline-success btn-sm float-right" data-toggle="modal" data-target=".bd-example-modal-xl"
                        href="#" onclick="createSchoolReportModalFunction('@Url.Action("CreateCertificate", "Certificate", new { studentId = Model.StudentDTO.Id, semesterId = Model.SemesterDTO.Id } )')">Takdir/Teşekkür Belgesi Sorgula <i class="fa fa-plus-circle"></i></a>
                 }
             </div>
@@ -382,7 +382,10 @@
     <div class="card-footer">
         <div class="float-right">
             <button type="button" class="btn btn-secondary" onclick="history.back()">Geri</button>
-            <button type="submit" class="btn btn-primary" onclick="printInfo()">Yazdır</button>@*onclick="window.print()"*@
+            <!--<button type="submit" class="btn btn-primary" onclick="printDiv('schoolReport')">Yazdır</button>-->@*onclick="window.print()"*@
+            <a onclick="printDiv('schoolReport')" href="#" class="btn btn-outline-primary float-right">
+                Yazdır <i class="fa fa-print" aria-hidden="true"></i>
+            </a>
         </div>
     </div>
 </div>
@@ -390,7 +393,7 @@
 <div class="modal fade bd-example-modal-lg" id="certificateModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content modal-popout-bg" id="certificateModalContent">
-            
+
         </div>
     </div>
 </div>
@@ -399,16 +402,28 @@
 @section BeginPageJs{
     <script>
 
-        function printInfo() {
-            var prtContent = document.getElementById("schoolReport");
-            var WinPrint = window.open('', '', 'left=0,top=0,width=595,height=842,toolbar=0,scrollbars=0,status=0');
-            WinPrint.document.write(prtContent.innerHTML);
-            WinPrint.document.write('<link href="/css/sb-admin-2.min.css" rel="stylesheet">');
-            WinPrint.document.close();
-            WinPrint.focus();
-            WinPrint.print();
-            WinPrint.close();
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+
         }
+
+        //function printInfo() {
+        //    var prtContent = document.getElementById("schoolReport");
+        //    var WinPrint = window.open('', '', 'left=0,top=0,width=595,height=842,toolbar=0,scrollbars=0,status=0');
+        //    WinPrint.document.write(prtContent.innerHTML);
+        //    WinPrint.document.write('<link href="/css/sb-admin-2.min.css" rel="stylesheet">');
+        //    WinPrint.document.close();
+        //    WinPrint.focus();
+        //    WinPrint.print();
+        //    WinPrint.close();
+        //}
 
         function createSchoolReportModalFunction(url) {
             $('#certificateModalContent').load(url);
@@ -416,60 +431,60 @@
         }
 
 
-                                                                                                             //if (document.getElementById("semesterI") != null) {
-                                                                                                             //    var semesterI = document.getElementById("semesterI").innerHTML;
-                                                                                                             //    semesterI = parseInt(semesterI);
-                                                                                                             //}
-                                                                                                             //else {
-                                                                                                             //    document.getElementById("semester").innerHTML = "";
-                                                                                                             //}
+                                                                                                                 //if (document.getElementById("semesterI") != null) {
+                                                                                                                 //    var semesterI = document.getElementById("semesterI").innerHTML;
+                                                                                                                 //    semesterI = parseInt(semesterI);
+                                                                                                                 //}
+                                                                                                                 //else {
+                                                                                                                 //    document.getElementById("semester").innerHTML = "";
+                                                                                                                 //}
 
-                                                                                                             ////var semesterI = parseInt(document.getElementById("semesterI").innerHTML);
-                                                                                                             ////if (semesterI == null) {
-                                                                                                             ////    semesterI = 0;
-                                                                                                             ////}
-                                                                                                             ////var semesterII = parseInt( document.getElementById("semesterII").innerHTML);
-                                                                                                             ////if (semesterII == null) {
-                                                                                                             ////    semesterII == 0;
-                                                                                                             ////}
+                                                                                                                 ////var semesterI = parseInt(document.getElementById("semesterI").innerHTML);
+                                                                                                                 ////if (semesterI == null) {
+                                                                                                                 ////    semesterI = 0;
+                                                                                                                 ////}
+                                                                                                                 ////var semesterII = parseInt( document.getElementById("semesterII").innerHTML);
+                                                                                                                 ////if (semesterII == null) {
+                                                                                                                 ////    semesterII == 0;
+                                                                                                                 ////}
 
-                                                                                                             //studentMarkOutOf5(semesterI, "semesterI");
-                                                                                                             //studentMarkOutOf5(semesterII, "semesterII");
-                                                                                                             //document.getElementById("enfOfYearMark").innerHTML = endOfYearMark(semesterI, semesterII);
+                                                                                                                 //studentMarkOutOf5(semesterI, "semesterI");
+                                                                                                                 //studentMarkOutOf5(semesterII, "semesterII");
+                                                                                                                 //document.getElementById("enfOfYearMark").innerHTML = endOfYearMark(semesterI, semesterII);
 
-                                                                                                             //function endOfYearMark(semesterI, semesterII) {
-                                                                                                             //    return (semesterI + semesterII) / 2;
-                                                                                                             //}
-                                                                                                             //function studentMarkOutOf5(avgExamMark, element) {
+                                                                                                                 //function endOfYearMark(semesterI, semesterII) {
+                                                                                                                 //    return (semesterI + semesterII) / 2;
+                                                                                                                 //}
+                                                                                                                 //function studentMarkOutOf5(avgExamMark, element) {
 
-                                                                                                             //    if (avgExamMark >= 85 && avgExamMark <= 100) {
-                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Pekiyi";
-                                                                                                             //        document.getElementById(element).innerHTML = 5;
-                                                                                                             //    }
-                                                                                                             //    else if (avgExamMark >= 70 && avgExamMark < 85) {
-                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "İyi";
-                                                                                                             //        document.getElementById(element).innerHTML = 4;
-                                                                                                             //    }
-                                                                                                             //    else if (avgExamMark >= 55 && avgExamMark < 70) {
-                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Orta";
-                                                                                                             //        document.getElementById(element).innerHTML = 3;
-                                                                                                             //    }
-                                                                                                             //    else if (avgExamMark >= 45 && avgExamMark < 55) {
-                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Geçer";
-                                                                                                             //        document.getElementById(element).innerHTML = 2;
-                                                                                                             //    }
-                                                                                                             //    else if (avgExamMark >= 25 && avgExamMark < 45) {
-                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Geçmez";
-                                                                                                             //        rdocument.getElementById(element).innerHTML = 1;
-                                                                                                             //    }
-                                                                                                             //    else if (avgExamMark >= 0 && avgExamMark < 25) {
-                                                                                                             //        //return document.getElementById('studentStatus').innerHTML = "Etkisiz";
-                                                                                                             //        document.getElementById(element).innerHTML = 0;
-                                                                                                             //    }
-                                                                                                             //    else {
-                                                                                                             //        document.getElementById(element).innerHTML = "Geçersiz Not";
-                                                                                                             //    }
-                                                                                                             //}
+                                                                                                                 //    if (avgExamMark >= 85 && avgExamMark <= 100) {
+                                                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Pekiyi";
+                                                                                                                 //        document.getElementById(element).innerHTML = 5;
+                                                                                                                 //    }
+                                                                                                                 //    else if (avgExamMark >= 70 && avgExamMark < 85) {
+                                                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "İyi";
+                                                                                                                 //        document.getElementById(element).innerHTML = 4;
+                                                                                                                 //    }
+                                                                                                                 //    else if (avgExamMark >= 55 && avgExamMark < 70) {
+                                                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Orta";
+                                                                                                                 //        document.getElementById(element).innerHTML = 3;
+                                                                                                                 //    }
+                                                                                                                 //    else if (avgExamMark >= 45 && avgExamMark < 55) {
+                                                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Geçer";
+                                                                                                                 //        document.getElementById(element).innerHTML = 2;
+                                                                                                                 //    }
+                                                                                                                 //    else if (avgExamMark >= 25 && avgExamMark < 45) {
+                                                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Geçmez";
+                                                                                                                 //        rdocument.getElementById(element).innerHTML = 1;
+                                                                                                                 //    }
+                                                                                                                 //    else if (avgExamMark >= 0 && avgExamMark < 25) {
+                                                                                                                 //        //return document.getElementById('studentStatus').innerHTML = "Etkisiz";
+                                                                                                                 //        document.getElementById(element).innerHTML = 0;
+                                                                                                                 //    }
+                                                                                                                 //    else {
+                                                                                                                 //        document.getElementById(element).innerHTML = "Geçersiz Not";
+                                                                                                                 //    }
+                                                                                                                 //}
 
     </script>
 }

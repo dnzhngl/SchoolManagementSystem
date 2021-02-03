@@ -138,6 +138,10 @@
             var password2 = document.getElementById("repeatPassword");
             var message = document.getElementById("message");
 
+            if (password1.value == "" || password2.value == "") {
+                message.innerText = "Enter pasword"
+            }
+
             if (password1.value == password2.value) {
                 message.style.color = 'green';
                 message.innerText = 'Passwords match'
