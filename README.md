@@ -10,6 +10,4 @@ The project is a school management system that has 4 different types of users.
 - Parents can track their children's situation at the school as well.
 - All the users can send messages each others.
 
-There are parts that I need to make improvements on the project, and I will make improvements when I have free time. 
-Please consider my hard work on this project and if you want to use it please inform me. 
-Thank you for your consideration.
+There are parts that I need to make improvements on the project, and I will make it when I have a time. 
