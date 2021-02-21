@@ -1,5 +1,5 @@
 # SchoolManagementSystem
-This is the first major project that I have developed. It is the final project for the .NET course graduation.
+This is the first major project that I have developed and the final project for the .NET course graduation.
 
 The project is a school management system that has 4 different types of users. 
 - Admin panel, that allows school principle (admin) to make all kinds of arrangements that he should make. 
@@ -10,4 +10,4 @@ The project is a school management system that has 4 different types of users.
 - Parents can track their children's situation at the school as well.
 - All the users can send messages each others.
 
-There are parts that I need to make improvements on the project, and I will make it when I have a time. 
+
